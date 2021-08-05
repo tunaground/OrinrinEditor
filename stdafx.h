@@ -1,6 +1,6 @@
 /*! @file
-	@brief �W���̃V�X�e�� �C���N���[�h �t�@�C���̃C���N���[�h �t�@�C���A�܂��͎Q�Ɖ񐔂������A�����܂�ύX����Ȃ��A�v���W�F�N�g��p�̃C���N���[�h �t�@�C�����L�q���܂��B
-	���̃t�@�C���� stdafx.h �ł��B
+	@brief 標準のシステム インクルード ファイルのインクルード ファイル、または参照回数が多く、かつあまり変更されない、プロジェクト専用のインクルード ファイルを記述します。
+	このファイルは stdafx.h です。
 	@author	SikigamiHNQ
 	@date	2011/00/00
 */
@@ -21,30 +21,30 @@ If not, see <http://www.gnu.org/licenses/>.
 
 #define STRICT
 
-//!	�����ɂ���x��
-#pragma warning( disable : 4100 )	//!<	�����͔����̖{�̕��� 1 �x���Q�Ƃ���܂���B
-//#pragma warning( disable : 4101 )	//!<	���[�J���ϐ��� 1 �x���g���Ă��܂���B
-#pragma warning( disable : 4201 )	//!<	��W���̊g���@�\���g�p����Ă��܂�
-#pragma warning( disable : 4244 )	//!<	�^�ϊ��ɂ�����A�f�[�^��������\���ɂ��āB
-#pragma warning( disable : 4312 )	//!<	���傫���T�C�Y�ւ̌^�ϊ��ɂ���
-//#pragma warning( disable : 4995 )	//!<	���O��������ꂽ #pragma �Ƃ��ċL�q����Ă��܂��B
+//!	無効にする警告
+#pragma warning( disable : 4100 )	//!<	引数は函数の本体部で 1 度も参照されません。
+//#pragma warning( disable : 4101 )	//!<	ローカル変数は 1 度も使われていません。
+#pragma warning( disable : 4201 )	//!<	非標準の拡張機能が使用されています
+#pragma warning( disable : 4244 )	//!<	型変換における、データが失われる可能性について。
+#pragma warning( disable : 4312 )	//!<	より大きいサイズへの型変換について
+//#pragma warning( disable : 4995 )	//!<	名前が避けられた #pragma として記述されています。
 
 #include "targetver.h"
 
 #pragma comment(linker, "/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='x86' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 
-//#define WIN32_LEAN_AND_MEAN		//	Windows �w�b�_�[����g�p����Ă��Ȃ����������O���܂��B
-// Windows �w�b�_�[ �t�@�C��:
+//#define WIN32_LEAN_AND_MEAN		//	Windows ヘッダーから使用されていない部分を除外します。
+// Windows ヘッダー ファイル:
 #include <windows.h>
 #include <shlobj.h>
 #include <shellapi.h>
 #include <windowsX.h>
 
-//	�V�F���Ƃ�
+//	シェルとか
 #pragma comment(lib, "shell32.lib")
 
-//	�R�����_�C�����O
+//	コモンダイヤログ
 #include <commdlg.h>
 #pragma comment(lib, "Comdlg32.lib")
 
@@ -53,7 +53,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 #ifndef _ORCOLL
 
-//	IME�̑���Ɏg��
+//	IMEの操作に使う
 #include <imm.h>
 #pragma comment(lib, "imm32.lib")
 
@@ -64,10 +64,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 #endif
 
-// C �����^�C�� �w�b�_�[ �t�@�C��
+// C ランタイム ヘッダー ファイル
 #include <assert.h>
 
-#define _CRTDBG_MAP_ALLOC	//	���������[�N�`�F�N�p
+#define _CRTDBG_MAP_ALLOC	//	メモリリークチェク用
 #include <stdlib.h>
 #include <malloc.h>
 #ifdef _DEBUG
@@ -87,64 +87,64 @@ If not, see <http://www.gnu.org/licenses/>.
 
 //-------------------------------------------------------------------------------------------------
 
-#pragma warning( disable : 4995 )	//	���O��������ꂽ #pragma �Ƃ��ċL�q����Ă��܂��B
+#pragma warning( disable : 4995 )	//	名前が避けられた #pragma として記述されています。
 #include <vector>
 #include <list>
 #include <string>
 #include <algorithm>
 #pragma warning( default : 4995 )
 
-using namespace	std;	//	���̃X�R�[�v���ł�std::���ȗ��ł���
+using namespace	std;	//	このスコープ内ではstd::が省略できる
 //-------------------------------------------------------------------------------------------------
 
-//���̃A�v����GUID�A���ɈӖ��͂Ȃ�
+//このアプリのGUID、特に意味はない
 //	{66D3E881-972B-458B-935E-9E78B926B415}
 static CONST GUID gcstGUID = { 0x66D3E881, 0x972B, 0x458B, { 0x93, 0x5E, 0x9E, 0x78, 0xB9, 0x26, 0xB4, 0x15 } };
 //-------------------------------------------------------------------------------------------------
 
-//�@�\�n�j
-//	�s�̕ێ������X�g�ɂ��Ă݂�
-//	�t�@�C���J��������
-//	�v���t�J��������
-//	�g�p�[�c�����s
+//機能ＯＫ
+//	行の保持をリストにしてみる
+//	ファイル開いた履歴
+//	プロフ開いた履歴
+//	枠パーツ複数行
 
-#define ACCELERATOR_EDIT//	�L�[�̃A���ҏW
+#define ACCELERATOR_EDIT//	キーのアレ編集
 #define USE_HOVERTIP
-#define EDGE_BLANK_STYLE	//	���C����������Ƃ��A���k�L�̈��p�ӂ���
-//	�t�@�C���ǂݍ��񂾎��͕œW�J���Ȃ��A�Ђ悤�ɂȂ�����J��
+#define EDGE_BLANK_STYLE	//	レイヤ合成するとき、白ヌキ領域を用意する
+//	ファイル読み込んだ時は頁展開しない、ひつようになったら開く
 
-#define MAA_IADD_PLUS	//	MAA�ւ̃A�C�e���ǉ��@�\�g��
-//	���\�[�X�� IDM_MAA_IADD_OPEN IDM_MAA_ITEM_INSERT �ɒ���
+#define MAA_IADD_PLUS	//	MAAへのアイテム追加機能拡張
+//	リソースの IDM_MAA_IADD_OPEN IDM_MAA_ITEM_INSERT に注意
 
-#define MULTIACT_RELAY	//	�A�C�R���ɂc�c�ő��d�N��������A�J���Ă郄�c�ɂ�����
-#define DOT_SPLIT_MODE	//	�^�񒆂���L������k�߂���
-#define SPLIT_BAR_POS_FIX	//	��ʃT�C�Y�ς��Ă��X�v���b�g�o�[�̈ʒu���ς��Ȃ����
+#define MULTIACT_RELAY	//	アイコンにＤＤで多重起動したら、開いてるヤツにおくる
+#define DOT_SPLIT_MODE	//	真ん中から広げたり縮めたり
+#define SPLIT_BAR_POS_FIX	//	画面サイズ変えてもスプリットバーの位置が変わらない問題
 
 
 
-//	�쐬���̋@�\
-#define BIG_TEXT_SEPARATE	//	����e�L�X�g�̕��������Ă݂�
+//	作成中の機能
+#define BIG_TEXT_SEPARATE	//	巨大テキストの分割をしてみる
 
-#define TODAY_HINT_STYLE	//	�����̃q���g�@�\
-#define SPMOZI_ENCODE		//	�@��ˑ������𐔒l�Q�ƃR�s�[
+#define TODAY_HINT_STYLE	//	今日のヒント機能
+#define SPMOZI_ENCODE		//	機種依存文字を数値参照コピー
 
-#define FIND_STRINGS	//	�����񌟍��@�\
-//#define SEARCH_HIGHLIGHT	//	�����q�b�g�ʒu���n�C���C�g����
-//�ʓ|�Ȃ̂Ŗ�����
+#define FIND_STRINGS	//	文字列検索機能
+//#define SEARCH_HIGHLIGHT	//	検索ヒット位置をハイライトする
+//面倒なので無しで
 
-#define MAA_TEXT_FIND	//	�l�`�`�ŁA�J���Ă�t�@�C������P��Search
+#define MAA_TEXT_FIND	//	ＭＡＡで、開いてるファイルから単語Search
 //#define HUKUTAB_DRAGMOVE	
-//#define PAGE_MULTISELECT//	�ňꗗ�̕����I��
-//#define PLUGIN_ENABLE	//	�v���O�C���@�\
+//#define PAGE_MULTISELECT//	頁一覧の複数選択
+//#define PLUGIN_ENABLE	//	プラグイン機能
 //#define MINI_TEMPLATE	
 
 //#define WORK_LOG_OUT	
 
-#define DO_TRY_CATCH	//	��O�΍􂵂Ă݂�
-#define USE_NOTIFYICON	//	�^�X�N�g���C�A�C�R����L��
+#define DO_TRY_CATCH	//	例外対策してみる
+#define USE_NOTIFYICON	//	タスクトレイアイコンを有効
 //-------------------------------------------------------------------------------------------------
 
-//	�P�Ȃ鎯�ʖ��@extern�ŊO���Q�Ƃ���Ă�ϐ��ɂ������Ă���
+//	単なる識別名　externで外部参照されてる変数にくっつけておく
 #define EXTERNED
 //-------------------------------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 
 #define FREE(pp)	{if(pp){free(pp);pp=NULL;}}
 
-//�X�e�[�^�X�o�[������ǉ��}�N��
+//ステータスバー文字列追加マクロ
 #define StatusBar_SetText(hwndSB,ipart,ptext)	(BOOLEAN)SNDMSG((hwndSB),SB_SETTEXT,ipart,(LPARAM)(LPCTSTR)(ptext))
 //-------------------------------------------------------------------------------------------------
 
@@ -184,15 +184,15 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define MAX_STRING	130
 #define BIG_STRING	520
 
-//	���C���E�C���h�E�T�C�Y
+//	メインウインドウサイズ
 #define W_WIDTH		480
 #define W_HEIGHT	400
 
-//	�E�C���h�E�T�C�Y�E���g�p
+//	ウインドウサイズ・未使用
 //#define WCL_WIDTH	480
 //#define WCL_HEIGHT	370
 
-//	�h�b�L���O�T�C�Y
+//	ドッキングサイズ
 #define PLIST_DOCK	190
 #define TMPL_DOCK	150
 //-------------------------------------------------------------------------------------------------
@@ -204,20 +204,20 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define WMP_PREVIEW_CLOSE	(WM_APP+3)
 //-------------------------------------------------------------------------------------------------
 
-#define BASIC_COLOUR	RGB(0xF0,0xF0,0xF0)	//	Collector�p
+#define BASIC_COLOUR	RGB(0xF0,0xF0,0xF0)	//	Collector用
 //-------------------------------------------------------------------------------------------------
 
 #define USER_ITEM_FILE	TEXT("UserItem.ast")
 #define USER_ITEM_MAX	16
 
-#define AA_BRUSH_FILE	TEXT("aabrush.txt")		//	�h��Ԃ��p
-#define AA_LIST_FILE	TEXT("aalist.txt")		//	��s�e���v���[�g
+#define AA_BRUSH_FILE	TEXT("aabrush.txt")		//	塗りつぶし用
+#define AA_LIST_FILE	TEXT("aalist.txt")		//	壱行テンプレート
 
-#define AA_MIRROR_FILE	TEXT("hantenX.txt")		//	���E���]�Q��
-#define AA_UPSET_FILE	TEXT("hantenY.txt")		//	�㉺���]�Q��
+#define AA_MIRROR_FILE	TEXT("hantenX.txt")		//	左右反転参照
+#define AA_UPSET_FILE	TEXT("hantenY.txt")		//	上下反転参照
 
-#define MAA_FAVDB_FILE	TEXT("Favorite.qmt")	//	AA���X�g�p
-#define MAA_TREE_CACHE	TEXT("TreeCache.qor")	//	�c���[�̒��g������Ă����E�g��Ȃ�
+#define MAA_FAVDB_FILE	TEXT("Favorite.qmt")	//	AAリスト用
+#define MAA_TREE_CACHE	TEXT("TreeCache.qor")	//	ツリーの中身を取っておく・使わない
 
 #define NAMELESS_DUMMY	TEXT("NoName0.txt")
 #define NAME_DUMMY_NAME	TEXT("NoName")
@@ -230,10 +230,10 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define DROP_OBJ_NAME	TEXT("[*DROP_OBJECT*]")
 //-------------------------------------------------------------------------------------------------
 
-//	�g�̐�	20110707	�g���P�O�ɑ��₵��
+//	枠の数	20110707	枠を１０個に増やした
 #define FRAME_MAX	20
 
-//	�ݒ�ɂ���
+//	設定について
 #define INI_FILE		TEXT("Utuho.ini")
 #define FRAME_INI_FILE	TEXT("Satori.ini")
 #define MZCX_INI_FILE	TEXT("Koisi.ini")
@@ -255,73 +255,73 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define FONTSZ_NORMAL	16
 #define FONTSZ_REDUCE	12
 
-#define VL_CLASHCOVER	0	//!<	�N��������P�A����Ƃ��ɂO�ɂ��āACLASH�����m
-#define VL_GROUP_UNDO	1	//!<	�O���[�v�A���h�D
-#define VL_USE_UNICODE	2	//!<	���j�R�[�h�p�f�B���O
-#define VL_LAYER_TRANS	3	//!<	���C���{�b�N�X�����x
-#define VL_RIGHT_SLIDE	4	//!<	�E�񂹂�ʒu
-#define VL_MAA_SPLIT	5	//!<	�l�`�`�̃X�v���b�g�o�[�̈ʒu
-#define VL_MAA_LCLICK	6	//!<	�l�`�`�ꗗ�ŃN���b�R�����Ƃ��̕W������
-#define VL_UNILISTLAST	7	//!<	���j�R�[�h�ꗗ������Ƃ��̈ʒu
-#define VL_MAATIP_VIEW	8	//!<	�l�`�`�̂`�`�c�[���`�b�v�̕\�����邩
-#define VL_MAATIP_SIZE	9	//!<	�l�`�`�̂`�`�c�[���`�b�v�̕����T�C�Y�E16��12
-#define VL_LINETMP_CLM	10	//!<	��s�e���v���̃J������
-#define VL_BRUSHTMP_CLM	11	//!<	�u���V�e���v���̃J������
-#define VL_UNIRADIX_HEX	12	//!<	���j�R�[�h���l�Q�Ƃ��P�U�i���ɂ��邩�ǂ���[COL][EDIT]
-#define VL_BACKUP_INTVL	13	//!<	�o�b�N�A�b�v���o�E�f�t�H�T�����炢�H
-#define VL_BACKUP_MSGON	14	//!<	�o�b�N�A�b�v�����Ƃ��̃��b�Z�[�W��\�����邩�H
-#define VL_GRID_X_POS	15	//!<	�O���b�h���̂w�h�b�g��
-#define VL_GRID_Y_POS	16	//!<	�O���b�h���̂x�h�b�g��
-#define VL_MAA_TOPMOST	17	//!<	VIEWER�l�`�`���őO�ʁEEDITOR�l�`�`��ON/OFF
-#define VL_R_RULER_POS	18	//!<	�E���[���̈ʒu
-#define VL_CRLF_CODE	19	//!<	���s�R�[�h�F�O������΁E��O�x�x
-#define VL_SPACE_VIEW	20	//!<	�󔒂�\�����邩�@��O�\��
-#define VL_GRID_VIEW	21	//!<	�O���b�h�\�����邩
-#define VL_R_RULER_VIEW	22	//!<	�E���[���\�����邩
-#define VL_PAGETIP_VIEW	23	//!<	�ňꗗ�̃c�[���`�b�v�\�����邩
-#define VL_PCOMBINE_NM	24	//!<	�P�Ȃ瓝��Message����
-#define VL_PDIVIDE_NM	25	//!<	�P�Ȃ番��Message����
-#define VL_PDELETE_NM	26	//!<	�P�Ȃ�폜Message����
-#define VL_MAASEP_STYLE	27	//!<	�����e���v���E�P�Ȃ��؂���X�^�C��
-#define VL_USE_BALLOON	28	//!<	[COL]�ۑ��m�F���b�Z�[�W�\�����邩�ǂ���
-#define VL_CLIPFILECNT	29	//!<	[COL]�ۑ��t�@�C���̌�
-#define VL_PLS_LN_DOCK	30	//!<	�ňꗗ���͂�������
-//#define VL_BRUSH_DOCK	31	//!<	��s�EBrush�e���v�����͂�������
+#define VL_CLASHCOVER	0	//!<	起動したら１、閉じるときに０にして、CLASHを検知
+#define VL_GROUP_UNDO	1	//!<	グループアンドゥ
+#define VL_USE_UNICODE	2	//!<	ユニコードパディング
+#define VL_LAYER_TRANS	3	//!<	レイヤボックス透明度
+#define VL_RIGHT_SLIDE	4	//!<	右寄せる位置
+#define VL_MAA_SPLIT	5	//!<	ＭＡＡのスプリットバーの位置
+#define VL_MAA_LCLICK	6	//!<	ＭＡＡ一覧でクルッコしたときの標準動作
+#define VL_UNILISTLAST	7	//!<	ユニコード一覧を閉じたときの位置
+#define VL_MAATIP_VIEW	8	//!<	ＭＡＡのＡＡツールチップの表示するか
+#define VL_MAATIP_SIZE	9	//!<	ＭＡＡのＡＡツールチップの文字サイズ・16か12
+#define VL_LINETMP_CLM	10	//!<	壱行テンプレのカラム数
+#define VL_BRUSHTMP_CLM	11	//!<	ブラシテンプレのカラム数
+#define VL_UNIRADIX_HEX	12	//!<	ユニコード数値参照を１６進数にするかどうか[COL][EDIT]
+#define VL_BACKUP_INTVL	13	//!<	バックアップ感覚・デフォ５分くらい？
+#define VL_BACKUP_MSGON	14	//!<	バックアップしたときのメッセージを表示するか？
+#define VL_GRID_X_POS	15	//!<	グリッド線のＸドット数
+#define VL_GRID_Y_POS	16	//!<	グリッド線のＹドット数
+#define VL_MAA_TOPMOST	17	//!<	VIEWERＭＡＡを最前面・EDITORＭＡＡ窓ON/OFF
+#define VL_R_RULER_POS	18	//!<	右ルーラの位置
+#define VL_CRLF_CODE	19	//!<	改行コード：０したらば・非０ＹＹ
+#define VL_SPACE_VIEW	20	//!<	空白を表示するか　非０表示
+#define VL_GRID_VIEW	21	//!<	グリッド表示するか
+#define VL_R_RULER_VIEW	22	//!<	右ルーラ表示するか
+#define VL_PAGETIP_VIEW	23	//!<	頁一覧のツールチップ表示するか
+#define VL_PCOMBINE_NM	24	//!<	１なら統合Message無し
+#define VL_PDIVIDE_NM	25	//!<	１なら分割Message無し
+#define VL_PDELETE_NM	26	//!<	１なら削除Message無し
+#define VL_MAASEP_STYLE	27	//!<	複数テンプレ・１なら区切り線スタイル
+#define VL_USE_BALLOON	28	//!<	[COL]保存確認メッセージ表示するかどうか
+#define VL_CLIPFILECNT	29	//!<	[COL]保存ファイルの個数
+#define VL_PLS_LN_DOCK	30	//!<	頁一覧窓はくっつくか
+//#define VL_BRUSH_DOCK	31	//!<	壱行・Brushテンプレ窓はくっつくか
 #define VS_PROFILE_NAME	32	//!<	
-#define VS_PAGE_FORMAT	33	//!<	�Ŕԍ��}���̕�����e���v��
-#define VL_SWAP_COPY	34	//!<	�R�s�[�W����SJIS�ɂ��邩
-#define VL_MAIN_SPLIT	35	//!<	���C���̃X�v���b�g�o�[�̉E����̈ʒu
-#define VL_MAXIMISED	36	//!<	�ő剻�ŏI��������H
-#define VL_DRT_LCLICK	37	//!<	�h���t�g�{�[�h�N���b�N�̃f�t�H����
-#define VL_FIRST_READED	38	//!<	�}�j���A���Ǎ�����
-#define VL_LAST_OPEN	39	//!<	�Ō�ɊJ���Ă����t�@�C�����@�O�J���@�P�J���Ȃ��@�Q����I��
-#define VL_MAA_MCLICK	40	//!<	�l�`�`�ꗗ�Ń~�h�D�N���b�R�����Ƃ��̕W������
-#define VL_DRT_MCLICK	41	//!<	�h���t�g�{�[�h�N���b�N�̃f�t�H����
-#define VS_FONT_NAME	42	//!<	���C���̃t�H���g���A�l�r �o�S�V�b�N
-#define VL_WORKLOG		43	//!<	���샍�O���o�͂��邩
-#define VL_PAGE_UNDER	44	//!<	�Ŕԍ����ŉ��s�ɑ}��
-#define VL_PAGE_OVWRITE	45	//!<	�Y���s�̓��e���폜���ď㏑
-#define VL_COLLECT_AON	46	//!<	[COL]�N�����ɃR�s�y�ۑ���ON�ɂ���
-#define VL_COLHOT_MODY	47	//!<	[COL]�|�b�v�A�b�v�z�b�g�L�[�E�C���q
-#define VL_COLHOT_VKEY	48	//!<	[COL]�|�b�v�A�b�v�z�b�g�L�[�E���z�L�[�R�[�h
-#define VL_MAA_RETFCS	49	//!<	MAA���ŁA�I��������ҏW���Ƀt�H�[�J�X�߂�
-#define VL_PGL_RETFCS	50	//!<	�ňꗗ�ŁA�I��������ҏW���Ƀt�H�[�J�X�߂�
-#define VL_U_RULER_POS	51	//!<	�����[���̈ʒu�s��
-#define VL_U_RULER_VIEW	52	//!<	�����[���\�����邩
-#define VL_PAGEBYTE_MAX	53	//!<	�냌�X�̍ő�o�C�g��
-#define VS_UNI_USE_LOG	54	//!<	���j�R�[�h�����̎g�p���O
-#define VL_MAA_BKCOLOUR	55	//!<	�l�`�`���̔w�i�F�ύX
-#define VS_RGUIDE_MOZI	56	//!<	�E�������̕����E�땶������
-#define VL_THUMB_HORIZ	57	//!<	�h���t�g�E�T���l�̕�
-#define VL_THUMB_VERTI	58	//!<	�h���t�g�E�T���l�̍���
-#define VL_MULTI_ACT_E	59	//!<	���d�N���L��
-#define VL_SAVE_MSGON	60	//!<	�ۑ������Ƃ��̃��b�Z�[�W��\�����邩�H
-#define VL_MAATAB_SNGL	61	//!<	MAA���̃^�u�A��s�\���ɂ���
-#define VL_HINT_ENABLE	62	//!<	�����̃q���g��\�����邩�H
-#define VL_SPMOZI_ENC	63	//!<	�@��ˑ������𐔒l�Q�ƃR�s�[	SPMOZI_ENCODE
-#define VS_EXT_M2H_PATH	64	//!<	MLT2HTML�̃p�X
+#define VS_PAGE_FORMAT	33	//!<	頁番号挿入の文字列テンプレ
+#define VL_SWAP_COPY	34	//!<	コピー標準をSJISにするか
+#define VL_MAIN_SPLIT	35	//!<	メインのスプリットバーの右からの位置
+#define VL_MAXIMISED	36	//!<	最大化で終わったか？
+#define VL_DRT_LCLICK	37	//!<	ドラフトボードクリックのデフォ動作
+#define VL_FIRST_READED	38	//!<	マニュアル読込した
+#define VL_LAST_OPEN	39	//!<	最後に開いていたファイルを　０開く　１開かない　２毎回選択
+#define VL_MAA_MCLICK	40	//!<	ＭＡＡ一覧でミドゥクルッコしたときの標準動作
+#define VL_DRT_MCLICK	41	//!<	ドラフトボードクリックのデフォ動作
+#define VS_FONT_NAME	42	//!<	メインのフォント名、ＭＳ Ｐゴシック
+#define VL_WORKLOG		43	//!<	動作ログを出力するか
+#define VL_PAGE_UNDER	44	//!<	頁番号を最下行に挿入
+#define VL_PAGE_OVWRITE	45	//!<	該当行の内容を削除して上書
+#define VL_COLLECT_AON	46	//!<	[COL]起動時にコピペ保存をONにする
+#define VL_COLHOT_MODY	47	//!<	[COL]ポップアップホットキー・修飾子
+#define VL_COLHOT_VKEY	48	//!<	[COL]ポップアップホットキー・仮想キーコード
+#define VL_MAA_RETFCS	49	//!<	MAA窓で、選択したら編集窓にフォーカス戻す
+#define VL_PGL_RETFCS	50	//!<	頁一覧で、選択したら編集窓にフォーカス戻す
+#define VL_U_RULER_POS	51	//!<	下ルーラの位置行数
+#define VL_U_RULER_VIEW	52	//!<	下ルーラ表示するか
+#define VL_PAGEBYTE_MAX	53	//!<	壱レスの最大バイト数
+#define VS_UNI_USE_LOG	54	//!<	ユニコード文字の使用ログ
+#define VL_MAA_BKCOLOUR	55	//!<	ＭＡＡ窓の背景色変更
+#define VS_RGUIDE_MOZI	56	//!<	右揃え線の文字・壱文字限定
+#define VL_THUMB_HORIZ	57	//!<	ドラフト・サムネの幅
+#define VL_THUMB_VERTI	58	//!<	ドラフト・サムネの高さ
+#define VL_MULTI_ACT_E	59	//!<	多重起動有効
+#define VL_SAVE_MSGON	60	//!<	保存したときのメッセージを表示するか？
+#define VL_MAATAB_SNGL	61	//!<	MAA窓のタブ、壱行表示にする
+#define VL_HINT_ENABLE	62	//!<	今日のヒントを表示するか？
+#define VL_SPMOZI_ENC	63	//!<	機種依存文字を数値参照コピー	SPMOZI_ENCODE
+#define VS_EXT_M2H_PATH	64	//!<	MLT2HTMLのパス
 
-//���₵����A�������Ɏ戵�����Ă�������
+//増やしたら、函数内に取扱つくっておくこと
 
 #define CLRV_BASICPEN	101
 #define CLRV_BASICBK	102
@@ -330,25 +330,25 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define CLRV_CANTSJIS	105
 //-------------------------------------------------------------------------------------------------
 
-//	�X�e�[�^�X�o�[�̓�
-#define SB_MODIFY	0	//!<	�ύX
-#define SB_OP_STYLE	1	//!<	�I�y��
-#define SB_MOUSEPOS	2	//!<	�}�E�X�J�[�\���ʒu
-#define SB_CURSOR	3	//!<	�J�[�\���ʒu�̃h�b�g�l�Ƃ�
-#define SB_LAYER	4	//!<	���C���{�b�N�X�̈ʒu
-#define SB_BYTECNT	5	//!<	�o�C�g��
-#define SB_SELBYTE	6	//!<	�I��͈͂̃o�C�g��
+//	ステータスバーの内
+#define SB_MODIFY	0	//!<	変更
+#define SB_OP_STYLE	1	//!<	オペ状況
+#define SB_MOUSEPOS	2	//!<	マウスカーソル位置
+#define SB_CURSOR	3	//!<	カーソル位置のドット値とか
+#define SB_LAYER	4	//!<	レイヤボックスの位置
+#define SB_BYTECNT	5	//!<	バイト数
+#define SB_SELBYTE	6	//!<	選択範囲のバイト数
 //-------------------------------------------------------------------------------------------------
 
-//	���ԍ�
+//	窓番号
 #define WND_MAIN	1
 #define WND_MAAT	2
 #define WND_PAGE	3
 #define WND_LINE	4
 #define WND_BRUSH	5
-#define WND_TAIL	5	//	���[�_�~�[
+#define WND_TAIL	5	//	末端ダミー
 
-//	���[�h
+//	モード
 #define M_DESTROY	0
 #define M_CREATE	1
 #define M_EXISTENCE	2
@@ -366,26 +366,26 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define LASTOPEN_NON	1
 #define LASTOPEN_ASK	2
 
-//	�w���R�[�h�E���Ԃ�Ȃ��悤��
-#define D_SJIS		0x00	//	�V�t�gJIS
-#define D_UNI		0x01	//	���j�R�[�h
-#define D_SQUARE	0x02	//	��`�I��
-#define D_INVISI	0x10	//	�s����Ԃ̓��ʏ���
-#define D_RENAME	0x80	//	���O��t���ĕۑ�
+//	指示コード・かぶらないように
+#define D_SJIS		0x00	//	シフトJIS
+#define D_UNI		0x01	//	ユニコード
+#define D_SQUARE	0x02	//	矩形選択
+#define D_INVISI	0x10	//	不可視状態の特別処理
+#define D_RENAME	0x80	//	名前を付けて保存
 //-------------------------------------------------------------------------------------------------
 
-//	ImgCtl.dll�ɏ���
+//	ImgCtl.dllに準拠
 #define ISAVE_BMP	0x1
 //#define ISAVE_JPEG	0x2
 #define ISAVE_PNG	0x3
 //-------------------------------------------------------------------------------------------------
 
-#define CLIP_FORMAT	TEXT("ORINRIN_EDITOR_STYLE")	//!<	���ʗp�E���ɈӖ��͂Ȃ�
-#define CLIP_SQUARE	TEXT("MSDEVColumnSelect")	//!<	��`�I�����ʎq�EVC�̂��
+#define CLIP_FORMAT	TEXT("ORINRIN_EDITOR_STYLE")	//!<	識別用・特に意味はない
+#define CLIP_SQUARE	TEXT("MSDEVColumnSelect")	//!<	矩形選択識別子・VCのやつ
 //-------------------------------------------------------------------------------------------------
 
 
-//!	�L�[�R�[�h���蓖��
+//!	キーコード割り当て
 #define	VK_0	0x30
 #define	VK_1	0x31
 #define	VK_2	0x32
@@ -397,7 +397,7 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define	VK_8	0x38
 #define	VK_9	0x39
 
-//	�K�v�ȃ{�^���ɖ��O�t�������Ă���
+//	必要なボタンに名前付けをしておく
 #define	VK_A	0x41
 #define	VK_B	0x42
 #define	VK_C	0x43

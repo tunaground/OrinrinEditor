@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒ†ƒjƒR[ƒhˆê——‚Ìƒ_ƒCƒ„ƒƒO‚Ì–Ê“|Œ©‚Ü‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í UnicodePalette.cpp ‚Å‚·B
+	@brief ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ä¸€è¦§ã®ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã®é¢å€’è¦‹ã¾ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ UnicodePalette.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/05/20
 */
@@ -23,7 +23,7 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "UnicodePalette.h"
 //-------------------------------------------------------------------------------------------------
 
-//	TODO:	g‚Á‚½ƒ„ƒc‚Ì—š—ğ‚Ù‚µ‚¢‚©
+//	TODO:	ä½¿ã£ãŸãƒ¤ãƒ„ã®å±¥æ­´ã»ã—ã„ã‹
 
 
 
@@ -42,14 +42,14 @@ static  HWND	ghUniLvWnd;		//!<
 
 static WNDPROC	gpfOrgUniListProc;	//!<	
 
-static HFONT	ghLvFont, ghPanelFont;	//!<	•\¦‚É—p‚¢‚éƒtƒHƒ“ƒg
+static HFONT	ghLvFont, ghPanelFont;	//!<	è¡¨ç¤ºã«ç”¨ã„ã‚‹ãƒ•ã‚©ãƒ³ãƒˆ
 
 static TCHAR	gtSelMozi;	//!<	
 
 static  UINT	gSelRow;	//!<	
 static INT		gSelClm;	//!<	
 
-//	g—pƒƒOE‚P‚UŒÂ•Û
+//	ä½¿ç”¨ãƒ­ã‚°ãƒ»ï¼‘ï¼–å€‹ä¿æŒ
 #define UNIUSELOG_MAX	16
 static list<TCHAR>	gltUseMozi;
 typedef list<TCHAR>::iterator	UUSE_LITR;
@@ -69,9 +69,9 @@ LRESULT	CALLBACK gpfUniListProc( HWND, UINT, WPARAM, LPARAM );	//!<
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†ƒjƒR[ƒhƒpƒŒƒbƒg‚Ì‰Šú‰»
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	bMode	”ñ‚Oì¬@‚O”j‰ó
+	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ‘ãƒ¬ãƒƒãƒˆã®åˆæœŸåŒ–
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	bMode	éï¼ä½œæˆã€€ï¼ç ´å£Š
 */
 HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 {
@@ -87,19 +87,19 @@ HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 	if( dMode )
 	{
 		gltUseMozi.clear();
-		//	“à—e“Ç‚İo‚·EXXXXX,XXXXX,XXXXX@‚İ‚½‚¢‚ÈŠ´‚¶‚Å•Û‘¶
+		//	å†…å®¹èª­ã¿å‡ºã™ãƒ»XXXXX,XXXXX,XXXXXã€€ã¿ãŸã„ãªæ„Ÿã˜ã§ä¿å­˜
 		InitParamString( INIT_LOAD, VS_UNI_USE_LOG, atBuff );
 		if( 0 != atBuff[0] )
 		{
-			ptBuff = &(atBuff[0]);	//	ŠJn
+			ptBuff = &(atBuff[0]);	//	é–‹å§‹
 			for( d = 0; UNIUSELOG_MAX > d; d++ )
 			{
 				tMozi = (TCHAR)_tcstoul( ptBuff, &ptEnd , 10 );	//	
 
 				gltUseMozi.push_front( tMozi );
 
-				if( 0 == *ptEnd ){	break;	}	//	––’[‚Ü‚ÅƒCƒb‚½
-				ptBuff =  ptEnd + 1;	//	Ÿ‚Éi‚Ş
+				if( 0 == *ptEnd ){	break;	}	//	æœ«ç«¯ã¾ã§ã‚¤ãƒƒãŸ
+				ptBuff =  ptEnd + 1;	//	æ¬¡ã«é€²ã‚€
 			}
 		}
 	}
@@ -121,31 +121,31 @@ HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	g—p‚µ‚½‚â‚Â‚ğƒŠƒXƒg‚É’Ç‰Á
-	@param[in]	hDlg		ƒ_ƒCƒ„ƒƒOƒnƒ“ƒhƒ‹
-	@param[in]	tAddMozi	g‚Á‚½•¶š
+	ä½¿ç”¨ã—ãŸã‚„ã¤ã‚’ãƒªã‚¹ãƒˆã«è¿½åŠ 
+	@param[in]	hDlg		ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	tAddMozi	ä½¿ã£ãŸæ–‡å­—
 */
 HRESULT UniUseLogging( HWND hDlg, TCHAR tAddMozi )
 {
 	ULONG_PTR	dSize;
 	UUSE_LITR	itUse;
 
-	//	›ß‹L˜^‚©Šm”F
+	//	å·²è¨˜éŒ²ã‹ç¢ºèª
 	for( itUse = gltUseMozi.begin(); itUse != gltUseMozi.end(); itUse++ )
 	{
-		if( *itUse == tAddMozi )	//	ƒqƒbƒg‚µ‚½‚çA‚»‚¢‚Â‚ğˆê’U”²‚­
+		if( *itUse == tAddMozi )	//	ãƒ’ãƒƒãƒˆã—ãŸã‚‰ã€ãã„ã¤ã‚’ä¸€æ—¦æŠœã
 		{
 			gltUseMozi.erase( itUse );
 			break;
 		}
 	}
 
-	gltUseMozi.push_front( tAddMozi );	//	g‚Á‚½•¨‚ğæ“ª‚É‚¢‚ê‚é
+	gltUseMozi.push_front( tAddMozi );	//	ä½¿ã£ãŸç‰©ã‚’å…ˆé ­ã«ã„ã‚Œã‚‹
 
 	dSize = gltUseMozi.size();
 	if( UNIUSELOG_MAX < dSize )
 	{
-		gltUseMozi.pop_back(  );	//	ˆê”ÔŒÃ‚¢‚Ì‚ğ”²‚­
+		gltUseMozi.pop_back(  );	//	ä¸€ç•ªå¤ã„ã®ã‚’æŠœã
 	}
 
 	InvalidateRect( GetDlgItem( hDlg, IDS_UNI_USE_LOG ), NULL, TRUE );
@@ -155,11 +155,11 @@ HRESULT UniUseLogging( HWND hDlg, TCHAR tAddMozi )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	g—pˆê——‚©‚çAg‚Á‚½‚Ì‚ğˆø‚Á’£‚é
-	@param[in]	hDlg	ƒ_ƒCƒ„ƒƒOƒnƒ“ƒhƒ‹
-	@param[in]	hWndCtl	ƒNƒ‰ƒCƒ„ƒ“ƒgƒnƒ“ƒhƒ‹
-	@param[in]	x		ƒNƒ‰ƒCƒ„ƒ“ƒg‚wÀ•W
-	@param[in]	y		ƒNƒ‰ƒCƒ„ƒ“ƒg‚xÀ•W
+	ä½¿ç”¨ä¸€è¦§ã‹ã‚‰ã€ä½¿ã£ãŸã®ã‚’å¼•ã£å¼µã‚‹
+	@param[in]	hDlg	ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWndCtl	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆï¼¸åº§æ¨™
+	@param[in]	y		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆï¼¹åº§æ¨™
 */
 HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 {
@@ -173,12 +173,12 @@ HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 	GetClientRect( GetDlgItem( hDlg, IDS_UNI_USE_LOG ), &rect );
 	iWidth = rect.bottom;
 
-	iPos = x / iWidth;	//	Ø‚èÌ‚Ä‚É‚·‚ê‚Î‚OƒCƒ“ƒfƒbƒNƒX‚¨‚‹
+	iPos = x / iWidth;	//	åˆ‡ã‚Šæ¨ã¦ã«ã™ã‚Œã°ï¼ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŠï½‹
 	useCnt = gltUseMozi.size();
-	if( useCnt <= iPos )	return E_OUTOFMEMORY;	//	‚Í‚İo‚µ‚½‚çƒ_ƒƒbEEEI
+	if( useCnt <= iPos )	return E_OUTOFMEMORY;	//	ã¯ã¿å‡ºã—ãŸã‚‰ãƒ€ãƒ¡ãƒƒãƒ»ãƒ»ãƒ»ï¼
 
 	itUse = gltUseMozi.begin();
-	std::advance( itUse, iPos );	//	–Ú“I‚Ü‚ÅƒYƒ‰‚µ‚Ä
+	std::advance( itUse, iPos );	//	ç›®çš„ã¾ã§ã‚ºãƒ©ã—ã¦
 
 	tMozi = *itUse;
 
@@ -190,10 +190,10 @@ HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†ƒjƒR[ƒhƒpƒŒƒbƒgƒ_ƒCƒ„ƒƒO[‚ğŠJ‚­ˆ—
-	@param[in]	hInst	ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ‘ãƒ¬ãƒƒãƒˆãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒ¼ã‚’é–‹ãå‡¦ç†
+	@param[in]	hInst	ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UniDialogueEntry( HINSTANCE hInst, HWND hWnd )
 {
@@ -206,7 +206,7 @@ HRESULT UniDialogueEntry( HINSTANCE hInst, HWND hWnd )
 
 	gtSelMozi = NULL;
 
-	//	ƒ_ƒCƒ„ƒƒO[‚Íƒ‚[ƒ_ƒŒƒX‚Å‚ ‚è‚ñ‚·
+	//	ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒ¼ã¯ãƒ¢ãƒ¼ãƒ€ãƒ¬ã‚¹ã§ã‚ã‚Šã‚“ã™
 	ghUniPltWnd = CreateDialogParam( hInst, MAKEINTRESOURCE(IDD_UNICODE_PALETTE_DLG_2), hWnd, UniPaletteDlgProc, 0 );
 
 	if( ghUniPltWnd )
@@ -221,13 +221,13 @@ HRESULT UniDialogueEntry( HINSTANCE hInst, HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†ƒjƒR[ƒhƒpƒŒƒbƒgƒ_ƒCƒ„ƒƒO[‚ÌƒEƒCƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	@param[in]	hDlg	ƒ_ƒCƒ„ƒƒOƒnƒ“ƒhƒ‹
-	@param[in]	message	ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@retval 0	ƒƒbƒZ[ƒW‚É‘Î‚µ‚Ä‰½‚à‚µ‚È‚©‚Á‚½
-	@retval no0	‚È‚ñ‚©ˆ—‚µ‚½
+	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ‘ãƒ¬ãƒƒãƒˆãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hDlg	ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	message	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@retval 0	ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«å¯¾ã—ã¦ä½•ã‚‚ã—ãªã‹ã£ãŸ
+	@retval no0	ãªã‚“ã‹å‡¦ç†ã—ãŸ
 */
 INT_PTR CALLBACK UniPaletteDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -247,11 +247,11 @@ INT_PTR CALLBACK UniPaletteDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPAR
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ_ƒCƒ„ƒƒO‹N“®‚Ì‰Šú‰»
-	@param[in]	hDlg		ƒ_ƒCƒ„ƒƒOƒnƒ“ƒhƒ‹
-	@param[in]	hWndFocus	‚È‚ñ‚¾‚Á‚¯
-	@param[in]	lParam		ƒ_ƒCƒ„ƒƒOƒI[ƒ|ƒ“‚·‚é‚Æ‚«‚ÉŒÄ‚Ño‚µ‘¤‚ª“n‚µ‚½’l
-	@return		FALSE‚ğ•Ô‚·‚ÆA‰ŠúƒtƒH[ƒJƒXƒRƒ“ƒgƒ[ƒ‹‚Ì•ÏX‚ª—LŒø‚É‚È‚é
+	ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°èµ·å‹•æ™‚ã®åˆæœŸåŒ–
+	@param[in]	hDlg		ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWndFocus	ãªã‚“ã ã£ã‘
+	@param[in]	lParam		ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã‚ªãƒ¼ãƒãƒ³ã™ã‚‹ã¨ãã«å‘¼ã³å‡ºã—å´ãŒæ¸¡ã—ãŸå€¤
+	@return		FALSEã‚’è¿”ã™ã¨ã€åˆæœŸãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®å¤‰æ›´ãŒæœ‰åŠ¹ã«ãªã‚‹
 */
 INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 {
@@ -283,7 +283,7 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 	ListView_SetExtendedListViewStyle( ghUniLvWnd, LVS_EX_GRIDLINES | LVS_EX_LABELTIP );
 	SetWindowFont( ghUniLvWnd, ghLvFont, TRUE );
 
-	//	ƒTƒuƒNƒ‰ƒX‰»	
+	//	ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–	
 	gpfOrgUniListProc = SubclassWindow( ghUniLvWnd, gpfUniListProc );
 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
@@ -322,12 +322,12 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ_ƒCƒ„ƒƒO‚ÌCOMMANDƒƒbƒZ[ƒW‚Ìó‚¯æ‚è
-	@param[in]	hDlg		ƒ_ƒCƒ„ƒƒO[ƒnƒ“ƒhƒ‹
-	@param[in]	id			ƒƒbƒZ[ƒW‚ğ”­¶‚³‚¹‚½qƒEƒCƒ“ƒhƒE‚Ì¯•Êq	LOWORD(wParam)
-	@param[in]	hWndCtl		ƒƒbƒZ[ƒW‚ğ”­¶‚³‚¹‚½qƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹	lParam
-	@param[in]	codeNotify	’Ê’mƒƒbƒZ[ƒW	HIWORD(wParam)
-	@return		ˆ—‚µ‚½‚©‚¹‚ñ‚©‚Á‚½‚©
+	ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã®COMMANDãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å—ã‘å–ã‚Š
+	@param[in]	hDlg		ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	id			ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®è­˜åˆ¥å­	LOWORD(wParam)
+	@param[in]	hWndCtl		ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«	lParam
+	@param[in]	codeNotify	é€šçŸ¥ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸	HIWORD(wParam)
+	@return		å‡¦ç†ã—ãŸã‹ã›ã‚“ã‹ã£ãŸã‹
 */
 INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 {
@@ -340,7 +340,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 		default:	break;
 
 		case IDCB_UNI_GROUPSEL:
-			if( CBN_SELCHANGE == codeNotify )	//	ƒRƒ“ƒ{ƒbƒNƒX‚Å‘I‘ğ‚ª‚³‚ê‚½’¼Œã
+			if( CBN_SELCHANGE == codeNotify )	//	ã‚³ãƒ³ãƒœãƒƒã‚¯ã‚¹ã§é¸æŠãŒã•ã‚ŒãŸç›´å¾Œ
 			{
 				tIdx = ListView_GetTopIndex( ghUniLvWnd );
 				ListView_GetItemRect( ghUniLvWnd, tIdx, &rect, LVIR_BOUNDS );
@@ -349,7 +349,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 				dSel = ComboBox_GetCurSel( hWndCtl );
 				dPos = gstUniGroupName[dSel].dCode;
 				TRACE( TEXT("%s[%u]"), gstUniGroupName[dSel].ptNameStr, dPos );
-				dPos /= 16;	//	ˆës‚ ‚½‚è‚P‚U•¶š‚È‚Ì‚Å
+				dPos /= 16;	//	å£±è¡Œã‚ãŸã‚Šï¼‘ï¼–æ–‡å­—ãªã®ã§
 				dPos -= tIdx;
 				dPos *= rect.bottom;
 				TRACE( TEXT("%d"), dPos );
@@ -376,7 +376,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 			return (INT_PTR)TRUE;
 
 		case IDS_UNI_USE_LOG:
-			if( STN_DBLCLK == codeNotify )	//	ƒ_ƒuƒ‹ƒNƒ‹ƒbƒN
+			if( STN_DBLCLK == codeNotify )	//	ãƒ€ãƒ–ãƒ«ã‚¯ãƒ«ãƒƒã‚¯
 			{
 				GetCursorPos( &point );
 				ScreenToClient( hWndCtl, &point );
@@ -394,9 +394,9 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒE•Â‚¶‚é‚Æ‚«
-	@param[in]	hDlg		ƒ_ƒCƒ„ƒ[ƒOƒnƒ“ƒhƒ‹
-	@return		ˆ—‚µ‚½‚©‚¹‚ñ‚©‚Á‚½‚©
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦é–‰ã˜ã‚‹ã¨ã
+	@param[in]	hDlg		ãƒ€ã‚¤ãƒ¤ãƒ­ãƒ¼ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@return		å‡¦ç†ã—ãŸã‹ã›ã‚“ã‹ã£ãŸã‹
 */
 INT_PTR Uni_OnClose( HWND hDlg )
 {
@@ -418,11 +418,11 @@ INT_PTR Uni_OnClose( HWND hDlg )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒm[ƒeƒBƒtƒ@ƒCƒƒbƒZ[ƒW‚Ìˆ—
-	@param[in]	hDlg		ƒ_ƒCƒ„ƒ[ƒOƒnƒ“ƒhƒ‹
-	@param[in]	idFrom		NOTIFY‚ğ”­¶‚³‚¹‚½ƒRƒ“ƒgƒ[ƒ‹‚Ì‚h‚c
-	@param[in]	pstNmhdr	NOTIFY‚ÌÚ×
-	@return		ˆ—‚µ‚½‚©‚¹‚ñ‚©‚Á‚½‚©
+	ãƒãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+	@param[in]	hDlg		ãƒ€ã‚¤ãƒ¤ãƒ­ãƒ¼ã‚°ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	idFrom		NOTIFYã‚’ç™ºç”Ÿã•ã›ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ï¼©ï¼¤
+	@param[in]	pstNmhdr	NOTIFYã®è©³ç´°
+	@return		å‡¦ç†ã—ãŸã‹ã›ã‚“ã‹ã£ãŸã‹
 */
 INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 {
@@ -437,7 +437,7 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 	LPNMLVDISPINFO		pstDispInfo;
 	LPNMLVCUSTOMDRAW	pstCustomDraw;
 
-	if( LVN_GETDISPINFO == pstNmhdr->code )	//	‰¼‘zƒŠƒXƒgƒrƒ…[‚Ìˆ—
+	if( LVN_GETDISPINFO == pstNmhdr->code )	//	ä»®æƒ³ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã®å‡¦ç†
 	{
 		pstDispInfo = (LPNMLVDISPINFO)pstNmhdr;
 
@@ -470,9 +470,9 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 
 	pstListView = (LPNMLISTVIEW)pstNmhdr;
 
-	if( NM_CLICK == pstListView->hdr.code )	//	ƒNƒŠƒbƒP‚µ‚½“z‚Ìˆ—
+	if( NM_CLICK == pstListView->hdr.code )	//	ã‚¯ãƒªãƒƒã‚±ã—ãŸå¥´ã®å‡¦ç†
 	{
-		//	FULLROWSELECT‚µ‚Ä‚È‚¢‚Ææ“¾o—ˆ‚È‚¢‚Ì‚ÅA‚±‚Ì‚æ‚¤‚É‚µ‚ÄƒQƒbƒg‚·‚é
+		//	FULLROWSELECTã—ã¦ãªã„ã¨å–å¾—å‡ºæ¥ãªã„ã®ã§ã€ã“ã®ã‚ˆã†ã«ã—ã¦ã‚²ãƒƒãƒˆã™ã‚‹
 		stHitTestInfo.pt = pstListView->ptAction;
 		ListView_SubItemHitTest( ghUniLvWnd, &stHitTestInfo );
 
@@ -499,7 +499,7 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 				break;
 			}
 
-			//	SortÏ‚È‚Ì‚Å‚±‚ê‚Å‚¨‚‹
+			//	Sortæ¸ˆãªã®ã§ã“ã‚Œã§ãŠï½‹
 			if( iNumber <  gstUniMoziName[i].dCode )	break;
 		}
 
@@ -508,9 +508,9 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 		return (INT_PTR)TRUE;
 	}
 
-	if( NM_DBLCLK == pstListView->hdr.code )	//	ƒ_ƒ{ƒ‹ƒNƒŠƒbƒP‚µ‚½“z‚Ìˆ—
+	if( NM_DBLCLK == pstListView->hdr.code )	//	ãƒ€ãƒœãƒ«ã‚¯ãƒªãƒƒã‚±ã—ãŸå¥´ã®å‡¦ç†
 	{
-		//	Šm’è‘€ì‚Æ‚µ‚Äˆµ‚¤
+		//	ç¢ºå®šæ“ä½œã¨ã—ã¦æ‰±ã†
 		if( gtSelMozi )
 		{
 			Evw_OnChar( ghMainWnd, gtSelMozi, 0 );
@@ -518,7 +518,7 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 		}
 	}
 
-	//	‘I‘ğˆë“óF‚ğ‚Â‚¯‚é‚Ì‚ÍƒJƒXƒ^ƒ€ƒhƒ[
+	//	é¸æŠå£±å¼è‰²ã‚’ã¤ã‘ã‚‹ã®ã¯ã‚«ã‚¹ã‚¿ãƒ ãƒ‰ãƒ­ãƒ¼
 	if( NM_CUSTOMDRAW == pstListView->hdr.code )
 	{
 		pstCustomDraw = (LPNMLVCUSTOMDRAW)pstListView;
@@ -556,28 +556,28 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 		return (INT_PTR)TRUE;	//	CDRF_DODEFAULT
 	}
 /*
-ƒŠƒXƒgƒrƒ…[‚ÅAw’ès‚Ì”wŒiF‚ğ•ÏX‚·‚é‚É‚ÍAƒJƒXƒ^ƒ€ƒhƒ[‚ğs‚¢‚Ü‚·B
-ƒJƒXƒ^ƒ€ƒhƒ[‚ÍAƒ_ƒuƒ‹ƒNƒŠƒbƒN‚Ìæ“¾‚Åà–¾‚µ‚½‚Æ“¯‚¶‚ÅA
-WM_NOTIFYƒƒbƒZ[ƒW“à‚ÅNM_CUSTOMDRAW‚ğ”»•Ê‚µ‚Ü‚·B
-X‚ÉAƒŠƒXƒgƒrƒ…[—p‚ÌƒJƒXƒ^ƒ€ƒhƒ[\‘¢‘Ì‚ÅAƒXƒe[ƒW–ˆ‚Ìˆ—‚ğs‚¢‚Ü‚·B
-ECDDS_PREPAINT    EEE•`‰æ‘O’Ê’m
-ECDDS_ITEMPREPAINTEEE€–Ú–ˆ‚Ì•`‰æ‘O’Ê’m
-g—p‚µ‚È‚¢ƒXƒe[ƒW‚Ìê‡‚ÍACDRF_DODEFAULT‚ğ–ß‚è’l‚Æ‚µ‚ÄƒŠƒ^[ƒ“‚µ‚Ü‚·B
-‚±‚ê‚ÍAƒRƒ“ƒgƒ[ƒ‹‚É•`‰æ‚ğ”C‚·‚ğ‚±‚Æ‚ğˆÓ–¡‚µ‚Ü‚·B
-‚±‚ÌƒXƒe[ƒW‚ğˆ—‚µ‚½Œã‚ÍAˆ—‚µ‚½‚±‚Æ‚ğ’Ê’m‚·‚é•K—v‚ ‚é‚Ì‚Å‚·‚ªA
-‚±‚±‚Ì—á‚Åg—p‚µ‚Ä‚¢‚é‚Ì‚Íƒ_ƒCƒAƒƒO‚Å‚ ‚éˆ×A’Ê’m‚ğ•Ô‚¹‚Ü‚¹‚ñB
-‚Å‚·‚Ì‚ÅASetWindowLongŠÖ”‚ğg—p‚µ‚Ä•Ô‚µ‚Ü‚·B
+ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã§ã€æŒ‡å®šè¡Œã®èƒŒæ™¯è‰²ã‚’å¤‰æ›´ã™ã‚‹ã«ã¯ã€ã‚«ã‚¹ã‚¿ãƒ ãƒ‰ãƒ­ãƒ¼ã‚’è¡Œã„ã¾ã™ã€‚
+ã‚«ã‚¹ã‚¿ãƒ ãƒ‰ãƒ­ãƒ¼ã¯ã€ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã®å–å¾—ã§èª¬æ˜ã—ãŸæ™‚ã¨åŒã˜ã§ã€
+WM_NOTIFYãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å†…ã§NM_CUSTOMDRAWã‚’åˆ¤åˆ¥ã—ã¾ã™ã€‚
+æ›´ã«ã€ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ç”¨ã®ã‚«ã‚¹ã‚¿ãƒ ãƒ‰ãƒ­ãƒ¼æ§‹é€ ä½“ã§ã€ã‚¹ãƒ†ãƒ¼ã‚¸æ¯ã®å‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+ãƒ»CDDS_PREPAINT    ãƒ»ãƒ»ãƒ»æç”»å‰é€šçŸ¥
+ãƒ»CDDS_ITEMPREPAINTãƒ»ãƒ»ãƒ»é …ç›®æ¯ã®æç”»å‰é€šçŸ¥
+ä½¿ç”¨ã—ãªã„ã‚¹ãƒ†ãƒ¼ã‚¸ã®å ´åˆã¯ã€CDRF_DODEFAULTã‚’æˆ»ã‚Šå€¤ã¨ã—ã¦ãƒªã‚¿ãƒ¼ãƒ³ã—ã¾ã™ã€‚
+ã“ã‚Œã¯ã€ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã«æç”»ã‚’ä»»ã™ã‚’ã“ã¨ã‚’æ„å‘³ã—ã¾ã™ã€‚
+ã“ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’å‡¦ç†ã—ãŸå¾Œã¯ã€å‡¦ç†ã—ãŸã“ã¨ã‚’é€šçŸ¥ã™ã‚‹å¿…è¦ã‚ã‚‹ã®ã§ã™ãŒã€
+ã“ã“ã®ä¾‹ã§ä½¿ç”¨ã—ã¦ã„ã‚‹ã®ã¯ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ã‚ã‚‹ç‚ºã€é€šçŸ¥ã‚’è¿”ã›ã¾ã›ã‚“ã€‚
+ã§ã™ã®ã§ã€SetWindowLongé–¢æ•°ã‚’ä½¿ç”¨ã—ã¦è¿”ã—ã¾ã™ã€‚
 
-ˆÈ‰º‚ÉANMLVCUSTOMDRAW\‘¢‘Ì‚Ìà–¾‚ğ‘‚«‚Ü‚·B
+ä»¥ä¸‹ã«ã€NMLVCUSTOMDRAWæ§‹é€ ä½“ã®èª¬æ˜ã‚’æ›¸ãã¾ã™ã€‚
 
-ƒNMLVCUSTOMDRAW\‘¢‘Ì„
-ENMHDR  hdr         NMHDR\‘¢‘Ì‚ğ•\‚µ‚Ü‚·B
-EDWORD  dwDrawStage Œ»İ‚Ì•`‰æƒXƒe[ƒW‚ğ•\‚µ‚Ü‚·B
-EHDC    hdc         ƒRƒ“ƒgƒ[ƒ‹‚ÌƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒgƒnƒ“ƒhƒ‹‚ğ•\‚µ‚Ü‚·B
-ERECT   rc          •`‰æ‚³‚ê‚æ‚¤‚Æ‚µ‚Ä‚¢‚é—Ìˆæ‚ÌRECT\‘¢‘Ì‚ğ•\‚µ‚Ü‚·B
-EDWORD  dwItemSpec  ƒAƒCƒeƒ€”Ô†‚ğ•\‚µ‚Ü‚·B
-EUINT   uItemState  Œ»İ‚ÌƒAƒCƒeƒ€‚Ìó‘Ô‚ğ•\‚µ‚Ü‚·B
-ELPARAM lItemlParam ƒAƒvƒŠƒP[ƒVƒ‡ƒ“’è‹`‚Ìƒf[ƒ^‚ğ•\‚µ‚Ü‚·B
+ï¼œNMLVCUSTOMDRAWæ§‹é€ ä½“ï¼
+ãƒ»NMHDR  hdr         NMHDRæ§‹é€ ä½“ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»DWORD  dwDrawStage ç¾åœ¨ã®æç”»ã‚¹ãƒ†ãƒ¼ã‚¸ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»HDC    hdc         ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒãƒ³ãƒ‰ãƒ«ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»RECT   rc          æç”»ã•ã‚Œã‚ˆã†ã¨ã—ã¦ã„ã‚‹é ˜åŸŸã®RECTæ§‹é€ ä½“ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»DWORD  dwItemSpec  ã‚¢ã‚¤ãƒ†ãƒ ç•ªå·ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»UINT   uItemState  ç¾åœ¨ã®ã‚¢ã‚¤ãƒ†ãƒ ã®çŠ¶æ…‹ã‚’è¡¨ã—ã¾ã™ã€‚
+ãƒ»LPARAM lItemlParam ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å®šç¾©ã®ãƒ‡ãƒ¼ã‚¿ã‚’è¡¨ã—ã¾ã™ã€‚
 
 HWND             hList;
 LPNMHDR          lpnmhdr;
@@ -585,7 +585,7 @@ LPNMLVCUSTOMDRAW lplvcd;
 
 case WM_NOTIFY:
 	lpnmhdr = (LPNMHDR)lp;
-	if( lpnmhdr->hwndFrom == GetDlgItem(hWnd, ƒŠƒXƒgƒrƒ…[‚ÌID) ){
+	if( lpnmhdr->hwndFrom == GetDlgItem(hWnd, ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã®ID) ){
 		switch( lpnmhdr->code ){
 			case NM_CUSTOMDRAW:
 				lplvcd = (LPNMLVCUSTOMDRAW)lp;
@@ -607,9 +607,9 @@ return( CDRF_DODEFAULT );
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒXƒ^ƒeƒBƒbƒN‚ÌƒI[ƒi[ƒhƒ[‚Ìˆ—
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	pstDrawItem	ƒI[ƒiƒhƒ[ƒf[ƒ^
+	ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ã®ã‚ªãƒ¼ãƒŠãƒ¼ãƒ‰ãƒ­ãƒ¼ã®å‡¦ç†
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	pstDrawItem	ã‚ªãƒ¼ãƒŠãƒ‰ãƒ­ãƒ¼ãƒ‡ãƒ¼ã‚¿
 */
 INT_PTR Uni_OnDrawItem( HWND hDlg, CONST LPDRAWITEMSTRUCT pstDrawItem )
 {
@@ -619,41 +619,41 @@ INT_PTR Uni_OnDrawItem( HWND hDlg, CONST LPDRAWITEMSTRUCT pstDrawItem )
 	TCHAR	atUnic[2];
 	UUSE_LITR	itUse;
 
-	//	ŠÖŒW‚È‚¢‚Ì‚Í•ú’u
+	//	é–¢ä¿‚ãªã„ã®ã¯æ”¾ç½®
 	if( IDS_UNI_USE_LOG != pstDrawItem->CtlID ){	return (INT_PTR)FALSE;	}
 
-	hOldFnt = SelectFont( pstDrawItem->hDC , ghLvFont );	//	ƒtƒHƒ“ƒg‚­‚Á‚Â‚¯‚é
+	hOldFnt = SelectFont( pstDrawItem->hDC , ghLvFont );	//	ãƒ•ã‚©ãƒ³ãƒˆãã£ã¤ã‘ã‚‹
 
 	SetBkMode( pstDrawItem->hDC, TRANSPARENT );
 	rect = pstDrawItem->rcItem;
-	iWidth = rect.bottom;	//	³•ûŒ`‚Ì•`‰æƒGƒŠƒA‚Æ‚·‚é
+	iWidth = rect.bottom;	//	æ­£æ–¹å½¢ã®æç”»ã‚¨ãƒªã‚¢ã¨ã™ã‚‹
 
 	FillRect( pstDrawItem->hDC, &(pstDrawItem->rcItem), GetSysColorBrush( COLOR_WINDOW ) );
 
 	atUnic[0] = 0;	atUnic[1] = 0;
-	rect.right = iWidth;	//	Å‰‚ÌƒGƒŠƒAİ’è
+	rect.right = iWidth;	//	æœ€åˆã®ã‚¨ãƒªã‚¢è¨­å®š
 	for( itUse = gltUseMozi.begin(); itUse != gltUseMozi.end(); itUse++ )
 	{
-		atUnic[0] =  *itUse;	//	ˆë•¶š‚Ã‚Â•`‰æ‚µ‚Ä‚¢‚­
+		atUnic[0] =  *itUse;	//	å£±æ–‡å­—ã¥ã¤æç”»ã—ã¦ã„ã
 		DrawText( pstDrawItem->hDC, atUnic, 1, &(rect), DT_CENTER | DT_VCENTER | DT_SINGLELINE );
 
-		rect.left  += iWidth;	//	•`‰æˆÊ’u‚ğƒVƒtƒg
+		rect.left  += iWidth;	//	æç”»ä½ç½®ã‚’ã‚·ãƒ•ãƒˆ
 		rect.right += iWidth;
 	}
 
-	SelectFont( pstDrawItem->hDC, hOldFnt );	//	ˆø‚Á‚Ø‚ª‚·
+	SelectFont( pstDrawItem->hDC, hOldFnt );	//	å¼•ã£ãºãŒã™
 
 	return (INT_PTR)TRUE;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†ƒjƒR[ƒhˆê——‚ÌƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒ
-	@param[in]	hWnd	ƒŠƒXƒg‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	msg		ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@return		LRESULT	ˆ—Œ‹‰Ê‚Æ‚©
+	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ä¸€è¦§ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hWnd	ãƒªã‚¹ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	msg		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@return		LRESULT	å‡¦ç†çµæœã¨ã‹
 */
 LRESULT CALLBACK gpfUniListProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -662,7 +662,7 @@ LRESULT CALLBACK gpfUniListProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	switch( msg )
 	{
-		case WM_PAINT:	//	ƒŠƒXƒg‚Ì‘Š·‚ª”­¶‚·‚È‚í‚¿•\¦“à—e‚ª•ÏX‚³‚ê‚½‚Æv‚í‚ê
+		case WM_PAINT:	//	ãƒªã‚¹ãƒˆã®æ›¸æ›ãŒç™ºç”Ÿã™ãªã‚ã¡è¡¨ç¤ºå†…å®¹ãŒå¤‰æ›´ã•ã‚ŒãŸã¨æ€ã‚ã‚Œ
 			tIdx = ListView_GetTopIndex( hWnd );
 		//	TRACE( TEXT("UPSC_WM_PAINT [%d]"), tIdx );
 			StringCchPrintf( atBuffer, MIN_STRING, TEXT("0x%04X"),  tIdx    * 0x10 );	SetDlgItemText( ghUniPltWnd, IDS_UA_ALPHA,   atBuffer );

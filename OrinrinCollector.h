@@ -1,6 +1,6 @@
 /*! @file
-	@brief �A�v���S�̂Ŏg���萔�┟���ł�
-	���̃t�@�C���� OrinrinCollector.h �ł��B
+	@brief アプリ全体で使う定数や函数です
+	このファイルは OrinrinCollector.h です。
 	@author	SikigamiHNQ
 	@date	2011/10/06
 */
@@ -24,15 +24,15 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "resource.h"
 //-------------------------------------------------------------------------------------------------
 
-// ���̃R�[�h ���W���[���Ɋ܂܂��֐��̐錾
+// このコード モジュールに含まれる関数の宣言
 ATOM	InitWndwClass( HINSTANCE );
 BOOL	InitInstance( HINSTANCE, INT );
 LRESULT	CALLBACK WndProc( HWND, UINT, WPARAM, LPARAM );
 
-BOOLEAN	Cls_OnCreate( HWND, LPCREATESTRUCT );		//!<	�{�̂� WM_CREATE �̏����E�Œ�Edit�Ƃ�����
-VOID	Cls_OnCommand( HWND , INT, HWND, UINT );	//!<	�{�̂� WM_COMMAND �̏���
-VOID	Cls_OnPaint( HWND );						//!<	�{�̂� WM_PAINT �̏����E�g���`��Ƃ�
-VOID	Cls_OnDestroy( HWND );						//!<	�{�̂� WM_DESTROY �̏����EBRUSH�Ƃ��̃I�u�W�F�N�g�̔j���Y��Ȃ��悤��
+BOOLEAN	Cls_OnCreate( HWND, LPCREATESTRUCT );		//!<	本体の WM_CREATE の処理・固定Editとかつくる
+VOID	Cls_OnCommand( HWND , INT, HWND, UINT );	//!<	本体の WM_COMMAND の処理
+VOID	Cls_OnPaint( HWND );						//!<	本体の WM_PAINT の処理・枠線描画とか
+VOID	Cls_OnDestroy( HWND );						//!<	本体の WM_DESTROY の処理・BRUSHとかのオブジェクトの破壊を忘れないように
 HBRUSH	Cls_OnCtlColor( HWND , HDC, HWND, INT );	//!<	
 VOID	Cls_OnHotKey( HWND, INT, UINT, UINT );		//!<	
 VOID	Cls_OnDrawClipboard( HWND );				//!<	

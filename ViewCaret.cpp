@@ -1,6 +1,6 @@
 /*! @file
-	@brief �L�����b�g�̊Ǘ������܂�
-	���̃t�@�C���� ViewCaret.cpp �ł��B
+	@brief キャレットの管理をします
+	このファイルは ViewCaret.cpp です。
 	@author	SikigamiHNQ
 	@date	2011/04/15
 */
@@ -17,13 +17,13 @@ If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
-�L�����b�g(�J���b�g)�̓��b�Z�[�W�L���[�ɑ΂��ĂP�쐬�ł���
-�Q�ȏ�̃L�����b�g�������ɕ\�������ƁAUI��D�܂����Ȃ�
-�t�H�[�J�X�̗L�薳���Ƃ����֌W�ɍ쐬�j���ł��Ă��܂�
-Windows�̎w�j�ɏ]����
-�@�P�D�t�H�[�J�X���������Ƃ��B
-�@�Q�D�A�N�e�B�u�łȂ��Ȃ����Ƃ��B
-�̗��^�C�~���O���ɃL�����b�g���u��\���v�ɂ��ׂ�
+キャレット(カレット)はメッセージキューに対して１つ作成できる
+２つ以上のキャレットが同時に表示されると、UI上好ましくない
+フォーカスの有り無しとも無関係に作成破棄できてしまう
+Windowsの指針に従って
+　１．フォーカスを失ったとき。
+　２．アクティブでなくなったとき。
+の両タイミング時にキャレットを「非表示」にすべき
 */
 
 //-------------------------------------------------------------------------------------------------
@@ -35,24 +35,24 @@ Windows�̎w�j�ɏ]����
 #define CARET_WIDTH	2
 //-------------------------------------------------------------------------------------------------
 
-extern HWND		ghPrntWnd;		//!<	�e�E�C���h�E�n���h��
-extern HWND		ghViewWnd;		//!<	�`��E�C���h�E�̃n���h��
+extern HWND		ghPrntWnd;		//!<	親ウインドウハンドル
+extern HWND		ghViewWnd;		//!<	描画ウインドウのハンドル
 
 
-extern INT		gdDocXdot;		//!<	�L�����b�g�̂w�h�b�g�E�h�L�������g�ʒu
-extern INT		gdDocLine;		//!<	�L�����b�g�̂x�s���E�h�L�������g�ʒu
-extern INT		gdDocMozi;		//!<	�L�����b�g�̍����̕�����
+extern INT		gdDocXdot;		//!<	キャレットのＸドット・ドキュメント位置
+extern INT		gdDocLine;		//!<	キャレットのＹ行数・ドキュメント位置
+extern INT		gdDocMozi;		//!<	キャレットの左側の文字数
 
-//	��ʃT�C�Y���m�F���āA�ړ��ɂ��X�N���[���̖ʓ|�݂�
-extern INT		gdHideXdot;		//!<	���̉B�ꕔ��
-extern INT		gdViewTopLine;	//!<	�\�����̍ŏ㕔�s�ԍ�
-extern SIZE		gstViewArea;	//!<	�\���̈�̃T�C�Y�E���[���[���̗̈�͖���
-extern INT		gdDispingLine;	//!<	�����Ă�s���E���r���[�Ɍ����Ă閖�[�͊܂܂Ȃ�
+//	画面サイズを確認して、移動によるスクロールの面倒みる
+extern INT		gdHideXdot;		//!<	左の隠れ部分
+extern INT		gdViewTopLine;	//!<	表示中の最上部行番号
+extern SIZE		gstViewArea;	//!<	表示領域のサイズ・ルーラー等の領域は無し
+extern INT		gdDispingLine;	//!<	見えてる行数・中途半端に見えてる末端は含まない
 
 
-static HBITMAP	ghbmpCaret;		//!<	�L�����b�g�p�̃r�b�g�}�b�v
+static HBITMAP	ghbmpCaret;		//!<	キャレット用のビットマップ
 
-static BOOLEAN	gbCaretShow;	//!<	�L�����b�g�\�����Ă邩�H
+static BOOLEAN	gbCaretShow;	//!<	キャレット表示してるか？
 //-------------------------------------------------------------------------------------------------
 
 
@@ -63,11 +63,11 @@ HRESULT	ViewCaretFrameOutCheck( INT, INT, UINT );
 
 
 /*!
-	�L�����b�g�����
-	@param[in]	hWnd	�E�C���h�E�̃n���h��
-	@param[in]	clrMain	�L�����b�g�̐F
-	@param[in]	clrBack	�L�����b�g�̔w�i�E���g�p�ɂ��Ă݂�
-	@return		HRESULT	�I����ԃR�[�h
+	キャレットを作る
+	@param[in]	hWnd	ウインドウのハンドル
+	@param[in]	clrMain	キャレットの色
+	@param[in]	clrBack	キャレットの背景・未使用にしてみる
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewCaretCreate( HWND hWnd, COLORREF clrMain, COLORREF clrBack )
 {
@@ -76,14 +76,14 @@ HRESULT ViewCaretCreate( HWND hWnd, COLORREF clrMain, COLORREF clrBack )
 	HBRUSH	hBrushCaret, hBrushBack, hBrushOld;
 
 
-//�e�X�g
-	clrBack  = ~(clrMain);	//	���]�F������
-	clrBack &= 0x00FFFFFF;	//	�֌W�Ȃ��Ƃ���̓N�����[���Ă���
+//テスト
+	clrBack  = ~(clrMain);	//	反転色をつかう
+	clrBack &= 0x00FFFFFF;	//	関係ないところはクルヤーしておく
 
-	//	�K�v�Ȃ�A�ȑO�̃r�b�g�}�b�v��j������E�X����O�̏�����
+	//	必要なら、以前のビットマップを破棄する・個々来る前の処理で
 
 
-	//	�L�����b�gBMP���쐬�E�����̂��ǂݍ���ł��ǂ�
+	//	キャレットBMPを作成・既存のゑを読み込んでも良い
 	ghbmpCaret  = CreateCompatibleBitmap( hdc, CARET_WIDTH, LINE_HEIGHT );
 	hdcMem      = CreateCompatibleDC( hdc );
 	hBmpOld     = SelectBitmap( hdcMem, ghbmpCaret );
@@ -105,21 +105,21 @@ HRESULT ViewCaretCreate( HWND hWnd, COLORREF clrMain, COLORREF clrBack )
 
 	ReleaseDC( hWnd, hdc );
 
-	//	�L�����b�g���쐬����
+	//	キャレットを作成する
 	CreateCaret( hWnd, ghbmpCaret, CARET_WIDTH, LINE_HEIGHT );
 
 	gbCaretShow = FALSE;
 
 
-	//	�t�H�[�J�X��������������Ă����Ƃ��̂��z�����肢�܂�
+	//	フォーカスを失ったら消しておくとかのご配慮を願います
 
 	return S_OK;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�L�����b�g�̔j��
-	@return	HRESULT	�I����ԃR�[�h
+	キャレットの破壊
+	@return	HRESULT	終了状態コード
 */
 HRESULT ViewCaretDelete( VOID )
 {
@@ -135,8 +135,8 @@ HRESULT ViewCaretDelete( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�L�����b�g�̍ĕ\��
-	@return	BOOL	��O�\������Ă��@�O�����Ă�
+	キャレットの再表示
+	@return	BOOL	非０表示されてた　０消えてた
 */
 BOOL ViewShowCaret( VOID )
 {
@@ -149,7 +149,7 @@ BOOL ViewShowCaret( VOID )
 		bRslt = CreateCaret( ghViewWnd, ghbmpCaret, CARET_WIDTH, LINE_HEIGHT );
 		TRACE( TEXT("CARET reset %u"), bRslt );
 		gbCaretShow = FALSE;
-		ViewDrawCaret( gdDocXdot, gdDocLine, 1 );	//	�ʒu�����߂�
+		ViewDrawCaret( gdDocXdot, gdDocLine, 1 );	//	位置を決める
 	}
 
 //	ImeInputBoxPosSet(  );
@@ -159,7 +159,7 @@ BOOL ViewShowCaret( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�L�����b�g�̔�\��
+	キャレットの非表示
 */
 VOID ViewHideCaret( VOID )
 {
@@ -171,14 +171,14 @@ VOID ViewHideCaret( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	Caret���A�F��ς��čč\�z����
-	@param[in]	crtColour	�ύX����F
-	@return		HRESULT		�I����ԃR�[�h
+	Caretを、色を変えて再構築する
+	@param[in]	crtColour	変更する色
+	@return		HRESULT		終了状態コード
 */
 HRESULT ViewCaretReColour( COLORREF crtColour )
 {
 
-	ViewCaretDelete(  );	//	�܂������̃��c��j��
+	ViewCaretDelete(  );	//	まず既存のヤツを破壊
 
 	ViewCaretCreate( ghViewWnd, crtColour, 0 );
 
@@ -189,10 +189,10 @@ HRESULT ViewCaretReColour( COLORREF crtColour )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�L�����b�g�̈ʒu�������ύX
-	@param[in]	xDot	�`��ʒu�̉��h�b�g��
-	@param[in]	yLine	�`�悷��s��
-	@return		��O�g���ł���@�O�͂ݏo���Ă�
+	キャレットの位置を強制変更
+	@param[in]	xDot	描画位置の横ドット数
+	@param[in]	yLine	描画する行数
+	@return		非０枠内である　０はみ出してる
 */
 BOOLEAN ViewPosResetCaret( INT xDot, INT yLine )
 {
@@ -200,7 +200,7 @@ BOOLEAN ViewPosResetCaret( INT xDot, INT yLine )
 	if( 0 > yLine )	yLine = 0;
 
 	gdDocLine = yLine;
-	gdDocMozi = DocLetterPosGetAdjust( &xDot, yLine, 0 );	//	���̕����ʒu���m�F
+	gdDocMozi = DocLetterPosGetAdjust( &xDot, yLine, 0 );	//	今の文字位置を確認
 	gdDocXdot = xDot;
 
 	return ViewDrawCaret( xDot, yLine, TRUE );
@@ -208,11 +208,11 @@ BOOLEAN ViewPosResetCaret( INT xDot, INT yLine )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�L�����b�g�̈ʒu��ύX����
-	@param[in]	rdXdot	�`��ʒu�̉��h�b�g��
-	@param[in]	rdLine	�`�悷��s��
-	@param[in]	bOnScr	��ʂ���͂ݏo���悤�Ȃ�X�N���[�������邩�H
-	@return		��O�g���ł���@�O�͂ݏo���Ă�
+	キャレットの位置を変更する
+	@param[in]	rdXdot	描画位置の横ドット数
+	@param[in]	rdLine	描画する行数
+	@param[in]	bOnScr	画面からはみ出すようならスクロールさせるか？
+	@return		非０枠内である　０はみ出してる
 */
 BOOLEAN ViewDrawCaret( INT rdXdot, INT rdLine, BOOLEAN bOnScr )
 {
@@ -226,33 +226,33 @@ BOOLEAN ViewDrawCaret( INT rdXdot, INT rdLine, BOOLEAN bOnScr )
 
 	stCaret.x = rdXdot;
 	stCaret.y = rdLine;
-	DocCaretPosMemory( INIT_SAVE, &stCaret );	//	�t�@�C������Caret�ʒu�ۑ�
+	DocCaretPosMemory( INIT_SAVE, &stCaret );	//	ファイル毎のCaret位置保存
 
 
-	//	�ʒu���́A�h�L�������g�I�Ȉʒu�ő��삵�āA�r���[����Ƃ��������낢�낷��
-	//	�����ŁA�J�[�\���ʒu����ʂ���͂ݏo�������Ȃ�A�K�؂ȕ����ɃX�N���[��
-	//	�ʒu�����C��
+	//	位置情報は、ドキュメント的な位置で操作して、ビューするときだけいろいろする
+	//	ここで、カーソル位置が画面からはみ出しそうなら、適切な方向にスクロール
+	//	位置情報も修正
 
-	//	�X�N���[���o�[����̑���Ȃ�A�L�����b�g����ʂ���͂ݏo���Ă��悢
+	//	スクロールバーからの操作なら、キャレットが画面からはみ出してもよい
 	if( bOnScr )	ViewCaretFrameOutCheck( dX, dY, 1 );
 	
 	ViewPositionTransform( &dX, &dY, 1 );
 
-//�L�����b�g�ʒu���}�C�i�X�ɂȂ�悤�Ȃ�A��\���ɂ���
+//キャレット位置がマイナスになるようなら、非表示にする
 
 	//gdViewXdot = dX;
-	//gdViewLine = dY;	//	�g���ĂȂ��H
+	//gdViewLine = dY;	//	使ってない？
 
-	fRslt = ViewIsPosOnFrame( dX , dY );	//	�ʒu�m�F
+	fRslt = ViewIsPosOnFrame( dX , dY );	//	位置確認
 	if( fRslt )
 	{
-		bRslt = SetCaretPos( dX, dY );	//	�ړ�
+		bRslt = SetCaretPos( dX, dY );	//	移動
 
 		if( !(gbCaretShow) )
 		{
 			for( loop = 0; 10 > loop; loop++ )
 			{
-				cRslt = ShowCaret( ghViewWnd  );	//	�\������
+				cRslt = ShowCaret( ghViewWnd  );	//	表示する
 				if( cRslt )	break;
 			}
 		}
@@ -264,7 +264,7 @@ BOOLEAN ViewDrawCaret( INT rdXdot, INT rdLine, BOOLEAN bOnScr )
 		{
 			for( loop = 0; 10 > loop; loop++ )
 			{
-				cRslt = HideCaret( ghViewWnd  );	//	����
+				cRslt = HideCaret( ghViewWnd  );	//	けす
 				if( cRslt )	break;
 			}
 		}
@@ -274,19 +274,19 @@ BOOLEAN ViewDrawCaret( INT rdXdot, INT rdLine, BOOLEAN bOnScr )
 
 	ViewNowPosStatus(  );
 
-	ImeInputBoxPosSet(  );	//	IME���͘g�̈ʒu��ύX
+	ImeInputBoxPosSet(  );	//	IME入力枠の位置を変更
 
 	return fRslt;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���[���[�Ƃ��l������O�̕`��ʒu�h�b�g���󂯎���āA
-	�͂ݏo���悤�Ȃ�X�N���[���ʂ𑀍삷��E����
-	@param[in]	dDotX	�`��ʒu�̉��h�b�g���E�����ł͐��l�󂯎�邾��
-	@param[in]	dDotY	�`��ʒu�̏c�h�b�g��
-	@param[in]	dummy	�Ƃ��ɂȂ��H
-	@return		HRESULT	�I����ԃR�[�h
+	ルーラーとか考慮する前の描画位置ドットを受け取って、
+	はみ出すようならスクロール量を操作する・だけ
+	@param[in]	dDotX	描画位置の横ドット数・ここでは数値受け取るだけ
+	@param[in]	dDotY	描画位置の縦ドット数
+	@param[in]	dummy	とくにない？
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewCaretFrameOutCheck( INT dDotX, INT dDotY, UINT dummy )
 {
@@ -294,36 +294,36 @@ HRESULT ViewCaretFrameOutCheck( INT dDotX, INT dDotY, UINT dummy )
 	INT	opX, opY;
 	INT	bkWid;
 
-	//	���ւ͂ݏo��
-	if( gdHideXdot > dDotX )	//	�B��ʒu��肳��ɍ��ւ�������
+	//	左へはみ出し
+	if( gdHideXdot > dDotX )	//	隠れ位置よりさらに左へいったら
 	{
 		gdHideXdot = dDotX;
 
 		bRedraw = TRUE;
 	}
 
-	//	�E�ւ͂ݏo��
+	//	右へはみ出し
 	opX = dDotX - gdHideXdot;
 	if( gstViewArea.cx < (opX + EOF_WIDTH) )
 	{
 		bkWid = (opX + EOF_WIDTH) - gstViewArea.cx;
 
-		gdHideXdot += bkWid;	//	���B��̈�𑝂₷
+		gdHideXdot += bkWid;	//	左隠れ領域を増やす
 
 		bRedraw = TRUE;
 	}
 
 
-	//	��ւ͂ݏo��
+	//	上へはみ出し
 	if( gdViewTopLine > gdDocLine )
 	{
-		assert( gdViewTopLine );	//	���̒i�K�łO�͂��蓾�Ȃ�
+		assert( gdViewTopLine );	//	この段階で０はあり得ない
 		gdViewTopLine = gdDocLine;
 
 		bRedraw = TRUE;
 	}
 
-	//	���ւ͂ݏo��
+	//	下へはみ出し
 	opY = gdDocLine - gdViewTopLine;
 	if( gdDispingLine <= opY )
 	{
@@ -341,8 +341,8 @@ HRESULT ViewCaretFrameOutCheck( INT dDotX, INT dDotY, UINT dummy )
 
 
 /*!
-	IME���͘g�̈ʒu��ύX
-	@return		HRESULT	�I����ԃR�[�h
+	IME入力枠の位置を変更
+	@return		HRESULT	終了状態コード
 */
 HRESULT ImeInputBoxPosSet( VOID )
 {
@@ -350,18 +350,18 @@ HRESULT ImeInputBoxPosSet( VOID )
 	HIMC	hImc;
 	POINT	stPoint;
 
-	hImc = ImmGetContext( ghViewWnd );	//	IME�n���h���m��
+	hImc = ImmGetContext( ghViewWnd );	//	IMEハンドル確保
 
-	if( hImc )	//	�m�ۏo������
+	if( hImc )	//	確保出来たら
 	{
-		GetCaretPos( &stPoint );	//	���̃L�����b�g�ʒu���m�F����
-		stCompForm.dwStyle = CFS_POINT;	//	�ʒu�ύX��L���ɂ���
+		GetCaretPos( &stPoint );	//	今のキャレット位置を確認して
+		stCompForm.dwStyle = CFS_POINT;	//	位置変更を有効にする
 		stCompForm.ptCurrentPos.x = stPoint.x;
 		stCompForm.ptCurrentPos.y = stPoint.y;
 
 	//	TRACE( TEXT("CARET [%d x %d]"), stPoint.x, stPoint.y );
 
-		ImmSetCompositionWindow( hImc, &stCompForm );	//	�ʒu�ύX
+		ImmSetCompositionWindow( hImc, &stCompForm );	//	位置変更
 
 		ImmReleaseContext( ghViewWnd , hImc );
 	}
@@ -371,10 +371,10 @@ HRESULT ImeInputBoxPosSet( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���̃L�����b�g�ʒu���Q�b�c����
-	@param[in]	pXdot	�L�����b�g�̂w�h�b�g
-	@param[in]	pYline	�L�����b�g�̂x�s��
-	@return	INT	�L�����b�g�̍����̕�����
+	今のキャレット位置をゲッツする
+	@param[in]	pXdot	キャレットのＸドット
+	@param[in]	pYline	キャレットのＹ行数
+	@return	INT	キャレットの左側の文字数
 */
 INT ViewCaretPosGet( PINT pXdot, PINT pYline )
 {

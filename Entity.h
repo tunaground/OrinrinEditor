@@ -1,6 +1,6 @@
 /*! @file
-	@brief À‘ÌQÆˆê——‚Å‚·E‘å•¶š¬•¶š‚É’ˆÓ‚³‚ê‚½‚µ
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í Entity.h ‚Å‚·B
+	@brief å®Ÿä½“å‚ç…§ä¸€è¦§ã§ã™ãƒ»å¤§æ–‡å­—å°æ–‡å­—ã«æ³¨æ„ã•ã‚ŒãŸã—
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ Entity.h ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/00/00
 */
@@ -26,366 +26,366 @@ typedef struct tagENTITYLIST
 
 } ENTITYLIST, *LPENTITYLIST;
 
-//	HTML“I‚Éƒ„ƒoƒC‚â‚Â
+//	HTMLçš„ã«ãƒ¤ãƒã‚¤ã‚„ã¤
 CONST ENTITYLIST	gstEttySP[] = {
-	{ 0x0022,	("&quot;"),		TEXT("&quot;"),		TEXT("ˆø—p•„") },	//	34
-	{ 0x0026,	("&amp;"),		TEXT("&amp;"),		TEXT("ƒAƒ“ƒpƒTƒ“ƒh") },	//	38
-	{ 0x003C,	("&lt;"),		TEXT("&lt;"),		TEXT("•s“™†i‚æ‚è¬j") },	//	60
-	{ 0x003E,	("&gt;"),		TEXT("&gt;"),		TEXT("•s“™†i‚æ‚è‘åj") },	//	62
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0022,	("&quot;"),		TEXT("&quot;"),		TEXT("å¼•ç”¨ç¬¦") },	//	34
+	{ 0x0026,	("&amp;"),		TEXT("&amp;"),		TEXT("ã‚¢ãƒ³ãƒ‘ã‚µãƒ³ãƒ‰") },	//	38
+	{ 0x003C,	("&lt;"),		TEXT("&lt;"),		TEXT("ä¸ç­‰å·ï¼ˆã‚ˆã‚Šå°ï¼‰") },	//	60
+	{ 0x003E,	("&gt;"),		TEXT("&gt;"),		TEXT("ä¸ç­‰å·ï¼ˆã‚ˆã‚Šå¤§ï¼‰") },	//	62
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
-//	SJIS‚¶‚á•\Œ»o—ˆ‚È‚¢ƒAƒŒ
+//	SJISã˜ã‚ƒè¡¨ç¾å‡ºæ¥ãªã„ã‚¢ãƒ¬
 CONST ENTITYLIST	gstEtyAlpha[] = {
-	{ 0x00C1,	("&Aacute;"),	TEXT("&Aacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«A") },	//	193		
-	{ 0x00E1,	("&aacute;"),	TEXT("&aacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	225		
-	{ 0x00C2,	("&Acirc;"),	TEXT("&Acirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«A") },	//	194		
-	{ 0x00E2,	("&acirc;"),	TEXT("&acirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	226		
-	{ 0x00B4,	("&acute;"),	TEXT("&acute;"),	TEXT("ƒAƒNƒTƒ“ƒeƒMƒ…") },	//	180		
+	{ 0x00C1,	("&Aacute;"),	TEXT("&Aacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	193		
+	{ 0x00E1,	("&aacute;"),	TEXT("&aacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	225		
+	{ 0x00C2,	("&Acirc;"),	TEXT("&Acirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	194		
+	{ 0x00E2,	("&acirc;"),	TEXT("&acirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	226		
+	{ 0x00B4,	("&acute;"),	TEXT("&acute;"),	TEXT("ã‚¢ã‚¯ã‚µãƒ³ãƒ†ã‚®ãƒ¥") },	//	180		
 	{ 0x00C6,	("&AElig;"),	TEXT("&AElig;"),	TEXT("AE") },	//	198		
-	{ 0x00E6,	("&aelig;"),	TEXT("&aelig;"),	TEXT("AE¬•¶š") },	//	230		
-	{ 0x00C0,	("&Agrave;"),	TEXT("&Agrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«A") },	//	192		
-	{ 0x00E0,	("&agrave;"),	TEXT("&agrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	224		
-	{ 0x2135,	("&alefsym;"),	TEXT("&alefsym;"),	TEXT("ƒAƒŒƒt") },	//	8501		
-	{ 0x0391,	("&Alpha;"),	TEXT("&Alpha;"),	TEXT("‘å•¶šƒAƒ‹ƒtƒ@") },	//	913		
-	{ 0x03B1,	("&alpha;"),	TEXT("&alpha;"),	TEXT("¬•¶šƒAƒ‹ƒtƒ@") },	//	945		
-	{ 0x2227,	("&and;"),		TEXT("&and;"),		TEXT("‹y‚Ñi‡Új") },	//	8743
-	{ 0x2220,	("&ang;"),		TEXT("&ang;"),		TEXT("Šp") },	//	8736
-	{ 0x00C5,	("&Aring;"),	TEXT("&Aring;"),	TEXT("ãƒŠƒ“ƒO•t‚«A") },	//	197		
-	{ 0x00E5,	("&aring;"),	TEXT("&aring;"),	TEXT("ãƒŠƒ“ƒO•t‚«A¬•¶š") },	//	229		
-	{ 0x2248,	("&asymp;"),	TEXT("&asymp;"),	TEXT("‹ß—“I‚É“™‚µ‚¢A“¯‘Š") },	//	8776		
-	{ 0x00C3,	("&Atilde;"),	TEXT("&Atilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«A") },	//	195		
-	{ 0x00E3,	("&atilde;"),	TEXT("&atilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«A¬•¶š") },	//	227		
-	{ 0x00C4,	("&Auml;"),		TEXT("&Auml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«A") },	//	196
-	{ 0x00E4,	("&auml;"),		TEXT("&auml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«A¬•¶š") },	//	228
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00E6,	("&aelig;"),	TEXT("&aelig;"),	TEXT("AEå°æ–‡å­—") },	//	230		
+	{ 0x00C0,	("&Agrave;"),	TEXT("&Agrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	192		
+	{ 0x00E0,	("&agrave;"),	TEXT("&agrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	224		
+	{ 0x2135,	("&alefsym;"),	TEXT("&alefsym;"),	TEXT("ã‚¢ãƒ¬ãƒ•") },	//	8501		
+	{ 0x0391,	("&Alpha;"),	TEXT("&Alpha;"),	TEXT("å¤§æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡") },	//	913		
+	{ 0x03B1,	("&alpha;"),	TEXT("&alpha;"),	TEXT("å°æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡") },	//	945		
+	{ 0x2227,	("&and;"),		TEXT("&and;"),		TEXT("åŠã³ï¼ˆåˆæ¥ï¼‰") },	//	8743
+	{ 0x2220,	("&ang;"),		TEXT("&ang;"),		TEXT("è§’") },	//	8736
+	{ 0x00C5,	("&Aring;"),	TEXT("&Aring;"),	TEXT("ä¸Šãƒªãƒ³ã‚°ä»˜ãA") },	//	197		
+	{ 0x00E5,	("&aring;"),	TEXT("&aring;"),	TEXT("ä¸Šãƒªãƒ³ã‚°ä»˜ãAå°æ–‡å­—") },	//	229		
+	{ 0x2248,	("&asymp;"),	TEXT("&asymp;"),	TEXT("è¿‘ä¼¼çš„ã«ç­‰ã—ã„ã€åŒç›¸") },	//	8776		
+	{ 0x00C3,	("&Atilde;"),	TEXT("&Atilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãA") },	//	195		
+	{ 0x00E3,	("&atilde;"),	TEXT("&atilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãAå°æ–‡å­—") },	//	227		
+	{ 0x00C4,	("&Auml;"),		TEXT("&Auml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãA") },	//	196
+	{ 0x00E4,	("&auml;"),		TEXT("&auml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãAå°æ–‡å­—") },	//	228
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyBravo[] = {
-	{ 0x201E,	("&bdquo;"),	TEXT("&bdquo;"),	TEXT("‰º•tƒ_ƒuƒ‹ˆø—p•„") },	//	8222		
-	{ 0x0392,	("&Beta;"),		TEXT("&Beta;"),		TEXT("‘å•¶šƒx[ƒ^") },	//	914
-	{ 0x03B2,	("&beta;"),		TEXT("&beta;"),		TEXT("¬•¶šƒx[ƒ^") },	//	946
-	{ 0x00A6,	("&brvbar;"),	TEXT("&brvbar;"),	TEXT("”j’fü") },	//	166		
-	{ 0x2022,	("&bull;"),		TEXT("&bull;"),		TEXT("•ŠÛ") },	//	8226
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x201E,	("&bdquo;"),	TEXT("&bdquo;"),	TEXT("ä¸‹ä»˜ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦") },	//	8222		
+	{ 0x0392,	("&Beta;"),		TEXT("&Beta;"),		TEXT("å¤§æ–‡å­—ãƒ™ãƒ¼ã‚¿") },	//	914
+	{ 0x03B2,	("&beta;"),		TEXT("&beta;"),		TEXT("å°æ–‡å­—ãƒ™ãƒ¼ã‚¿") },	//	946
+	{ 0x00A6,	("&brvbar;"),	TEXT("&brvbar;"),	TEXT("ç ´æ–­ç·š") },	//	166		
+	{ 0x2022,	("&bull;"),		TEXT("&bull;"),		TEXT("é»’ä¸¸") },	//	8226
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyCharlie[] = {
-	{ 0x2229,	("&cap;"),		TEXT("&cap;"),		TEXT("‹¤’ÊW‡") },	//	8745
-	{ 0x00C7,	("&Ccedil;"),	TEXT("&Ccedil;"),	TEXT("ƒZƒfƒBƒ‰•t‚«C") },	//	199		
-	{ 0x00E7,	("&ccedil;"),	TEXT("&ccedil;"),	TEXT("ƒZƒfƒBƒ‰•t‚«C¬•¶š") },	//	231		
-	{ 0x00B8,	("&cedil;"),	TEXT("&cedil;"),	TEXT("ƒZƒfƒBƒ‰") },	//	184		
-	{ 0x00A2,	("&cent;"),		TEXT("&cent;"),		TEXT("ƒZƒ“ƒg‹L†") },	//	162
-	{ 0x03A7,	("&Chi;"),		TEXT("&Chi;"),		TEXT("‘å•¶šƒJƒC") },	//	935
-	{ 0x03C7,	("&chi;"),		TEXT("&chi;"),		TEXT("¬•¶šƒJƒC") },	//	967
-	{ 0x02C6,	("&circ;"),		TEXT("&circ;"),		TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒX") },	//	710
-	{ 0x2663,	("&clubs;"),	TEXT("&clubs;"),	TEXT("ƒNƒ‰ƒu") },	//	9827		
-	{ 0x2245,	("&cong;"),		TEXT("&cong;"),		TEXT("“¯Œ`") },	//	8773
-	{ 0x00A9,	("&copy;"),		TEXT("&copy;"),		TEXT("’˜ìŒ •\¦‹L†") },	//	169
-	{ 0x21B5,	("&crarr;"),	TEXT("&crarr;"),	TEXT("ƒLƒƒƒŠƒbƒWƒŠƒ^[ƒ“") },	//	8629		
-	{ 0x222A,	("&cup;"),		TEXT("&cup;"),		TEXT("‡•¹W‡") },	//	8746
-	{ 0x00A4,	("&curren;"),	TEXT("&curren;"),	TEXT("•s“Á’è’Ê‰İ‹L†") },	//	164		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x2229,	("&cap;"),		TEXT("&cap;"),		TEXT("å…±é€šé›†åˆ") },	//	8745
+	{ 0x00C7,	("&Ccedil;"),	TEXT("&Ccedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©ä»˜ãC") },	//	199		
+	{ 0x00E7,	("&ccedil;"),	TEXT("&ccedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©ä»˜ãCå°æ–‡å­—") },	//	231		
+	{ 0x00B8,	("&cedil;"),	TEXT("&cedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©") },	//	184		
+	{ 0x00A2,	("&cent;"),		TEXT("&cent;"),		TEXT("ã‚»ãƒ³ãƒˆè¨˜å·") },	//	162
+	{ 0x03A7,	("&Chi;"),		TEXT("&Chi;"),		TEXT("å¤§æ–‡å­—ã‚«ã‚¤") },	//	935
+	{ 0x03C7,	("&chi;"),		TEXT("&chi;"),		TEXT("å°æ–‡å­—ã‚«ã‚¤") },	//	967
+	{ 0x02C6,	("&circ;"),		TEXT("&circ;"),		TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹") },	//	710
+	{ 0x2663,	("&clubs;"),	TEXT("&clubs;"),	TEXT("ã‚¯ãƒ©ãƒ–") },	//	9827		
+	{ 0x2245,	("&cong;"),		TEXT("&cong;"),		TEXT("åŒå½¢") },	//	8773
+	{ 0x00A9,	("&copy;"),		TEXT("&copy;"),		TEXT("è‘—ä½œæ¨©è¡¨ç¤ºè¨˜å·") },	//	169
+	{ 0x21B5,	("&crarr;"),	TEXT("&crarr;"),	TEXT("ã‚­ãƒ£ãƒªãƒƒã‚¸ãƒªã‚¿ãƒ¼ãƒ³") },	//	8629		
+	{ 0x222A,	("&cup;"),		TEXT("&cup;"),		TEXT("åˆä½µé›†åˆ") },	//	8746
+	{ 0x00A4,	("&curren;"),	TEXT("&curren;"),	TEXT("ä¸ç‰¹å®šé€šè²¨è¨˜å·") },	//	164		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyDelta[] = {
-	{ 0x2020,	("&dagger;"),	TEXT("&dagger;"),	TEXT("ƒ_ƒK[") },	//	8224		
-	{ 0x2021,	("&Dagger;"),	TEXT("&Dagger;"),	TEXT("ƒ_ƒuƒ‹ƒ_ƒK[") },	//	8225		
-	{ 0x2193,	("&darr;"),		TEXT("&darr;"),		TEXT("‰ºŒü–îˆó") },	//	8595
-	{ 0x21D3,	("&dArr;"),		TEXT("&dArr;"),		TEXT("‰ºŒü“ñd–îˆó") },	//	8659
-	{ 0x00B0,	("&deg;"),		TEXT("&deg;"),		TEXT("“x") },	//	176
-	{ 0x0394,	("&Delta;"),	TEXT("&Delta;"),	TEXT("‘å•¶šƒfƒ‹ƒ^") },	//	916		
-	{ 0x03B4,	("&delta;"),	TEXT("&delta;"),	TEXT("¬•¶šƒfƒ‹ƒ^") },	//	948		
-	{ 0x2666,	("&diams;"),	TEXT("&diams;"),	TEXT("ƒ_ƒCƒ„") },	//	9830		
-	{ 0x00F7,	("&divide;"),	TEXT("&divide;"),	TEXT("œZ‹L†") },	//	247		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x2020,	("&dagger;"),	TEXT("&dagger;"),	TEXT("ãƒ€ã‚¬ãƒ¼") },	//	8224		
+	{ 0x2021,	("&Dagger;"),	TEXT("&Dagger;"),	TEXT("ãƒ€ãƒ–ãƒ«ãƒ€ã‚¬ãƒ¼") },	//	8225		
+	{ 0x2193,	("&darr;"),		TEXT("&darr;"),		TEXT("ä¸‹å‘çŸ¢å°") },	//	8595
+	{ 0x21D3,	("&dArr;"),		TEXT("&dArr;"),		TEXT("ä¸‹å‘äºŒé‡çŸ¢å°") },	//	8659
+	{ 0x00B0,	("&deg;"),		TEXT("&deg;"),		TEXT("åº¦") },	//	176
+	{ 0x0394,	("&Delta;"),	TEXT("&Delta;"),	TEXT("å¤§æ–‡å­—ãƒ‡ãƒ«ã‚¿") },	//	916		
+	{ 0x03B4,	("&delta;"),	TEXT("&delta;"),	TEXT("å°æ–‡å­—ãƒ‡ãƒ«ã‚¿") },	//	948		
+	{ 0x2666,	("&diams;"),	TEXT("&diams;"),	TEXT("ãƒ€ã‚¤ãƒ¤") },	//	9830		
+	{ 0x00F7,	("&divide;"),	TEXT("&divide;"),	TEXT("é™¤ç®—è¨˜å·") },	//	247		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyEcho[] = {
-	{ 0x00C9,	("&Eacute;"),	TEXT("&Eacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«E") },	//	201		
-	{ 0x00E9,	("&eacute;"),	TEXT("&eacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	233		
-	{ 0x00CA,	("&Ecirc;"),	TEXT("&Ecirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«E") },	//	202		
-	{ 0x00EA,	("&ecirc;"),	TEXT("&ecirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	234		
-	{ 0x00C8,	("&Egrave;"),	TEXT("&Egrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«E") },	//	200		
-	{ 0x00E8,	("&egrave;"),	TEXT("&egrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	232		
-	{ 0x2205,	("&empty;"),	TEXT("&empty;"),	TEXT("‹óW‡") },	//	8709		
-	{ 0x2003,	("&emsp;"),		TEXT("&emsp;"),		TEXT("mš•‚Ì‹ó”’i‘SŠp‹ó”’j") },	//	8195
-	{ 0x2002,	("&ensp;"),		TEXT("&ensp;"),		TEXT("nš•‚Ì‹ó”’i”¼Šp‹ó”’j") },	//	8194
-	{ 0x0395,	("&Epsilon;"),	TEXT("&Epsilon;"),	TEXT("‘å•¶šƒCƒvƒVƒƒ“") },	//	917		
-	{ 0x03B5,	("&epsilon;"),	TEXT("&epsilon;"),	TEXT("¬•¶šƒCƒvƒVƒƒ“") },	//	949		
-	{ 0x2261,	("&equiv;"),	TEXT("&equiv;"),	TEXT("í‚É“™‚µ‚¢A‡“¯") },	//	8801		
-	{ 0x0397,	("&Eta;"),		TEXT("&Eta;"),		TEXT("‘å•¶šƒG[ƒ^") },	//	919
-	{ 0x03B7,	("&eta;"),		TEXT("&eta;"),		TEXT("¬•¶šƒG[ƒ^") },	//	951
-	{ 0x00D0,	("&ETH;"),		TEXT("&ETH;"),		TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêETH") },	//	208
-	{ 0x00F0,	("&eth;"),		TEXT("&eth;"),		TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêETH¬•¶š") },	//	240
-	{ 0x00CB,	("&Euml;"),		TEXT("&Euml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«E") },	//	203
-	{ 0x00EB,	("&euml;"),		TEXT("&euml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«E¬•¶š") },	//	235
-	{ 0x20AC,	("&euro;"),		TEXT("&euro;"),		TEXT("ƒ†[ƒ‹L†") },	//	8364
-	{ 0x2203,	("&exist;"),	TEXT("&exist;"),	TEXT("‘¶İ‚·‚éi‘¶İŒÀ’èqj") },	//	8707		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00C9,	("&Eacute;"),	TEXT("&Eacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	201		
+	{ 0x00E9,	("&eacute;"),	TEXT("&eacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	233		
+	{ 0x00CA,	("&Ecirc;"),	TEXT("&Ecirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	202		
+	{ 0x00EA,	("&ecirc;"),	TEXT("&ecirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	234		
+	{ 0x00C8,	("&Egrave;"),	TEXT("&Egrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	200		
+	{ 0x00E8,	("&egrave;"),	TEXT("&egrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	232		
+	{ 0x2205,	("&empty;"),	TEXT("&empty;"),	TEXT("ç©ºé›†åˆ") },	//	8709		
+	{ 0x2003,	("&emsp;"),		TEXT("&emsp;"),		TEXT("må­—å¹…ã®ç©ºç™½ï¼ˆå…¨è§’ç©ºç™½ï¼‰") },	//	8195
+	{ 0x2002,	("&ensp;"),		TEXT("&ensp;"),		TEXT("nå­—å¹…ã®ç©ºç™½ï¼ˆåŠè§’ç©ºç™½ï¼‰") },	//	8194
+	{ 0x0395,	("&Epsilon;"),	TEXT("&Epsilon;"),	TEXT("å¤§æ–‡å­—ã‚¤ãƒ—ã‚·ãƒ­ãƒ³") },	//	917		
+	{ 0x03B5,	("&epsilon;"),	TEXT("&epsilon;"),	TEXT("å°æ–‡å­—ã‚¤ãƒ—ã‚·ãƒ­ãƒ³") },	//	949		
+	{ 0x2261,	("&equiv;"),	TEXT("&equiv;"),	TEXT("å¸¸ã«ç­‰ã—ã„ã€åˆåŒ") },	//	8801		
+	{ 0x0397,	("&Eta;"),		TEXT("&Eta;"),		TEXT("å¤§æ–‡å­—ã‚¨ãƒ¼ã‚¿") },	//	919
+	{ 0x03B7,	("&eta;"),		TEXT("&eta;"),		TEXT("å°æ–‡å­—ã‚¨ãƒ¼ã‚¿") },	//	951
+	{ 0x00D0,	("&ETH;"),		TEXT("&ETH;"),		TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªETH") },	//	208
+	{ 0x00F0,	("&eth;"),		TEXT("&eth;"),		TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªETHå°æ–‡å­—") },	//	240
+	{ 0x00CB,	("&Euml;"),		TEXT("&Euml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãE") },	//	203
+	{ 0x00EB,	("&euml;"),		TEXT("&euml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãEå°æ–‡å­—") },	//	235
+	{ 0x20AC,	("&euro;"),		TEXT("&euro;"),		TEXT("ãƒ¦ãƒ¼ãƒ­è¨˜å·") },	//	8364
+	{ 0x2203,	("&exist;"),	TEXT("&exist;"),	TEXT("å­˜åœ¨ã™ã‚‹ï¼ˆå­˜åœ¨é™å®šå­ï¼‰") },	//	8707		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyFoxtrot[] = {
-	{ 0x0192,	("&fnof;"),		TEXT("&fnof;"),		TEXT("¬•¶šfiƒtƒbƒN•t‚«jAŠÖ”") },	//	402
-	{ 0x2200,	("&forall;"),	TEXT("&forall;"),	TEXT("‚·‚×‚Ä‚Ìi•’ÊŒÀ’èqj") },	//	8704		
-	{ 0x00BD,	("&frac12;"),	TEXT("&frac12;"),	TEXT("2•ª‚Ì1") },	//	189		
-	{ 0x00BC,	("&frac14;"),	TEXT("&frac14;"),	TEXT("4•ª‚Ì1") },	//	188		
-	{ 0x00BE,	("&frac34;"),	TEXT("&frac34;"),	TEXT("4•ª‚Ì3") },	//	190		
-	{ 0x2044,	("&frasl;"),	TEXT("&frasl;"),	TEXT("•ª”‚ÌÎü") },	//	8260		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0192,	("&fnof;"),		TEXT("&fnof;"),		TEXT("å°æ–‡å­—fï¼ˆãƒ•ãƒƒã‚¯ä»˜ãï¼‰ã€é–¢æ•°") },	//	402
+	{ 0x2200,	("&forall;"),	TEXT("&forall;"),	TEXT("ã™ã¹ã¦ã®ï¼ˆæ™®é€šé™å®šå­ï¼‰") },	//	8704		
+	{ 0x00BD,	("&frac12;"),	TEXT("&frac12;"),	TEXT("2åˆ†ã®1") },	//	189		
+	{ 0x00BC,	("&frac14;"),	TEXT("&frac14;"),	TEXT("4åˆ†ã®1") },	//	188		
+	{ 0x00BE,	("&frac34;"),	TEXT("&frac34;"),	TEXT("4åˆ†ã®3") },	//	190		
+	{ 0x2044,	("&frasl;"),	TEXT("&frasl;"),	TEXT("åˆ†æ•°ã®æ–œç·š") },	//	8260		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyGolf[] = {
-	{ 0x0393,	("&Gamma;"),	TEXT("&Gamma;"),	TEXT("‘å•¶šƒKƒ“ƒ}") },	//	915		
-	{ 0x03B3,	("&gamma;"),	TEXT("&gamma;"),	TEXT("¬•¶šƒKƒ“ƒ}") },	//	947		
-	{ 0x2265,	("&ge;"),		TEXT("&ge;"),		TEXT("‘å‚È‚è‚Ü‚½‚Í“™‚µ‚¢") },	//	8805
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0393,	("&Gamma;"),	TEXT("&Gamma;"),	TEXT("å¤§æ–‡å­—ã‚¬ãƒ³ãƒ") },	//	915		
+	{ 0x03B3,	("&gamma;"),	TEXT("&gamma;"),	TEXT("å°æ–‡å­—ã‚¬ãƒ³ãƒ") },	//	947		
+	{ 0x2265,	("&ge;"),		TEXT("&ge;"),		TEXT("å¤§ãªã‚Šã¾ãŸã¯ç­‰ã—ã„") },	//	8805
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyHotel[] = {
-	{ 0x2194,	("&harr;"),		TEXT("&harr;"),		TEXT("¶‰EŒü–îˆó") },	//	8596
-	{ 0x21D4,	("&hArr;"),		TEXT("&hArr;"),		TEXT("“¯’l") },	//	8660
-	{ 0x2665,	("&hearts;"),	TEXT("&hearts;"),	TEXT("ƒn[ƒg") },	//	9829		
-	{ 0x2026,	("&hellip;"),	TEXT("&hellip;"),	TEXT("O“_ƒŠ[ƒ_") },	//	8230		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x2194,	("&harr;"),		TEXT("&harr;"),		TEXT("å·¦å³å‘çŸ¢å°") },	//	8596
+	{ 0x21D4,	("&hArr;"),		TEXT("&hArr;"),		TEXT("åŒå€¤") },	//	8660
+	{ 0x2665,	("&hearts;"),	TEXT("&hearts;"),	TEXT("ãƒãƒ¼ãƒˆ") },	//	9829		
+	{ 0x2026,	("&hellip;"),	TEXT("&hellip;"),	TEXT("ä¸‰ç‚¹ãƒªãƒ¼ãƒ€") },	//	8230		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyIndia[] = {
-	{ 0x00CD,	("&Iacute;"),	TEXT("&Iacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«I") },	//	205		
-	{ 0x00ED,	("&iacute;"),	TEXT("&iacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	237		
-	{ 0x00CE,	("&Icirc;"),	TEXT("&Icirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«I") },	//	206		
-	{ 0x00EE,	("&icirc;"),	TEXT("&icirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	238		
-	{ 0x00A1,	("&iexcl;"),	TEXT("&iexcl;"),	TEXT("‹tŠ´’Q•„") },	//	161		
-	{ 0x00CC,	("&Igrave;"),	TEXT("&Igrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«I") },	//	204		
-	{ 0x00EC,	("&igrave;"),	TEXT("&igrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	236		
-	{ 0x2111,	("&image;"),	TEXT("&image;"),	TEXT("‘å•¶š‚ÌIiƒuƒ‰ƒbƒN‘ÌjA‹•”•”") },	//	8465		
-	{ 0x221E,	("&infin;"),	TEXT("&infin;"),	TEXT("–³ŒÀ‘å") },	//	8734		
-	{ 0x222B,	("&int;"),		TEXT("&int;"),		TEXT("Ï•ª‹L†") },	//	8747
-	{ 0x0399,	("&Iota;"),		TEXT("&Iota;"),		TEXT("‘å•¶šƒCƒIƒ^") },	//	921
-	{ 0x03B9,	("&iota;"),		TEXT("&iota;"),		TEXT("¬•¶šƒCƒIƒ^") },	//	953
-	{ 0x00BF,	("&iquest;"),	TEXT("&iquest;"),	TEXT("‹t‹^–â•„") },	//	191		
-	{ 0x2208,	("&isin;"),		TEXT("&isin;"),		TEXT("‘®‚·‚é") },	//	8712
-	{ 0x00CF,	("&Iuml;"),		TEXT("&Iuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«I") },	//	207
-	{ 0x00EF,	("&iuml;"),		TEXT("&iuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«I¬•¶š") },	//	239
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00CD,	("&Iacute;"),	TEXT("&Iacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	205		
+	{ 0x00ED,	("&iacute;"),	TEXT("&iacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	237		
+	{ 0x00CE,	("&Icirc;"),	TEXT("&Icirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	206		
+	{ 0x00EE,	("&icirc;"),	TEXT("&icirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	238		
+	{ 0x00A1,	("&iexcl;"),	TEXT("&iexcl;"),	TEXT("é€†æ„Ÿå˜†ç¬¦") },	//	161		
+	{ 0x00CC,	("&Igrave;"),	TEXT("&Igrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	204		
+	{ 0x00EC,	("&igrave;"),	TEXT("&igrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	236		
+	{ 0x2111,	("&image;"),	TEXT("&image;"),	TEXT("å¤§æ–‡å­—ã®Iï¼ˆãƒ–ãƒ©ãƒƒã‚¯ä½“ï¼‰ã€è™šæ•°éƒ¨") },	//	8465		
+	{ 0x221E,	("&infin;"),	TEXT("&infin;"),	TEXT("ç„¡é™å¤§") },	//	8734		
+	{ 0x222B,	("&int;"),		TEXT("&int;"),		TEXT("ç©åˆ†è¨˜å·") },	//	8747
+	{ 0x0399,	("&Iota;"),		TEXT("&Iota;"),		TEXT("å¤§æ–‡å­—ã‚¤ã‚ªã‚¿") },	//	921
+	{ 0x03B9,	("&iota;"),		TEXT("&iota;"),		TEXT("å°æ–‡å­—ã‚¤ã‚ªã‚¿") },	//	953
+	{ 0x00BF,	("&iquest;"),	TEXT("&iquest;"),	TEXT("é€†ç–‘å•ç¬¦") },	//	191		
+	{ 0x2208,	("&isin;"),		TEXT("&isin;"),		TEXT("å±ã™ã‚‹") },	//	8712
+	{ 0x00CF,	("&Iuml;"),		TEXT("&Iuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãI") },	//	207
+	{ 0x00EF,	("&iuml;"),		TEXT("&iuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãIå°æ–‡å­—") },	//	239
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyJuliette[] = {
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyKilo[] = {
-	{ 0x039A,	("&Kappa;"),	TEXT("&Kappa;"),	TEXT("‘å•¶šƒJƒbƒp") },	//	922		
-	{ 0x03BA,	("&kappa;"),	TEXT("&kappa;"),	TEXT("¬•¶šƒJƒbƒp") },	//	954		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x039A,	("&Kappa;"),	TEXT("&Kappa;"),	TEXT("å¤§æ–‡å­—ã‚«ãƒƒãƒ‘") },	//	922		
+	{ 0x03BA,	("&kappa;"),	TEXT("&kappa;"),	TEXT("å°æ–‡å­—ã‚«ãƒƒãƒ‘") },	//	954		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyLima[] = {
-	{ 0x039B,	("&Lambda;"),	TEXT("&Lambda;"),	TEXT("‘å•¶šƒ‰ƒ€ƒ_") },	//	923		
-	{ 0x03BB,	("&lambda;"),	TEXT("&lambda;"),	TEXT("¬•¶šƒ‰ƒ€ƒ_") },	//	955		
-	{ 0x2329,	("&lang;"),		TEXT("&lang;"),		TEXT("¶ŠpŠ‡ŒÊ") },	//	9001
-	{ 0x00AB,	("&laquo;"),	TEXT("&laquo;"),	TEXT("n‚ß“ñdRŠ‡ŒÊˆø—p‹L†An‚ßƒMƒ…ƒ") },	//	171		
-	{ 0x2190,	("&larr;"),		TEXT("&larr;"),		TEXT("¶Œü–îˆó") },	//	8592
-	{ 0x21D0,	("&lArr;"),		TEXT("&lArr;"),		TEXT("¶Œü“ñd–îˆó") },	//	8656
-	{ 0x2308,	("&lceil;"),	TEXT("&lceil;"),	TEXT("¶ãŒÀ") },	//	8968		
-	{ 0x201C,	("&ldquo;"),	TEXT("&ldquo;"),	TEXT("¶ƒ_ƒuƒ‹ˆø—p•„") },	//	8220		
-	{ 0x2264,	("&le;"),		TEXT("&le;"),		TEXT("¬‚È‚è‚Ü‚½‚Í“™‚µ‚¢") },	//	8804
-	{ 0x230A,	("&lfloor;"),	TEXT("&lfloor;"),	TEXT("¶‰ºŒÀ") },	//	8970		
-	{ 0x2217,	("&lowast;"),	TEXT("&lowast;"),	TEXT("ƒAƒXƒ^ƒŠƒXƒN‰‰Zq") },	//	8727		
-	{ 0x25CA,	("&loz;"),		TEXT("&loz;"),		TEXT("•HŒ`") },	//	9674
-	{ 0x200E,	("&lrm;"),		TEXT("&lrm;"),		TEXT("‹Lq•ûŒü§Œäi¶‚©‚ç‰E‚Öj") },	//	8206
-	{ 0x2039,	("&lsaquo;"),	TEXT("&lsaquo;"),	TEXT("¶RŠ‡ŒÊinj") },	//	8249		
-	{ 0x2018,	("&lsquo;"),	TEXT("&lsquo;"),	TEXT("¶ƒVƒ“ƒOƒ‹ˆø—p•„") },	//	8216		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x039B,	("&Lambda;"),	TEXT("&Lambda;"),	TEXT("å¤§æ–‡å­—ãƒ©ãƒ ãƒ€") },	//	923		
+	{ 0x03BB,	("&lambda;"),	TEXT("&lambda;"),	TEXT("å°æ–‡å­—ãƒ©ãƒ ãƒ€") },	//	955		
+	{ 0x2329,	("&lang;"),		TEXT("&lang;"),		TEXT("å·¦è§’æ‹¬å¼§") },	//	9001
+	{ 0x00AB,	("&laquo;"),	TEXT("&laquo;"),	TEXT("å§‹ã‚äºŒé‡å±±æ‹¬å¼§å¼•ç”¨è¨˜å·ã€å§‹ã‚ã‚®ãƒ¥ãƒ¡") },	//	171		
+	{ 0x2190,	("&larr;"),		TEXT("&larr;"),		TEXT("å·¦å‘çŸ¢å°") },	//	8592
+	{ 0x21D0,	("&lArr;"),		TEXT("&lArr;"),		TEXT("å·¦å‘äºŒé‡çŸ¢å°") },	//	8656
+	{ 0x2308,	("&lceil;"),	TEXT("&lceil;"),	TEXT("å·¦ä¸Šé™") },	//	8968		
+	{ 0x201C,	("&ldquo;"),	TEXT("&ldquo;"),	TEXT("å·¦ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦") },	//	8220		
+	{ 0x2264,	("&le;"),		TEXT("&le;"),		TEXT("å°ãªã‚Šã¾ãŸã¯ç­‰ã—ã„") },	//	8804
+	{ 0x230A,	("&lfloor;"),	TEXT("&lfloor;"),	TEXT("å·¦ä¸‹é™") },	//	8970		
+	{ 0x2217,	("&lowast;"),	TEXT("&lowast;"),	TEXT("ã‚¢ã‚¹ã‚¿ãƒªã‚¹ã‚¯æ¼”ç®—å­") },	//	8727		
+	{ 0x25CA,	("&loz;"),		TEXT("&loz;"),		TEXT("è±å½¢") },	//	9674
+	{ 0x200E,	("&lrm;"),		TEXT("&lrm;"),		TEXT("è¨˜è¿°æ–¹å‘åˆ¶å¾¡ï¼ˆå·¦ã‹ã‚‰å³ã¸ï¼‰") },	//	8206
+	{ 0x2039,	("&lsaquo;"),	TEXT("&lsaquo;"),	TEXT("å·¦å±±æ‹¬å¼§ï¼ˆå§‹ï¼‰") },	//	8249		
+	{ 0x2018,	("&lsquo;"),	TEXT("&lsquo;"),	TEXT("å·¦ã‚·ãƒ³ã‚°ãƒ«å¼•ç”¨ç¬¦") },	//	8216		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyMike[] = {
-	{ 0x00AF,	("&macr;"),		TEXT("&macr;"),		TEXT("ƒ}ƒNƒƒ“") },	//	175
-	{ 0x2014,	("&mdash;"),	TEXT("&mdash;"),	TEXT("mš•‚Ìƒ_ƒbƒVƒ…i‘SŠpƒ_ƒbƒVƒ…j") },	//	8212		
-	{ 0x00B5,	("&micro;"),	TEXT("&micro;"),	TEXT("ƒ}ƒCƒNƒ‹L†") },	//	181		
-	{ 0x00B7,	("&middot;"),	TEXT("&middot;"),	TEXT("’†“_iƒ‰ƒeƒ“j") },	//	183		
-	{ 0x2212,	("&minus;"),	TEXT("&minus;"),	TEXT("•‰•„†AŒ¸Z‹L†") },	//	8722		
-	{ 0x039C,	("&Mu;"),		TEXT("&Mu;"),		TEXT("‘å•¶šƒ~ƒ…[") },	//	924
-	{ 0x03BC,	("&mu;"),		TEXT("&mu;"),		TEXT("¬•¶šƒ~ƒ…[") },	//	956
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00AF,	("&macr;"),		TEXT("&macr;"),		TEXT("ãƒã‚¯ãƒ­ãƒ³") },	//	175
+	{ 0x2014,	("&mdash;"),	TEXT("&mdash;"),	TEXT("må­—å¹…ã®ãƒ€ãƒƒã‚·ãƒ¥ï¼ˆå…¨è§’ãƒ€ãƒƒã‚·ãƒ¥ï¼‰") },	//	8212		
+	{ 0x00B5,	("&micro;"),	TEXT("&micro;"),	TEXT("ãƒã‚¤ã‚¯ãƒ­è¨˜å·") },	//	181		
+	{ 0x00B7,	("&middot;"),	TEXT("&middot;"),	TEXT("ä¸­ç‚¹ï¼ˆãƒ©ãƒ†ãƒ³ï¼‰") },	//	183		
+	{ 0x2212,	("&minus;"),	TEXT("&minus;"),	TEXT("è² ç¬¦å·ã€æ¸›ç®—è¨˜å·") },	//	8722		
+	{ 0x039C,	("&Mu;"),		TEXT("&Mu;"),		TEXT("å¤§æ–‡å­—ãƒŸãƒ¥ãƒ¼") },	//	924
+	{ 0x03BC,	("&mu;"),		TEXT("&mu;"),		TEXT("å°æ–‡å­—ãƒŸãƒ¥ãƒ¼") },	//	956
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyNovember[] = {
-	{ 0x2207,	("&nabla;"),	TEXT("&nabla;"),	TEXT("ƒiƒuƒ‰") },	//	8711		
-	{ 0x00A0,	("&nbsp;"),		TEXT("&nbsp;"),		TEXT("ƒm[ƒuƒŒ[ƒNƒXƒy[ƒX") },	//	160
-	{ 0x2013,	("&ndash;"),	TEXT("&ndash;"),	TEXT("nš•‚Ìƒ_ƒbƒVƒ…i”¼Špƒ_ƒbƒVƒ…j") },	//	8211		
-	{ 0x2260,	("&ne;"),		TEXT("&ne;"),		TEXT("“™†”Û’è") },	//	8800
-	{ 0x220B,	("&ni;"),		TEXT("&ni;"),		TEXT("Œ³‚Æ‚µ‚ÄŠÜ‚Ş") },	//	8715
-	{ 0x00AC,	("&not;"),		TEXT("&not;"),		TEXT("”Û’è‹L†") },	//	172
-	{ 0x2209,	("&notin;"),	TEXT("&notin;"),	TEXT("—v‘f‚Ì”Û’èAŒ³‚Ì”Û’è") },	//	8713		
-	{ 0x2284,	("&nsub;"),		TEXT("&nsub;"),		TEXT("^•”•ªW‡‚Ì”Û’è") },	//	8836
-	{ 0x00D1,	("&Ntilde;"),	TEXT("&Ntilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«N") },	//	209		
-	{ 0x00F1,	("&ntilde;"),	TEXT("&ntilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«N¬•¶š") },	//	241		
-	{ 0x039D,	("&Nu;"),		TEXT("&Nu;"),		TEXT("‘å•¶šƒjƒ…[") },	//	925
-	{ 0x03BD,	("&nu;"),		TEXT("&nu;"),		TEXT("¬•¶šƒjƒ…[") },	//	957
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x2207,	("&nabla;"),	TEXT("&nabla;"),	TEXT("ãƒŠãƒ–ãƒ©") },	//	8711		
+	{ 0x00A0,	("&nbsp;"),		TEXT("&nbsp;"),		TEXT("ãƒãƒ¼ãƒ–ãƒ¬ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹") },	//	160
+	{ 0x2013,	("&ndash;"),	TEXT("&ndash;"),	TEXT("nå­—å¹…ã®ãƒ€ãƒƒã‚·ãƒ¥ï¼ˆåŠè§’ãƒ€ãƒƒã‚·ãƒ¥ï¼‰") },	//	8211		
+	{ 0x2260,	("&ne;"),		TEXT("&ne;"),		TEXT("ç­‰å·å¦å®š") },	//	8800
+	{ 0x220B,	("&ni;"),		TEXT("&ni;"),		TEXT("å…ƒã¨ã—ã¦å«ã‚€") },	//	8715
+	{ 0x00AC,	("&not;"),		TEXT("&not;"),		TEXT("å¦å®šè¨˜å·") },	//	172
+	{ 0x2209,	("&notin;"),	TEXT("&notin;"),	TEXT("è¦ç´ ã®å¦å®šã€å…ƒã®å¦å®š") },	//	8713		
+	{ 0x2284,	("&nsub;"),		TEXT("&nsub;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆã®å¦å®š") },	//	8836
+	{ 0x00D1,	("&Ntilde;"),	TEXT("&Ntilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãN") },	//	209		
+	{ 0x00F1,	("&ntilde;"),	TEXT("&ntilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãNå°æ–‡å­—") },	//	241		
+	{ 0x039D,	("&Nu;"),		TEXT("&Nu;"),		TEXT("å¤§æ–‡å­—ãƒ‹ãƒ¥ãƒ¼") },	//	925
+	{ 0x03BD,	("&nu;"),		TEXT("&nu;"),		TEXT("å°æ–‡å­—ãƒ‹ãƒ¥ãƒ¼") },	//	957
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyOscar[] = {
-	{ 0x00D3,	("&Oacute;"),	TEXT("&Oacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«O") },	//	211		
-	{ 0x00F3,	("&oacute;"),	TEXT("&oacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	243		
-	{ 0x00D4,	("&Ocirc;"),	TEXT("&Ocirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«O") },	//	212		
-	{ 0x00F4,	("&ocirc;"),	TEXT("&ocirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	244		
-	{ 0x0152,	("&OElig;"),	TEXT("&OElig;"),	TEXT("ƒŠƒKƒ`ƒƒOE‘å•¶šA‰~O‘OãL•ê‰¹") },	//	338		
-	{ 0x0153,	("&oelig;"),	TEXT("&oelig;"),	TEXT("ƒŠƒKƒ`ƒƒOE¬•¶šA‰~O‘OãLE’†’i•ê‰¹") },	//	339		
-	{ 0x00D2,	("&Ograve;"),	TEXT("&Ograve;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«O") },	//	210		
-	{ 0x00F2,	("&ograve;"),	TEXT("&ograve;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	242		
-	{ 0x203E,	("&oline;"),	TEXT("&oline;"),	TEXT("ƒI[ƒo[ƒ‰ƒCƒ“A˜_—”Û’è‹L†") },	//	8254		
-	{ 0x03A9,	("&Omega;"),	TEXT("&Omega;"),	TEXT("‘å•¶šƒIƒƒK") },	//	937		
-	{ 0x03C9,	("&omega;"),	TEXT("&omega;"),	TEXT("¬•¶šƒIƒƒK") },	//	969		
-	{ 0x039F,	("&Omicron;"),	TEXT("&Omicron;"),	TEXT("‘å•¶šƒIƒ~ƒNƒƒ“") },	//	927		
-	{ 0x03BF,	("&omicron;"),	TEXT("&omicron;"),	TEXT("¬•¶šƒIƒ~ƒNƒƒ“") },	//	959		
-	{ 0x2295,	("&oplus;"),	TEXT("&oplus;"),	TEXT("’¼˜a") },	//	8853		
-	{ 0x2228,	("&or;"),		TEXT("&or;"),		TEXT("–”‚Íi—£Új") },	//	8744
-	{ 0x00AA,	("&ordf;"),		TEXT("&ordf;"),		TEXT("—«˜”•W¯") },	//	170
-	{ 0x00BA,	("&ordm;"),		TEXT("&ordm;"),		TEXT("’j«˜”•W¯") },	//	186
-	{ 0x00D8,	("&Oslash;"),	TEXT("&Oslash;"),	TEXT("ƒXƒgƒ[ƒN•t‚«O") },	//	216		
-	{ 0x00F8,	("&oslash;"),	TEXT("&oslash;"),	TEXT("ƒXƒgƒ[ƒN•t‚«O¬•¶š") },	//	248		
-	{ 0x00D5,	("&Otilde;"),	TEXT("&Otilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«O") },	//	213		
-	{ 0x00F5,	("&otilde;"),	TEXT("&otilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«O¬•¶š") },	//	245		
-	{ 0x2297,	("&otimes;"),	TEXT("&otimes;"),	TEXT("ƒeƒ“ƒ\ƒ‹Ï") },	//	8855		
-	{ 0x00D6,	("&Ouml;"),		TEXT("&Ouml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«O") },	//	214
-	{ 0x00F6,	("&ouml;"),		TEXT("&ouml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«O¬•¶š") },	//	246
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00D3,	("&Oacute;"),	TEXT("&Oacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	211		
+	{ 0x00F3,	("&oacute;"),	TEXT("&oacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	243		
+	{ 0x00D4,	("&Ocirc;"),	TEXT("&Ocirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	212		
+	{ 0x00F4,	("&ocirc;"),	TEXT("&ocirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	244		
+	{ 0x0152,	("&OElig;"),	TEXT("&OElig;"),	TEXT("ãƒªã‚¬ãƒãƒ£OEå¤§æ–‡å­—ã€å††å”‡å‰èˆŒåºƒæ¯éŸ³") },	//	338		
+	{ 0x0153,	("&oelig;"),	TEXT("&oelig;"),	TEXT("ãƒªã‚¬ãƒãƒ£OEå°æ–‡å­—ã€å††å”‡å‰èˆŒåºƒãƒ»ä¸­æ®µæ¯éŸ³") },	//	339		
+	{ 0x00D2,	("&Ograve;"),	TEXT("&Ograve;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	210		
+	{ 0x00F2,	("&ograve;"),	TEXT("&ograve;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	242		
+	{ 0x203E,	("&oline;"),	TEXT("&oline;"),	TEXT("ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ³ã€è«–ç†å¦å®šè¨˜å·") },	//	8254		
+	{ 0x03A9,	("&Omega;"),	TEXT("&Omega;"),	TEXT("å¤§æ–‡å­—ã‚ªãƒ¡ã‚¬") },	//	937		
+	{ 0x03C9,	("&omega;"),	TEXT("&omega;"),	TEXT("å°æ–‡å­—ã‚ªãƒ¡ã‚¬") },	//	969		
+	{ 0x039F,	("&Omicron;"),	TEXT("&Omicron;"),	TEXT("å¤§æ–‡å­—ã‚ªãƒŸã‚¯ãƒ­ãƒ³") },	//	927		
+	{ 0x03BF,	("&omicron;"),	TEXT("&omicron;"),	TEXT("å°æ–‡å­—ã‚ªãƒŸã‚¯ãƒ­ãƒ³") },	//	959		
+	{ 0x2295,	("&oplus;"),	TEXT("&oplus;"),	TEXT("ç›´å’Œ") },	//	8853		
+	{ 0x2228,	("&or;"),		TEXT("&or;"),		TEXT("åˆã¯ï¼ˆé›¢æ¥ï¼‰") },	//	8744
+	{ 0x00AA,	("&ordf;"),		TEXT("&ordf;"),		TEXT("å¥³æ€§åºæ•°æ¨™è­˜") },	//	170
+	{ 0x00BA,	("&ordm;"),		TEXT("&ordm;"),		TEXT("ç”·æ€§åºæ•°æ¨™è­˜") },	//	186
+	{ 0x00D8,	("&Oslash;"),	TEXT("&Oslash;"),	TEXT("ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ä»˜ãO") },	//	216		
+	{ 0x00F8,	("&oslash;"),	TEXT("&oslash;"),	TEXT("ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ä»˜ãOå°æ–‡å­—") },	//	248		
+	{ 0x00D5,	("&Otilde;"),	TEXT("&Otilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãO") },	//	213		
+	{ 0x00F5,	("&otilde;"),	TEXT("&otilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãOå°æ–‡å­—") },	//	245		
+	{ 0x2297,	("&otimes;"),	TEXT("&otimes;"),	TEXT("ãƒ†ãƒ³ã‚½ãƒ«ç©") },	//	8855		
+	{ 0x00D6,	("&Ouml;"),		TEXT("&Ouml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãO") },	//	214
+	{ 0x00F6,	("&ouml;"),		TEXT("&ouml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãOå°æ–‡å­—") },	//	246
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyPapa[] = {
-	{ 0x00B6,	("&para;"),		TEXT("&para;"),		TEXT("’i—‹L†") },	//	182
-	{ 0x2202,	("&part;"),		TEXT("&part;"),		TEXT("ƒfƒ‹Aƒ‰ƒEƒ“ƒhƒfƒB[") },	//	8706
-	{ 0x2030,	("&permil;"),	TEXT("&permil;"),	TEXT("ƒp[ƒ~ƒ‹") },	//	8240		
-	{ 0x22A5,	("&perp;"),		TEXT("&perp;"),		TEXT("‚’¼") },	//	8869
-	{ 0x03A6,	("&Phi;"),		TEXT("&Phi;"),		TEXT("‘å•¶šƒtƒ@ƒC") },	//	934
-	{ 0x03C6,	("&phi;"),		TEXT("&phi;"),		TEXT("¬•¶šƒtƒ@ƒC") },	//	966
-	{ 0x03A0,	("&Pi;"),		TEXT("&Pi;"),		TEXT("‘å•¶šƒpƒC") },	//	928
-	{ 0x03C0,	("&pi;"),		TEXT("&pi;"),		TEXT("¬•¶šƒpƒC") },	//	960
-	{ 0x03D6,	("&piv;"),		TEXT("&piv;"),		TEXT("ƒpƒCEƒVƒ“ƒ{ƒ‹") },	//	982
-	{ 0x00B1,	("&plusmn;"),	TEXT("&plusmn;"),	TEXT("³–”‚Í•‰•„†") },	//	177		
-	{ 0x00A3,	("&pound;"),	TEXT("&pound;"),	TEXT("ƒ|ƒ“ƒh‹L†") },	//	163		
-	{ 0x2032,	("&prime;"),	TEXT("&prime;"),	TEXT("•ª") },	//	8242		
-	{ 0x2033,	("&Prime;"),	TEXT("&Prime;"),	TEXT("•b") },	//	8243		
-	{ 0x220F,	("&prod;"),		TEXT("&prod;"),		TEXT("n€‚ÌæZ") },	//	8719
-	{ 0x221D,	("&prop;"),		TEXT("&prop;"),		TEXT("”ä—á") },	//	8733
-	{ 0x03A8,	("&Psi;"),		TEXT("&Psi;"),		TEXT("‘å•¶šƒvƒTƒC") },	//	936
-	{ 0x03C8,	("&psi;"),		TEXT("&psi;"),		TEXT("¬•¶šƒvƒTƒC") },	//	968
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00B6,	("&para;"),		TEXT("&para;"),		TEXT("æ®µè½è¨˜å·") },	//	182
+	{ 0x2202,	("&part;"),		TEXT("&part;"),		TEXT("ãƒ‡ãƒ«ã€ãƒ©ã‚¦ãƒ³ãƒ‰ãƒ‡ã‚£ãƒ¼") },	//	8706
+	{ 0x2030,	("&permil;"),	TEXT("&permil;"),	TEXT("ãƒ‘ãƒ¼ãƒŸãƒ«") },	//	8240		
+	{ 0x22A5,	("&perp;"),		TEXT("&perp;"),		TEXT("å‚ç›´") },	//	8869
+	{ 0x03A6,	("&Phi;"),		TEXT("&Phi;"),		TEXT("å¤§æ–‡å­—ãƒ•ã‚¡ã‚¤") },	//	934
+	{ 0x03C6,	("&phi;"),		TEXT("&phi;"),		TEXT("å°æ–‡å­—ãƒ•ã‚¡ã‚¤") },	//	966
+	{ 0x03A0,	("&Pi;"),		TEXT("&Pi;"),		TEXT("å¤§æ–‡å­—ãƒ‘ã‚¤") },	//	928
+	{ 0x03C0,	("&pi;"),		TEXT("&pi;"),		TEXT("å°æ–‡å­—ãƒ‘ã‚¤") },	//	960
+	{ 0x03D6,	("&piv;"),		TEXT("&piv;"),		TEXT("ãƒ‘ã‚¤ãƒ»ã‚·ãƒ³ãƒœãƒ«") },	//	982
+	{ 0x00B1,	("&plusmn;"),	TEXT("&plusmn;"),	TEXT("æ­£åˆã¯è² ç¬¦å·") },	//	177		
+	{ 0x00A3,	("&pound;"),	TEXT("&pound;"),	TEXT("ãƒãƒ³ãƒ‰è¨˜å·") },	//	163		
+	{ 0x2032,	("&prime;"),	TEXT("&prime;"),	TEXT("åˆ†") },	//	8242		
+	{ 0x2033,	("&Prime;"),	TEXT("&Prime;"),	TEXT("ç§’") },	//	8243		
+	{ 0x220F,	("&prod;"),		TEXT("&prod;"),		TEXT("né …ã®ä¹—ç®—") },	//	8719
+	{ 0x221D,	("&prop;"),		TEXT("&prop;"),		TEXT("æ¯”ä¾‹") },	//	8733
+	{ 0x03A8,	("&Psi;"),		TEXT("&Psi;"),		TEXT("å¤§æ–‡å­—ãƒ—ã‚µã‚¤") },	//	936
+	{ 0x03C8,	("&psi;"),		TEXT("&psi;"),		TEXT("å°æ–‡å­—ãƒ—ã‚µã‚¤") },	//	968
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyQuebec[] = {
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyRomeo[] = {
-	{ 0x221A,	("&radic;"),	TEXT("&radic;"),	TEXT("ª†") },	//	8730		
-	{ 0x232A,	("&rang;"),		TEXT("&rang;"),		TEXT("‰EŠpŠ‡ŒÊ") },	//	9002
-	{ 0x00BB,	("&raquo;"),	TEXT("&raquo;"),	TEXT("I‚í‚è“ñdRŠ‡ŒÊˆø—p‹L†AI‚í‚èƒMƒ…ƒ") },	//	187		
-	{ 0x2192,	("&rarr;"),		TEXT("&rarr;"),		TEXT("‰EŒü–îˆó") },	//	8594
-	{ 0x21D2,	("&rArr;"),		TEXT("&rArr;"),		TEXT("‚È‚ç‚Îi‡ˆÓj") },	//	8658
-	{ 0x2309,	("&rceil;"),	TEXT("&rceil;"),	TEXT("‰EãŒÀ") },	//	8969		
-	{ 0x201D,	("&rdquo;"),	TEXT("&rdquo;"),	TEXT("‰Eƒ_ƒuƒ‹ˆø—p•„iIj") },	//	8221		
-	{ 0x211C,	("&real;"),		TEXT("&real;"),		TEXT("‘å•¶š‚ÌRiƒuƒ‰ƒbƒN‘ÌjAÀ”•”") },	//	8476
-	{ 0x00AE,	("&reg;"),		TEXT("&reg;"),		TEXT("“o˜^¤•W‹L†") },	//	174
-	{ 0x230B,	("&rfloor;"),	TEXT("&rfloor;"),	TEXT("‰E‰ºŒÀ") },	//	8971		
-	{ 0x03A1,	("&Rho;"),		TEXT("&Rho;"),		TEXT("‘å•¶šƒ[") },	//	929
-	{ 0x03C1,	("&rho;"),		TEXT("&rho;"),		TEXT("¬•¶šƒ[") },	//	961
-	{ 0x200F,	("&rlm;"),		TEXT("&rlm;"),		TEXT("‹Lq•ûŒü§Œäi‰E‚©‚ç¶‚Öj") },	//	8207
-	{ 0x203A,	("&rsaquo;"),	TEXT("&rsaquo;"),	TEXT("‰ERŠ‡ŒÊiIj") },	//	8250		
-	{ 0x2019,	("&rsquo;"),	TEXT("&rsquo;"),	TEXT("‰EƒVƒ“ƒOƒ‹ˆø—p•„") },	//	8217		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x221A,	("&radic;"),	TEXT("&radic;"),	TEXT("æ ¹å·") },	//	8730		
+	{ 0x232A,	("&rang;"),		TEXT("&rang;"),		TEXT("å³è§’æ‹¬å¼§") },	//	9002
+	{ 0x00BB,	("&raquo;"),	TEXT("&raquo;"),	TEXT("çµ‚ã‚ã‚ŠäºŒé‡å±±æ‹¬å¼§å¼•ç”¨è¨˜å·ã€çµ‚ã‚ã‚Šã‚®ãƒ¥ãƒ¡") },	//	187		
+	{ 0x2192,	("&rarr;"),		TEXT("&rarr;"),		TEXT("å³å‘çŸ¢å°") },	//	8594
+	{ 0x21D2,	("&rArr;"),		TEXT("&rArr;"),		TEXT("ãªã‚‰ã°ï¼ˆåˆæ„ï¼‰") },	//	8658
+	{ 0x2309,	("&rceil;"),	TEXT("&rceil;"),	TEXT("å³ä¸Šé™") },	//	8969		
+	{ 0x201D,	("&rdquo;"),	TEXT("&rdquo;"),	TEXT("å³ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦ï¼ˆçµ‚ï¼‰") },	//	8221		
+	{ 0x211C,	("&real;"),		TEXT("&real;"),		TEXT("å¤§æ–‡å­—ã®Rï¼ˆãƒ–ãƒ©ãƒƒã‚¯ä½“ï¼‰ã€å®Ÿæ•°éƒ¨") },	//	8476
+	{ 0x00AE,	("&reg;"),		TEXT("&reg;"),		TEXT("ç™»éŒ²å•†æ¨™è¨˜å·") },	//	174
+	{ 0x230B,	("&rfloor;"),	TEXT("&rfloor;"),	TEXT("å³ä¸‹é™") },	//	8971		
+	{ 0x03A1,	("&Rho;"),		TEXT("&Rho;"),		TEXT("å¤§æ–‡å­—ãƒ­ãƒ¼") },	//	929
+	{ 0x03C1,	("&rho;"),		TEXT("&rho;"),		TEXT("å°æ–‡å­—ãƒ­ãƒ¼") },	//	961
+	{ 0x200F,	("&rlm;"),		TEXT("&rlm;"),		TEXT("è¨˜è¿°æ–¹å‘åˆ¶å¾¡ï¼ˆå³ã‹ã‚‰å·¦ã¸ï¼‰") },	//	8207
+	{ 0x203A,	("&rsaquo;"),	TEXT("&rsaquo;"),	TEXT("å³å±±æ‹¬å¼§ï¼ˆçµ‚ï¼‰") },	//	8250		
+	{ 0x2019,	("&rsquo;"),	TEXT("&rsquo;"),	TEXT("å³ã‚·ãƒ³ã‚°ãƒ«å¼•ç”¨ç¬¦") },	//	8217		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtySierra[] = {
-	{ 0x201A,	("&sbquo;"),	TEXT("&sbquo;"),	TEXT("‰º•tˆø—p•„") },	//	8218		
-	{ 0x0160,	("&Scaron;"),	TEXT("&Scaron;"),	TEXT("ƒLƒƒƒƒ“•t‚«S") },	//	352		
-	{ 0x0161,	("&scaron;"),	TEXT("&scaron;"),	TEXT("ƒLƒƒƒƒ“•t‚«S¬•¶š") },	//	353		
-	{ 0x22C5,	("&sdot;"),		TEXT("&sdot;"),		TEXT("ƒhƒbƒg‰‰Zq") },	//	8901
-	{ 0x00A7,	("&sect;"),		TEXT("&sect;"),		TEXT("ß‹L†") },	//	167
-	{ 0x00AD,	("&shy;"),		TEXT("&shy;"),		TEXT("ƒ\ƒtƒgƒnƒCƒtƒ“") },	//	173
-	{ 0x03A3,	("&Sigma;"),	TEXT("&Sigma;"),	TEXT("‘å•¶šƒVƒOƒ}") },	//	931		
-	{ 0x03C3,	("&sigma;"),	TEXT("&sigma;"),	TEXT("¬•¶šƒVƒOƒ}") },	//	963		
-	{ 0x03C2,	("&sigmaf;"),	TEXT("&sigmaf;"),	TEXT("¬•¶šƒtƒ@ƒCƒiƒ‹EƒVƒOƒ}") },	//	962		
-	{ 0x223C,	("&sim;"),		TEXT("&sim;"),		TEXT("ƒ`ƒ‹ƒ_‰‰Zq") },	//	8764
-	{ 0x2660,	("&spades;"),	TEXT("&spades;"),	TEXT("ƒXƒy[ƒh") },	//	9824		
-	{ 0x2282,	("&sub;"),		TEXT("&sub;"),		TEXT("^•”•ªW‡") },	//	8834
-	{ 0x2286,	("&sube;"),		TEXT("&sube;"),		TEXT("•”•ªW‡") },	//	8838
-	{ 0x2211,	("&sum;"),		TEXT("&sum;"),		TEXT("n€‚Ì‰ÁZ") },	//	8721
-	{ 0x2283,	("&sup;"),		TEXT("&sup;"),		TEXT("^•”•ªW‡i‹t•ûŒüj") },	//	8835
-	{ 0x00B9,	("&sup1;"),		TEXT("&sup1;"),		TEXT("ã•t‚«1") },	//	185
-	{ 0x00B2,	("&sup2;"),		TEXT("&sup2;"),		TEXT("ã•t‚«2") },	//	178
-	{ 0x00B3,	("&sup3;"),		TEXT("&sup3;"),		TEXT("ã•t‚«3") },	//	179
-	{ 0x2287,	("&supe;"),		TEXT("&supe;"),		TEXT("•”•ªW‡i‹t•ûŒüj") },	//	8839
-	{ 0x00DF,	("&szlig;"),	TEXT("&szlig;"),	TEXT("ƒhƒCƒcŒêƒGƒXƒcƒFƒbƒg") },	//	223		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x201A,	("&sbquo;"),	TEXT("&sbquo;"),	TEXT("ä¸‹ä»˜å¼•ç”¨ç¬¦") },	//	8218		
+	{ 0x0160,	("&Scaron;"),	TEXT("&Scaron;"),	TEXT("ã‚­ãƒ£ãƒ­ãƒ³ä»˜ãS") },	//	352		
+	{ 0x0161,	("&scaron;"),	TEXT("&scaron;"),	TEXT("ã‚­ãƒ£ãƒ­ãƒ³ä»˜ãSå°æ–‡å­—") },	//	353		
+	{ 0x22C5,	("&sdot;"),		TEXT("&sdot;"),		TEXT("ãƒ‰ãƒƒãƒˆæ¼”ç®—å­") },	//	8901
+	{ 0x00A7,	("&sect;"),		TEXT("&sect;"),		TEXT("ç¯€è¨˜å·") },	//	167
+	{ 0x00AD,	("&shy;"),		TEXT("&shy;"),		TEXT("ã‚½ãƒ•ãƒˆãƒã‚¤ãƒ•ãƒ³") },	//	173
+	{ 0x03A3,	("&Sigma;"),	TEXT("&Sigma;"),	TEXT("å¤§æ–‡å­—ã‚·ã‚°ãƒ") },	//	931		
+	{ 0x03C3,	("&sigma;"),	TEXT("&sigma;"),	TEXT("å°æ–‡å­—ã‚·ã‚°ãƒ") },	//	963		
+	{ 0x03C2,	("&sigmaf;"),	TEXT("&sigmaf;"),	TEXT("å°æ–‡å­—ãƒ•ã‚¡ã‚¤ãƒŠãƒ«ãƒ»ã‚·ã‚°ãƒ") },	//	962		
+	{ 0x223C,	("&sim;"),		TEXT("&sim;"),		TEXT("ãƒãƒ«ãƒ€æ¼”ç®—å­") },	//	8764
+	{ 0x2660,	("&spades;"),	TEXT("&spades;"),	TEXT("ã‚¹ãƒšãƒ¼ãƒ‰") },	//	9824		
+	{ 0x2282,	("&sub;"),		TEXT("&sub;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆ") },	//	8834
+	{ 0x2286,	("&sube;"),		TEXT("&sube;"),		TEXT("éƒ¨åˆ†é›†åˆ") },	//	8838
+	{ 0x2211,	("&sum;"),		TEXT("&sum;"),		TEXT("né …ã®åŠ ç®—") },	//	8721
+	{ 0x2283,	("&sup;"),		TEXT("&sup;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆï¼ˆé€†æ–¹å‘ï¼‰") },	//	8835
+	{ 0x00B9,	("&sup1;"),		TEXT("&sup1;"),		TEXT("ä¸Šä»˜ã1") },	//	185
+	{ 0x00B2,	("&sup2;"),		TEXT("&sup2;"),		TEXT("ä¸Šä»˜ã2") },	//	178
+	{ 0x00B3,	("&sup3;"),		TEXT("&sup3;"),		TEXT("ä¸Šä»˜ã3") },	//	179
+	{ 0x2287,	("&supe;"),		TEXT("&supe;"),		TEXT("éƒ¨åˆ†é›†åˆï¼ˆé€†æ–¹å‘ï¼‰") },	//	8839
+	{ 0x00DF,	("&szlig;"),	TEXT("&szlig;"),	TEXT("ãƒ‰ã‚¤ãƒ„èªã‚¨ã‚¹ãƒ„ã‚§ãƒƒãƒˆ") },	//	223		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyTango[] = {
-	{ 0x03A4,	("&Tau;"),		TEXT("&Tau;"),		TEXT("‘å•¶šƒ^ƒE") },	//	932
-	{ 0x03C4,	("&tau;"),		TEXT("&tau;"),		TEXT("¬•¶šƒ^ƒE") },	//	964
-	{ 0x2234,	("&there4;"),	TEXT("&there4;"),	TEXT("‚ä‚¦‚É") },	//	8756		
-	{ 0x0398,	("&Theta;"),	TEXT("&Theta;"),	TEXT("‘å•¶šƒV[ƒ^") },	//	920		
-	{ 0x03B8,	("&theta;"),	TEXT("&theta;"),	TEXT("¬•¶šƒV[ƒ^") },	//	952		
-	{ 0x03D1,	("&thetasym;"),	TEXT("&thetasym;"),	TEXT("¬•¶šƒV[ƒ^EƒVƒ“ƒ{ƒ‹") },	//	977		
-	{ 0x2009,	("&thinsp;"),	TEXT("&thinsp;"),	TEXT("‚¹‚Ü‚¢‹ó”’") },	//	8201		
-	{ 0x00DE,	("&THORN;"),	TEXT("&THORN;"),	TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêTHORN") },	//	222		
-	{ 0x00FE,	("&thorn;"),	TEXT("&thorn;"),	TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêTHORN¬•¶š") },	//	254		
-	{ 0x02DC,	("&tilde;"),	TEXT("&tilde;"),	TEXT("¬ƒ`ƒ‹ƒ_") },	//	732		
-	{ 0x00D7,	("&times;"),	TEXT("&times;"),	TEXT("æZ‹L†") },	//	215		
-	{ 0x2122,	("&trade;"),	TEXT("&trade;"),	TEXT("“o˜^¤•W‹L†") },	//	8482		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x03A4,	("&Tau;"),		TEXT("&Tau;"),		TEXT("å¤§æ–‡å­—ã‚¿ã‚¦") },	//	932
+	{ 0x03C4,	("&tau;"),		TEXT("&tau;"),		TEXT("å°æ–‡å­—ã‚¿ã‚¦") },	//	964
+	{ 0x2234,	("&there4;"),	TEXT("&there4;"),	TEXT("ã‚†ãˆã«") },	//	8756		
+	{ 0x0398,	("&Theta;"),	TEXT("&Theta;"),	TEXT("å¤§æ–‡å­—ã‚·ãƒ¼ã‚¿") },	//	920		
+	{ 0x03B8,	("&theta;"),	TEXT("&theta;"),	TEXT("å°æ–‡å­—ã‚·ãƒ¼ã‚¿") },	//	952		
+	{ 0x03D1,	("&thetasym;"),	TEXT("&thetasym;"),	TEXT("å°æ–‡å­—ã‚·ãƒ¼ã‚¿ãƒ»ã‚·ãƒ³ãƒœãƒ«") },	//	977		
+	{ 0x2009,	("&thinsp;"),	TEXT("&thinsp;"),	TEXT("ã›ã¾ã„ç©ºç™½") },	//	8201		
+	{ 0x00DE,	("&THORN;"),	TEXT("&THORN;"),	TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªTHORN") },	//	222		
+	{ 0x00FE,	("&thorn;"),	TEXT("&thorn;"),	TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªTHORNå°æ–‡å­—") },	//	254		
+	{ 0x02DC,	("&tilde;"),	TEXT("&tilde;"),	TEXT("å°ãƒãƒ«ãƒ€") },	//	732		
+	{ 0x00D7,	("&times;"),	TEXT("&times;"),	TEXT("ä¹—ç®—è¨˜å·") },	//	215		
+	{ 0x2122,	("&trade;"),	TEXT("&trade;"),	TEXT("ç™»éŒ²å•†æ¨™è¨˜å·") },	//	8482		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyUniform[] = {
-	{ 0x00DA,	("&Uacute;"),	TEXT("&Uacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«U") },	//	218		
-	{ 0x00FA,	("&uacute;"),	TEXT("&uacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	250		
-	{ 0x2191,	("&uarr;"),		TEXT("&uarr;"),		TEXT("ãŒü–îˆó") },	//	8593
-	{ 0x21D1,	("&uArr;"),		TEXT("&uArr;"),		TEXT("ãŒü“ñd–îˆó") },	//	8657
-	{ 0x00DB,	("&Ucirc;"),	TEXT("&Ucirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«U") },	//	219		
-	{ 0x00FB,	("&ucirc;"),	TEXT("&ucirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	251		
-	{ 0x00D9,	("&Ugrave;"),	TEXT("&Ugrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«U") },	//	217		
-	{ 0x00F9,	("&ugrave;"),	TEXT("&ugrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	249		
-	{ 0x00A8,	("&uml;"),		TEXT("&uml;"),		TEXT("ƒEƒ€ƒ‰ƒEƒgAƒ_ƒCƒGƒŒƒVƒX") },	//	168
-	{ 0x03D2,	("&upsih;"),	TEXT("&upsih;"),	TEXT("ƒEƒvƒVƒƒ“iƒtƒbƒNEƒVƒ“ƒ{ƒ‹•t‚«j") },	//	978		
-	{ 0x03A5,	("&Upsilon;"),	TEXT("&Upsilon;"),	TEXT("‘å•¶šƒEƒvƒVƒƒ“") },	//	933		
-	{ 0x03C5,	("&upsilon;"),	TEXT("&upsilon;"),	TEXT("¬•¶šƒEƒvƒVƒƒ“") },	//	965		
-	{ 0x00DC,	("&Uuml;"),		TEXT("&Uuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«U") },	//	220
-	{ 0x00FC,	("&uuml;"),		TEXT("&uuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«U¬•¶š") },	//	252
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00DA,	("&Uacute;"),	TEXT("&Uacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	218		
+	{ 0x00FA,	("&uacute;"),	TEXT("&uacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	250		
+	{ 0x2191,	("&uarr;"),		TEXT("&uarr;"),		TEXT("ä¸Šå‘çŸ¢å°") },	//	8593
+	{ 0x21D1,	("&uArr;"),		TEXT("&uArr;"),		TEXT("ä¸Šå‘äºŒé‡çŸ¢å°") },	//	8657
+	{ 0x00DB,	("&Ucirc;"),	TEXT("&Ucirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	219		
+	{ 0x00FB,	("&ucirc;"),	TEXT("&ucirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	251		
+	{ 0x00D9,	("&Ugrave;"),	TEXT("&Ugrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	217		
+	{ 0x00F9,	("&ugrave;"),	TEXT("&ugrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	249		
+	{ 0x00A8,	("&uml;"),		TEXT("&uml;"),		TEXT("ã‚¦ãƒ ãƒ©ã‚¦ãƒˆã€ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹") },	//	168
+	{ 0x03D2,	("&upsih;"),	TEXT("&upsih;"),	TEXT("ã‚¦ãƒ—ã‚·ãƒ­ãƒ³ï¼ˆãƒ•ãƒƒã‚¯ãƒ»ã‚·ãƒ³ãƒœãƒ«ä»˜ãï¼‰") },	//	978		
+	{ 0x03A5,	("&Upsilon;"),	TEXT("&Upsilon;"),	TEXT("å¤§æ–‡å­—ã‚¦ãƒ—ã‚·ãƒ­ãƒ³") },	//	933		
+	{ 0x03C5,	("&upsilon;"),	TEXT("&upsilon;"),	TEXT("å°æ–‡å­—ã‚¦ãƒ—ã‚·ãƒ­ãƒ³") },	//	965		
+	{ 0x00DC,	("&Uuml;"),		TEXT("&Uuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãU") },	//	220
+	{ 0x00FC,	("&uuml;"),		TEXT("&uuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãUå°æ–‡å­—") },	//	252
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyVictor[] = {
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyWhiskey[] = {
-	{ 0x2118,	("&weierp;"),	TEXT("&weierp;"),	TEXT("‘å•¶š‚ÌPiƒXƒNƒŠƒvƒg‘ÌjAWeierstrass‚ÌPŠÖ”") },	//	8472		
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x2118,	("&weierp;"),	TEXT("&weierp;"),	TEXT("å¤§æ–‡å­—ã®Pï¼ˆã‚¹ã‚¯ãƒªãƒ—ãƒˆä½“ï¼‰ã€Weierstrassã®Pé–¢æ•°") },	//	8472		
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyXray[] = {
-	{ 0x039E,	("&Xi;"),		TEXT("&Xi;"),		TEXT("‘å•¶šƒOƒUƒC") },	//	926
-	{ 0x03BE,	("&xi;"),		TEXT("&xi;"),		TEXT("¬•¶šƒOƒUƒC") },	//	958
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x039E,	("&Xi;"),		TEXT("&Xi;"),		TEXT("å¤§æ–‡å­—ã‚°ã‚¶ã‚¤") },	//	926
+	{ 0x03BE,	("&xi;"),		TEXT("&xi;"),		TEXT("å°æ–‡å­—ã‚°ã‚¶ã‚¤") },	//	958
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyYankee[] = {
-	{ 0x00DD,	("&Yacute;"),	TEXT("&Yacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«Y") },	//	221		
-	{ 0x00FD,	("&yacute;"),	TEXT("&yacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«Y¬•¶š") },	//	253		
-	{ 0x00A5,	("&yen;"),		TEXT("&yen;"),		TEXT("‰~‹L†") },	//	165
-	{ 0x00FF,	("&yuml;"),		TEXT("&yuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«Y¬•¶š") },	//	255
-	{ 0x0178,	("&Yuml;"),		TEXT("&Yuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«Y") },	//	376
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x00DD,	("&Yacute;"),	TEXT("&Yacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãY") },	//	221		
+	{ 0x00FD,	("&yacute;"),	TEXT("&yacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãYå°æ–‡å­—") },	//	253		
+	{ 0x00A5,	("&yen;"),		TEXT("&yen;"),		TEXT("å††è¨˜å·") },	//	165
+	{ 0x00FF,	("&yuml;"),		TEXT("&yuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãYå°æ–‡å­—") },	//	255
+	{ 0x0178,	("&Yuml;"),		TEXT("&Yuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãY") },	//	376
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	gstEtyZulu[] = {
-	{ 0x0396,	("&Zeta;"),		TEXT("&Zeta;"),		TEXT("‘å•¶šƒ[[ƒ^") },	//	918
-	{ 0x03B6,	("&zeta;"),		TEXT("&zeta;"),		TEXT("¬•¶šƒ[[ƒ^") },	//	950
-	{ 0x200D,	("&zwj;"),		TEXT("&zwj;"),		TEXT("•‚È‚µÚ‘±q") },	//	8205
-	{ 0x200C,	("&zwnj;"),		TEXT("&zwnj;"),		TEXT("•‚È‚µ”ñÚ‘±q") },	//	8204
-	{ 0x0000,	(" "),			TEXT(" "),			TEXT("––’[ƒ_ƒ~[") }
+	{ 0x0396,	("&Zeta;"),		TEXT("&Zeta;"),		TEXT("å¤§æ–‡å­—ã‚¼ãƒ¼ã‚¿") },	//	918
+	{ 0x03B6,	("&zeta;"),		TEXT("&zeta;"),		TEXT("å°æ–‡å­—ã‚¼ãƒ¼ã‚¿") },	//	950
+	{ 0x200D,	("&zwj;"),		TEXT("&zwj;"),		TEXT("å¹…ãªã—æ¥ç¶šå­") },	//	8205
+	{ 0x200C,	("&zwnj;"),		TEXT("&zwnj;"),		TEXT("å¹…ãªã—éæ¥ç¶šå­") },	//	8204
+	{ 0x0000,	(" "),			TEXT(" "),			TEXT("æœ«ç«¯ãƒ€ãƒŸãƒ¼") }
 };
 
 CONST ENTITYLIST	*gpstEntitys[] = { gstEtyAlpha, gstEtyBravo,
@@ -397,254 +397,254 @@ CONST ENTITYLIST	*gpstEntitys[] = { gstEtyAlpha, gstEtyBravo,
 
 /*
 
-	{ 0x00A0,	("&nbsp;"),		TEXT("&nbsp;"),		TEXT("ƒm[ƒuƒŒ[ƒNƒXƒy[ƒX") },	//	160
-	{ 0x00A1,	("&iexcl;"),	TEXT("&iexcl;"),	TEXT("‹tŠ´’Q•„") },	//	161
-	{ 0x00A2,	("&cent;"),		TEXT("&cent;"),		TEXT("ƒZƒ“ƒg‹L†") },	//	162
-	{ 0x00A3,	("&pound;"),	TEXT("&pound;"),	TEXT("ƒ|ƒ“ƒh‹L†") },	//	163
-	{ 0x00A4,	("&curren;"),	TEXT("&curren;"),	TEXT("•s“Á’è’Ê‰İ‹L†") },	//	164
-	{ 0x00A5,	("&yen;"),		TEXT("&yen;"),		TEXT("‰~‹L†") },	//	165
-	{ 0x00A6,	("&brvbar;"),	TEXT("&brvbar;"),	TEXT("”j’fü") },	//	166
-	{ 0x00A7,	("&sect;"),		TEXT("&sect;"),		TEXT("ß‹L†") },	//	167
-	{ 0x00A8,	("&uml;"),		TEXT("&uml;"),		TEXT("ƒEƒ€ƒ‰ƒEƒgAƒ_ƒCƒGƒŒƒVƒX") },	//	168
-	{ 0x00A9,	("&copy;"),		TEXT("&copy;"),		TEXT("’˜ìŒ •\¦‹L†") },	//	169
-	{ 0x00AA,	("&ordf;"),		TEXT("&ordf;"),		TEXT("—«˜”•W¯") },	//	170
-	{ 0x00AB,	("&laquo;"),	TEXT("&laquo;"),	TEXT("n‚ß“ñdRŠ‡ŒÊˆø—p‹L†An‚ßƒMƒ…ƒ") },	//	171
-	{ 0x00AC,	("&not;"),		TEXT("&not;"),		TEXT("”Û’è‹L†") },	//	172
-	{ 0x00AD,	("&shy;"),		TEXT("&shy;"),		TEXT("ƒ\ƒtƒgƒnƒCƒtƒ“") },	//	173
-	{ 0x00AE,	("&reg;"),		TEXT("&reg;"),		TEXT("“o˜^¤•W‹L†") },	//	174
-	{ 0x00AF,	("&macr;"),		TEXT("&macr;"),		TEXT("ƒ}ƒNƒƒ“") },	//	175
-	{ 0x00B0,	("&deg;"),		TEXT("&deg;"),		TEXT("“x") },	//	176
-	{ 0x00B1,	("&plusmn;"),	TEXT("&plusmn;"),	TEXT("³–”‚Í•‰•„†") },	//	177
-	{ 0x00B2,	("&sup2;"),		TEXT("&sup2;"),		TEXT("ã•t‚«2") },	//	178
-	{ 0x00B3,	("&sup3;"),		TEXT("&sup3;"),		TEXT("ã•t‚«3") },	//	179
-	{ 0x00B4,	("&acute;"),	TEXT("&acute;"),	TEXT("ƒAƒNƒTƒ“ƒeƒMƒ…") },	//	180
-	{ 0x00B5,	("&micro;"),	TEXT("&micro;"),	TEXT("ƒ}ƒCƒNƒ‹L†") },	//	181
-	{ 0x00B6,	("&para;"),		TEXT("&para;"),		TEXT("’i—‹L†") },	//	182
-	{ 0x00B7,	("&middot;"),	TEXT("&middot;"),	TEXT("’†“_iƒ‰ƒeƒ“j") },	//	183
-	{ 0x00B8,	("&cedil;"),	TEXT("&cedil;"),	TEXT("ƒZƒfƒBƒ‰") },	//	184
-	{ 0x00B9,	("&sup1;"),		TEXT("&sup1;"),		TEXT("ã•t‚«1") },	//	185
-	{ 0x00BA,	("&ordm;"),		TEXT("&ordm;"),		TEXT("’j«˜”•W¯") },	//	186
-	{ 0x00BB,	("&raquo;"),	TEXT("&raquo;"),	TEXT("I‚í‚è“ñdRŠ‡ŒÊˆø—p‹L†AI‚í‚èƒMƒ…ƒ") },	//	187
-	{ 0x00BC,	("&frac14;"),	TEXT("&frac14;"),	TEXT("4•ª‚Ì1") },	//	188
-	{ 0x00BD,	("&frac12;"),	TEXT("&frac12;"),	TEXT("2•ª‚Ì1") },	//	189
-	{ 0x00BE,	("&frac34;"),	TEXT("&frac34;"),	TEXT("4•ª‚Ì3") },	//	190
-	{ 0x00BF,	("&iquest;"),	TEXT("&iquest;"),	TEXT("‹t‹^–â•„") },	//	191
-	{ 0x00C0,	("&Agrave;"),	TEXT("&Agrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«A") },	//	192
-	{ 0x00C1,	("&Aacute;"),	TEXT("&Aacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«A") },	//	193
-	{ 0x00C2,	("&Acirc;"),	TEXT("&Acirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«A") },	//	194
-	{ 0x00C3,	("&Atilde;"),	TEXT("&Atilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«A") },	//	195
-	{ 0x00C4,	("&Auml;"),		TEXT("&Auml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«A") },	//	196
-	{ 0x00C5,	("&Aring;"),	TEXT("&Aring;"),	TEXT("ãƒŠƒ“ƒO•t‚«A") },	//	197
+	{ 0x00A0,	("&nbsp;"),		TEXT("&nbsp;"),		TEXT("ãƒãƒ¼ãƒ–ãƒ¬ãƒ¼ã‚¯ã‚¹ãƒšãƒ¼ã‚¹") },	//	160
+	{ 0x00A1,	("&iexcl;"),	TEXT("&iexcl;"),	TEXT("é€†æ„Ÿå˜†ç¬¦") },	//	161
+	{ 0x00A2,	("&cent;"),		TEXT("&cent;"),		TEXT("ã‚»ãƒ³ãƒˆè¨˜å·") },	//	162
+	{ 0x00A3,	("&pound;"),	TEXT("&pound;"),	TEXT("ãƒãƒ³ãƒ‰è¨˜å·") },	//	163
+	{ 0x00A4,	("&curren;"),	TEXT("&curren;"),	TEXT("ä¸ç‰¹å®šé€šè²¨è¨˜å·") },	//	164
+	{ 0x00A5,	("&yen;"),		TEXT("&yen;"),		TEXT("å††è¨˜å·") },	//	165
+	{ 0x00A6,	("&brvbar;"),	TEXT("&brvbar;"),	TEXT("ç ´æ–­ç·š") },	//	166
+	{ 0x00A7,	("&sect;"),		TEXT("&sect;"),		TEXT("ç¯€è¨˜å·") },	//	167
+	{ 0x00A8,	("&uml;"),		TEXT("&uml;"),		TEXT("ã‚¦ãƒ ãƒ©ã‚¦ãƒˆã€ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹") },	//	168
+	{ 0x00A9,	("&copy;"),		TEXT("&copy;"),		TEXT("è‘—ä½œæ¨©è¡¨ç¤ºè¨˜å·") },	//	169
+	{ 0x00AA,	("&ordf;"),		TEXT("&ordf;"),		TEXT("å¥³æ€§åºæ•°æ¨™è­˜") },	//	170
+	{ 0x00AB,	("&laquo;"),	TEXT("&laquo;"),	TEXT("å§‹ã‚äºŒé‡å±±æ‹¬å¼§å¼•ç”¨è¨˜å·ã€å§‹ã‚ã‚®ãƒ¥ãƒ¡") },	//	171
+	{ 0x00AC,	("&not;"),		TEXT("&not;"),		TEXT("å¦å®šè¨˜å·") },	//	172
+	{ 0x00AD,	("&shy;"),		TEXT("&shy;"),		TEXT("ã‚½ãƒ•ãƒˆãƒã‚¤ãƒ•ãƒ³") },	//	173
+	{ 0x00AE,	("&reg;"),		TEXT("&reg;"),		TEXT("ç™»éŒ²å•†æ¨™è¨˜å·") },	//	174
+	{ 0x00AF,	("&macr;"),		TEXT("&macr;"),		TEXT("ãƒã‚¯ãƒ­ãƒ³") },	//	175
+	{ 0x00B0,	("&deg;"),		TEXT("&deg;"),		TEXT("åº¦") },	//	176
+	{ 0x00B1,	("&plusmn;"),	TEXT("&plusmn;"),	TEXT("æ­£åˆã¯è² ç¬¦å·") },	//	177
+	{ 0x00B2,	("&sup2;"),		TEXT("&sup2;"),		TEXT("ä¸Šä»˜ã2") },	//	178
+	{ 0x00B3,	("&sup3;"),		TEXT("&sup3;"),		TEXT("ä¸Šä»˜ã3") },	//	179
+	{ 0x00B4,	("&acute;"),	TEXT("&acute;"),	TEXT("ã‚¢ã‚¯ã‚µãƒ³ãƒ†ã‚®ãƒ¥") },	//	180
+	{ 0x00B5,	("&micro;"),	TEXT("&micro;"),	TEXT("ãƒã‚¤ã‚¯ãƒ­è¨˜å·") },	//	181
+	{ 0x00B6,	("&para;"),		TEXT("&para;"),		TEXT("æ®µè½è¨˜å·") },	//	182
+	{ 0x00B7,	("&middot;"),	TEXT("&middot;"),	TEXT("ä¸­ç‚¹ï¼ˆãƒ©ãƒ†ãƒ³ï¼‰") },	//	183
+	{ 0x00B8,	("&cedil;"),	TEXT("&cedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©") },	//	184
+	{ 0x00B9,	("&sup1;"),		TEXT("&sup1;"),		TEXT("ä¸Šä»˜ã1") },	//	185
+	{ 0x00BA,	("&ordm;"),		TEXT("&ordm;"),		TEXT("ç”·æ€§åºæ•°æ¨™è­˜") },	//	186
+	{ 0x00BB,	("&raquo;"),	TEXT("&raquo;"),	TEXT("çµ‚ã‚ã‚ŠäºŒé‡å±±æ‹¬å¼§å¼•ç”¨è¨˜å·ã€çµ‚ã‚ã‚Šã‚®ãƒ¥ãƒ¡") },	//	187
+	{ 0x00BC,	("&frac14;"),	TEXT("&frac14;"),	TEXT("4åˆ†ã®1") },	//	188
+	{ 0x00BD,	("&frac12;"),	TEXT("&frac12;"),	TEXT("2åˆ†ã®1") },	//	189
+	{ 0x00BE,	("&frac34;"),	TEXT("&frac34;"),	TEXT("4åˆ†ã®3") },	//	190
+	{ 0x00BF,	("&iquest;"),	TEXT("&iquest;"),	TEXT("é€†ç–‘å•ç¬¦") },	//	191
+	{ 0x00C0,	("&Agrave;"),	TEXT("&Agrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	192
+	{ 0x00C1,	("&Aacute;"),	TEXT("&Aacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	193
+	{ 0x00C2,	("&Acirc;"),	TEXT("&Acirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãA") },	//	194
+	{ 0x00C3,	("&Atilde;"),	TEXT("&Atilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãA") },	//	195
+	{ 0x00C4,	("&Auml;"),		TEXT("&Auml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãA") },	//	196
+	{ 0x00C5,	("&Aring;"),	TEXT("&Aring;"),	TEXT("ä¸Šãƒªãƒ³ã‚°ä»˜ãA") },	//	197
 	{ 0x00C6,	("&AElig;"),	TEXT("&AElig;"),	TEXT("AE") },	//	198
-	{ 0x00C7,	("&Ccedil;"),	TEXT("&Ccedil;"),	TEXT("ƒZƒfƒBƒ‰•t‚«C") },	//	199
-	{ 0x00C8,	("&Egrave;"),	TEXT("&Egrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«E") },	//	200
-	{ 0x00C9,	("&Eacute;"),	TEXT("&Eacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«E") },	//	201
-	{ 0x00CA,	("&Ecirc;"),	TEXT("&Ecirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«E") },	//	202
-	{ 0x00CB,	("&Euml;"),		TEXT("&Euml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«E") },	//	203
-	{ 0x00CC,	("&Igrave;"),	TEXT("&Igrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«I") },	//	204
-	{ 0x00CD,	("&Iacute;"),	TEXT("&Iacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«I") },	//	205
-	{ 0x00CE,	("&Icirc;"),	TEXT("&Icirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«I") },	//	206
-	{ 0x00CF,	("&Iuml;"),		TEXT("&Iuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«I") },	//	207
-	{ 0x00D0,	("&ETH;"),		TEXT("&ETH;"),		TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêETH") },	//	208
-	{ 0x00D1,	("&Ntilde;"),	TEXT("&Ntilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«N") },	//	209
-	{ 0x00D2,	("&Ograve;"),	TEXT("&Ograve;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«O") },	//	210
-	{ 0x00D3,	("&Oacute;"),	TEXT("&Oacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«O") },	//	211
-	{ 0x00D4,	("&Ocirc;"),	TEXT("&Ocirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«O") },	//	212
-	{ 0x00D5,	("&Otilde;"),	TEXT("&Otilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«O") },	//	213
-	{ 0x00D6,	("&Ouml;"),		TEXT("&Ouml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«O") },	//	214
-	{ 0x00D7,	("&times;"),	TEXT("&times;"),	TEXT("æZ‹L†") },	//	215
-	{ 0x00D8,	("&Oslash;"),	TEXT("&Oslash;"),	TEXT("ƒXƒgƒ[ƒN•t‚«O") },	//	216
-	{ 0x00D9,	("&Ugrave;"),	TEXT("&Ugrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«U") },	//	217
-	{ 0x00DA,	("&Uacute;"),	TEXT("&Uacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«U") },	//	218
-	{ 0x00DB,	("&Ucirc;"),	TEXT("&Ucirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«U") },	//	219
-	{ 0x00DC,	("&Uuml;"),		TEXT("&Uuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«U") },	//	220
-	{ 0x00DD,	("&Yacute;"),	TEXT("&Yacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«Y") },	//	221
-	{ 0x00DE,	("&THORN;"),	TEXT("&THORN;"),	TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêTHORN") },	//	222
-	{ 0x00DF,	("&szlig;"),	TEXT("&szlig;"),	TEXT("ƒhƒCƒcŒêƒGƒXƒcƒFƒbƒg") },	//	223
-	{ 0x00E0,	("&agrave;"),	TEXT("&agrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	224
-	{ 0x00E1,	("&aacute;"),	TEXT("&aacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	225
-	{ 0x00E2,	("&acirc;"),	TEXT("&acirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«A¬•¶š") },	//	226
-	{ 0x00E3,	("&atilde;"),	TEXT("&atilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«A¬•¶š") },	//	227
-	{ 0x00E4,	("&auml;"),		TEXT("&auml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«A¬•¶š") },	//	228
-	{ 0x00E5,	("&aring;"),	TEXT("&aring;"),	TEXT("ãƒŠƒ“ƒO•t‚«A¬•¶š") },	//	229
-	{ 0x00E6,	("&aelig;"),	TEXT("&aelig;"),	TEXT("AE¬•¶š") },	//	230
-	{ 0x00E7,	("&ccedil;"),	TEXT("&ccedil;"),	TEXT("ƒZƒfƒBƒ‰•t‚«C¬•¶š") },	//	231
-	{ 0x00E8,	("&egrave;"),	TEXT("&egrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	232
-	{ 0x00E9,	("&eacute;"),	TEXT("&eacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	233
-	{ 0x00EA,	("&ecirc;"),	TEXT("&ecirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«E¬•¶š") },	//	234
-	{ 0x00EB,	("&euml;"),		TEXT("&euml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«E¬•¶š") },	//	235
-	{ 0x00EC,	("&igrave;"),	TEXT("&igrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	236
-	{ 0x00ED,	("&iacute;"),	TEXT("&iacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	237
-	{ 0x00EE,	("&icirc;"),	TEXT("&icirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«I¬•¶š") },	//	238
-	{ 0x00EF,	("&iuml;"),		TEXT("&iuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«I¬•¶š") },	//	239
-	{ 0x00F0,	("&eth;"),		TEXT("&eth;"),		TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêETH¬•¶š") },	//	240
-	{ 0x00F1,	("&ntilde;"),	TEXT("&ntilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«N¬•¶š") },	//	241
-	{ 0x00F2,	("&ograve;"),	TEXT("&ograve;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	242
-	{ 0x00F3,	("&oacute;"),	TEXT("&oacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	243
-	{ 0x00F4,	("&ocirc;"),	TEXT("&ocirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«O¬•¶š") },	//	244
-	{ 0x00F5,	("&otilde;"),	TEXT("&otilde;"),	TEXT("ƒ`ƒ‹ƒh•t‚«O¬•¶š") },	//	245
-	{ 0x00F6,	("&ouml;"),		TEXT("&ouml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«O¬•¶š") },	//	246
-	{ 0x00F7,	("&divide;"),	TEXT("&divide;"),	TEXT("œZ‹L†") },	//	247
-	{ 0x00F8,	("&oslash;"),	TEXT("&oslash;"),	TEXT("ƒXƒgƒ[ƒN•t‚«O¬•¶š") },	//	248
-	{ 0x00F9,	("&ugrave;"),	TEXT("&ugrave;"),	TEXT("ƒOƒŒ[ƒuƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	249
-	{ 0x00FA,	("&uacute;"),	TEXT("&uacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	250
-	{ 0x00FB,	("&ucirc;"),	TEXT("&ucirc;"),	TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒXƒAƒNƒZƒ“ƒg•t‚«U¬•¶š") },	//	251
-	{ 0x00FC,	("&uuml;"),		TEXT("&uuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«U¬•¶š") },	//	252
-	{ 0x00FD,	("&yacute;"),	TEXT("&yacute;"),	TEXT("ƒAƒLƒ…[ƒgƒAƒNƒZƒ“ƒg•t‚«Y¬•¶š") },	//	253
-	{ 0x00FE,	("&thorn;"),	TEXT("&thorn;"),	TEXT("ƒAƒCƒXƒ‰ƒ“ƒhŒêTHORN¬•¶š") },	//	254
-	{ 0x00FF,	("&yuml;"),		TEXT("&yuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«Y¬•¶š") },	//	255
-	{ 0x0152,	("&OElig;"),	TEXT("&OElig;"),	TEXT("ƒŠƒKƒ`ƒƒOE‘å•¶šA‰~O‘OãL•ê‰¹") },	//	338
-	{ 0x0153,	("&oelig;"),	TEXT("&oelig;"),	TEXT("ƒŠƒKƒ`ƒƒOE¬•¶šA‰~O‘OãLE’†’i•ê‰¹") },	//	339
-	{ 0x0160,	("&Scaron;"),	TEXT("&Scaron;"),	TEXT("ƒLƒƒƒƒ“•t‚«S") },	//	352
-	{ 0x0161,	("&scaron;"),	TEXT("&scaron;"),	TEXT("ƒLƒƒƒƒ“•t‚«S¬•¶š") },	//	353
-	{ 0x0178,	("&Yuml;"),		TEXT("&Yuml;"),		TEXT("ƒ_ƒCƒGƒŒƒVƒX•t‚«Y") },	//	376
-	{ 0x0192,	("&fnof;"),		TEXT("&fnof;"),		TEXT("¬•¶šfiƒtƒbƒN•t‚«jAŠÖ”") },	//	402
-	{ 0x02C6,	("&circ;"),		TEXT("&circ;"),		TEXT("ƒT[ƒJƒ€ƒtƒŒƒbƒNƒX") },	//	710
-	{ 0x02DC,	("&tilde;"),	TEXT("&tilde;"),	TEXT("¬ƒ`ƒ‹ƒ_") },	//	732
-	{ 0x0391,	("&Alpha;"),	TEXT("&Alpha;"),	TEXT("‘å•¶šƒAƒ‹ƒtƒ@") },	//	913
-	{ 0x0392,	("&Beta;"),		TEXT("&Beta;"),		TEXT("‘å•¶šƒx[ƒ^") },	//	914
-	{ 0x0393,	("&Gamma;"),	TEXT("&Gamma;"),	TEXT("‘å•¶šƒKƒ“ƒ}") },	//	915
-	{ 0x0394,	("&Delta;"),	TEXT("&Delta;"),	TEXT("‘å•¶šƒfƒ‹ƒ^") },	//	916
-	{ 0x0395,	("&Epsilon;"),	TEXT("&Epsilon;"),	TEXT("‘å•¶šƒCƒvƒVƒƒ“") },	//	917
-	{ 0x0396,	("&Zeta;"),		TEXT("&Zeta;"),		TEXT("‘å•¶šƒ[[ƒ^") },	//	918
-	{ 0x0397,	("&Eta;"),		TEXT("&Eta;"),		TEXT("‘å•¶šƒG[ƒ^") },	//	919
-	{ 0x0398,	("&Theta;"),	TEXT("&Theta;"),	TEXT("‘å•¶šƒV[ƒ^") },	//	920
-	{ 0x0399,	("&Iota;"),		TEXT("&Iota;"),		TEXT("‘å•¶šƒCƒIƒ^") },	//	921
-	{ 0x039A,	("&Kappa;"),	TEXT("&Kappa;"),	TEXT("‘å•¶šƒJƒbƒp") },	//	922
-	{ 0x039B,	("&Lambda;"),	TEXT("&Lambda;"),	TEXT("‘å•¶šƒ‰ƒ€ƒ_") },	//	923
-	{ 0x039C,	("&Mu;"),		TEXT("&Mu;"),		TEXT("‘å•¶šƒ~ƒ…[") },	//	924
-	{ 0x039D,	("&Nu;"),		TEXT("&Nu;"),		TEXT("‘å•¶šƒjƒ…[") },	//	925
-	{ 0x039E,	("&Xi;"),		TEXT("&Xi;"),		TEXT("‘å•¶šƒOƒUƒC") },	//	926
-	{ 0x039F,	("&Omicron;"),	TEXT("&Omicron;"),	TEXT("‘å•¶šƒIƒ~ƒNƒƒ“") },	//	927
-	{ 0x03A0,	("&Pi;"),		TEXT("&Pi;"),		TEXT("‘å•¶šƒpƒC") },	//	928
-	{ 0x03A1,	("&Rho;"),		TEXT("&Rho;"),		TEXT("‘å•¶šƒ[") },	//	929
-	{ 0x03A3,	("&Sigma;"),	TEXT("&Sigma;"),	TEXT("‘å•¶šƒVƒOƒ}") },	//	931
-	{ 0x03A4,	("&Tau;"),		TEXT("&Tau;"),		TEXT("‘å•¶šƒ^ƒE") },	//	932
-	{ 0x03A5,	("&Upsilon;"),	TEXT("&Upsilon;"),	TEXT("‘å•¶šƒEƒvƒVƒƒ“") },	//	933
-	{ 0x03A6,	("&Phi;"),		TEXT("&Phi;"),		TEXT("‘å•¶šƒtƒ@ƒC") },	//	934
-	{ 0x03A7,	("&Chi;"),		TEXT("&Chi;"),		TEXT("‘å•¶šƒJƒC") },	//	935
-	{ 0x03A8,	("&Psi;"),		TEXT("&Psi;"),		TEXT("‘å•¶šƒvƒTƒC") },	//	936
-	{ 0x03A9,	("&Omega;"),	TEXT("&Omega;"),	TEXT("‘å•¶šƒIƒƒK") },	//	937
-	{ 0x03B1,	("&alpha;"),	TEXT("&alpha;"),	TEXT("¬•¶šƒAƒ‹ƒtƒ@") },	//	945
-	{ 0x03B2,	("&beta;"),		TEXT("&beta;"),		TEXT("¬•¶šƒx[ƒ^") },	//	946
-	{ 0x03B3,	("&gamma;"),	TEXT("&gamma;"),	TEXT("¬•¶šƒKƒ“ƒ}") },	//	947
-	{ 0x03B4,	("&delta;"),	TEXT("&delta;"),	TEXT("¬•¶šƒfƒ‹ƒ^") },	//	948
-	{ 0x03B5,	("&epsilon;"),	TEXT("&epsilon;"),	TEXT("¬•¶šƒCƒvƒVƒƒ“") },	//	949
-	{ 0x03B6,	("&zeta;"),		TEXT("&zeta;"),		TEXT("¬•¶šƒ[[ƒ^") },	//	950
-	{ 0x03B7,	("&eta;"),		TEXT("&eta;"),		TEXT("¬•¶šƒG[ƒ^") },	//	951
-	{ 0x03B8,	("&theta;"),	TEXT("&theta;"),	TEXT("¬•¶šƒV[ƒ^") },	//	952
-	{ 0x03B9,	("&iota;"),		TEXT("&iota;"),		TEXT("¬•¶šƒCƒIƒ^") },	//	953
-	{ 0x03BA,	("&kappa;"),	TEXT("&kappa;"),	TEXT("¬•¶šƒJƒbƒp") },	//	954
-	{ 0x03BB,	("&lambda;"),	TEXT("&lambda;"),	TEXT("¬•¶šƒ‰ƒ€ƒ_") },	//	955
-	{ 0x03BC,	("&mu;"),		TEXT("&mu;"),		TEXT("¬•¶šƒ~ƒ…[") },	//	956
-	{ 0x03BD,	("&nu;"),		TEXT("&nu;"),		TEXT("¬•¶šƒjƒ…[") },	//	957
-	{ 0x03BE,	("&xi;"),		TEXT("&xi;"),		TEXT("¬•¶šƒOƒUƒC") },	//	958
-	{ 0x03BF,	("&omicron;"),	TEXT("&omicron;"),	TEXT("¬•¶šƒIƒ~ƒNƒƒ“") },	//	959
-	{ 0x03C0,	("&pi;"),		TEXT("&pi;"),		TEXT("¬•¶šƒpƒC") },	//	960
-	{ 0x03C1,	("&rho;"),		TEXT("&rho;"),		TEXT("¬•¶šƒ[") },	//	961
-	{ 0x03C2,	("&sigmaf;"),	TEXT("&sigmaf;"),	TEXT("¬•¶šƒtƒ@ƒCƒiƒ‹EƒVƒOƒ}") },	//	962
-	{ 0x03C3,	("&sigma;"),	TEXT("&sigma;"),	TEXT("¬•¶šƒVƒOƒ}") },	//	963
-	{ 0x03C4,	("&tau;"),		TEXT("&tau;"),		TEXT("¬•¶šƒ^ƒE") },	//	964
-	{ 0x03C5,	("&upsilon;"),	TEXT("&upsilon;"),	TEXT("¬•¶šƒEƒvƒVƒƒ“") },	//	965
-	{ 0x03C6,	("&phi;"),		TEXT("&phi;"),		TEXT("¬•¶šƒtƒ@ƒC") },	//	966
-	{ 0x03C7,	("&chi;"),		TEXT("&chi;"),		TEXT("¬•¶šƒJƒC") },	//	967
-	{ 0x03C8,	("&psi;"),		TEXT("&psi;"),		TEXT("¬•¶šƒvƒTƒC") },	//	968
-	{ 0x03C9,	("&omega;"),	TEXT("&omega;"),	TEXT("¬•¶šƒIƒƒK") },	//	969
-	{ 0x03D1,	("&thetasym;"),	TEXT("&thetasym;"),	TEXT("¬•¶šƒV[ƒ^EƒVƒ“ƒ{ƒ‹") },	//	977
-	{ 0x03D2,	("&upsih;"),	TEXT("&upsih;"),	TEXT("ƒEƒvƒVƒƒ“iƒtƒbƒNEƒVƒ“ƒ{ƒ‹•t‚«j") },	//	978
-	{ 0x03D6,	("&piv;"),		TEXT("&piv;"),		TEXT("ƒpƒCEƒVƒ“ƒ{ƒ‹") },	//	982
-	{ 0x2002,	("&ensp;"),		TEXT("&ensp;"),		TEXT("nš•‚Ì‹ó”’i”¼Šp‹ó”’j") },	//	8194
-	{ 0x2003,	("&emsp;"),		TEXT("&emsp;"),		TEXT("mš•‚Ì‹ó”’i‘SŠp‹ó”’j") },	//	8195
-	{ 0x2009,	("&thinsp;"),	TEXT("&thinsp;"),	TEXT("‚¹‚Ü‚¢‹ó”’") },	//	8201
-	{ 0x200C,	("&zwnj;"),		TEXT("&zwnj;"),		TEXT("•‚È‚µ”ñÚ‘±q") },	//	8204
-	{ 0x200D,	("&zwj;"),		TEXT("&zwj;"),		TEXT("•‚È‚µÚ‘±q") },	//	8205
-	{ 0x200E,	("&lrm;"),		TEXT("&lrm;"),		TEXT("‹Lq•ûŒü§Œäi¶‚©‚ç‰E‚Öj") },	//	8206
-	{ 0x200F,	("&rlm;"),		TEXT("&rlm;"),		TEXT("‹Lq•ûŒü§Œäi‰E‚©‚ç¶‚Öj") },	//	8207
-	{ 0x2013,	("&ndash;"),	TEXT("&ndash;"),	TEXT("nš•‚Ìƒ_ƒbƒVƒ…i”¼Špƒ_ƒbƒVƒ…j") },	//	8211
-	{ 0x2014,	("&mdash;"),	TEXT("&mdash;"),	TEXT("mš•‚Ìƒ_ƒbƒVƒ…i‘SŠpƒ_ƒbƒVƒ…j") },	//	8212
-	{ 0x2018,	("&lsquo;"),	TEXT("&lsquo;"),	TEXT("¶ƒVƒ“ƒOƒ‹ˆø—p•„") },	//	8216
-	{ 0x2019,	("&rsquo;"),	TEXT("&rsquo;"),	TEXT("‰EƒVƒ“ƒOƒ‹ˆø—p•„") },	//	8217
-	{ 0x201A,	("&sbquo;"),	TEXT("&sbquo;"),	TEXT("‰º•tˆø—p•„") },	//	8218
-	{ 0x201C,	("&ldquo;"),	TEXT("&ldquo;"),	TEXT("¶ƒ_ƒuƒ‹ˆø—p•„") },	//	8220
-	{ 0x201D,	("&rdquo;"),	TEXT("&rdquo;"),	TEXT("‰Eƒ_ƒuƒ‹ˆø—p•„iIj") },	//	8221
-	{ 0x201E,	("&bdquo;"),	TEXT("&bdquo;"),	TEXT("‰º•tƒ_ƒuƒ‹ˆø—p•„") },	//	8222
-	{ 0x2020,	("&dagger;"),	TEXT("&dagger;"),	TEXT("ƒ_ƒK[") },	//	8224
-	{ 0x2021,	("&Dagger;"),	TEXT("&Dagger;"),	TEXT("ƒ_ƒuƒ‹ƒ_ƒK[") },	//	8225
-	{ 0x2022,	("&bull;"),		TEXT("&bull;"),		TEXT("•ŠÛ") },	//	8226
-	{ 0x2026,	("&hellip;"),	TEXT("&hellip;"),	TEXT("O“_ƒŠ[ƒ_") },	//	8230
-	{ 0x2030,	("&permil;"),	TEXT("&permil;"),	TEXT("ƒp[ƒ~ƒ‹") },	//	8240
-	{ 0x2032,	("&prime;"),	TEXT("&prime;"),	TEXT("•ª") },	//	8242
-	{ 0x2033,	("&Prime;"),	TEXT("&Prime;"),	TEXT("•b") },	//	8243
-	{ 0x2039,	("&lsaquo;"),	TEXT("&lsaquo;"),	TEXT("¶RŠ‡ŒÊinj") },	//	8249
-	{ 0x203A,	("&rsaquo;"),	TEXT("&rsaquo;"),	TEXT("‰ERŠ‡ŒÊiIj") },	//	8250
-	{ 0x203E,	("&oline;"),	TEXT("&oline;"),	TEXT("ƒI[ƒo[ƒ‰ƒCƒ“A˜_—”Û’è‹L†") },	//	8254
-	{ 0x2044,	("&frasl;"),	TEXT("&frasl;"),	TEXT("•ª”‚ÌÎü") },	//	8260
-	{ 0x20AC,	("&euro;"),		TEXT("&euro;"),		TEXT("ƒ†[ƒ‹L†") },	//	8364
-	{ 0x2118,	("&weierp;"),	TEXT("&weierp;"),	TEXT("‘å•¶š‚ÌPiƒXƒNƒŠƒvƒg‘ÌjAWeierstrass‚ÌPŠÖ”") },	//	8472
-	{ 0x2111,	("&image;"),	TEXT("&image;"),	TEXT("‘å•¶š‚ÌIiƒuƒ‰ƒbƒN‘ÌjA‹•”•”") },	//	8465
-	{ 0x211C,	("&real;"),		TEXT("&real;"),		TEXT("‘å•¶š‚ÌRiƒuƒ‰ƒbƒN‘ÌjAÀ”•”") },	//	8476
-	{ 0x2122,	("&trade;"),	TEXT("&trade;"),	TEXT("“o˜^¤•W‹L†") },	//	8482
-	{ 0x2135,	("&alefsym;"),	TEXT("&alefsym;"),	TEXT("ƒAƒŒƒt") },	//	8501
-	{ 0x2190,	("&larr;"),		TEXT("&larr;"),		TEXT("¶Œü–îˆó") },	//	8592
-	{ 0x2191,	("&uarr;"),		TEXT("&uarr;"),		TEXT("ãŒü–îˆó") },	//	8593
-	{ 0x2192,	("&rarr;"),		TEXT("&rarr;"),		TEXT("‰EŒü–îˆó") },	//	8594
-	{ 0x2193,	("&darr;"),		TEXT("&darr;"),		TEXT("‰ºŒü–îˆó") },	//	8595
-	{ 0x2194,	("&harr;"),		TEXT("&harr;"),		TEXT("¶‰EŒü–îˆó") },	//	8596
-	{ 0x21B5,	("&crarr;"),	TEXT("&crarr;"),	TEXT("ƒLƒƒƒŠƒbƒWƒŠƒ^[ƒ“") },	//	8629
-	{ 0x21D0,	("&lArr;"),		TEXT("&lArr;"),		TEXT("¶Œü“ñd–îˆó") },	//	8656
-	{ 0x21D1,	("&uArr;"),		TEXT("&uArr;"),		TEXT("ãŒü“ñd–îˆó") },	//	8657
-	{ 0x21D2,	("&rArr;"),		TEXT("&rArr;"),		TEXT("‚È‚ç‚Îi‡ˆÓj") },	//	8658
-	{ 0x21D3,	("&dArr;"),		TEXT("&dArr;"),		TEXT("‰ºŒü“ñd–îˆó") },	//	8659
-	{ 0x21D4,	("&hArr;"),		TEXT("&hArr;"),		TEXT("“¯’l") },	//	8660
-	{ 0x2200,	("&forall;"),	TEXT("&forall;"),	TEXT("‚·‚×‚Ä‚Ìi•’ÊŒÀ’èqj") },	//	8704
-	{ 0x2202,	("&part;"),		TEXT("&part;"),		TEXT("ƒfƒ‹Aƒ‰ƒEƒ“ƒhƒfƒB[") },	//	8706
-	{ 0x2203,	("&exist;"),	TEXT("&exist;"),	TEXT("‘¶İ‚·‚éi‘¶İŒÀ’èqj") },	//	8707
-	{ 0x2205,	("&empty;"),	TEXT("&empty;"),	TEXT("‹óW‡") },	//	8709
-	{ 0x2207,	("&nabla;"),	TEXT("&nabla;"),	TEXT("ƒiƒuƒ‰") },	//	8711
-	{ 0x2208,	("&isin;"),		TEXT("&isin;"),		TEXT("‘®‚·‚é") },	//	8712
-	{ 0x2209,	("&notin;"),	TEXT("&notin;"),	TEXT("—v‘f‚Ì”Û’èAŒ³‚Ì”Û’è") },	//	8713
-	{ 0x220B,	("&ni;"),		TEXT("&ni;"),		TEXT("Œ³‚Æ‚µ‚ÄŠÜ‚Ş") },	//	8715
-	{ 0x220F,	("&prod;"),		TEXT("&prod;"),		TEXT("n€‚ÌæZ") },	//	8719
-	{ 0x2211,	("&sum;"),		TEXT("&sum;"),		TEXT("n€‚Ì‰ÁZ") },	//	8721
-	{ 0x2212,	("&minus;"),	TEXT("&minus;"),	TEXT("•‰•„†AŒ¸Z‹L†") },	//	8722
-	{ 0x2217,	("&lowast;"),	TEXT("&lowast;"),	TEXT("ƒAƒXƒ^ƒŠƒXƒN‰‰Zq") },	//	8727
-	{ 0x221A,	("&radic;"),	TEXT("&radic;"),	TEXT("ª†") },	//	8730
-	{ 0x221D,	("&prop;"),		TEXT("&prop;"),		TEXT("”ä—á") },	//	8733
-	{ 0x221E,	("&infin;"),	TEXT("&infin;"),	TEXT("–³ŒÀ‘å") },	//	8734
-	{ 0x2220,	("&ang;"),		TEXT("&ang;"),		TEXT("Šp") },	//	8736
-	{ 0x2227,	("&and;"),		TEXT("&and;"),		TEXT("‹y‚Ñi‡Új") },	//	8743
-	{ 0x2228,	("&or;"),		TEXT("&or;"),		TEXT("–”‚Íi—£Új") },	//	8744
-	{ 0x2229,	("&cap;"),		TEXT("&cap;"),		TEXT("‹¤’ÊW‡") },	//	8745
-	{ 0x222A,	("&cup;"),		TEXT("&cup;"),		TEXT("‡•¹W‡") },	//	8746
-	{ 0x222B,	("&int;"),		TEXT("&int;"),		TEXT("Ï•ª‹L†") },	//	8747
-	{ 0x2234,	("&there4;"),	TEXT("&there4;"),	TEXT("‚ä‚¦‚É") },	//	8756
-	{ 0x223C,	("&sim;"),		TEXT("&sim;"),		TEXT("ƒ`ƒ‹ƒ_‰‰Zq") },	//	8764
-	{ 0x2245,	("&cong;"),		TEXT("&cong;"),		TEXT("“¯Œ`") },	//	8773
-	{ 0x2248,	("&asymp;"),	TEXT("&asymp;"),	TEXT("‹ß—“I‚É“™‚µ‚¢A“¯‘Š") },	//	8776
-	{ 0x2260,	("&ne;"),		TEXT("&ne;"),		TEXT("“™†”Û’è") },	//	8800
-	{ 0x2261,	("&equiv;"),	TEXT("&equiv;"),	TEXT("í‚É“™‚µ‚¢A‡“¯") },	//	8801
-	{ 0x2264,	("&le;"),		TEXT("&le;"),		TEXT("¬‚È‚è‚Ü‚½‚Í“™‚µ‚¢") },	//	8804
-	{ 0x2265,	("&ge;"),		TEXT("&ge;"),		TEXT("‘å‚È‚è‚Ü‚½‚Í“™‚µ‚¢") },	//	8805
-	{ 0x2282,	("&sub;"),		TEXT("&sub;"),		TEXT("^•”•ªW‡") },	//	8834
-	{ 0x2283,	("&sup;"),		TEXT("&sup;"),		TEXT("^•”•ªW‡i‹t•ûŒüj") },	//	8835
-	{ 0x2284,	("&nsub;"),		TEXT("&nsub;"),		TEXT("^•”•ªW‡‚Ì”Û’è") },	//	8836
-	{ 0x2286,	("&sube;"),		TEXT("&sube;"),		TEXT("•”•ªW‡") },	//	8838
-	{ 0x2287,	("&supe;"),		TEXT("&supe;"),		TEXT("•”•ªW‡i‹t•ûŒüj") },	//	8839
-	{ 0x2295,	("&oplus;"),	TEXT("&oplus;"),	TEXT("’¼˜a") },	//	8853
-	{ 0x2297,	("&otimes;"),	TEXT("&otimes;"),	TEXT("ƒeƒ“ƒ\ƒ‹Ï") },	//	8855
-	{ 0x22A5,	("&perp;"),		TEXT("&perp;"),		TEXT("‚’¼") },	//	8869
-	{ 0x22C5,	("&sdot;"),		TEXT("&sdot;"),		TEXT("ƒhƒbƒg‰‰Zq") },	//	8901
-	{ 0x2308,	("&lceil;"),	TEXT("&lceil;"),	TEXT("¶ãŒÀ") },	//	8968
-	{ 0x2309,	("&rceil;"),	TEXT("&rceil;"),	TEXT("‰EãŒÀ") },	//	8969
-	{ 0x230A,	("&lfloor;"),	TEXT("&lfloor;"),	TEXT("¶‰ºŒÀ") },	//	8970
-	{ 0x230B,	("&rfloor;"),	TEXT("&rfloor;"),	TEXT("‰E‰ºŒÀ") },	//	8971
-	{ 0x2329,	("&lang;"),		TEXT("&lang;"),		TEXT("¶ŠpŠ‡ŒÊ") },	//	9001
-	{ 0x232A,	("&rang;"),		TEXT("&rang;"),		TEXT("‰EŠpŠ‡ŒÊ") },	//	9002
-	{ 0x25CA,	("&loz;"),		TEXT("&loz;"),		TEXT("•HŒ`") },	//	9674
-	{ 0x2660,	("&spades;"),	TEXT("&spades;"),	TEXT("ƒXƒy[ƒh") },	//	9824
-	{ 0x2663,	("&clubs;"),	TEXT("&clubs;"),	TEXT("ƒNƒ‰ƒu") },	//	9827
-	{ 0x2665,	("&hearts;"),	TEXT("&hearts;"),	TEXT("ƒn[ƒg") },	//	9829
-	{ 0x2666,	("&diams;"),	TEXT("&diams;"),	TEXT("ƒ_ƒCƒ„") },	//	9830
+	{ 0x00C7,	("&Ccedil;"),	TEXT("&Ccedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©ä»˜ãC") },	//	199
+	{ 0x00C8,	("&Egrave;"),	TEXT("&Egrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	200
+	{ 0x00C9,	("&Eacute;"),	TEXT("&Eacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	201
+	{ 0x00CA,	("&Ecirc;"),	TEXT("&Ecirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãE") },	//	202
+	{ 0x00CB,	("&Euml;"),		TEXT("&Euml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãE") },	//	203
+	{ 0x00CC,	("&Igrave;"),	TEXT("&Igrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	204
+	{ 0x00CD,	("&Iacute;"),	TEXT("&Iacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	205
+	{ 0x00CE,	("&Icirc;"),	TEXT("&Icirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãI") },	//	206
+	{ 0x00CF,	("&Iuml;"),		TEXT("&Iuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãI") },	//	207
+	{ 0x00D0,	("&ETH;"),		TEXT("&ETH;"),		TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªETH") },	//	208
+	{ 0x00D1,	("&Ntilde;"),	TEXT("&Ntilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãN") },	//	209
+	{ 0x00D2,	("&Ograve;"),	TEXT("&Ograve;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	210
+	{ 0x00D3,	("&Oacute;"),	TEXT("&Oacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	211
+	{ 0x00D4,	("&Ocirc;"),	TEXT("&Ocirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãO") },	//	212
+	{ 0x00D5,	("&Otilde;"),	TEXT("&Otilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãO") },	//	213
+	{ 0x00D6,	("&Ouml;"),		TEXT("&Ouml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãO") },	//	214
+	{ 0x00D7,	("&times;"),	TEXT("&times;"),	TEXT("ä¹—ç®—è¨˜å·") },	//	215
+	{ 0x00D8,	("&Oslash;"),	TEXT("&Oslash;"),	TEXT("ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ä»˜ãO") },	//	216
+	{ 0x00D9,	("&Ugrave;"),	TEXT("&Ugrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	217
+	{ 0x00DA,	("&Uacute;"),	TEXT("&Uacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	218
+	{ 0x00DB,	("&Ucirc;"),	TEXT("&Ucirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãU") },	//	219
+	{ 0x00DC,	("&Uuml;"),		TEXT("&Uuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãU") },	//	220
+	{ 0x00DD,	("&Yacute;"),	TEXT("&Yacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãY") },	//	221
+	{ 0x00DE,	("&THORN;"),	TEXT("&THORN;"),	TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªTHORN") },	//	222
+	{ 0x00DF,	("&szlig;"),	TEXT("&szlig;"),	TEXT("ãƒ‰ã‚¤ãƒ„èªã‚¨ã‚¹ãƒ„ã‚§ãƒƒãƒˆ") },	//	223
+	{ 0x00E0,	("&agrave;"),	TEXT("&agrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	224
+	{ 0x00E1,	("&aacute;"),	TEXT("&aacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	225
+	{ 0x00E2,	("&acirc;"),	TEXT("&acirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãAå°æ–‡å­—") },	//	226
+	{ 0x00E3,	("&atilde;"),	TEXT("&atilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãAå°æ–‡å­—") },	//	227
+	{ 0x00E4,	("&auml;"),		TEXT("&auml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãAå°æ–‡å­—") },	//	228
+	{ 0x00E5,	("&aring;"),	TEXT("&aring;"),	TEXT("ä¸Šãƒªãƒ³ã‚°ä»˜ãAå°æ–‡å­—") },	//	229
+	{ 0x00E6,	("&aelig;"),	TEXT("&aelig;"),	TEXT("AEå°æ–‡å­—") },	//	230
+	{ 0x00E7,	("&ccedil;"),	TEXT("&ccedil;"),	TEXT("ã‚»ãƒ‡ã‚£ãƒ©ä»˜ãCå°æ–‡å­—") },	//	231
+	{ 0x00E8,	("&egrave;"),	TEXT("&egrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	232
+	{ 0x00E9,	("&eacute;"),	TEXT("&eacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	233
+	{ 0x00EA,	("&ecirc;"),	TEXT("&ecirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãEå°æ–‡å­—") },	//	234
+	{ 0x00EB,	("&euml;"),		TEXT("&euml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãEå°æ–‡å­—") },	//	235
+	{ 0x00EC,	("&igrave;"),	TEXT("&igrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	236
+	{ 0x00ED,	("&iacute;"),	TEXT("&iacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	237
+	{ 0x00EE,	("&icirc;"),	TEXT("&icirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãIå°æ–‡å­—") },	//	238
+	{ 0x00EF,	("&iuml;"),		TEXT("&iuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãIå°æ–‡å­—") },	//	239
+	{ 0x00F0,	("&eth;"),		TEXT("&eth;"),		TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªETHå°æ–‡å­—") },	//	240
+	{ 0x00F1,	("&ntilde;"),	TEXT("&ntilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãNå°æ–‡å­—") },	//	241
+	{ 0x00F2,	("&ograve;"),	TEXT("&ograve;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	242
+	{ 0x00F3,	("&oacute;"),	TEXT("&oacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	243
+	{ 0x00F4,	("&ocirc;"),	TEXT("&ocirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãOå°æ–‡å­—") },	//	244
+	{ 0x00F5,	("&otilde;"),	TEXT("&otilde;"),	TEXT("ãƒãƒ«ãƒ‰ä»˜ãOå°æ–‡å­—") },	//	245
+	{ 0x00F6,	("&ouml;"),		TEXT("&ouml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãOå°æ–‡å­—") },	//	246
+	{ 0x00F7,	("&divide;"),	TEXT("&divide;"),	TEXT("é™¤ç®—è¨˜å·") },	//	247
+	{ 0x00F8,	("&oslash;"),	TEXT("&oslash;"),	TEXT("ã‚¹ãƒˆãƒ­ãƒ¼ã‚¯ä»˜ãOå°æ–‡å­—") },	//	248
+	{ 0x00F9,	("&ugrave;"),	TEXT("&ugrave;"),	TEXT("ã‚°ãƒ¬ãƒ¼ãƒ–ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	249
+	{ 0x00FA,	("&uacute;"),	TEXT("&uacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	250
+	{ 0x00FB,	("&ucirc;"),	TEXT("&ucirc;"),	TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹ã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãUå°æ–‡å­—") },	//	251
+	{ 0x00FC,	("&uuml;"),		TEXT("&uuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãUå°æ–‡å­—") },	//	252
+	{ 0x00FD,	("&yacute;"),	TEXT("&yacute;"),	TEXT("ã‚¢ã‚­ãƒ¥ãƒ¼ãƒˆã‚¢ã‚¯ã‚»ãƒ³ãƒˆä»˜ãYå°æ–‡å­—") },	//	253
+	{ 0x00FE,	("&thorn;"),	TEXT("&thorn;"),	TEXT("ã‚¢ã‚¤ã‚¹ãƒ©ãƒ³ãƒ‰èªTHORNå°æ–‡å­—") },	//	254
+	{ 0x00FF,	("&yuml;"),		TEXT("&yuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãYå°æ–‡å­—") },	//	255
+	{ 0x0152,	("&OElig;"),	TEXT("&OElig;"),	TEXT("ãƒªã‚¬ãƒãƒ£OEå¤§æ–‡å­—ã€å††å”‡å‰èˆŒåºƒæ¯éŸ³") },	//	338
+	{ 0x0153,	("&oelig;"),	TEXT("&oelig;"),	TEXT("ãƒªã‚¬ãƒãƒ£OEå°æ–‡å­—ã€å††å”‡å‰èˆŒåºƒãƒ»ä¸­æ®µæ¯éŸ³") },	//	339
+	{ 0x0160,	("&Scaron;"),	TEXT("&Scaron;"),	TEXT("ã‚­ãƒ£ãƒ­ãƒ³ä»˜ãS") },	//	352
+	{ 0x0161,	("&scaron;"),	TEXT("&scaron;"),	TEXT("ã‚­ãƒ£ãƒ­ãƒ³ä»˜ãSå°æ–‡å­—") },	//	353
+	{ 0x0178,	("&Yuml;"),		TEXT("&Yuml;"),		TEXT("ãƒ€ã‚¤ã‚¨ãƒ¬ã‚·ã‚¹ä»˜ãY") },	//	376
+	{ 0x0192,	("&fnof;"),		TEXT("&fnof;"),		TEXT("å°æ–‡å­—fï¼ˆãƒ•ãƒƒã‚¯ä»˜ãï¼‰ã€é–¢æ•°") },	//	402
+	{ 0x02C6,	("&circ;"),		TEXT("&circ;"),		TEXT("ã‚µãƒ¼ã‚«ãƒ ãƒ•ãƒ¬ãƒƒã‚¯ã‚¹") },	//	710
+	{ 0x02DC,	("&tilde;"),	TEXT("&tilde;"),	TEXT("å°ãƒãƒ«ãƒ€") },	//	732
+	{ 0x0391,	("&Alpha;"),	TEXT("&Alpha;"),	TEXT("å¤§æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡") },	//	913
+	{ 0x0392,	("&Beta;"),		TEXT("&Beta;"),		TEXT("å¤§æ–‡å­—ãƒ™ãƒ¼ã‚¿") },	//	914
+	{ 0x0393,	("&Gamma;"),	TEXT("&Gamma;"),	TEXT("å¤§æ–‡å­—ã‚¬ãƒ³ãƒ") },	//	915
+	{ 0x0394,	("&Delta;"),	TEXT("&Delta;"),	TEXT("å¤§æ–‡å­—ãƒ‡ãƒ«ã‚¿") },	//	916
+	{ 0x0395,	("&Epsilon;"),	TEXT("&Epsilon;"),	TEXT("å¤§æ–‡å­—ã‚¤ãƒ—ã‚·ãƒ­ãƒ³") },	//	917
+	{ 0x0396,	("&Zeta;"),		TEXT("&Zeta;"),		TEXT("å¤§æ–‡å­—ã‚¼ãƒ¼ã‚¿") },	//	918
+	{ 0x0397,	("&Eta;"),		TEXT("&Eta;"),		TEXT("å¤§æ–‡å­—ã‚¨ãƒ¼ã‚¿") },	//	919
+	{ 0x0398,	("&Theta;"),	TEXT("&Theta;"),	TEXT("å¤§æ–‡å­—ã‚·ãƒ¼ã‚¿") },	//	920
+	{ 0x0399,	("&Iota;"),		TEXT("&Iota;"),		TEXT("å¤§æ–‡å­—ã‚¤ã‚ªã‚¿") },	//	921
+	{ 0x039A,	("&Kappa;"),	TEXT("&Kappa;"),	TEXT("å¤§æ–‡å­—ã‚«ãƒƒãƒ‘") },	//	922
+	{ 0x039B,	("&Lambda;"),	TEXT("&Lambda;"),	TEXT("å¤§æ–‡å­—ãƒ©ãƒ ãƒ€") },	//	923
+	{ 0x039C,	("&Mu;"),		TEXT("&Mu;"),		TEXT("å¤§æ–‡å­—ãƒŸãƒ¥ãƒ¼") },	//	924
+	{ 0x039D,	("&Nu;"),		TEXT("&Nu;"),		TEXT("å¤§æ–‡å­—ãƒ‹ãƒ¥ãƒ¼") },	//	925
+	{ 0x039E,	("&Xi;"),		TEXT("&Xi;"),		TEXT("å¤§æ–‡å­—ã‚°ã‚¶ã‚¤") },	//	926
+	{ 0x039F,	("&Omicron;"),	TEXT("&Omicron;"),	TEXT("å¤§æ–‡å­—ã‚ªãƒŸã‚¯ãƒ­ãƒ³") },	//	927
+	{ 0x03A0,	("&Pi;"),		TEXT("&Pi;"),		TEXT("å¤§æ–‡å­—ãƒ‘ã‚¤") },	//	928
+	{ 0x03A1,	("&Rho;"),		TEXT("&Rho;"),		TEXT("å¤§æ–‡å­—ãƒ­ãƒ¼") },	//	929
+	{ 0x03A3,	("&Sigma;"),	TEXT("&Sigma;"),	TEXT("å¤§æ–‡å­—ã‚·ã‚°ãƒ") },	//	931
+	{ 0x03A4,	("&Tau;"),		TEXT("&Tau;"),		TEXT("å¤§æ–‡å­—ã‚¿ã‚¦") },	//	932
+	{ 0x03A5,	("&Upsilon;"),	TEXT("&Upsilon;"),	TEXT("å¤§æ–‡å­—ã‚¦ãƒ—ã‚·ãƒ­ãƒ³") },	//	933
+	{ 0x03A6,	("&Phi;"),		TEXT("&Phi;"),		TEXT("å¤§æ–‡å­—ãƒ•ã‚¡ã‚¤") },	//	934
+	{ 0x03A7,	("&Chi;"),		TEXT("&Chi;"),		TEXT("å¤§æ–‡å­—ã‚«ã‚¤") },	//	935
+	{ 0x03A8,	("&Psi;"),		TEXT("&Psi;"),		TEXT("å¤§æ–‡å­—ãƒ—ã‚µã‚¤") },	//	936
+	{ 0x03A9,	("&Omega;"),	TEXT("&Omega;"),	TEXT("å¤§æ–‡å­—ã‚ªãƒ¡ã‚¬") },	//	937
+	{ 0x03B1,	("&alpha;"),	TEXT("&alpha;"),	TEXT("å°æ–‡å­—ã‚¢ãƒ«ãƒ•ã‚¡") },	//	945
+	{ 0x03B2,	("&beta;"),		TEXT("&beta;"),		TEXT("å°æ–‡å­—ãƒ™ãƒ¼ã‚¿") },	//	946
+	{ 0x03B3,	("&gamma;"),	TEXT("&gamma;"),	TEXT("å°æ–‡å­—ã‚¬ãƒ³ãƒ") },	//	947
+	{ 0x03B4,	("&delta;"),	TEXT("&delta;"),	TEXT("å°æ–‡å­—ãƒ‡ãƒ«ã‚¿") },	//	948
+	{ 0x03B5,	("&epsilon;"),	TEXT("&epsilon;"),	TEXT("å°æ–‡å­—ã‚¤ãƒ—ã‚·ãƒ­ãƒ³") },	//	949
+	{ 0x03B6,	("&zeta;"),		TEXT("&zeta;"),		TEXT("å°æ–‡å­—ã‚¼ãƒ¼ã‚¿") },	//	950
+	{ 0x03B7,	("&eta;"),		TEXT("&eta;"),		TEXT("å°æ–‡å­—ã‚¨ãƒ¼ã‚¿") },	//	951
+	{ 0x03B8,	("&theta;"),	TEXT("&theta;"),	TEXT("å°æ–‡å­—ã‚·ãƒ¼ã‚¿") },	//	952
+	{ 0x03B9,	("&iota;"),		TEXT("&iota;"),		TEXT("å°æ–‡å­—ã‚¤ã‚ªã‚¿") },	//	953
+	{ 0x03BA,	("&kappa;"),	TEXT("&kappa;"),	TEXT("å°æ–‡å­—ã‚«ãƒƒãƒ‘") },	//	954
+	{ 0x03BB,	("&lambda;"),	TEXT("&lambda;"),	TEXT("å°æ–‡å­—ãƒ©ãƒ ãƒ€") },	//	955
+	{ 0x03BC,	("&mu;"),		TEXT("&mu;"),		TEXT("å°æ–‡å­—ãƒŸãƒ¥ãƒ¼") },	//	956
+	{ 0x03BD,	("&nu;"),		TEXT("&nu;"),		TEXT("å°æ–‡å­—ãƒ‹ãƒ¥ãƒ¼") },	//	957
+	{ 0x03BE,	("&xi;"),		TEXT("&xi;"),		TEXT("å°æ–‡å­—ã‚°ã‚¶ã‚¤") },	//	958
+	{ 0x03BF,	("&omicron;"),	TEXT("&omicron;"),	TEXT("å°æ–‡å­—ã‚ªãƒŸã‚¯ãƒ­ãƒ³") },	//	959
+	{ 0x03C0,	("&pi;"),		TEXT("&pi;"),		TEXT("å°æ–‡å­—ãƒ‘ã‚¤") },	//	960
+	{ 0x03C1,	("&rho;"),		TEXT("&rho;"),		TEXT("å°æ–‡å­—ãƒ­ãƒ¼") },	//	961
+	{ 0x03C2,	("&sigmaf;"),	TEXT("&sigmaf;"),	TEXT("å°æ–‡å­—ãƒ•ã‚¡ã‚¤ãƒŠãƒ«ãƒ»ã‚·ã‚°ãƒ") },	//	962
+	{ 0x03C3,	("&sigma;"),	TEXT("&sigma;"),	TEXT("å°æ–‡å­—ã‚·ã‚°ãƒ") },	//	963
+	{ 0x03C4,	("&tau;"),		TEXT("&tau;"),		TEXT("å°æ–‡å­—ã‚¿ã‚¦") },	//	964
+	{ 0x03C5,	("&upsilon;"),	TEXT("&upsilon;"),	TEXT("å°æ–‡å­—ã‚¦ãƒ—ã‚·ãƒ­ãƒ³") },	//	965
+	{ 0x03C6,	("&phi;"),		TEXT("&phi;"),		TEXT("å°æ–‡å­—ãƒ•ã‚¡ã‚¤") },	//	966
+	{ 0x03C7,	("&chi;"),		TEXT("&chi;"),		TEXT("å°æ–‡å­—ã‚«ã‚¤") },	//	967
+	{ 0x03C8,	("&psi;"),		TEXT("&psi;"),		TEXT("å°æ–‡å­—ãƒ—ã‚µã‚¤") },	//	968
+	{ 0x03C9,	("&omega;"),	TEXT("&omega;"),	TEXT("å°æ–‡å­—ã‚ªãƒ¡ã‚¬") },	//	969
+	{ 0x03D1,	("&thetasym;"),	TEXT("&thetasym;"),	TEXT("å°æ–‡å­—ã‚·ãƒ¼ã‚¿ãƒ»ã‚·ãƒ³ãƒœãƒ«") },	//	977
+	{ 0x03D2,	("&upsih;"),	TEXT("&upsih;"),	TEXT("ã‚¦ãƒ—ã‚·ãƒ­ãƒ³ï¼ˆãƒ•ãƒƒã‚¯ãƒ»ã‚·ãƒ³ãƒœãƒ«ä»˜ãï¼‰") },	//	978
+	{ 0x03D6,	("&piv;"),		TEXT("&piv;"),		TEXT("ãƒ‘ã‚¤ãƒ»ã‚·ãƒ³ãƒœãƒ«") },	//	982
+	{ 0x2002,	("&ensp;"),		TEXT("&ensp;"),		TEXT("nå­—å¹…ã®ç©ºç™½ï¼ˆåŠè§’ç©ºç™½ï¼‰") },	//	8194
+	{ 0x2003,	("&emsp;"),		TEXT("&emsp;"),		TEXT("må­—å¹…ã®ç©ºç™½ï¼ˆå…¨è§’ç©ºç™½ï¼‰") },	//	8195
+	{ 0x2009,	("&thinsp;"),	TEXT("&thinsp;"),	TEXT("ã›ã¾ã„ç©ºç™½") },	//	8201
+	{ 0x200C,	("&zwnj;"),		TEXT("&zwnj;"),		TEXT("å¹…ãªã—éæ¥ç¶šå­") },	//	8204
+	{ 0x200D,	("&zwj;"),		TEXT("&zwj;"),		TEXT("å¹…ãªã—æ¥ç¶šå­") },	//	8205
+	{ 0x200E,	("&lrm;"),		TEXT("&lrm;"),		TEXT("è¨˜è¿°æ–¹å‘åˆ¶å¾¡ï¼ˆå·¦ã‹ã‚‰å³ã¸ï¼‰") },	//	8206
+	{ 0x200F,	("&rlm;"),		TEXT("&rlm;"),		TEXT("è¨˜è¿°æ–¹å‘åˆ¶å¾¡ï¼ˆå³ã‹ã‚‰å·¦ã¸ï¼‰") },	//	8207
+	{ 0x2013,	("&ndash;"),	TEXT("&ndash;"),	TEXT("nå­—å¹…ã®ãƒ€ãƒƒã‚·ãƒ¥ï¼ˆåŠè§’ãƒ€ãƒƒã‚·ãƒ¥ï¼‰") },	//	8211
+	{ 0x2014,	("&mdash;"),	TEXT("&mdash;"),	TEXT("må­—å¹…ã®ãƒ€ãƒƒã‚·ãƒ¥ï¼ˆå…¨è§’ãƒ€ãƒƒã‚·ãƒ¥ï¼‰") },	//	8212
+	{ 0x2018,	("&lsquo;"),	TEXT("&lsquo;"),	TEXT("å·¦ã‚·ãƒ³ã‚°ãƒ«å¼•ç”¨ç¬¦") },	//	8216
+	{ 0x2019,	("&rsquo;"),	TEXT("&rsquo;"),	TEXT("å³ã‚·ãƒ³ã‚°ãƒ«å¼•ç”¨ç¬¦") },	//	8217
+	{ 0x201A,	("&sbquo;"),	TEXT("&sbquo;"),	TEXT("ä¸‹ä»˜å¼•ç”¨ç¬¦") },	//	8218
+	{ 0x201C,	("&ldquo;"),	TEXT("&ldquo;"),	TEXT("å·¦ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦") },	//	8220
+	{ 0x201D,	("&rdquo;"),	TEXT("&rdquo;"),	TEXT("å³ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦ï¼ˆçµ‚ï¼‰") },	//	8221
+	{ 0x201E,	("&bdquo;"),	TEXT("&bdquo;"),	TEXT("ä¸‹ä»˜ãƒ€ãƒ–ãƒ«å¼•ç”¨ç¬¦") },	//	8222
+	{ 0x2020,	("&dagger;"),	TEXT("&dagger;"),	TEXT("ãƒ€ã‚¬ãƒ¼") },	//	8224
+	{ 0x2021,	("&Dagger;"),	TEXT("&Dagger;"),	TEXT("ãƒ€ãƒ–ãƒ«ãƒ€ã‚¬ãƒ¼") },	//	8225
+	{ 0x2022,	("&bull;"),		TEXT("&bull;"),		TEXT("é»’ä¸¸") },	//	8226
+	{ 0x2026,	("&hellip;"),	TEXT("&hellip;"),	TEXT("ä¸‰ç‚¹ãƒªãƒ¼ãƒ€") },	//	8230
+	{ 0x2030,	("&permil;"),	TEXT("&permil;"),	TEXT("ãƒ‘ãƒ¼ãƒŸãƒ«") },	//	8240
+	{ 0x2032,	("&prime;"),	TEXT("&prime;"),	TEXT("åˆ†") },	//	8242
+	{ 0x2033,	("&Prime;"),	TEXT("&Prime;"),	TEXT("ç§’") },	//	8243
+	{ 0x2039,	("&lsaquo;"),	TEXT("&lsaquo;"),	TEXT("å·¦å±±æ‹¬å¼§ï¼ˆå§‹ï¼‰") },	//	8249
+	{ 0x203A,	("&rsaquo;"),	TEXT("&rsaquo;"),	TEXT("å³å±±æ‹¬å¼§ï¼ˆçµ‚ï¼‰") },	//	8250
+	{ 0x203E,	("&oline;"),	TEXT("&oline;"),	TEXT("ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ³ã€è«–ç†å¦å®šè¨˜å·") },	//	8254
+	{ 0x2044,	("&frasl;"),	TEXT("&frasl;"),	TEXT("åˆ†æ•°ã®æ–œç·š") },	//	8260
+	{ 0x20AC,	("&euro;"),		TEXT("&euro;"),		TEXT("ãƒ¦ãƒ¼ãƒ­è¨˜å·") },	//	8364
+	{ 0x2118,	("&weierp;"),	TEXT("&weierp;"),	TEXT("å¤§æ–‡å­—ã®Pï¼ˆã‚¹ã‚¯ãƒªãƒ—ãƒˆä½“ï¼‰ã€Weierstrassã®Pé–¢æ•°") },	//	8472
+	{ 0x2111,	("&image;"),	TEXT("&image;"),	TEXT("å¤§æ–‡å­—ã®Iï¼ˆãƒ–ãƒ©ãƒƒã‚¯ä½“ï¼‰ã€è™šæ•°éƒ¨") },	//	8465
+	{ 0x211C,	("&real;"),		TEXT("&real;"),		TEXT("å¤§æ–‡å­—ã®Rï¼ˆãƒ–ãƒ©ãƒƒã‚¯ä½“ï¼‰ã€å®Ÿæ•°éƒ¨") },	//	8476
+	{ 0x2122,	("&trade;"),	TEXT("&trade;"),	TEXT("ç™»éŒ²å•†æ¨™è¨˜å·") },	//	8482
+	{ 0x2135,	("&alefsym;"),	TEXT("&alefsym;"),	TEXT("ã‚¢ãƒ¬ãƒ•") },	//	8501
+	{ 0x2190,	("&larr;"),		TEXT("&larr;"),		TEXT("å·¦å‘çŸ¢å°") },	//	8592
+	{ 0x2191,	("&uarr;"),		TEXT("&uarr;"),		TEXT("ä¸Šå‘çŸ¢å°") },	//	8593
+	{ 0x2192,	("&rarr;"),		TEXT("&rarr;"),		TEXT("å³å‘çŸ¢å°") },	//	8594
+	{ 0x2193,	("&darr;"),		TEXT("&darr;"),		TEXT("ä¸‹å‘çŸ¢å°") },	//	8595
+	{ 0x2194,	("&harr;"),		TEXT("&harr;"),		TEXT("å·¦å³å‘çŸ¢å°") },	//	8596
+	{ 0x21B5,	("&crarr;"),	TEXT("&crarr;"),	TEXT("ã‚­ãƒ£ãƒªãƒƒã‚¸ãƒªã‚¿ãƒ¼ãƒ³") },	//	8629
+	{ 0x21D0,	("&lArr;"),		TEXT("&lArr;"),		TEXT("å·¦å‘äºŒé‡çŸ¢å°") },	//	8656
+	{ 0x21D1,	("&uArr;"),		TEXT("&uArr;"),		TEXT("ä¸Šå‘äºŒé‡çŸ¢å°") },	//	8657
+	{ 0x21D2,	("&rArr;"),		TEXT("&rArr;"),		TEXT("ãªã‚‰ã°ï¼ˆåˆæ„ï¼‰") },	//	8658
+	{ 0x21D3,	("&dArr;"),		TEXT("&dArr;"),		TEXT("ä¸‹å‘äºŒé‡çŸ¢å°") },	//	8659
+	{ 0x21D4,	("&hArr;"),		TEXT("&hArr;"),		TEXT("åŒå€¤") },	//	8660
+	{ 0x2200,	("&forall;"),	TEXT("&forall;"),	TEXT("ã™ã¹ã¦ã®ï¼ˆæ™®é€šé™å®šå­ï¼‰") },	//	8704
+	{ 0x2202,	("&part;"),		TEXT("&part;"),		TEXT("ãƒ‡ãƒ«ã€ãƒ©ã‚¦ãƒ³ãƒ‰ãƒ‡ã‚£ãƒ¼") },	//	8706
+	{ 0x2203,	("&exist;"),	TEXT("&exist;"),	TEXT("å­˜åœ¨ã™ã‚‹ï¼ˆå­˜åœ¨é™å®šå­ï¼‰") },	//	8707
+	{ 0x2205,	("&empty;"),	TEXT("&empty;"),	TEXT("ç©ºé›†åˆ") },	//	8709
+	{ 0x2207,	("&nabla;"),	TEXT("&nabla;"),	TEXT("ãƒŠãƒ–ãƒ©") },	//	8711
+	{ 0x2208,	("&isin;"),		TEXT("&isin;"),		TEXT("å±ã™ã‚‹") },	//	8712
+	{ 0x2209,	("&notin;"),	TEXT("&notin;"),	TEXT("è¦ç´ ã®å¦å®šã€å…ƒã®å¦å®š") },	//	8713
+	{ 0x220B,	("&ni;"),		TEXT("&ni;"),		TEXT("å…ƒã¨ã—ã¦å«ã‚€") },	//	8715
+	{ 0x220F,	("&prod;"),		TEXT("&prod;"),		TEXT("né …ã®ä¹—ç®—") },	//	8719
+	{ 0x2211,	("&sum;"),		TEXT("&sum;"),		TEXT("né …ã®åŠ ç®—") },	//	8721
+	{ 0x2212,	("&minus;"),	TEXT("&minus;"),	TEXT("è² ç¬¦å·ã€æ¸›ç®—è¨˜å·") },	//	8722
+	{ 0x2217,	("&lowast;"),	TEXT("&lowast;"),	TEXT("ã‚¢ã‚¹ã‚¿ãƒªã‚¹ã‚¯æ¼”ç®—å­") },	//	8727
+	{ 0x221A,	("&radic;"),	TEXT("&radic;"),	TEXT("æ ¹å·") },	//	8730
+	{ 0x221D,	("&prop;"),		TEXT("&prop;"),		TEXT("æ¯”ä¾‹") },	//	8733
+	{ 0x221E,	("&infin;"),	TEXT("&infin;"),	TEXT("ç„¡é™å¤§") },	//	8734
+	{ 0x2220,	("&ang;"),		TEXT("&ang;"),		TEXT("è§’") },	//	8736
+	{ 0x2227,	("&and;"),		TEXT("&and;"),		TEXT("åŠã³ï¼ˆåˆæ¥ï¼‰") },	//	8743
+	{ 0x2228,	("&or;"),		TEXT("&or;"),		TEXT("åˆã¯ï¼ˆé›¢æ¥ï¼‰") },	//	8744
+	{ 0x2229,	("&cap;"),		TEXT("&cap;"),		TEXT("å…±é€šé›†åˆ") },	//	8745
+	{ 0x222A,	("&cup;"),		TEXT("&cup;"),		TEXT("åˆä½µé›†åˆ") },	//	8746
+	{ 0x222B,	("&int;"),		TEXT("&int;"),		TEXT("ç©åˆ†è¨˜å·") },	//	8747
+	{ 0x2234,	("&there4;"),	TEXT("&there4;"),	TEXT("ã‚†ãˆã«") },	//	8756
+	{ 0x223C,	("&sim;"),		TEXT("&sim;"),		TEXT("ãƒãƒ«ãƒ€æ¼”ç®—å­") },	//	8764
+	{ 0x2245,	("&cong;"),		TEXT("&cong;"),		TEXT("åŒå½¢") },	//	8773
+	{ 0x2248,	("&asymp;"),	TEXT("&asymp;"),	TEXT("è¿‘ä¼¼çš„ã«ç­‰ã—ã„ã€åŒç›¸") },	//	8776
+	{ 0x2260,	("&ne;"),		TEXT("&ne;"),		TEXT("ç­‰å·å¦å®š") },	//	8800
+	{ 0x2261,	("&equiv;"),	TEXT("&equiv;"),	TEXT("å¸¸ã«ç­‰ã—ã„ã€åˆåŒ") },	//	8801
+	{ 0x2264,	("&le;"),		TEXT("&le;"),		TEXT("å°ãªã‚Šã¾ãŸã¯ç­‰ã—ã„") },	//	8804
+	{ 0x2265,	("&ge;"),		TEXT("&ge;"),		TEXT("å¤§ãªã‚Šã¾ãŸã¯ç­‰ã—ã„") },	//	8805
+	{ 0x2282,	("&sub;"),		TEXT("&sub;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆ") },	//	8834
+	{ 0x2283,	("&sup;"),		TEXT("&sup;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆï¼ˆé€†æ–¹å‘ï¼‰") },	//	8835
+	{ 0x2284,	("&nsub;"),		TEXT("&nsub;"),		TEXT("çœŸéƒ¨åˆ†é›†åˆã®å¦å®š") },	//	8836
+	{ 0x2286,	("&sube;"),		TEXT("&sube;"),		TEXT("éƒ¨åˆ†é›†åˆ") },	//	8838
+	{ 0x2287,	("&supe;"),		TEXT("&supe;"),		TEXT("éƒ¨åˆ†é›†åˆï¼ˆé€†æ–¹å‘ï¼‰") },	//	8839
+	{ 0x2295,	("&oplus;"),	TEXT("&oplus;"),	TEXT("ç›´å’Œ") },	//	8853
+	{ 0x2297,	("&otimes;"),	TEXT("&otimes;"),	TEXT("ãƒ†ãƒ³ã‚½ãƒ«ç©") },	//	8855
+	{ 0x22A5,	("&perp;"),		TEXT("&perp;"),		TEXT("å‚ç›´") },	//	8869
+	{ 0x22C5,	("&sdot;"),		TEXT("&sdot;"),		TEXT("ãƒ‰ãƒƒãƒˆæ¼”ç®—å­") },	//	8901
+	{ 0x2308,	("&lceil;"),	TEXT("&lceil;"),	TEXT("å·¦ä¸Šé™") },	//	8968
+	{ 0x2309,	("&rceil;"),	TEXT("&rceil;"),	TEXT("å³ä¸Šé™") },	//	8969
+	{ 0x230A,	("&lfloor;"),	TEXT("&lfloor;"),	TEXT("å·¦ä¸‹é™") },	//	8970
+	{ 0x230B,	("&rfloor;"),	TEXT("&rfloor;"),	TEXT("å³ä¸‹é™") },	//	8971
+	{ 0x2329,	("&lang;"),		TEXT("&lang;"),		TEXT("å·¦è§’æ‹¬å¼§") },	//	9001
+	{ 0x232A,	("&rang;"),		TEXT("&rang;"),		TEXT("å³è§’æ‹¬å¼§") },	//	9002
+	{ 0x25CA,	("&loz;"),		TEXT("&loz;"),		TEXT("è±å½¢") },	//	9674
+	{ 0x2660,	("&spades;"),	TEXT("&spades;"),	TEXT("ã‚¹ãƒšãƒ¼ãƒ‰") },	//	9824
+	{ 0x2663,	("&clubs;"),	TEXT("&clubs;"),	TEXT("ã‚¯ãƒ©ãƒ–") },	//	9827
+	{ 0x2665,	("&hearts;"),	TEXT("&hearts;"),	TEXT("ãƒãƒ¼ãƒˆ") },	//	9829
+	{ 0x2666,	("&diams;"),	TEXT("&diams;"),	TEXT("ãƒ€ã‚¤ãƒ¤") },	//	9830
 
 */
 

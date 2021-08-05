@@ -1,6 +1,6 @@
 /*! @file
-	@brief SQLite‚Ì‘€ì‚ğ‚µ‚Ü‚·B
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í MaaSqlManipulate.cpp ‚Å‚·B
+	@brief SQLiteã®æ“ä½œã‚’ã—ã¾ã™ã€‚
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ MaaSqlManipulate.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/06/22
 */
@@ -25,24 +25,24 @@ If not, see <http://www.gnu.org/licenses/>.
 
 
 
-//	ƒe[ƒ{[‚Ìƒo[ƒWƒ‡ƒ“
-#define TREE_TBL_VER	1500	//	ƒvƒEƒtƒ@ƒCƒ‹‰Šú”Å
-#define SUBTAB_NAME_VER	2000	//	•›ƒ^ƒu‚Ì•\¦–¼Ì•ÏX‚É‘Î‰	20120613
+//	ãƒ†ãƒ¼ãƒœãƒ¼ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+#define TREE_TBL_VER	1500	//	ãƒ—ãƒ­ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«åˆæœŸç‰ˆ
+#define SUBTAB_NAME_VER	2000	//	å‰¯ã‚¿ãƒ–ã®è¡¨ç¤ºåç§°å¤‰æ›´ã«å¯¾å¿œ	20120613
 //-------------------------------------------------------------------------------------------------
 
-//	ƒe[ƒuƒ‹ŒŸõ
+//	ãƒ†ãƒ¼ãƒ–ãƒ«æ¤œç´¢
 CONST CHAR	cacDetectTable[] = { ("SELECT name FROM sqlite_master WHERE type='table'") };
 
-//	ƒo[ƒWƒ‡ƒ“ƒe[ƒuƒ‹
+//	ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãƒ†ãƒ¼ãƒ–ãƒ«
 CONST CHAR	cacVersionTable[]  = { ("CREATE TABLE BuildVer ( id INTEGER PRIMARY KEY, number INTEGER NOT NULL, vertext TEXT NOT NULL)") };
 CONST CHAR	cacVerStrInsFmt[]  = { ("INSERT INTO BuildVer ( number, vertext ) VALUES ( %d, '%s' )") };
 CONST CHAR	cacVersionNumGet[] = { ("SELECT number FROM BuildVer WHERE id == 1") };
 CONST CHAR	cacVersionUpdate[] = { ("UPDATE BuildVer SET number = %d, vertext = '%s' WHERE id == 1") };
 
 
-static sqlite3	*gpDataBase;	//	g‚Á‚½‚`‚`ƒXƒgƒA{ƒcƒŠ[‚ÌƒLƒƒƒbƒVƒ…
+static sqlite3	*gpDataBase;	//	ä½¿ã£ãŸï¼¡ï¼¡ã‚¹ãƒˆã‚¢ï¼‹ãƒ„ãƒªãƒ¼ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥
 
-static sqlite3	*gpTreeCache;	//	ƒcƒŠ[•ÒW‚ÌƒIƒ“ƒƒ‚ƒŠƒLƒƒƒbƒVƒ…
+static sqlite3	*gpTreeCache;	//	ãƒ„ãƒªãƒ¼ç·¨é›†ã®ã‚ªãƒ³ãƒ¡ãƒ¢ãƒªã‚­ãƒ£ãƒƒã‚·ãƒ¥
 
 //-------------------------------------------------------------------------------------------------
 
@@ -53,13 +53,13 @@ HRESULT	SqlFavInsert( LPTSTR, DWORD, LPSTR, UINT );	//!<
 //	WORK_LOG_OUT
 //#ifdef _DEBUG
 /*!
-	SQLite‚ÌƒGƒ‰[î•ñ‚ğon‹ğ“eˆú“{“e‚É•\¦
-	@param[in]	*psqTarget	ƒGƒ‰[ƒ`ƒFƒL‚µ‚½‚¢ƒfƒ^ƒxƒX
-	@param[in]	dline		ŒÄ‚Ño‚µ‚½’n“_‚Ìs”
+	SQLiteã®ã‚¨ãƒ©ãƒ¼æƒ…å ±ã‚’å‡ºåˆƒæ„šå…æ·«æ€’å…ã«è¡¨ç¤º
+	@param[in]	*psqTarget	ã‚¨ãƒ©ãƒ¼ãƒã‚§ã‚­ã—ãŸã„ãƒ‡ã‚¿ãƒ™ã‚¹
+	@param[in]	dline		å‘¼ã³å‡ºã—ãŸåœ°ç‚¹ã®è¡Œæ•°
 */
 VOID SqlErrMsgView( sqlite3 *psqTarget, DWORD dline )
 {
-	//TCHAR	atStr[MAX_PATH];	//	‚»‚ñ‚Èƒoƒbƒtƒ@—e—Ê‚Å‘åä•v‚©
+	//TCHAR	atStr[MAX_PATH];	//	ãã‚“ãªãƒãƒƒãƒ•ã‚¡å®¹é‡ã§å¤§ä¸ˆå¤«ã‹
 	//StringCchPrintf( atStr, MAX_PATH, TEXT("%s[%u]\r\n"), sqlite3_errmsg16( psqTarget ), dline );
 	//OutputDebugString( atStr );
 	TRACE( TEXT("%s[%u]"), sqlite3_errmsg16( psqTarget ), dline );
@@ -69,11 +69,11 @@ VOID SqlErrMsgView( sqlite3 *psqTarget, DWORD dline )
 //#endif
 
 /*!
-	Œ³•¶š—ñ‚ªNULLw’è‚¾‚Á‚½‚çƒuƒb”ò‚Ô‚Ì‚Å‘Îô
-	@param[in]	ptDest	ƒRƒs[æ•¶š—ñƒ|ƒCƒ“ƒ^
-	@param[in]	cchSize	ƒRƒs[æ•¶š—ñƒoƒbƒtƒ@‚Ì•¶š”
-	@param[in]	ptSrc	Œ³•¶š—ñ
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	å…ƒæ–‡å­—åˆ—ãŒNULLæŒ‡å®šã ã£ãŸã‚‰ãƒ–ãƒƒé£›ã¶ã®ã§å¯¾ç­–
+	@param[in]	ptDest	ã‚³ãƒ”ãƒ¼å…ˆæ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿
+	@param[in]	cchSize	ã‚³ãƒ”ãƒ¼å…ˆæ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡ã®æ–‡å­—æ•°
+	@param[in]	ptSrc	å…ƒæ–‡å­—åˆ—
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT String_Cch_Copy( LPTSTR ptDest, size_t cchSize, LPCTSTR ptSrc )
 {
@@ -88,10 +88,10 @@ HRESULT String_Cch_Copy( LPTSTR ptDest, size_t cchSize, LPCTSTR ptSrc )
 
 
 /*!
-	SQLite‚Ìg‚Á‚½‚`‚`‚Ìƒf[ƒ^ƒx[ƒX‚ğ•Â‚¶‚½‚èŠJ‚¢‚½‚è
-	@param[in]	mode	ŠJ‚­‚Ì‚©•Â‚¶‚é‚Ì‚©
-	@param[in]	ptDbase	ŠJ‚­ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘O
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	SQLiteã®ä½¿ã£ãŸï¼¡ï¼¡ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’é–‰ã˜ãŸã‚Šé–‹ã„ãŸã‚Š
+	@param[in]	mode	é–‹ãã®ã‹é–‰ã˜ã‚‹ã®ã‹
+	@param[in]	ptDbase	é–‹ããƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlDatabaseOpenClose( BYTE mode, LPCTSTR ptDbase )
 {
@@ -110,10 +110,10 @@ HRESULT SqlDatabaseOpenClose( BYTE mode, LPCTSTR ptDbase )
 			StringCchCopy( atDbPath, MAX_PATH, TEXT("memory.qor") );
 		}
 
-		PathStripPath( atDbPath );	//	ƒtƒ@ƒCƒ‹–¼‚¾‚¯‚É‚·‚é
-		PathRemoveExtension( atDbPath );	//	Šg’£q‚ğŠO‚·
+		PathStripPath( atDbPath );	//	ãƒ•ã‚¡ã‚¤ãƒ«åã ã‘ã«ã™ã‚‹
+		PathRemoveExtension( atDbPath );	//	æ‹¡å¼µå­ã‚’å¤–ã™
 
-		SqlTreeTableCreate( atDbPath );	//	ƒvƒƒtƒ@ƒCƒ‹–¼‚Æ‚µ‚Ä“n‚·
+		SqlTreeTableCreate( atDbPath );	//	ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã—ã¦æ¸¡ã™
 	}
 	else if( M_DESTROY == mode )
 	{
@@ -123,7 +123,7 @@ HRESULT SqlDatabaseOpenClose( BYTE mode, LPCTSTR ptDbase )
 			gpDataBase = NULL;
 		}
 	}
-	else	//	ƒI[ƒ|ƒ“‚µ‚Ä‚é‚©‚Ç‚¤‚©Šm”F
+	else	//	ã‚ªãƒ¼ãƒãƒ³ã—ã¦ã‚‹ã‹ã©ã†ã‹ç¢ºèª
 	{
 		if( !(gpDataBase) ){	return E_OUTOFMEMORY;	}
 	}
@@ -133,10 +133,10 @@ HRESULT SqlDatabaseOpenClose( BYTE mode, LPCTSTR ptDbase )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	“o˜^‚³‚ê‚Ä‚¢‚éŒÂ”‚ÆIDÅ‘å’lŠm•ÛEƒfƒBƒŒƒNƒgƒŠ–ˆ‚©‘S‘Ì‚n‚j
-	@param[in]	ptFdrName	‘ÎÛƒfƒBƒŒƒNƒgƒŠ–¼E‚m‚t‚k‚k‚È‚ç‘S•”
-	@param[in]	pdMax		”ñ‚m‚t‚k‚k‚È‚çAÅ‘å’l‚¢‚ê‚¿‚á‚¤
-	@return		“o˜^‚³‚ê‚Ä‚¢‚éŒÂ”
+	ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å€‹æ•°ã¨IDæœ€å¤§å€¤ç¢ºä¿ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ¯ã‹å…¨ä½“ï¼¯ï¼«
+	@param[in]	ptFdrName	å¯¾è±¡ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåãƒ»ï¼®ï¼µï¼¬ï¼¬ãªã‚‰å…¨éƒ¨
+	@param[in]	pdMax		éï¼®ï¼µï¼¬ï¼¬ãªã‚‰ã€æœ€å¤§å€¤ã„ã‚Œã¡ã‚ƒã†
+	@return		ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å€‹æ•°
 */
 UINT SqlFavCount( LPCTSTR ptFdrName, PUINT pdMax )
 {
@@ -187,12 +187,12 @@ UINT SqlFavCount( LPCTSTR ptFdrName, PUINT pdMax )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	g‚Á‚½AA‚ğAƒŠƒXƒgŠm”F‚µ‚Ä’Ç‰Á‚µ‚½‚èXV‚µ‚½‚è
-	@param[in]	ptBaseName	Šî“_ƒfƒBƒŒƒNƒgƒŠ–¼
-	@param[in]	dHash		‚`‚`”F¯—p‚ÌƒnƒbƒVƒ…’l
-	@param[in]	pcConts		‚`‚`–{‘Ì
-	@param[in]	rdLength	ƒoƒCƒg”
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ä½¿ã£ãŸAAã‚’ã€ãƒªã‚¹ãƒˆç¢ºèªã—ã¦è¿½åŠ ã—ãŸã‚Šæ›´æ–°ã—ãŸã‚Š
+	@param[in]	ptBaseName	åŸºç‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@param[in]	dHash		ï¼¡ï¼¡èªè­˜ç”¨ã®ãƒãƒƒã‚·ãƒ¥å€¤
+	@param[in]	pcConts		ï¼¡ï¼¡æœ¬ä½“
+	@param[in]	rdLength	ãƒã‚¤ãƒˆæ•°
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavUpload( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLength )
 {
@@ -210,16 +210,16 @@ HRESULT SqlFavUpload( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLeng
 	bIsExist = FALSE;
 	cntID = SqlFavCount( NULL, NULL );
 
-//æ‚É“o˜^‚µ‚½ŒãA‚»‚Ì‚`‚`‚Ìƒx[ƒXƒl[ƒ€‚ª•Ï‚í‚Á‚½ê‡AV‚µ‚¢–¼‘O‚Åo‚Ä‚±‚È‚¢–â‘è
-//ƒnƒbƒVƒ…‚ÅŒ©‚Ä‚é‚Ì‚ÅA‚`‚`©‘Ì‚Íˆê‚Â‚µ‚©“o˜^‚³‚ê‚È‚¢
-//„ƒx[ƒX–¼‚Ü‚ÅŠm”F‚·‚ê‚Î‚¢‚¢Bƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Å‰ñ‚µ‚ÄAƒx[ƒX–¼‚ª‚È‚©‚Á‚½‚çV‹K’Ç‰Á
+//å…ˆã«ç™»éŒ²ã—ãŸå¾Œã€ãã®ï¼¡ï¼¡ã®ãƒ™ãƒ¼ã‚¹ãƒãƒ¼ãƒ ãŒå¤‰ã‚ã£ãŸå ´åˆã€æ–°ã—ã„åå‰ã§å‡ºã¦ã“ãªã„å•é¡Œ
+//ãƒãƒƒã‚·ãƒ¥ã§è¦‹ã¦ã‚‹ã®ã§ã€ï¼¡ï¼¡è‡ªä½“ã¯ä¸€ã¤ã—ã‹ç™»éŒ²ã•ã‚Œãªã„
+//ï¼ãƒ™ãƒ¼ã‚¹åã¾ã§ç¢ºèªã™ã‚Œã°ã„ã„ã€‚ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§å›ã—ã¦ã€ãƒ™ãƒ¼ã‚¹åãŒãªã‹ã£ãŸã‚‰æ–°è¦è¿½åŠ 
 	sqlite3_reset( statement );
 	sqlite3_bind_int( statement, 1, dHash );	//	hash
 
-	for( d = 0; cntID >  d; d++ )	//	‘S”‰ñ‚¹‚Î‚¨‚‹
+	for( d = 0; cntID >  d; d++ )	//	å…¨æ•°å›ã›ã°ãŠï½‹
 	{
 		rslt = sqlite3_step( statement );
-		if( SQLITE_ROW == rslt )	//	‘¶İ‚µ‚½
+		if( SQLITE_ROW == rslt )	//	å­˜åœ¨ã—ãŸ
 		{
 			ZeroMemory( atFolder, sizeof(atFolder) );
 
@@ -228,18 +228,18 @@ HRESULT SqlFavUpload( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLeng
 			//ptFolder = (LPCTSTR)sqlite3_column_text16( statement, 1 );
 			//if( ptFolder ){	StringCchCopy( atFolder, MAX_PATH, ptFolder );	}
 
-			SqlFavUpdate( index );	//	“à—eXV
+			SqlFavUpdate( index );	//	å†…å®¹æ›´æ–°
 
-			//	ƒx[ƒX–¼ƒ`ƒFƒLE“¯‚¶‚Ì‚ª‚ ‚ê‚Î‚¨‚‹
+			//	ãƒ™ãƒ¼ã‚¹åãƒã‚§ã‚­ãƒ»åŒã˜ã®ãŒã‚ã‚Œã°ãŠï½‹
 			if( !( StrCmp( ptBaseName, atFolder ) ) ){	bIsExist = TRUE;	}
 		}
-		else{	break;	}	//	‚»‚êˆÈã‚È‚¢‚È‚çI‚í‚é
+		else{	break;	}	//	ãã‚Œä»¥ä¸Šãªã„ãªã‚‰çµ‚ã‚ã‚‹
 	}
 
 	sqlite3_finalize( statement );
 
 
-	if( !(bIsExist) )	//	–¢‹L˜^‚Ì‚È‚ç€–Ú’Ç‰Á
+	if( !(bIsExist) )	//	æœªè¨˜éŒ²ã®ãªã‚‰é …ç›®è¿½åŠ 
 	{
 		SqlFavInsert( ptBaseName, dHash, pcConts, rdLength );
 	}
@@ -249,9 +249,9 @@ HRESULT SqlFavUpload( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLeng
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	g‚Á‚½AA‚Ì‹L˜^‚ğXV
-	@param[in]	index	g‚Á‚½AA‚ÌID”Ô†
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ä½¿ã£ãŸAAã®è¨˜éŒ²ã‚’æ›´æ–°
+	@param[in]	index	ä½¿ã£ãŸAAã®IDç•ªå·
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavUpdate( UINT index )
 {
@@ -264,16 +264,16 @@ HRESULT SqlFavUpdate( UINT index )
 	sqlite3_stmt	*statement;
 
 	StringCchPrintfA( acQuery, MAX_STRING, acArtSelCount, index );
-	//	‚Ü‚¸ƒJƒEƒ“ƒg’læ“¾‚µ‚Ä
+	//	ã¾ãšã‚«ã‚¦ãƒ³ãƒˆå€¤å–å¾—ã—ã¦
 	rslt = sqlite3_prepare( gpDataBase, acQuery, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_OUTOFMEMORY;	}
 	rslt = sqlite3_step( statement );
 	iCount = sqlite3_column_int( statement , 0 );	//	count
 	sqlite3_finalize( statement );
 
-	iCount++;	//	g—p‰ñ”‚Å‚ ‚éE‘‚â‚·
+	iCount++;	//	ä½¿ç”¨å›æ•°ã§ã‚ã‚‹ãƒ»å¢—ã‚„ã™
 
-	//	¡‚Ìƒ†ƒŠƒEƒXŠÔ‚ğƒQƒbƒg
+	//	ä»Šã®ãƒ¦ãƒªã‚¦ã‚¹æ™‚é–“ã‚’ã‚²ãƒƒãƒˆ
 	rslt = sqlite3_prepare( gpDataBase, ("SELECT julianday('now')"), -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_OUTOFMEMORY;	}
 	sqlite3_step( statement );
@@ -293,12 +293,12 @@ HRESULT SqlFavUpdate( UINT index )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	g‚Á‚½AA‚ğ‹L˜^
-	@param[in]	ptBaseName	Šî“_ƒfƒBƒŒƒNƒgƒŠ–¼
-	@param[in]	dHash		‚`‚`”F¯—p‚ÌƒnƒbƒVƒ…’l
-	@param[in]	pcConts		‚`‚`–{‘Ì
-	@param[in]	rdLength	ƒoƒCƒg”
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ä½¿ã£ãŸAAã‚’è¨˜éŒ²
+	@param[in]	ptBaseName	åŸºç‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@param[in]	dHash		ï¼¡ï¼¡èªè­˜ç”¨ã®ãƒãƒƒã‚·ãƒ¥å€¤
+	@param[in]	pcConts		ï¼¡ï¼¡æœ¬ä½“
+	@param[in]	rdLength	ãƒã‚¤ãƒˆæ•°
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavInsert( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLength )
 {
@@ -311,7 +311,7 @@ HRESULT SqlFavInsert( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLeng
 
 	ZeroMemory( acText, sizeof(acText) );
 
-	//	¡‚Ìƒ†ƒŠƒEƒXŠÔ‚ğƒQƒbƒg
+	//	ä»Šã®ãƒ¦ãƒªã‚¦ã‚¹æ™‚é–“ã‚’ã‚²ãƒƒãƒˆ
 	rslt = sqlite3_prepare( gpDataBase, ("SELECT julianday('now')"), -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_OUTOFMEMORY;	}
 	sqlite3_step( statement );
@@ -337,9 +337,9 @@ HRESULT SqlFavInsert( LPTSTR ptBaseName, DWORD dHash, LPSTR pcConts, UINT rdLeng
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	“o˜^‚³‚ê‚Ä‚¢‚éƒ‹[ƒg–¼‚ğƒŠƒXƒgƒAƒbƒv‚µ‚ÄƒR[ƒ‹ƒoƒbƒN‚·‚é
-	@param[in]	pfFolderNameSet	“à—e‚ğƒR[ƒ‹ƒoƒbƒN‚·‚é”Ÿ”ƒ|ƒCƒ“ƒ^[
-	@return		HRESULT			I—¹ó‘ÔƒR[ƒh
+	ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ«ãƒ¼ãƒˆåã‚’ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—ã—ã¦ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹
+	@param[in]	pfFolderNameSet	å†…å®¹ã‚’ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹å‡½æ•°ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	@return		HRESULT			çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavFolderEnum( BUFFERBACK pfFolderNameSet )
 {
@@ -375,10 +375,10 @@ HRESULT SqlFavFolderEnum( BUFFERBACK pfFolderNameSet )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‹L˜^‚³‚ê‚Ä‚éAA‚ğAƒfƒBƒŒƒNƒgƒŠ–¼‚É]‚Á‚ÄƒŠƒXƒgƒAƒbƒv‚µ‚ÄƒR[ƒ‹ƒoƒbƒN‚·‚é
-	@param[in]	ptFdrName	ƒfƒBƒŒƒNƒgƒŠ–¼ENULL‚È‚ç‘S•”
-	@param[in]	pfInflate	AA‚ğƒR[ƒ‹ƒoƒbƒN‚·‚é”Ÿ”ƒ|ƒCƒ“ƒ^[
-	@return		HRESULT			I—¹ó‘ÔƒR[ƒh
+	è¨˜éŒ²ã•ã‚Œã¦ã‚‹AAã‚’ã€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåã«å¾“ã£ã¦ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—ã—ã¦ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹
+	@param[in]	ptFdrName	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåãƒ»NULLãªã‚‰å…¨éƒ¨
+	@param[in]	pfInflate	AAã‚’ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹å‡½æ•°ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	@return		HRESULT			çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavArtEnum( LPCTSTR ptFdrName, BUFFERBACK pfInflate )
 {
@@ -419,10 +419,10 @@ HRESULT SqlFavArtEnum( LPCTSTR ptFdrName, BUFFERBACK pfInflate )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚¨‹C‚É“ü‚èƒŠƒXƒg‚©‚çíœ‚·‚é
-	@param[in]	ptBaseName	Šî“_ƒfƒBƒŒƒNƒgƒŠ–¼Eg‚Á‚Ä‚È‚¢
-	@param[in]	dHash		‚`‚`”F¯—p‚ÌƒnƒbƒVƒ…’l
-	@return		HRESULT		I—¹ó‘ÔƒR[ƒh
+	ãŠæ°—ã«å…¥ã‚Šãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã™ã‚‹
+	@param[in]	ptBaseName	åŸºç‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåãƒ»ä½¿ã£ã¦ãªã„
+	@param[in]	dHash		ï¼¡ï¼¡èªè­˜ç”¨ã®ãƒãƒƒã‚·ãƒ¥å€¤
+	@return		HRESULT		çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavDelete( LPTSTR ptBaseName, DWORD dHash )
 {
@@ -442,9 +442,9 @@ HRESULT SqlFavDelete( LPTSTR ptBaseName, DWORD dHash )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚¨‹C‚É“ü‚èƒŠƒXƒg‚ğŠî“_‚²‚Æíœ
-	@param[in]	ptBaseName	Šî“_ƒfƒBƒŒƒNƒgƒŠ–¼
-	@return		HRESULT		I—¹ó‘ÔƒR[ƒh
+	ãŠæ°—ã«å…¥ã‚Šãƒªã‚¹ãƒˆã‚’åŸºç‚¹ã”ã¨å‰Šé™¤
+	@param[in]	ptBaseName	åŸºç‚¹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@return		HRESULT		çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlFavFolderDelete( LPTSTR ptBaseName )
 {
@@ -468,10 +468,10 @@ HRESULT SqlFavFolderDelete( LPTSTR ptBaseName )
 
 #if 0
 /*!
-	SQLite‚Ìg‚Á‚½‚`‚`‚Ìƒf[ƒ^ƒx[ƒX‚ğ•Â‚¶‚½‚èŠJ‚¢‚½‚è
-	@param[in]	mode		ŠJ‚­‚Ì‚©•Â‚¶‚é‚Ì‚©
-	@param[in]	ptDbName	ŠJ‚­ƒf[ƒ^ƒx[ƒXƒtƒ@ƒCƒ‹–¼‘O
-	@return		HRESULT		I—¹ó‘ÔƒR[ƒh
+	SQLiteã®ä½¿ã£ãŸï¼¡ï¼¡ã®ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’é–‰ã˜ãŸã‚Šé–‹ã„ãŸã‚Š
+	@param[in]	mode		é–‹ãã®ã‹é–‰ã˜ã‚‹ã®ã‹
+	@param[in]	ptDbName	é–‹ããƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«åå‰
+	@return		HRESULT		çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeOpenClose( BYTE mode, LPCTSTR ptDbName )
 {
@@ -490,10 +490,10 @@ HRESULT SqlTreeOpenClose( BYTE mode, LPCTSTR ptDbName )
 			StringCchCopy( atDbPath, MAX_PATH, TEXT("memory.qor") );
 		}
 
-		PathStripPath( atDbPath );	//	ƒtƒ@ƒCƒ‹–¼‚¾‚¯‚É‚·‚é
-		PathRemoveExtension( atDbPath );	//	Šg’£q‚ğŠO‚·
+		PathStripPath( atDbPath );	//	ãƒ•ã‚¡ã‚¤ãƒ«åã ã‘ã«ã™ã‚‹
+		PathRemoveExtension( atDbPath );	//	æ‹¡å¼µå­ã‚’å¤–ã™
 
-		SqlTreeTableCreate( atDbPath );	//	ƒvƒƒtƒ@ƒCƒ‹–¼‚Æ‚µ‚Ä“n‚·
+		SqlTreeTableCreate( atDbPath );	//	ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«åã¨ã—ã¦æ¸¡ã™
 	}
 	else if( M_DESTROY == mode )
 	{
@@ -503,7 +503,7 @@ HRESULT SqlTreeOpenClose( BYTE mode, LPCTSTR ptDbName )
 			gpTreeCache = NULL;
 		}
 	}
-	else	//	ƒI[ƒ|ƒ“‚µ‚Ä‚é‚©‚Ç‚¤‚©Šm”F
+	else	//	ã‚ªãƒ¼ãƒãƒ³ã—ã¦ã‚‹ã‹ã©ã†ã‹ç¢ºèª
 	{
 		if( !(gpTreeCache) ){	return E_OUTOFMEMORY;	}
 	}
@@ -514,19 +514,19 @@ HRESULT SqlTreeOpenClose( BYTE mode, LPCTSTR ptDbName )
 #endif
 
 /*!
-	SQLite‚ÌTransaction‚ğ‚µ‚½‚è‚â‚ß‚½‚è
-	@param[in]	mode	”ñ‚OŠJn@‚OI—¹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	SQLiteã®Transactionã‚’ã—ãŸã‚Šã‚„ã‚ãŸã‚Š
+	@param[in]	mode	éï¼é–‹å§‹ã€€ï¼çµ‚äº†
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTransactionOnOff( BYTE mode )
 {
 	if( mode )
 	{
-		sqlite3_exec( gpDataBase, "BEGIN TRANSACTION", NULL, NULL, NULL );	//	ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠJn
+		sqlite3_exec( gpDataBase, "BEGIN TRANSACTION", NULL, NULL, NULL );	//	ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é–‹å§‹
 	}
 	else
 	{
-		sqlite3_exec( gpDataBase, "COMMIT TRANSACTION", NULL, NULL, NULL );	//	ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“I—¹
+		sqlite3_exec( gpDataBase, "COMMIT TRANSACTION", NULL, NULL, NULL );	//	ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³çµ‚äº†
 	}
 
 	return S_OK;
@@ -534,28 +534,28 @@ HRESULT SqlTransactionOnOff( BYTE mode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒcƒŠ[‚Ìƒe[ƒuƒ‹‚Ì‘¶İ‚ğŠm”F‚µ‚ÄA‚È‚©‚Á‚½‚çì¬
-	@param[in]	ptProfName	‚È‚É‚©
-	@return		HRESULT		I—¹ó‘ÔƒR[ƒh
+	ãƒ„ãƒªãƒ¼ã®ãƒ†ãƒ¼ãƒ–ãƒ«ã®å­˜åœ¨ã‚’ç¢ºèªã—ã¦ã€ãªã‹ã£ãŸã‚‰ä½œæˆ
+	@param[in]	ptProfName	ãªã«ã‹
+	@return		HRESULT		çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 {
-	//	ƒvƒƒtî•ñ
+	//	ãƒ—ãƒ­ãƒ•æƒ…å ±
 	CONST CHAR	cacProfilesTable[] = { ("CREATE TABLE Profiles ( id INTEGER PRIMARY KEY, profname TEXT NOT NULL, rootpath TEXT NULL)") };
-	//	‰Šúƒvƒƒt–¼ì¬
+	//	åˆæœŸãƒ—ãƒ­ãƒ•åä½œæˆ
 	CONST TCHAR	catProfInsFmt[] = { TEXT("INSERT INTO Profiles ( profname ) VALUES( '%s' )") };
-	//	ƒcƒŠ[î•ñ
+	//	ãƒ„ãƒªãƒ¼æƒ…å ±
 	CONST CHAR	cacTreeNodeTable[] = { ("CREATE TABLE TreeNode ( id INTEGER PRIMARY KEY, type INTEGER NOT NULL, parentid INTEGER NOT NULL, nodename TEXT NOT NULL )") };
-	//	•›ƒ^ƒuî•ñ
-	CONST CHAR	cacMultiTabTable[] = { ("CREATE TABLE MultiTab ( id INTEGER PRIMARY KEY, filepath TEXT NOT NULL, basename TEXT NOT NULL, dispname TEXT )") };	//	20120613	•\¦–¼Ì’Ç‰Á
-	//	g—p‚`‚`î•ñ
+	//	å‰¯ã‚¿ãƒ–æƒ…å ±
+	CONST CHAR	cacMultiTabTable[] = { ("CREATE TABLE MultiTab ( id INTEGER PRIMARY KEY, filepath TEXT NOT NULL, basename TEXT NOT NULL, dispname TEXT )") };	//	20120613	è¡¨ç¤ºåç§°è¿½åŠ 
+	//	ä½¿ç”¨ï¼¡ï¼¡æƒ…å ±
 	CONST CHAR	cacArtListTable[]  = { ("CREATE TABLE ArtList ( id INTEGER PRIMARY KEY, count INTEGER NOT NULL, folder TEXT NOT NULL, lastuse  REAL NOT NULL, hash INTEGER NOT NULL, conts BLOB NOT NULL )") };
 
 	CHAR	acBuildVer[SUB_STRING], acText[MAX_PATH];
 	TCHAR	atStr[MAX_STRING];
 	SYSTEMTIME	stSysTime;
 
-	BYTE	yMode = FALSE;	//	Table‚ ‚Á‚½‚Æ‚©‚È‚©‚Á‚½‚Æ‚©
+	BYTE	yMode = FALSE;	//	Tableã‚ã£ãŸã¨ã‹ãªã‹ã£ãŸã¨ã‹
 	INT		rslt;
 
 	UINT	dVersion;
@@ -568,7 +568,7 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 
 	ZeroMemory( acText, sizeof(acText) );
 
-	//	ƒe[ƒuƒ‹‚Ì‘¶İ‚ğŠm”F‚·‚é
+	//	ãƒ†ãƒ¼ãƒ–ãƒ«ã®å­˜åœ¨ã‚’ç¢ºèªã™ã‚‹
 	rslt = sqlite3_prepare( gpDataBase, cacDetectTable, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 
@@ -586,28 +586,28 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 		rslt = sqlite3_finalize( statement );
 		yMode = TRUE;
 	}
-	//	‚Ü‚¸A‚Ä[‚Ô‚è‚å‚ª—L‚é‚©–³‚¢‚©‚É‚Â‚¢‚Ä
+	//	ã¾ãšã€ã¦ãƒ¼ã¶ã‚Šã‚‡ãŒæœ‰ã‚‹ã‹ç„¡ã„ã‹ã«ã¤ã„ã¦
 
 	if( !(yMode) )
 	{
 
-		TRACE( TEXT("ƒcƒŠ[—pƒe[ƒuƒ‹‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½") );
+		TRACE( TEXT("ãƒ„ãƒªãƒ¼ç”¨ãƒ†ãƒ¼ãƒ–ãƒ«ãŒè¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸ") );
 
-		rslt = sqlite3_finalize( statement );	//	‚Ç‚Á‚¿‚É‚µ‚Ä‚à‰ğœ
+		rslt = sqlite3_finalize( statement );	//	ã©ã£ã¡ã«ã—ã¦ã‚‚è§£é™¤
 
 
-	//VERSION”Ô†ƒe[ƒuƒ‹ì¬ƒ•\‚É‚Ío‚È‚¢
+	//VERSIONç•ªå·ãƒ†ãƒ¼ãƒ–ãƒ«ä½œæˆï¼œè¡¨ã«ã¯å‡ºãªã„
 		rslt = sqlite3_prepare( gpDataBase, cacVersionTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
-		//VERSION“à—e‚ğì¬	20120613•ÏX
+		//VERSIONå†…å®¹ã‚’ä½œæˆ	20120613å¤‰æ›´
 		GetLocalTime( &stSysTime );
 		StringCchPrintfA( acBuildVer, SUB_STRING, ("%d.%02d%02d.%02d%02d.%d"), stSysTime.wYear, stSysTime.wMonth, stSysTime.wDay, stSysTime.wHour, stSysTime.wMinute, SUBTAB_NAME_VER );
 		StringCchPrintfA( acText, MAX_PATH, cacVerStrInsFmt, SUBTAB_NAME_VER, acBuildVer );
-		//	‰Šúƒf[ƒ^‚Ô‚¿‚Ş
+		//	åˆæœŸãƒ‡ãƒ¼ã‚¿ã¶ã¡è¾¼ã‚€
 		rslt = sqlite3_prepare( gpDataBase, acText, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		sqlite3_reset( statement );
@@ -615,14 +615,14 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 		sqlite3_finalize(statement);
 
 
-	//ƒvƒƒtƒe[ƒuƒ‹‚ğì¬
+	//ãƒ—ãƒ­ãƒ•ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ
 		rslt = sqlite3_prepare( gpDataBase, cacProfilesTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
-		//‰Šú’l‚ğì¬
+		//åˆæœŸå€¤ã‚’ä½œæˆ
 		ZeroMemory( atStr, sizeof(atStr) );
 		StringCchPrintf( atStr, MAX_STRING, catProfInsFmt, ptProfName );
 		rslt = sqlite3_prepare16( gpDataBase, atStr, -1, &statement, NULL );
@@ -631,29 +631,29 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 		rslt = sqlite3_step( statement );
 		sqlite3_finalize(statement);
 
-	//ƒcƒŠ[ƒe[ƒuƒ‹‚ğ¶¬
+	//ãƒ„ãƒªãƒ¼ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç”Ÿæˆ
 		rslt = sqlite3_prepare( gpDataBase, cacTreeNodeTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
-	//•›ƒ^ƒuƒe[ƒuƒ‹‚ğì¬
+	//å‰¯ã‚¿ãƒ–ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ
 		rslt = sqlite3_prepare( gpDataBase, cacMultiTabTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
-	//g—p‚`‚`ƒe[ƒuƒ‹‚ğì¬	
+	//ä½¿ç”¨ï¼¡ï¼¡ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ä½œæˆ	
 		rslt = sqlite3_prepare( gpDataBase, cacArtListTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
 	}
-	else	//	‘¶İ‚µ‚Ä‚é‚È‚çAƒ”ƒ@[ƒWƒ‡ƒ“‚ğŠm‚©‚ß‚Ä[ƒe[ƒ{[‚ğ•ÏX
+	else	//	å­˜åœ¨ã—ã¦ã‚‹ãªã‚‰ã€ãƒ´ã‚¡ãƒ¼ã‚¸ãƒ§ãƒ³ã‚’ç¢ºã‹ã‚ã¦ãƒ¼ãƒ†ãƒ¼ãƒœãƒ¼ã‚’å¤‰æ›´
 	{
 		dVersion = 0;
 		rslt = sqlite3_prepare( gpDataBase, cacVersionNumGet, -1, &statement, NULL );
@@ -665,26 +665,26 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 
 
 
-		//	•›ƒ^ƒu‚Ì•\¦–¼Ì‚ğ’Ç‰Á
+		//	å‰¯ã‚¿ãƒ–ã®è¡¨ç¤ºåç§°ã‚’è¿½åŠ 
 		if( TREE_TBL_VER == dVersion )
 		{
-			//	ƒe[ƒuƒ‹‚É’Ç‰Á
+			//	ãƒ†ãƒ¼ãƒ–ãƒ«ã«è¿½åŠ 
 			rslt = sqlite3_prepare( gpDataBase, ("ALTER TABLE MultiTab ADD COLUMN dispname TEXT DEFAULT \"\" "), -1, &statement, NULL );
 			if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
-			rslt = sqlite3_step( statement );	//	Às
+			rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 			if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 			rslt = sqlite3_finalize( statement );
 
-			//ƒo[ƒWƒ‡ƒ“î•ñ‚ğ‘‚«Š·‚¦
-			GetLocalTime( &stSysTime  );	//	XV“ú‚Æƒo[ƒWƒ‡ƒ“
+			//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã‚’æ›¸ãæ›ãˆ
+			GetLocalTime( &stSysTime  );	//	æ›´æ–°æ—¥æ™‚ã¨ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 			StringCchPrintfA( acBuildVer, SUB_STRING, ("%d.%02d%02d.%02d%02d.%d"),
 				stSysTime.wYear, stSysTime.wMonth, stSysTime.wDay,
 				stSysTime.wHour, stSysTime.wMinute, SUBTAB_NAME_VER );
 
-			//	Query•¶š—ñì‚Á‚Ä
+			//	Queryæ–‡å­—åˆ—ä½œã£ã¦
 			StringCchPrintfA( acQuery, MAX_PATH, cacVersionUpdate, SUBTAB_NAME_VER, acBuildVer );
 
-			//	î•ñ‘‚«Š·‚¦‚é
+			//	æƒ…å ±æ›¸ãæ›ãˆã‚‹
 			rslt = sqlite3_prepare( gpDataBase, acQuery, -1, &statement, NULL);
 			if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_ACCESSDENIED;	}
 
@@ -702,10 +702,10 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	“o˜^‚³‚ê‚Ä‚¢‚éŒÂ”‚ÆIDÅ‘å’lŠm•Û
-	@param[in]	bType	‚OƒvƒƒtE‚PƒcƒŠ[E‚Q•›ƒ^ƒuE‚RƒcƒŠ[ƒLƒƒƒbƒVƒ…
-	@param[out]	pdMax	”ñ‚m‚t‚k‚k‚È‚çAÅ‘å’l‚¢‚ê‚¿‚á‚¤
-	@return		“o˜^‚³‚ê‚Ä‚¢‚éŒÂ”
+	ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å€‹æ•°ã¨IDæœ€å¤§å€¤ç¢ºä¿
+	@param[in]	bType	ï¼ãƒ—ãƒ­ãƒ•ãƒ»ï¼‘ãƒ„ãƒªãƒ¼ãƒ»ï¼’å‰¯ã‚¿ãƒ–ãƒ»ï¼“ãƒ„ãƒªãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥
+	@param[out]	pdMax	éï¼®ï¼µï¼¬ï¼¬ãªã‚‰ã€æœ€å¤§å€¤ã„ã‚Œã¡ã‚ƒã†
+	@return		ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å€‹æ•°
 */
 UINT SqlTreeCount( UINT bType, PUINT pdMax )
 {
@@ -757,14 +757,14 @@ UINT SqlTreeCount( UINT bType, PUINT pdMax )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒvƒƒt–¼Aƒ‹[ƒgƒpƒX‚ğ•ÏX
-	@param[in]	ptProfName	ƒvƒƒt–¼
-	@param[in]	ptRootPath	AA‚Ìƒ‹[ƒgƒ_ƒfƒBƒŒƒNƒgƒŠ–¼
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ—ãƒ­ãƒ•åã€ãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹ã‚’å¤‰æ›´
+	@param[in]	ptProfName	ãƒ—ãƒ­ãƒ•å
+	@param[in]	ptRootPath	AAã®ãƒ«ãƒ¼ãƒˆãƒ€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeProfUpdate( LPCTSTR ptProfName, LPCTSTR ptRootPath )
 {
-	//	‚Pƒtƒ@ƒCƒ‹‚É•t‚«‚PƒŒƒR[ƒh‚µ‚©‘¶İ‚µ‚È‚¢‚Ì‚ÅAID‚Í‚PŒÅ’è
+	//	ï¼‘ãƒ•ã‚¡ã‚¤ãƒ«ã«ä»˜ãï¼‘ãƒ¬ã‚³ãƒ¼ãƒ‰ã—ã‹å­˜åœ¨ã—ãªã„ã®ã§ã€IDã¯ï¼‘å›ºå®š
 	CONST  TCHAR	catUpdateName[] = { TEXT("UPDATE Profiles SET profname = '%s' WHERE id == 1") };
 	CONST  TCHAR	catUpdateRoot[] = { TEXT("UPDATE Profiles SET rootpath = '%s' WHERE id == 1") };
 
@@ -772,7 +772,7 @@ HRESULT SqlTreeProfUpdate( LPCTSTR ptProfName, LPCTSTR ptRootPath )
 	INT		rslt;
 	sqlite3_stmt	*statement;
 
-	//	ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌON/OFF‚Í•K—v‚É‰‚¶‚ÄŠO‚Åƒ„ƒ‹
+	//	ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®ON/OFFã¯å¿…è¦ã«å¿œã˜ã¦å¤–ã§ãƒ¤ãƒ«
 
 	if( ptProfName )
 	{
@@ -799,12 +799,12 @@ HRESULT SqlTreeProfUpdate( LPCTSTR ptProfName, LPCTSTR ptRootPath )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒvƒƒt–¼Aƒ‹[ƒgƒpƒX‚ğŠm•Û
-	@param[out]	ptProfName	ƒvƒƒt–¼“ü‚ê‚é
-	@param[in]	szName		ƒvƒƒt–¼‚Ì•¶š”
-	@param[out]	ptRootPath	AA‚Ìƒ‹[ƒgƒ_ƒfƒBƒŒƒNƒgƒŠ–¼
-	@param[in]	szRoot		ƒ‹[ƒgƒ_ƒfƒB‚Ì•¶š”
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ—ãƒ­ãƒ•åã€ãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹ã‚’ç¢ºä¿
+	@param[out]	ptProfName	ãƒ—ãƒ­ãƒ•åå…¥ã‚Œã‚‹
+	@param[in]	szName		ãƒ—ãƒ­ãƒ•åã®æ–‡å­—æ•°
+	@param[out]	ptRootPath	AAã®ãƒ«ãƒ¼ãƒˆãƒ€ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@param[in]	szRoot		ãƒ«ãƒ¼ãƒˆãƒ€ãƒ‡ã‚£ã®æ–‡å­—æ•°
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeProfSelect( LPTSTR ptProfName, UINT szName, LPTSTR ptRootPath, UINT szRoot )
 {
@@ -819,13 +819,13 @@ HRESULT SqlTreeProfSelect( LPTSTR ptProfName, UINT szName, LPTSTR ptRootPath, UI
 	ZeroMemory( atName, sizeof(atName) );
 	ZeroMemory( atRoot, sizeof(atRoot) );
 
-	//	ƒNƒFƒŠƒZƒbƒg
+	//	ã‚¯ã‚§ãƒªã‚»ãƒƒãƒˆ
 	rslt = sqlite3_prepare( gpDataBase, cacSelectQuery, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return E_OUTOFMEMORY;	}
 
 	rslt = sqlite3_reset( statement );
 
-	//	“à—e‚ğ“Ç‚İo‚µ
+	//	å†…å®¹ã‚’èª­ã¿å‡ºã—
 	rslt = sqlite3_step( statement );
 	if( SQLITE_ROW == rslt )
 	{
@@ -846,12 +846,12 @@ HRESULT SqlTreeProfSelect( LPTSTR ptProfName, UINT szName, LPTSTR ptRootPath, UI
 
 
 /*!
-	ƒfƒBƒŒƒNƒgƒŠ‚©ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚ğƒhƒsƒ…ƒb
-	@param[in]	uqID	Š„“–Ï‚Ì‚h‚c”Ô†
-	@param[in]	dType	ƒfƒBƒŒƒNƒgƒŠ‚©ƒtƒ@ƒCƒ‹‚©
-	@param[in]	dPrnt	eƒcƒŠ[ƒm[ƒh‚ÌSQL“I‚h‚c”Ô†
-	@param[in]	ptName	ƒm[ƒh‚Ì–¼Ì
-	@return	UINT	‚¢‚Ü“o˜^‚µ‚½ID”Ô†
+	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‰ãƒ”ãƒ¥ãƒƒ
+	@param[in]	uqID	å‰²å½“æ¸ˆã®ï¼©ï¼¤ç•ªå·
+	@param[in]	dType	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ãƒ•ã‚¡ã‚¤ãƒ«ã‹
+	@param[in]	dPrnt	è¦ªãƒ„ãƒªãƒ¼ãƒãƒ¼ãƒ‰ã®SQLçš„ï¼©ï¼¤ç•ªå·
+	@param[in]	ptName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@return	UINT	ã„ã¾ç™»éŒ²ã—ãŸIDç•ªå·
 */
 UINT SqlTreeNodeInsert( UINT uqID, UINT dType, UINT dPrnt, LPTSTR ptName )
 {
@@ -879,7 +879,7 @@ UINT SqlTreeNodeInsert( UINT uqID, UINT dType, UINT dPrnt, LPTSTR ptName )
 
 	sqlite3_finalize( statement );
 
-	//	¡’Ç‰Á‚µ‚½‚â‚Â‚ÌƒAƒŒ‚ğæ“¾
+	//	ä»Šè¿½åŠ ã—ãŸã‚„ã¤ã®ã‚¢ãƒ¬ã‚’å–å¾—
 	rslt = sqlite3_prepare( gpDataBase, acAddNumCheck, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return 0;	}
 
@@ -896,10 +896,10 @@ UINT SqlTreeNodeInsert( UINT uqID, UINT dType, UINT dPrnt, LPTSTR ptName )
 #ifdef EXTRA_NODE_STYLE
 
 /*!
-	ƒGƒLƒXƒgƒ‰ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^‚ğƒhƒsƒ…ƒb
-	@param[in]	dType	‚PƒfƒBƒŒƒNƒgƒŠ‚©‚Oƒtƒ@ƒCƒ‹‚©E‚Æ‚è‚ ‚¦‚¸–³‹
-	@param[in]	ptName	ƒm[ƒh‚Ì–¼Ì
-	@return	UINT	‚¢‚Ü“o˜^‚µ‚½ID”Ô†
+	ã‚¨ã‚­ã‚¹ãƒˆãƒ©ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ‰ãƒ”ãƒ¥ãƒƒ
+	@param[in]	dType	ï¼‘ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ï¼ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒ»ã¨ã‚Šã‚ãˆãšç„¡è¦–
+	@param[in]	ptName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@return	UINT	ã„ã¾ç™»éŒ²ã—ãŸIDç•ªå·
 */
 UINT SqlTreeNodeExtraInsert( UINT dType, LPCTSTR ptName )
 {
@@ -915,7 +915,7 @@ UINT SqlTreeNodeExtraInsert( UINT dType, LPCTSTR ptName )
 	rslt = sqlite3_prepare( gpDataBase, acTreeNodeExIns, -1, &statement, NULL);
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return 0;	}
 
-	//	ƒtƒ@ƒCƒ‹ŒÅ’èAe‚h‚c‚Í|‚PŒÅ’è
+	//	ãƒ•ã‚¡ã‚¤ãƒ«å›ºå®šã€è¦ªï¼©ï¼¤ã¯âˆ’ï¼‘å›ºå®š
 	sqlite3_reset( statement );
 	rslt = sqlite3_bind_int(    statement, 1, 0 );	//	type
 	rslt = sqlite3_bind_int(    statement, 2, -1 );	//	parentid
@@ -926,7 +926,7 @@ UINT SqlTreeNodeExtraInsert( UINT dType, LPCTSTR ptName )
 
 	sqlite3_finalize( statement );
 
-	//	¡’Ç‰Á‚µ‚½‚â‚Â‚ÌƒAƒŒ‚ğæ“¾E‚h‚c‚Í‚¢‚Â‚Å‚àƒ†ƒj[ƒN‚Å‚ ‚é
+	//	ä»Šè¿½åŠ ã—ãŸã‚„ã¤ã®ã‚¢ãƒ¬ã‚’å–å¾—ãƒ»ï¼©ï¼¤ã¯ã„ã¤ã§ã‚‚ãƒ¦ãƒ‹ãƒ¼ã‚¯ã§ã‚ã‚‹
 	rslt = sqlite3_prepare( gpDataBase, acAddNumCheck, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return 0;	}
 
@@ -941,9 +941,9 @@ UINT SqlTreeNodeExtraInsert( UINT dType, LPCTSTR ptName )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚h‚cw’è‚µ‚Äíœ
-	@param[in]	delID	‚±‚Ì‚h‚c‚Ìƒf[ƒ^‚ğíœ‚·‚é
-	@return	UINT	“Á‚É‚È‚¢
+	ï¼©ï¼¤æŒ‡å®šã—ã¦å‰Šé™¤
+	@param[in]	delID	ã“ã®ï¼©ï¼¤ã®ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã™ã‚‹
+	@return	UINT	ç‰¹ã«ãªã„
 */
 UINT SqlTreeNodeExtraDelete( UINT delID )
 {
@@ -970,11 +970,11 @@ UINT SqlTreeNodeExtraDelete( UINT delID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚h‚cw’è‚µ‚ÄƒŠƒXƒgƒAƒbƒv
-	@param[in]	seekID	‚PˆÈã‚Ìê‡A‚±‚ÌID‚Ì‚ğ’T‚·B‚±‚Á‚¿—Dæ
-	@param[in]	tgtID	‚±‚Ì”Ô†‚ğ’´‚¦‚ÄÅ‰‚Éƒqƒbƒg‚µ‚½‚â‚Â‚ğ•Ô‚·EseekID‚ª‚O‚Ìê‡
-	@param[out]	ptName	ƒm[ƒh‚ÌƒpƒX‚¢‚ê‚éƒoƒbƒtƒ@EMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@return	UINT	ˆø‚Á’£‚Á‚½‚â‚Â‚Ì‚h‚cE–³‚©‚Á‚½‚ç‚O
+	ï¼©ï¼¤æŒ‡å®šã—ã¦ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
+	@param[in]	seekID	ï¼‘ä»¥ä¸Šã®å ´åˆã€ã“ã®IDã®ã‚’æ¢ã™ã€‚ã“ã£ã¡å„ªå…ˆ
+	@param[in]	tgtID	ã“ã®ç•ªå·ã‚’è¶…ãˆã¦æœ€åˆã«ãƒ’ãƒƒãƒˆã—ãŸã‚„ã¤ã‚’è¿”ã™ãƒ»seekIDãŒï¼ã®å ´åˆ
+	@param[out]	ptName	ãƒãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã„ã‚Œã‚‹ãƒãƒƒãƒ•ã‚¡ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@return	UINT	å¼•ã£å¼µã£ãŸã‚„ã¤ã®ï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlTreeNodeExtraSelect( UINT seekID, UINT tgtID, LPTSTR ptName )
 {
@@ -1007,9 +1007,9 @@ UINT SqlTreeNodeExtraSelect( UINT seekID, UINT tgtID, LPTSTR ptName )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒtƒ@ƒCƒ‹–¼w’è‚µ‚ÄA“¯‚¶‚Ì‚ª‚ ‚é‚©‚Ç‚¤‚©
-	@param[out]	ptName	ƒm[ƒh‚ÌƒpƒX‚¢‚ê‚éƒoƒbƒtƒ@EMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@return	UINT	ƒqƒbƒg‚µ‚½‚â‚Â‚Ì‚h‚cE–³‚©‚Á‚½‚ç‚O
+	ãƒ•ã‚¡ã‚¤ãƒ«åæŒ‡å®šã—ã¦ã€åŒã˜ã®ãŒã‚ã‚‹ã‹ã©ã†ã‹
+	@param[out]	ptName	ãƒãƒ¼ãƒ‰ã®ãƒ‘ã‚¹ã„ã‚Œã‚‹ãƒãƒƒãƒ•ã‚¡ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@return	UINT	ãƒ’ãƒƒãƒˆã—ãŸã‚„ã¤ã®ï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlTreeNodeExtraIsFileExist( LPCTSTR ptName ) 
 {
@@ -1043,9 +1043,9 @@ UINT SqlTreeNodeExtraIsFileExist( LPCTSTR ptName )
 
 #if 0
 /*!
-	‡”Ô‚É‘S•”ƒŠƒXƒgƒAƒbƒv
-	@param[in]	dProfID		ƒŠƒXƒgƒAƒbƒv‚·‚éƒvƒƒt‚h‚c
-	@param[in]	pfDataing	ƒf[ƒ^‚ğ“ü‚ê‚é”Ÿ”ƒ|ƒCƒ“ƒ^
+	é †ç•ªã«å…¨éƒ¨ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
+	@param[in]	dProfID		ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹ãƒ—ãƒ­ãƒ•ï¼©ï¼¤
+	@param[in]	pfDataing	ãƒ‡ãƒ¼ã‚¿ã‚’å…¥ã‚Œã‚‹å‡½æ•°ãƒã‚¤ãƒ³ã‚¿
 */
 HRESULT SqlTreeNodeEnum( UINT dProfID, BUFFERBACK pfDataing )
 {
@@ -1088,9 +1088,9 @@ HRESULT SqlTreeNodeEnum( UINT dProfID, BUFFERBACK pfDataing )
 
 #if 0
 /*!
-	w’è‚Ì–¼‘O‚ÌƒfƒBƒŒƒNƒgƒŠ‚Íƒ‹[ƒg‚É‚ ‚é‚Ì‚ÅH
-	@param[out]	ptDirName	ƒm[ƒh‚Ì–¼Ì
-	@return	UINT			‚O–³‚©‚Á‚½@‚P`ƒqƒbƒg‚µ‚½‚h‚c
+	æŒ‡å®šã®åå‰ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯ãƒ«ãƒ¼ãƒˆã«ã‚ã‚‹ã®ã§ï¼Ÿ
+	@param[out]	ptDirName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@return	UINT			ï¼ç„¡ã‹ã£ãŸã€€ï¼‘ã€œãƒ’ãƒƒãƒˆã—ãŸï¼©ï¼¤
 */
 UINT SqlTreeNodeRootSearch( LPTSTR ptDirName )
 {
@@ -1121,13 +1121,13 @@ UINT SqlTreeNodeRootSearch( LPTSTR ptDirName )
 #endif
 
 /*!
-	‚h‚cw’è‚µ‚ÄƒŠƒXƒgƒAƒbƒv
-	@param[in]	tgtID	‚±‚Ì”Ô†‚ğ’´‚¦‚ÄÅ‰‚Éƒqƒbƒg‚µ‚½‚â‚Â‚ğ•Ô‚·
-	@param[out]	pType	ƒfƒBƒŒƒNƒgƒŠ(FILE_ATTRIBUTE_DIRECTORY)‚©ƒtƒ@ƒCƒ‹‚©(FILE_ATTRIBUTE_NORMAL)
-	@param[out]	pPrntID	eƒcƒŠ[ƒm[ƒh‚ÌSQL“I‚h‚c”Ô†
-	@param[out]	ptName	ƒm[ƒh‚Ì–¼Ì
-	@param[in]	bStyle	0x01’Êí@0x00ƒcƒŠ[ƒLƒƒƒbƒVƒ…@^@0x10‚h‚cˆê’v@0x00‚h‚c’´‚¦‚½
-	@return	UINT	ˆø‚Á’£‚Á‚½‚â‚Â‚Ì‚h‚cE–³‚©‚Á‚½‚ç‚O
+	ï¼©ï¼¤æŒ‡å®šã—ã¦ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
+	@param[in]	tgtID	ã“ã®ç•ªå·ã‚’è¶…ãˆã¦æœ€åˆã«ãƒ’ãƒƒãƒˆã—ãŸã‚„ã¤ã‚’è¿”ã™
+	@param[out]	pType	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª(FILE_ATTRIBUTE_DIRECTORY)ã‹ãƒ•ã‚¡ã‚¤ãƒ«ã‹(FILE_ATTRIBUTE_NORMAL)
+	@param[out]	pPrntID	è¦ªãƒ„ãƒªãƒ¼ãƒãƒ¼ãƒ‰ã®SQLçš„ï¼©ï¼¤ç•ªå·
+	@param[out]	ptName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@param[in]	bStyle	0x01é€šå¸¸ã€€0x00ãƒ„ãƒªãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã€€ï¼ã€€0x10ï¼©ï¼¤ä¸€è‡´ã€€0x00ï¼©ï¼¤è¶…ãˆãŸ
+	@return	UINT	å¼•ã£å¼µã£ãŸã‚„ã¤ã®ï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlTreeNodePickUpID( UINT tgtID, PUINT pType, PUINT pPrntID, LPTSTR ptName, UINT bStyle ) 
 {
@@ -1165,12 +1165,12 @@ UINT SqlTreeNodePickUpID( UINT tgtID, PUINT pType, PUINT pPrntID, LPTSTR ptName,
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	e‚h‚cw’è‚µ‚ÄƒŠƒXƒgƒAƒbƒv
-	@param[in]	dPrntID	e‚h‚c
-	@param[in]	tgtID	‚±‚Ì”Ô†‚ğ’´‚¦‚ÄÅ‰‚Éƒqƒbƒg‚µ‚½‚â‚Â‚ğ•Ô‚·
-	@param[out]	pType	ƒfƒBƒŒƒNƒgƒŠ(FILE_ATTRIBUTE_DIRECTORY)‚©ƒtƒ@ƒCƒ‹‚©(FILE_ATTRIBUTE_NORMAL)
-	@param[out]	ptName	ƒm[ƒh‚Ì–¼Ì
-	@return	UINT	ˆø‚Á’£‚Á‚½‚â‚Â‚Ì‚h‚cE–³‚©‚Á‚½‚ç‚O
+	è¦ªï¼©ï¼¤æŒ‡å®šã—ã¦ãƒªã‚¹ãƒˆã‚¢ãƒƒãƒ—
+	@param[in]	dPrntID	è¦ªï¼©ï¼¤
+	@param[in]	tgtID	ã“ã®ç•ªå·ã‚’è¶…ãˆã¦æœ€åˆã«ãƒ’ãƒƒãƒˆã—ãŸã‚„ã¤ã‚’è¿”ã™
+	@param[out]	pType	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª(FILE_ATTRIBUTE_DIRECTORY)ã‹ãƒ•ã‚¡ã‚¤ãƒ«ã‹(FILE_ATTRIBUTE_NORMAL)
+	@param[out]	ptName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@return	UINT	å¼•ã£å¼µã£ãŸã‚„ã¤ã®ï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlChildNodePickUpID( UINT dPrntID, UINT tgtID, PUINT pType, LPTSTR ptName )
 {
@@ -1200,9 +1200,9 @@ UINT SqlChildNodePickUpID( UINT dPrntID, UINT tgtID, PUINT pType, LPTSTR ptName 
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒcƒŠ[ƒf[ƒ^‚ğ‘S‚Äíœ
-	@param[in]	bStyle	”ñ‚Oƒf[ƒ^ƒx[ƒX–{‘Ì@‚Oƒvƒƒt\’z—pƒLƒƒƒbƒVƒ…
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ„ãƒªãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚’å…¨ã¦å‰Šé™¤
+	@param[in]	bStyle	éï¼ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹æœ¬ä½“ã€€ï¼ãƒ—ãƒ­ãƒ•æ§‹ç¯‰ç”¨ã‚­ãƒ£ãƒƒã‚·ãƒ¥
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeNodeAllDelete( UINT bStyle )
 {
@@ -1227,10 +1227,10 @@ HRESULT SqlTreeNodeAllDelete( UINT bStyle )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒpƒ„[ƒ“‚ğó‚¯æ‚Á‚ÄAŠY“–‚·‚é‚h‚c‚ğ•Ô‚·B
-	@param[in]	ptName	ƒpƒ„[ƒ“
-	@param[in]	dStart	ŒŸõŠJn‚h‚cE‚±‚Ì‚h‚c‚ÌŸ‚Ì’l‚©‚çŒŸõŠJn
-	@return	ƒqƒbƒg‚µ‚½‚h‚cE–³‚©‚Á‚½‚ç‚O
+	ãƒ‘ãƒ¤ãƒ¼ãƒ³ã‚’å—ã‘å–ã£ã¦ã€è©²å½“ã™ã‚‹ï¼©ï¼¤ã‚’è¿”ã™ã€‚
+	@param[in]	ptName	ãƒ‘ãƒ¤ãƒ¼ãƒ³
+	@param[in]	dStart	æ¤œç´¢é–‹å§‹ï¼©ï¼¤ãƒ»ã“ã®ï¼©ï¼¤ã®æ¬¡ã®å€¤ã‹ã‚‰æ¤œç´¢é–‹å§‹
+	@return	ãƒ’ãƒƒãƒˆã—ãŸï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlTreeFileSearch( LPTSTR ptName, UINT dStart )
 {
@@ -1261,10 +1261,10 @@ UINT SqlTreeFileSearch( LPTSTR ptName, UINT dStart )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	“Á’è‚Ìe‚h‚c‚ğ‚Âƒm[ƒh–¼Ì‚ğ’T‚µ‚ÄAŠY“–‚·‚é‚h‚c‚ğ•Ô‚·B
-	@param[in]	ptName	ƒpƒ„[ƒ“
-	@param[in]	dPrntID	“Á’è‚Ìe‚h‚c
-	@return	ƒqƒbƒg‚µ‚½‚h‚cE–³‚©‚Á‚½‚ç‚O
+	ç‰¹å®šã®è¦ªï¼©ï¼¤ã‚’æŒã¤ãƒãƒ¼ãƒ‰åç§°ã‚’æ¢ã—ã¦ã€è©²å½“ã™ã‚‹ï¼©ï¼¤ã‚’è¿”ã™ã€‚
+	@param[in]	ptName	ãƒ‘ãƒ¤ãƒ¼ãƒ³
+	@param[in]	dPrntID	ç‰¹å®šã®è¦ªï¼©ï¼¤
+	@return	ãƒ’ãƒƒãƒˆã—ãŸï¼©ï¼¤ãƒ»ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlTreeFileGetOnParent( LPTSTR ptName, UINT dPrntID )
 {
@@ -1296,11 +1296,11 @@ UINT SqlTreeFileGetOnParent( LPTSTR ptName, UINT dPrntID )
 
 
 /*!
-	ƒcƒŠ[ƒLƒƒƒbƒVƒ…—pƒIƒ“ƒƒ‚ƒŠ‚c‚a
+	ãƒ„ãƒªãƒ¼ã‚­ãƒ£ãƒƒã‚·ãƒ¥ç”¨ã‚ªãƒ³ãƒ¡ãƒ¢ãƒªï¼¤ï¼¢
 */
 HRESULT SqlTreeCacheOpenClose( UINT bMode )
 {
-	//	ƒcƒŠ[î•ñ
+	//	ãƒ„ãƒªãƒ¼æƒ…å ±
 	CONST CHAR	cacTreeNodeTable[] = { ("CREATE TABLE TreeNode ( id INTEGER PRIMARY KEY, type INTEGER NOT NULL, parentid INTEGER NOT NULL, nodename TEXT NOT NULL )") };
 	INT		rslt;
 	sqlite3_stmt	*statement;
@@ -1310,18 +1310,18 @@ HRESULT SqlTreeCacheOpenClose( UINT bMode )
 		rslt = sqlite3_open( (":memory:"), &gpTreeCache );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpTreeCache );	return E_FAIL;	}
 
-		//ƒcƒŠ[ƒe[ƒuƒ‹‚ğ¶¬
+		//ãƒ„ãƒªãƒ¼ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç”Ÿæˆ
 		rslt = sqlite3_prepare( gpTreeCache, cacTreeNodeTable, -1, &statement, NULL );
 		if( SQLITE_OK != rslt ){	SQL_DEBUG( gpTreeCache );	return E_ACCESSDENIED;	}
-		rslt = sqlite3_step( statement );	//	Às
+		rslt = sqlite3_step( statement );	//	å®Ÿè¡Œ
 		if( SQLITE_DONE != rslt ){	SQL_DEBUG( gpTreeCache );	return E_ACCESSDENIED;	}
 		rslt = sqlite3_finalize(statement);
 
-		sqlite3_exec( gpTreeCache, "BEGIN TRANSACTION", NULL, NULL, NULL );	//	ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠJn
+		sqlite3_exec( gpTreeCache, "BEGIN TRANSACTION", NULL, NULL, NULL );	//	ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³é–‹å§‹
 	}
 	else
 	{
-		sqlite3_exec( gpTreeCache, "COMMIT TRANSACTION", NULL, NULL, NULL );	//	ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“I—¹
+		sqlite3_exec( gpTreeCache, "COMMIT TRANSACTION", NULL, NULL, NULL );	//	ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³çµ‚äº†
 
 		if( gpTreeCache ){	rslt = sqlite3_close( gpTreeCache );	}
 		gpTreeCache = NULL;
@@ -1332,8 +1332,8 @@ HRESULT SqlTreeCacheOpenClose( UINT bMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒcƒŠ[Cache‚©‚çAID‚ğŒ³‚Éíœ
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ„ãƒªãƒ¼Cacheã‹ã‚‰ã€IDã‚’å…ƒã«å‰Šé™¤
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlTreeCacheDelID( INT tgtID )
 {
@@ -1341,7 +1341,7 @@ HRESULT SqlTreeCacheDelID( INT tgtID )
 	INT		rslt;
 	sqlite3_stmt	*statement;
 
-	//	ƒpƒŒƒ“ƒg‚h‚c‚ªŠY“–‚·‚éƒ„ƒc‚àíœ‚©
+	//	ãƒ‘ãƒ¬ãƒ³ãƒˆï¼©ï¼¤ãŒè©²å½“ã™ã‚‹ãƒ¤ãƒ„ã‚‚å‰Šé™¤ã‹
 
 
 	rslt = sqlite3_prepare( gpTreeCache, acTreeDel, -1, &statement, NULL );
@@ -1358,11 +1358,11 @@ HRESULT SqlTreeCacheDelID( INT tgtID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒfƒBƒŒƒNƒgƒŠ‚©ƒtƒ@ƒCƒ‹‚Ìƒf[ƒ^ˆêƒoƒbƒtƒ@‚Éƒhƒsƒ…ƒb
-	@param[in]	dType	ƒfƒBƒŒƒNƒgƒŠ‚©ƒtƒ@ƒCƒ‹‚©
-	@param[in]	dPrnt	eƒcƒŠ[ƒm[ƒh‚ÌSQL“I‚h‚c”Ô†
-	@param[in]	ptName	ƒm[ƒh‚Ì–¼Ì
-	@return	UINT	‚¢‚Ü“o˜^‚µ‚½ID”Ô†
+	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ä¸€æ™‚ãƒãƒƒãƒ•ã‚¡ã«ãƒ‰ãƒ”ãƒ¥ãƒƒ
+	@param[in]	dType	ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ãƒ•ã‚¡ã‚¤ãƒ«ã‹
+	@param[in]	dPrnt	è¦ªãƒ„ãƒªãƒ¼ãƒãƒ¼ãƒ‰ã®SQLçš„ï¼©ï¼¤ç•ªå·
+	@param[in]	ptName	ãƒãƒ¼ãƒ‰ã®åç§°
+	@return	UINT	ã„ã¾ç™»éŒ²ã—ãŸIDç•ªå·
 */
 UINT SqlTreeCacheInsert( UINT dType, UINT dPrnt, LPTSTR ptName )
 {
@@ -1389,7 +1389,7 @@ UINT SqlTreeCacheInsert( UINT dType, UINT dPrnt, LPTSTR ptName )
 
 	sqlite3_finalize( statement );
 
-	//	¡’Ç‰Á‚µ‚½‚â‚Â‚ÌƒAƒŒ‚ğæ“¾
+	//	ä»Šè¿½åŠ ã—ãŸã‚„ã¤ã®ã‚¢ãƒ¬ã‚’å–å¾—
 	rslt = sqlite3_prepare( gpTreeCache, acAddNumCheck, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpTreeCache );	return 0;	}
 
@@ -1407,11 +1407,11 @@ UINT SqlTreeCacheInsert( UINT dType, UINT dPrnt, LPTSTR ptName )
 
 
 /*!
-	•›ƒ^ƒuî•ñ‚ğ’Ç‰Á
-	@param[in]	ptFilePath	ƒtƒ@ƒCƒ‹ƒpƒXE‹ó‚È‚çg—p‚©‚çŠJ‚¢‚½
-	@param[in]	ptBaseName	ƒ‹[ƒg’¼‰º‚ÌƒfƒBƒŒƒNƒgƒŠ–¼
-	@param[in]	ptDispName	ƒ^ƒu‚Ì•\¦–¼
-	@return	UINT	‚¢‚Ü“o˜^‚µ‚½ID”Ô†E—]‚èˆÓ–¡‚Í‚È‚¢
+	å‰¯ã‚¿ãƒ–æƒ…å ±ã‚’è¿½åŠ 
+	@param[in]	ptFilePath	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ãƒ»ç©ºãªã‚‰ä½¿ç”¨ã‹ã‚‰é–‹ã„ãŸ
+	@param[in]	ptBaseName	ãƒ«ãƒ¼ãƒˆç›´ä¸‹ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå
+	@param[in]	ptDispName	ã‚¿ãƒ–ã®è¡¨ç¤ºå
+	@return	UINT	ã„ã¾ç™»éŒ²ã—ãŸIDç•ªå·ãƒ»ä½™ã‚Šæ„å‘³ã¯ãªã„
 */
 UINT SqlMultiTabInsert( LPCTSTR ptFilePath, LPCTSTR ptBaseName, LPCTSTR ptDispName )
 {
@@ -1437,7 +1437,7 @@ UINT SqlMultiTabInsert( LPCTSTR ptFilePath, LPCTSTR ptBaseName, LPCTSTR ptDispNa
 
 	sqlite3_finalize( statement );
 
-	//	¡’Ç‰Á‚µ‚½‚â‚Â‚ÌƒAƒŒ‚ğæ“¾
+	//	ä»Šè¿½åŠ ã—ãŸã‚„ã¤ã®ã‚¢ãƒ¬ã‚’å–å¾—
 	rslt = sqlite3_prepare( gpDataBase, acAddNumCheck, -1, &statement, NULL );
 	if( SQLITE_OK != rslt ){	SQL_DEBUG( gpDataBase );	return 0;	}
 
@@ -1452,12 +1452,12 @@ UINT SqlMultiTabInsert( LPCTSTR ptFilePath, LPCTSTR ptBaseName, LPCTSTR ptDispNa
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚h‚c‚ğw’è‚µ‚Äƒf[ƒ^ƒQƒbƒg
-	@param[in]	id			ŒŸõ‚·‚é‚h‚c
-	@param[out]	ptFilePath	ƒtƒ@ƒCƒ‹ƒpƒXƒoƒbƒtƒ@EMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@param[out]	ptBaseName	ƒ‹[ƒg’¼‰º‚ÌƒfƒBƒŒƒNƒgƒŠ–¼ƒoƒbƒtƒ@EMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@param[in]	ptDispName	ƒ^ƒu‚Ì•\¦–¼EMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@return	UINT	ˆø‚Á’£‚Á‚½ƒ„ƒc‚ÌID”Ô†Eƒqƒbƒg‚µ‚È‚©‚Á‚½‚ç‚O
+	ï¼©ï¼¤ã‚’æŒ‡å®šã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚²ãƒƒãƒˆ
+	@param[in]	id			æ¤œç´¢ã™ã‚‹ï¼©ï¼¤
+	@param[out]	ptFilePath	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@param[out]	ptBaseName	ãƒ«ãƒ¼ãƒˆç›´ä¸‹ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåãƒãƒƒãƒ•ã‚¡ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@param[in]	ptDispName	ã‚¿ãƒ–ã®è¡¨ç¤ºåãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@return	UINT	å¼•ã£å¼µã£ãŸãƒ¤ãƒ„ã®IDç•ªå·ãƒ»ãƒ’ãƒƒãƒˆã—ãªã‹ã£ãŸã‚‰ï¼
 */
 UINT SqlMultiTabSelect( INT id, LPTSTR ptFilePath, LPTSTR ptBaseName, LPTSTR ptDispName )
 {
@@ -1491,8 +1491,8 @@ UINT SqlMultiTabSelect( INT id, LPTSTR ptFilePath, LPTSTR ptBaseName, LPTSTR ptD
 
 
 /*!
-	•›ƒ^ƒuƒf[ƒ^‚ğíœ
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	å‰¯ã‚¿ãƒ–ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT SqlMultiTabDelete( VOID )
 {

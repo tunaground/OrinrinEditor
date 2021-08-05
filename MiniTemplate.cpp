@@ -1,6 +1,6 @@
 /*! @file
-	@brief ¬Œ^‚l‚`‚`ƒeƒ“ƒvƒŒ[ƒg‚Ì–Ê“|Œ©‚Ü‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í MiniTemplate.cpp ‚Å‚·B
+	@brief å°å‹ï¼­ï¼¡ï¼¡ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®é¢å€’è¦‹ã¾ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ MiniTemplate.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/08/29
 */
@@ -29,27 +29,27 @@ If not, see <http://www.gnu.org/licenses/>.
 //-------------------------------------------------------------------------------------------------
 
 
-extern HFONT	ghAaFont;		//	AA—pƒtƒHƒ“ƒg
+extern HFONT	ghAaFont;		//	AAç”¨ãƒ•ã‚©ãƒ³ãƒˆ
 
-extern INT		gbTmpltDock;	//	ƒeƒ“ƒvƒŒ‚ÌƒhƒbƒLƒ“ƒO
-extern BOOLEAN	gbDockTmplView;	//	‚­‚Á‚Â‚¢‚Ä‚éƒeƒ“ƒvƒŒ‚ÍŒ©‚¦‚Ä‚¢‚é‚©
+extern INT		gbTmpltDock;	//	ãƒ†ãƒ³ãƒ—ãƒ¬ã®ãƒ‰ãƒƒã‚­ãƒ³ã‚°
+extern BOOLEAN	gbDockTmplView;	//	ãã£ã¤ã„ã¦ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ã¯è¦‹ãˆã¦ã„ã‚‹ã‹
 
-extern  HWND	ghMainSplitWnd;	//	ƒƒCƒ“‚ÌƒXƒvƒŠƒbƒgƒo[ƒnƒ“ƒhƒ‹
-extern  LONG	grdSplitPos;	//	ƒXƒvƒŠƒbƒgƒo[‚ÌA¶‘¤‚ÌA‰æ–Ê‰E‚©‚ç‚ÌƒIƒtƒZƒbƒg
+extern  HWND	ghMainSplitWnd;	//	ãƒ¡ã‚¤ãƒ³ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+extern  LONG	grdSplitPos;	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ã€å·¦å´ã®ã€ç”»é¢å³ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 
 
 static  ATOM	gMnTmplAtom;	//!<	
-static  HWND	ghMnTmplWnd;	//!<	¬Œ^MAAƒeƒ“ƒvƒŒ–{‘ÌƒEƒCƒ“ƒhƒE
-static  HWND	ghTitleBxWnd;	//!<	€–ÚƒRƒ“ƒ{ƒbƒNƒX
-static  HWND	ghItemStcWnd;	//!<	“à—eƒXƒ^ƒeƒBƒbƒNEƒI[ƒi[ƒhƒ[‚Åƒ„‚é
-//	ƒc[ƒ‹ƒ`ƒbƒv‚ÍHoverTip‚Å©‘O‚Å•`ÊƒZƒˆ
+static  HWND	ghMnTmplWnd;	//!<	å°å‹MAAãƒ†ãƒ³ãƒ—ãƒ¬æœ¬ä½“ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦
+static  HWND	ghTitleBxWnd;	//!<	é …ç›®ã‚³ãƒ³ãƒœãƒƒã‚¯ã‚¹
+static  HWND	ghItemStcWnd;	//!<	å†…å®¹ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ãƒ»ã‚ªãƒ¼ãƒŠãƒ¼ãƒ‰ãƒ­ãƒ¼ã§ãƒ¤ã‚‹
+//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã¯HoverTipã§è‡ªå‰ã§æå†™ã‚»ãƒ¨
 
-static  HWND	ghMainWnd;		//!<	•ÒWƒrƒ…[‚Ì‚ ‚é–{‘ÌƒEƒCƒ“ƒhƒE
+static  HWND	ghMainWnd;		//!<	ç·¨é›†ãƒ“ãƒ¥ãƒ¼ã®ã‚ã‚‹æœ¬ä½“ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦
 
 static WNDPROC	gpfOrigMmaaTitleProc;	//!<	
 static WNDPROC	gpfOrigMmaaItemProc;	//!<	
 
-static  vector<AAMATRIX>	gvcMmaaTmpls;	//!<	ƒeƒ“ƒvƒŒ‚Ì•Û
+static  vector<AAMATRIX>	gvcMmaaTmpls;	//!<	ãƒ†ãƒ³ãƒ—ãƒ¬ã®ä¿æŒ
 //-------------------------------------------------------------------------------------------------
 
 
@@ -71,12 +71,12 @@ LRESULT	Mlv_OnNotify( HWND, INT, LPNMHDR );
 
 
 /*!
-	¬Œ^‚l‚`‚`ƒeƒ“ƒvƒŒƒEƒCƒ“ƒhƒE‚Ìì¬
-	@param[in]	hInstance	ƒAƒvƒŠ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	@param[in]	hParentWnd	ƒƒCƒ“ƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
+	å°å‹ï¼­ï¼¡ï¼¡ãƒ†ãƒ³ãƒ—ãƒ¬ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ä½œæˆ
+	@param[in]	hInstance	ã‚¢ãƒ—ãƒªã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	@param[in]	hParentWnd	ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
 	@param[in]	pstFrame	
-	@param[in]	hMaaWnd		•¡”sƒeƒ“ƒvƒŒ‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		ì‚Á‚½ƒrƒ…[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	@param[in]	hMaaWnd		è¤‡æ•°è¡Œãƒ†ãƒ³ãƒ—ãƒ¬ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		ä½œã£ãŸãƒ“ãƒ¥ãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 */
 HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame, HWND hMaaWnd )
 {
@@ -92,7 +92,7 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 	RECT		wdRect, clRect, rect, cbxRect, tbRect, mtbRect;
 	LVCOLUMN	stLvColm;
 
-	//	”j‰ó
+	//	ç ´å£Š
 	if( !(hInstance) && !(hParentWnd) )
 	{
 
@@ -117,30 +117,30 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 
 	ghMainWnd = hParentWnd;
 
-//ƒeƒ“ƒvƒŒƒf[ƒ^“Ç‚İo‚µ
+//ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ‡ãƒ¼ã‚¿èª­ã¿å‡ºã—
 //	TemplateItemLoad( AA_BRUSH_FILE, BrushTmpleItemData );
 
 
 	InitWindowPos( INIT_LOAD, WDP_MMAATPL, &rect );
-	if( 0 == rect.right || 0 == rect.bottom )	//	•‚‚³‚ª‚O‚Íƒf[ƒ^–³‚µ
+	if( 0 == rect.right || 0 == rect.bottom )	//	å¹…é«˜ã•ãŒï¼ã¯ãƒ‡ãƒ¼ã‚¿ç„¡ã—
 	{
 		GetWindowRect( hParentWnd, &wdRect );
 		rect.left   = wdRect.right + 64;
 		rect.top    = wdRect.top + 64;
 		rect.right  = MT_WIDTH;
 		rect.bottom = MT_HEIGHT;
-		InitWindowPos( INIT_SAVE , WDP_MMAATPL, &rect );	//	‹N“®•Û‘¶
+		InitWindowPos( INIT_SAVE , WDP_MMAATPL, &rect );	//	èµ·å‹•æ™‚ä¿å­˜
 	}
 
 	if( gbTmpltDock )
 	{
-		spPos = grdSplitPos - SPLITBAR_WIDTH;	//	‰E‚©‚ç‚ÌƒIƒtƒZƒbƒg
+		spPos = grdSplitPos - SPLITBAR_WIDTH;	//	å³ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 
 		hPrWnd    = hParentWnd;
 		dwExStyle = 0;
 		dwStyle   = WS_CHILD;
 
-		rect = *pstFrame;	//	ƒNƒ‰ƒCƒ„ƒ“ƒg‚Ég‚¦‚é—Ìˆæ
+		rect = *pstFrame;	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆã«ä½¿ãˆã‚‹é ˜åŸŸ
 		rect.left  = rect.right - spPos;
 		rect.right = PLIST_DOCK;
 		rect.bottom >>= 1;
@@ -153,19 +153,19 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 	else
 	{
 		hPrWnd = NULL;
-		//	í‚ÉÅ‘S–Ê‚É•\¦‚ğH
+		//	å¸¸ã«æœ€å…¨é¢ã«è¡¨ç¤ºã‚’ï¼Ÿ
 		dwExStyle = WS_EX_TOOLWINDOW;
 		if( InitWindowTopMost( INIT_LOAD, WDP_MMAATPL, 0 ) ){	dwExStyle |=  WS_EX_TOPMOST;	}
 		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
 	}
 
-	//	–{‘Ì
+	//	æœ¬ä½“
 	ghMnTmplWnd = CreateWindowEx( dwExStyle, MINITEMPLATE_CLASS, TEXT("Mimi Maa Template"),
 		dwStyle, rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	GetClientRect( ghMnTmplWnd, &clRect );
 
-	//	€–Ú–¼ƒRƒ“ƒ{ƒbƒNƒX
+	//	é …ç›®åã‚³ãƒ³ãƒœãƒƒã‚¯ã‚¹
 	ghTitleBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("Mmaa Items"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | CBS_DROPDOWNLIST,
 		0, 0, clRect.right, 127, ghMnTmplWnd,
@@ -173,7 +173,7 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 
 	gpfOrigMmaaTitleProc = SubclassWindow( ghTitleBxWnd, gpfMmaaTitleProc );
 
-	//	€–Úƒ^ƒCƒgƒ‹E‚l‚`‚`‘‹‚Æ“¯‚¶‹ï‡‚É
+	//	é …ç›®ã‚¿ã‚¤ãƒˆãƒ«ãƒ»ï¼­ï¼¡ï¼¡çª“ã¨åŒã˜å…·åˆã«
 	//dItems = gvcMmaaTmpls.size( );
 	//for( i = 0; dItems > i; i++ )
 	//{
@@ -188,12 +188,12 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 		WS_VISIBLE | WS_CHILD | SS_OWNERDRAW | SS_NOTIFY,
 		0, cbxRect.bottom, clRect.right, clRect.bottom - cbxRect.bottom,
 		ghMnTmplWnd, (HMENU)IDLV_MT_ITEMSTATIC, hInstance, NULL );
-	SetWindowFont( ghItemStcWnd, ghAaFont, TRUE );	//	ƒI[ƒi[ƒhƒ[‚·‚é‚©‚ç•s—v
+	SetWindowFont( ghItemStcWnd, ghAaFont, TRUE );	//	ã‚ªãƒ¼ãƒŠãƒ¼ãƒ‰ãƒ­ãƒ¼ã™ã‚‹ã‹ã‚‰ä¸è¦
 
 
 	gpfOrigMmaaItemProc = SubclassWindow( ghItemStcWnd, gpfMmaaItemProc );
 
-	BrushTmpleItemListOn( 0 );	//	’†g’Ç‰Á
+	BrushTmpleItemListOn( 0 );	//	ä¸­èº«è¿½åŠ 
 
 	if( !(gbTmpltDock) )
 	{
@@ -206,9 +206,9 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒhƒbƒLƒ“ƒOó‘Ô‚Å”­¶E‚­‚Á‚Â‚¢‚Ä‚éƒEƒCƒ“ƒhƒE‚ªƒŠƒTƒCƒY‚³‚ê‚½‚ç
-	@param[in]	hPrntWnd	‚­‚Á‚Â‚¢‚Ä‚éƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	pstFrame	g‚¦‚éƒTƒCƒY
+	ãƒ‰ãƒƒã‚­ãƒ³ã‚°çŠ¶æ…‹ã§ç™ºç”Ÿãƒ»ãã£ã¤ã„ã¦ã‚‹ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒãƒªã‚µã‚¤ã‚ºã•ã‚ŒãŸã‚‰
+	@param[in]	hPrntWnd	ãã£ã¤ã„ã¦ã‚‹ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	pstFrame	ä½¿ãˆã‚‹ã‚µã‚¤ã‚º
 */
 VOID MmaaTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 {
@@ -218,10 +218,10 @@ VOID MmaaTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 	//gbTmpltDock
 	if( !(ghMnTmplWnd) )	return;
 
-	//	”ñ•\¦‚È‚ç‰½‚à‚µ‚È‚¢‚Å‚¨‚‹
+	//	éè¡¨ç¤ºãªã‚‰ä½•ã‚‚ã—ãªã„ã§ãŠï½‹
 	if( !(gbDockTmplView) )	return;
 
-	rect = *pstFrame;	//	ƒNƒ‰ƒCƒ„ƒ“ƒg‚Ég‚¦‚é—Ìˆæ
+	rect = *pstFrame;	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆã«ä½¿ãˆã‚‹é ˜åŸŸ
 	rect.left    = rect.right - (grdSplitPos - SPLITBAR_WIDTH);
 	rect.right   = (grdSplitPos - SPLITBAR_WIDTH);
 	rect.bottom >>= 1;
@@ -238,13 +238,13 @@ VOID MmaaTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	message	ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@retval 0	ƒƒbƒZ[ƒWˆ—Ï‚İ
-	@retval no0	‚±‚±‚Å‚Íˆ—‚¹‚¸Ÿ‚É‰ñ‚·
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	message	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@retval 0	ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†æ¸ˆã¿
+	@retval no0	ã“ã“ã§ã¯å‡¦ç†ã›ãšæ¬¡ã«å›ã™
 */
 LRESULT CALLBACK MmaaTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -252,7 +252,7 @@ LRESULT CALLBACK MmaaTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	{
 		HANDLE_MSG( hWnd, WM_SIZE,        Mma_OnSize );	
 		HANDLE_MSG( hWnd, WM_COMMAND,     Mma_OnCommand );	
-		HANDLE_MSG( hWnd, WM_NOTIFY,      Mma_OnNotify );	//	ƒRƒ‚ƒ“ƒRƒ“ƒgƒ[ƒ‹‚ÌŒÂ•ÊƒCƒxƒ“ƒg
+		HANDLE_MSG( hWnd, WM_NOTIFY,      Mma_OnNotify );	//	ã‚³ãƒ¢ãƒ³ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®å€‹åˆ¥ã‚¤ãƒ™ãƒ³ãƒˆ
 		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Mma_OnContextMenu );
 
 		case WM_MOUSEWHEEL:	SendMessage( ghItemStcWnd, WM_MOUSEWHEEL, wParam, lParam );	return 0;
@@ -270,7 +270,7 @@ LRESULT CALLBACK MmaaTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 				SendMessage( ghBrTlBarWnd, TB_SETSTATE, IDM_BRUSH_ON_OFF, (TBSTATE_CHECKED | TBSTATE_ENABLED) );
 				gbBrushMode = TRUE;
 			}
-			ViewBrushStyleSetting( gbBrushMode, NULL );	//	ƒrƒ…[ƒEƒCƒ“ƒhƒE‚Éƒ‚[ƒh•t‚¯‚é
+			ViewBrushStyleSetting( gbBrushMode, NULL );	//	ãƒ“ãƒ¥ãƒ¼ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«ãƒ¢ãƒ¼ãƒ‰ä»˜ã‘ã‚‹
 			return gbBrushMode;
 
 		default:	break;
@@ -281,12 +281,12 @@ LRESULT CALLBACK MmaaTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	COMMANDƒƒbƒZ[ƒW‚Ìó‚¯æ‚èBƒ{ƒ^ƒ“‰Ÿ‚³‚ê‚½‚Æ‚©‚Å”­¶
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	id			ƒƒbƒZ[ƒW‚ğ”­¶‚³‚¹‚½qƒEƒCƒ“ƒhƒE‚Ì¯•Êq	LOWORD(wParam)
-	@param[in]	hWndCtl		ƒƒbƒZ[ƒW‚ğ”­¶‚³‚¹‚½qƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹	lParam
-	@param[in]	codeNotify	’Ê’mƒƒbƒZ[ƒW	HIWORD(wParam)
-	@return		‚È‚µ
+	COMMANDãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å—ã‘å–ã‚Šã€‚ãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸã¨ã‹ã§ç™ºç”Ÿ
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	id			ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®è­˜åˆ¥å­	LOWORD(wParam)
+	@param[in]	hWndCtl		ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«	lParam
+	@param[in]	codeNotify	é€šçŸ¥ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸	HIWORD(wParam)
+	@return		ãªã—
 */
 VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 {
@@ -297,20 +297,20 @@ VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 	TCHAR		atItem[SUB_STRING];
 
 	ZeroMemory( atItem, sizeof(atItem) );
-#error ì‚è‚©‚¯
+#error ä½œã‚Šã‹ã‘
 	switch( id )
 	{
-		case IDCB_MT_CATEGORY:	//	ƒJƒeƒSƒŠ‘I‘ğƒRƒ“ƒ{ƒbƒNƒX
+		case IDCB_MT_CATEGORY:	//	ã‚«ãƒ†ã‚´ãƒªé¸æŠã‚³ãƒ³ãƒœãƒƒã‚¯ã‚¹
 			if( 0 < gvcBrTmpls.size() )
 			{
-				if( CBN_SELCHANGE == codeNotify )	//	‘I‘ğ•ÏX‚³‚ê‚½‚ç
+				if( CBN_SELCHANGE == codeNotify )	//	é¸æŠå¤‰æ›´ã•ã‚ŒãŸã‚‰
 				{
 					rslt = ComboBox_GetCurSel( ghCtgryBxWnd );
 					gNowGroup = rslt;
 
 					BrushTmpleItemListOn( rslt );
 
-					//	Brush‰ğœ
+					//	Brushè§£é™¤
 					gbBrushMode = FALSE;
 					SendMessage( ghBrTlBarWnd, TB_SETSTATE, IDM_BRUSH_ON_OFF, TBSTATE_ENABLED );
 					StringCchCopy( atItem, SUB_STRING, gvcBrTmpls.at( gNowGroup ).vcItems.at( 0 ).c_str( ) );
@@ -340,7 +340,7 @@ VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 			}
 			break;
 
-		case IDM_TOPMOST_TOGGLE:	//	íÅ‘S–Ê‚Æ’ÊíƒEƒCƒ“ƒhƒE‚ÌƒgƒOƒ‹
+		case IDM_TOPMOST_TOGGLE:	//	å¸¸æ™‚æœ€å…¨é¢ã¨é€šå¸¸ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒˆã‚°ãƒ«
 			rdExStyle = GetWindowLongPtr( hWnd, GWL_EXSTYLE );
 			if( WS_EX_TOPMOST & rdExStyle )
 			{
@@ -354,7 +354,7 @@ VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 			}
 			break;
 
-		//	ƒeƒ“ƒvƒŒƒtƒ@ƒCƒ‹ƒŠƒ[ƒh
+		//	ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒ­ãƒ¼ãƒ‰
 		case IDM_TMPLT_RELOAD:	BrushTmpleItemReload( hWnd );	break;
 
 		default:	break;
@@ -365,11 +365,11 @@ VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒTƒCƒY•ÏX‚³‚ê‚½
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	state	‚È‚É‚©‚Ìó‘Ô
-	@param[in]	cx		•ÏX‚³‚ê‚½ƒNƒ‰ƒCƒ„ƒ“ƒg•
-	@param[in]	cy		•ÏX‚³‚ê‚½ƒNƒ‰ƒCƒ„ƒ“ƒg‚‚³
+	ã‚µã‚¤ã‚ºå¤‰æ›´ã•ã‚ŒãŸ
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	state	ãªã«ã‹ã®çŠ¶æ…‹
+	@param[in]	cx		å¤‰æ›´ã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆå¹…
+	@param[in]	cy		å¤‰æ›´ã•ã‚ŒãŸã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆé«˜ã•
 */
 VOID Btp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 {
@@ -378,7 +378,7 @@ VOID Btp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 	RECT	cbxRect, tbrRect, rect;
 
 	if( !(ghBrTlBarWnd) )	return;
-	MoveWindow( ghBrTlBarWnd, 0, 0, 0, 0, TRUE );	//	ƒc[ƒ‹ƒo[‚Í”’l‚È‚­‚Ä‚àŸè‚É‡‚í‚¹‚Ä‚­‚ê‚é
+	MoveWindow( ghBrTlBarWnd, 0, 0, 0, 0, TRUE );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã¯æ•°å€¤ãªãã¦ã‚‚å‹æ‰‹ã«åˆã‚ã›ã¦ãã‚Œã‚‹
 	GetClientRect( ghBrTlBarWnd, &tbrRect );
 
 	if( !(ghCtgryBxWnd) )	return;
@@ -402,11 +402,11 @@ VOID Btp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒm[ƒeƒBƒtƒ@ƒCƒƒbƒZ[ƒW‚Ìˆ—
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	idFrom		NOTIFY‚ğ”­¶‚³‚¹‚½ƒRƒ“ƒgƒ[ƒ‹‚Ì‚h‚c
-	@param[in]	pstNmhdr	NOTIFY‚ÌÚ×
-	@return		ˆ—‚µ‚½“à—e‚Æ‚©
+	ãƒãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	idFrom		NOTIFYã‚’ç™ºç”Ÿã•ã›ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ï¼©ï¼¤
+	@param[in]	pstNmhdr	NOTIFYã®è©³ç´°
+	@return		å‡¦ç†ã—ãŸå†…å®¹ã¨ã‹
 */
 LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 {
@@ -431,7 +431,7 @@ LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 		iSubItem = stHitTestInfo.iSubItem;
 		iPos = iItem * gBrhClmCnt + iSubItem;
 
-		//	•’Ê‚ÌƒNƒ‹ƒbƒN‚É‚Â‚¢‚Ä
+		//	æ™®é€šã®ã‚¯ãƒ«ãƒƒã‚¯ã«ã¤ã„ã¦
 		if( NM_CLICK == nmCode )
 		{
 			TRACE( TEXT("BRUSH TMPL[%d x %d]"), iItem, iSubItem );
@@ -440,17 +440,17 @@ LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 			{
 				items = gvcBrTmpls.at( gNowGroup ).vcItems.size( );
 
-				if( 0 <= iPos && iPos <  items )	//	‚È‚ñ‚©‘I‘ğ‚µ‚½
+				if( 0 <= iPos && iPos <  items )	//	ãªã‚“ã‹é¸æŠã—ãŸ
 				{
 					StringCchCopy( atItem, SUB_STRING, gvcBrTmpls.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
 
-					//	ƒuƒ‰ƒVƒZƒbƒg
+					//	ãƒ–ãƒ©ã‚·ã‚»ãƒƒãƒˆ
 					gbBrushMode = TRUE;
 					SendMessage( ghBrTlBarWnd, TB_SETSTATE, IDM_BRUSH_ON_OFF, (TBSTATE_CHECKED | TBSTATE_ENABLED) );
-					//	ƒrƒ…[ƒEƒCƒ“ƒhƒE‚Éƒ‚[ƒh•t‚¯‚é
+					//	ãƒ“ãƒ¥ãƒ¼ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«ãƒ¢ãƒ¼ãƒ‰ä»˜ã‘ã‚‹
 					ViewBrushStyleSetting( gbBrushMode, atItem );
 
-					ViewFocusSet(  );	//	20110720	ƒtƒH[ƒJƒX‚ğ•`‰æ‚É–ß‚·
+					ViewFocusSet(  );	//	20110720	ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’æç”»ã«æˆ»ã™
 				}
 			}
 			else
@@ -460,7 +460,7 @@ LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 		}
 	}
 
-	return 0;	//	‰½‚à‚È‚¢‚È‚ç‚O‚ğ–ß‚·
+	return 0;	//	ä½•ã‚‚ãªã„ãªã‚‰ï¼ã‚’æˆ»ã™
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -472,12 +472,12 @@ LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 
 /*!
-	AA•\¦ƒXƒ^ƒeƒBƒbƒN‚ÌƒTƒuƒNƒ‰ƒXƒvƒƒV[ƒWƒƒEƒc[ƒ‹ƒ`ƒbƒv‚Ìˆ—‚É•K—v
-	@param[in]	hWnd	ƒŠƒXƒg‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	msg		ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@return		LRESULT	ˆ—Œ‹‰Ê‚Æ‚©
+	AAè¡¨ç¤ºã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ãƒ»ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã®å‡¦ç†ã«å¿…è¦
+	@param[in]	hWnd	ãƒªã‚¹ãƒˆã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	msg		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@return		LRESULT	å‡¦ç†çµæœã¨ã‹
 */
 LRESULT CALLBACK gpfMmaaItemProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -487,11 +487,11 @@ LRESULT CALLBACK gpfMmaaItemProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 //		HANDLE_MSG( hWnd, WM_KEYDOWN,     Mai_OnKey );			//	
 //		HANDLE_MSG( hWnd, WM_KEYUP,       Mai_OnKey );			//	
 
-		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Mai_OnMouseMove );	//	ƒ}ƒEƒX‚¢‚²‚¢‚½
-		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Mai_OnLButtonUp );	//	ƒ}ƒEƒX¶ƒ{ƒ^ƒ“‚ ‚°
-//		HANDLE_MSG( hWnd, WM_MBUTTONUP,   Mai_OnMButtonUp );	//	ƒ}ƒEƒX’†ƒ{ƒ^ƒ“‚ ‚°
-//		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Mai_OnContextMenu );	//	ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[”­¶
-		HANDLE_MSG( hWnd, WM_DROPFILES,   Mai_OnDropFiles );	//	ƒhƒ‰ƒOƒ“ƒhƒƒbƒv‚Ìó•t
+		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Mai_OnMouseMove );	//	ãƒã‚¦ã‚¹ã„ã”ã„ãŸ
+		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Mai_OnLButtonUp );	//	ãƒã‚¦ã‚¹å·¦ãƒœã‚¿ãƒ³ã‚ã’
+//		HANDLE_MSG( hWnd, WM_MBUTTONUP,   Mai_OnMButtonUp );	//	ãƒã‚¦ã‚¹ä¸­ãƒœã‚¿ãƒ³ã‚ã’
+//		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Mai_OnContextMenu );	//	ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ç™ºç”Ÿ
+		HANDLE_MSG( hWnd, WM_DROPFILES,   Mai_OnDropFiles );	//	ãƒ‰ãƒ©ã‚°ãƒ³ãƒ‰ãƒ­ãƒƒãƒ—ã®å—ä»˜
 
 #ifdef USE_HOVERTIP
 		case WM_MOUSEHOVER:

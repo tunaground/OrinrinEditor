@@ -1,6 +1,6 @@
 /*! @file
-	@brief �`�`�ꗗ�̐�������܂�
-	���̃t�@�C���� MaaItems.cpp �ł��B
+	@brief ＡＡ一覧の制御をします
+	このファイルは MaaItems.cpp です。
 	@author	SikigamiHNQ
 	@date	2011/06/22
 */
@@ -41,20 +41,20 @@ typedef struct tagAATITLE
 //-------------------------------------------------------------------------------------------------
 
 //static LOGFONT	gstBaseFont = {
-//	FONTSZ_NORMAL,			//	�t�H���g�̍���
-//	0,						//	���ϕ�
-//	0,						//	��������̕�����X���Ƃ̊p�x
-//	0,						//	�x�[�X���C����X���Ƃ̊p�x
-//	FW_NORMAL,				//	�����̑���(0~1000�܂ŁE400=nomal)
-//	FALSE,					//	�C�^���b�N��
-//	FALSE,					//	�A���_�[���C��
-//	FALSE,					//	�ł�������
-//	DEFAULT_CHARSET,		//	�����Z�b�g
-//	OUT_OUTLINE_PRECIS,		//	�o�͐��x
-//	CLIP_DEFAULT_PRECIS,	//	�N���b�s���O���x
-//	PROOF_QUALITY,			//	�o�͕i��
-//	VARIABLE_PITCH,			//	�Œ蕝���ϕ�
-//	TEXT("�l�r �o�S�V�b�N")	//	�t�H���g��
+//	FONTSZ_NORMAL,			//	フォントの高さ
+//	0,						//	平均幅
+//	0,						//	文字送りの方向とX軸との角度
+//	0,						//	ベースラインとX軸との角度
+//	FW_NORMAL,				//	文字の太さ(0~1000まで・400=nomal)
+//	FALSE,					//	イタリック体
+//	FALSE,					//	アンダーライン
+//	FALSE,					//	打ち消し線
+//	DEFAULT_CHARSET,		//	文字セット
+//	OUT_OUTLINE_PRECIS,		//	出力精度
+//	CLIP_DEFAULT_PRECIS,	//	クリッピング精度
+//	PROOF_QUALITY,			//	出力品質
+//	VARIABLE_PITCH,			//	固定幅か可変幅
+//	TEXT("ＭＳ Ｐゴシック")	//	フォント名
 //};
 //-------------------------------------------------------------------------------------------------
 
@@ -62,53 +62,53 @@ typedef struct tagAATITLE
 
 #define SBP_DIRECT		0xFF
 
-static  HWND	ghItemsWnd;			//!<	���X�g�̃n���h��
+static  HWND	ghItemsWnd;			//!<	リストのハンドル
 #ifdef MAA_TOOLTIP
-static  HWND	ghToolTipWnd;		//!<	�c�[���`�b�v
-EXTERNED HFONT	ghTipFont;			//!<	�c�[���`�b�v�p
+static  HWND	ghToolTipWnd;		//!<	ツールチップ
+EXTERNED HFONT	ghTipFont;			//!<	ツールチップ用
 #endif
 
-static  HWND	ghComboxWnd;		//!<	���o���p�R���{�b�N�X
+static  HWND	ghComboxWnd;		//!<	見出し用コンボックス
 
 static WNDPROC	gpfOrgAaItemsProc;	//!<	
 static WNDPROC	gpfOrgAaTitleCbxProc;	//!<	
 
 static LPTSTR	gptTipBuffer;		//!<	
 
-static INT		gixTopItem;			//!<	�ꗗ�̍ŏ��
-static INT		gixMaxItem;			//!<	�A�C�e����
+static INT		gixTopItem;			//!<	一覧の最上位
+static INT		gixMaxItem;			//!<	アイテム個数
 
-static  LONG	gixNowSel;			//!<	�}�E�X�J�[�\��������Ƃ���̃C���f�b�N�X
+static  LONG	gixNowSel;			//!<	マウスカーソルがあるところのインデックス
 #ifdef USE_HOVERTIP
-static  LONG	gixNowToolTip;		//!<	�c�[���`�b�v�p�Z���N�g
+static  LONG	gixNowToolTip;		//!<	ツールチップ用セレクト
 #endif
 
-static  HWND	ghScrollWnd;		//!<	�X�N���[���o�[
+static  HWND	ghScrollWnd;		//!<	スクロールバー
 
 #ifdef _ORRVW
-EXTERNED HFONT	ghAaFont;			//!<	�\���p�̃t�H���g
+EXTERNED HFONT	ghAaFont;			//!<	表示用のフォント
 #else
-static HFONT	ghAaFont;			//!<	�\���p�̃t�H���g
+static HFONT	ghAaFont;			//!<	表示用のフォント
 #endif
 
-static HBRUSH	ghBkBrush;			//!<	�\���G�����̔w�i�F
+static HBRUSH	ghBkBrush;			//!<	表示エリヤの背景色
 
-static  HPEN	ghSepPen;			//!<	��؂���p�y��
-static BOOLEAN	gbLineSep;			//!<	AA�̕����͐��ɂ���
+static  HPEN	ghSepPen;			//!<	区切り線用ペン
+static BOOLEAN	gbLineSep;			//!<	AAの分けは線にする
 
 #ifndef _ORRVW
-static BOOLEAN	gbMaaRetFocus;		//!<	���ڂ�I��������ҏW���Ƀt�H�[�J�X�߂���
+static BOOLEAN	gbMaaRetFocus;		//!<	項目を選択したら編集窓にフォーカス戻すか
 #endif
 
 #ifdef MAA_TEXT_FIND
-TCHAR	gatFindText[MAX_STRING];	//!<	�����p������̕ۑ�
+TCHAR	gatFindText[MAX_STRING];	//!<	検索用文字列の保存
 #endif
 
-extern  UINT	gbAAtipView;		//!<	��O�ŁA�`�`�c�[���`�b�v�\��
+extern  UINT	gbAAtipView;		//!<	非０で、ＡＡツールチップ表示
 
-extern  HWND	ghSplitaWnd;		//!<	�X�v���b�g�o�[�n���h��
+extern  HWND	ghSplitaWnd;		//!<	スプリットバーハンドル
 
-static vector<VIEWORDER>	gvcViewOrder;	//!<	�������Ă��̓��e
+static vector<VIEWORDER>	gvcViewOrder;	//!<	今見えてるやつの内容
 static vector<AATITLE>		gvcAaTitle;		//!<	
 //-------------------------------------------------------------------------------------------------
 
@@ -140,11 +140,11 @@ LPTSTR	CALLBACK AaItemsHoverTipInfo( LPVOID  );	//!<
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�S�c���[�₨�C�Ƀ��X�g�̓��e��\������X�^�e�B�b�N�Ƃ����
-	@param[in]	hWnd	�e�E�C���h�E�n���h���ENULL�Ȃ�j��
-	@param[in]	hInst	�A�v���̎���
-	@param[in]	ptRect	�N���C�A���g�̈�̃T�C�Y
-	@return		HRESULT	�I����ԃR�[�h
+	全ツリーやお気にリストの内容を表示するスタティックとか作る
+	@param[in]	hWnd	親ウインドウハンドル・NULLなら破壊
+	@param[in]	hInst	アプリの実存
+	@param[in]	ptRect	クライアント領域のサイズ
+	@return		HRESULT	終了状態コード
 */
 HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 {
@@ -172,18 +172,18 @@ HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 		return S_FALSE;
 	}
 
-//�E�C���h�E�̃T�C�Y�́A���ƂŕύX�����ł���̂ŁA�����ł͌Œ�l�ō���Ă���
+//ウインドウのサイズは、あとで変更が飛んでくるので、ここでは固定値で作っておｋ
 
 	ghSepPen  = CreatePen( PS_SOLID, 1, RGB(0xAA,0xAA,0xAA) );
 
-	//	�P�Ȃ��؂���X�^�C��
+	//	１なら区切り線スタイル
 	gbLineSep = InitParamValue( INIT_LOAD, VL_MAASEP_STYLE, 0 );
 
 	dBkColour = (COLORREF)InitParamValue( INIT_LOAD, VL_MAA_BKCOLOUR, 0x00FFFFFF );
 	ghBkBrush = CreateSolidBrush( dBkColour );
 
 #ifndef _ORRVW
-	//	�I��������t�H�[�J�X��ҏW���ɖ߂��H
+	//	選択したらフォーカスを編集窓に戻す？
 	gbMaaRetFocus = InitParamValue( INIT_LOAD, VL_MAA_RETFCS, 0 );
 #endif
 
@@ -201,22 +201,22 @@ HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 #endif
 
 #ifdef MAA_TOOLTIP
-	//	�c�[���`�b�v���
+	//	ツールチップ作る
 	ghToolTipWnd = CreateWindowEx( WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hWnd, NULL, hInst, NULL );
 #endif
-	//	���o���R���{�b�N�X
+	//	見出しコンボックス
 	ghComboxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT(""), WS_VISIBLE | WS_CHILD | WS_BORDER | WS_VSCROLL | CBS_DROPDOWNLIST | CBS_NOINTEGRALHEIGHT, TREE_WIDTH + SPLITBAR_WIDTH, 0, ptRect->right - TREE_WIDTH - LSSCL_WIDTH, TITLECBX_HEI, hWnd, (HMENU)IDCB_AAITEMTITLE, hInst, NULL );
 	GetClientRect( ghComboxWnd, &rect );
-	//	�T�u�N���X��
+	//	サブクラス化
 	gpfOrgAaTitleCbxProc = SubclassWindow( ghComboxWnd, gpfAaTitleCbxProc );
 
-	//	AA�ꗗ�̃X�^�e�B�b�N����E�I�[�i�[�h���[�ŕ`��
+	//	AA一覧のスタティックつくる・オーナードローで描画
 	ghItemsWnd = CreateWindowEx( WS_EX_CLIENTEDGE | WS_EX_ACCEPTFILES, WC_STATIC, TEXT(""), WS_VISIBLE | WS_CHILD | SS_OWNERDRAW | SS_NOTIFY, TREE_WIDTH + SPLITBAR_WIDTH, rect.bottom, ptRect->right - TREE_WIDTH - LSSCL_WIDTH, ptRect->bottom - rect.bottom, hWnd, (HMENU)IDSO_AAITEMS, hInst, NULL );
-	//DragAcceptFiles( ghItemsWnd, TRUE );	WS_EX_ACCEPTFILES�ł���
-	//	�T�u�N���X��
+	//DragAcceptFiles( ghItemsWnd, TRUE );	WS_EX_ACCEPTFILESでおｋ
+	//	サブクラス化
 	gpfOrgAaItemsProc = SubclassWindow( ghItemsWnd, gpfAaItemsProc );
 
-	//	�ꗗ�̃X�N���[���o�[
+	//	一覧のスクロールバー
 	ghScrollWnd = CreateWindowEx( 0, WC_SCROLLBAR, TEXT("scroll"), WS_VISIBLE | WS_CHILD | SBS_VERT, ptRect->right - LSSCL_WIDTH, rect.bottom, LSSCL_WIDTH, ptRect->bottom - rect.bottom, hWnd, (HMENU)IDSB_LISTSCROLL, hInst, NULL );
 
 	ZeroMemory( &stScrollInfo, sizeof(SCROLLINFO) );
@@ -224,19 +224,19 @@ HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 	stScrollInfo.fMask = SIF_DISABLENOSCROLL;
 	SetScrollInfo( ghScrollWnd, SB_CTL, &stScrollInfo, TRUE );
 
-	//	�\���p���C���t�H���g
+	//	表示用メインフォント
 	ViewingFontGet( &stFont );
 	ghAaFont = CreateFontIndirect( &stFont );	//	gstBaseFont
 	SetWindowFont( ghItemsWnd, ghAaFont, TRUE );
 
 #ifdef MAA_TOOLTIP
-	//	�|�b�p�b�v�`�b�v�p�E12/9pt���p
-	ttSize = InitParamValue( INIT_LOAD, VL_MAATIP_SIZE, FONTSZ_REDUCE );	//	�T�C�Y�m�F
+	//	ポッパップチップ用・12/9pt兼用
+	ttSize = InitParamValue( INIT_LOAD, VL_MAATIP_SIZE, FONTSZ_REDUCE );	//	サイズ確認
 	stFont.lfHeight = (FONTSZ_REDUCE == ttSize) ? FONTSZ_REDUCE : FONTSZ_NORMAL;
 	ghTipFont = CreateFontIndirect( &stFont );
 	SetWindowFont( ghToolTipWnd, ghTipFont, TRUE );
 
-	//	�c�[���`�b�v���R�[���o�b�N�Ŋ���t��
+	//	ツールチップをコールバックで割り付け
 	ZeroMemory( &stToolInfo, sizeof(TTTOOLINFO) );
 	stToolInfo.cbSize   = sizeof(TTTOOLINFO);
 	stToolInfo.uFlags   = TTF_SUBCLASS;
@@ -244,9 +244,9 @@ HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 	stToolInfo.hwnd     = ghItemsWnd;
 	stToolInfo.uId      = IDSO_AAITEMS;
 	GetClientRect( ghItemsWnd, &stToolInfo.rect );
-	stToolInfo.lpszText = LPSTR_TEXTCALLBACK;	//	�R�����w�肷��ƃR�[���o�b�N�ɂȂ�
+	stToolInfo.lpszText = LPSTR_TEXTCALLBACK;	//	コレを指定するとコールバックになる
 	SendMessage( ghToolTipWnd, TTM_ADDTOOL, 0, (LPARAM)&stToolInfo );
-	SendMessage( ghToolTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );	//	�`�b�v�̕��B�O�ݒ�ł����B���ꂵ�Ƃ��Ȃ��Ɖ��s����Ȃ�
+	SendMessage( ghToolTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );	//	チップの幅。０設定でいい。これしとかないと改行されない
 #endif
 
 	return S_OK;
@@ -254,12 +254,12 @@ HRESULT AaItemsInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���o���R���{�b�N�X�̃T�u�N���X�v���V�[�W��
-	@param[in]	hWnd	���X�g�̃n���h��
-	@param[in]	msg		�E�C���h�E���b�Z�[�W�̎��ʔԍ�
-	@param[in]	wParam	�ǉ��̏��P
-	@param[in]	lParam	�ǉ��̏��Q
-	@return	�������ʂƂ�
+	見出しコンボックスのサブクラスプロシージャ
+	@param[in]	hWnd	リストのハンドル
+	@param[in]	msg		ウインドウメッセージの識別番号
+	@param[in]	wParam	追加の情報１
+	@param[in]	lParam	追加の情報２
+	@return	処理結果とか
 */
 LRESULT	CALLBACK gpfAaTitleCbxProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -275,7 +275,7 @@ LRESULT	CALLBACK gpfAaTitleCbxProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 
 /*!
-	���o���R���{�b�N�X����ɂ���
+	見出しコンボックスを空にする
 */
 VOID AaTitleClear( VOID )
 {
@@ -289,10 +289,10 @@ VOID AaTitleClear( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���o���R���{�b�N�X�ɓ��e�ǉ�
-	@param[in]	number	�ʂ��ԍ�
-	@param[in]	pcTitle	���ꍞ�ޕ�����
-	@return	�p�����������Ƃ̍��ڐ�
+	見出しコンボックスに内容追加
+	@param[in]	number	通し番号
+	@param[in]	pcTitle	入れ込む文字列
+	@return	継ぎ足したあとの項目数
 */
 INT AaTitleAddString( UINT number, LPSTR pcTitle )
 {
@@ -316,9 +316,9 @@ INT AaTitleAddString( UINT number, LPSTR pcTitle )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�R���{�b�N�X�R�}���h����
-	@param[in]	hWnd		�e�E�C���h�E�n���h��
-	@param[in]	codeNotify	�ʒm���b�Z�[�W
+	コンボックスコマンド発生
+	@param[in]	hWnd		親ウインドウハンドル
+	@param[in]	codeNotify	通知メッセージ
 */
 VOID AaTitleSelect( HWND hWnd, UINT codeNotify )
 {
@@ -327,14 +327,14 @@ VOID AaTitleSelect( HWND hWnd, UINT codeNotify )
 
 //	TRACE( TEXT("COMBOX[%u]"), codeNotify );
 
-	if( CBN_SELCHANGE == codeNotify )	//	�I�����ύX���ꂽ
+	if( CBN_SELCHANGE == codeNotify )	//	選択が変更された
 	{
-		iSel = ComboBox_GetCurSel( ghComboxWnd );	//	�I�΂�Ă�̎����
+		iSel = ComboBox_GetCurSel( ghComboxWnd );	//	選ばれてるの取って
 
-		iItems = gvcAaTitle.size( );	//	�͂ݏo���m�F
+		iItems = gvcAaTitle.size( );	//	はみ出し確認
 		if( iItems <= iSel )	return;
 
-		//	���o���̊Y������ʒu�փW�����v
+		//	見出しの該当する位置へジャンプ
 		Aai_OnVScroll( hWnd, ghScrollWnd, SBP_DIRECT, gvcAaTitle.at( iSel ).number );
 	}
 
@@ -348,9 +348,9 @@ VOID AaTitleSelect( HWND hWnd, UINT codeNotify )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	��ʃT�C�Y���ς�����̂ŃT�C�Y�ύX
-	@param[in]	hWnd	�e�E�C���h�E�n���h��
-	@param[in]	ptRect	�N���C�A���g�̈�
+	画面サイズが変わったのでサイズ変更
+	@param[in]	hWnd	親ウインドウハンドル
+	@param[in]	ptRect	クライアント領域
 */
 VOID AaItemsResize( HWND hWnd, LPRECT ptRect )
 {
@@ -361,7 +361,7 @@ VOID AaItemsResize( HWND hWnd, LPRECT ptRect )
 #endif
 
 	SplitBarPosGet( ghSplitaWnd, &sptRect );
-	//	�g���^�u�o�[�̈ʒu�m��
+	//	拡張タブバーの位置確保
 //	MaaTabBarSizeGet( &tbRect );
 
 	dWidth = ptRect->right - (sptRect.left + SPLITBAR_WIDTH) - LSSCL_WIDTH;
@@ -374,7 +374,7 @@ VOID AaItemsResize( HWND hWnd, LPRECT ptRect )
 	MoveWindow( ghScrollWnd, dLeft, ptRect->top + rect.bottom, LSSCL_WIDTH, ptRect->bottom - rect.bottom, TRUE );
 
 #ifdef MAA_TOOLTIP
-	//	�K�v�ȏ����������΂���
+	//	必要な所だけいれればおｋ
 	ZeroMemory( &stToolInfo, sizeof(TTTOOLINFO) );
 	stToolInfo.cbSize = sizeof(TTTOOLINFO);
 	stToolInfo.hwnd   = ghItemsWnd;
@@ -390,12 +390,12 @@ VOID AaItemsResize( HWND hWnd, LPRECT ptRect )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	AA�\���X�^�e�B�b�N�̃T�u�N���X�v���V�[�W���E�c�[���`�b�v�̏����ɕK�v
-	@param[in]	hWnd	���X�g�̃n���h��
-	@param[in]	msg		�E�C���h�E���b�Z�[�W�̎��ʔԍ�
-	@param[in]	wParam	�ǉ��̏��P
-	@param[in]	lParam	�ǉ��̏��Q
-	@return		LRESULT	�������ʂƂ�
+	AA表示スタティックのサブクラスプロシージャ・ツールチップの処理に必要
+	@param[in]	hWnd	リストのハンドル
+	@param[in]	msg		ウインドウメッセージの識別番号
+	@param[in]	wParam	追加の情報１
+	@param[in]	lParam	追加の情報２
+	@return		LRESULT	処理結果とか
 */
 LRESULT CALLBACK gpfAaItemsProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -405,13 +405,13 @@ LRESULT CALLBACK gpfAaItemsProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		HANDLE_MSG( hWnd, WM_KEYDOWN,     Aai_OnKey );			//	20120221
 		HANDLE_MSG( hWnd, WM_KEYUP,       Aai_OnKey );			//	
 
-		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Aai_OnMouseMove );	//	�}�E�X��������
-		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Aai_OnLButtonUp );	//	�}�E�X���{�^������
-		HANDLE_MSG( hWnd, WM_MBUTTONUP,   Aai_OnMButtonUp );	//	�}�E�X���{�^������
-		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Aai_OnContextMenu );	//	�R���e�L�X�g���j���[����
-		HANDLE_MSG( hWnd, WM_DROPFILES,   Aai_OnDropFiles );	//	�h���O���h���b�v�̎�t
+		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Aai_OnMouseMove );	//	マウスいごいた
+		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Aai_OnLButtonUp );	//	マウス左ボタンあげ
+		HANDLE_MSG( hWnd, WM_MBUTTONUP,   Aai_OnMButtonUp );	//	マウス中ボタンあげ
+		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Aai_OnContextMenu );	//	コンテキストメニュー発生
+		HANDLE_MSG( hWnd, WM_DROPFILES,   Aai_OnDropFiles );	//	ドラグンドロップの受付
 #ifdef MAA_TOOLTIP
-		HANDLE_MSG( hWnd, WM_NOTIFY,      Aai_OnNotify );		//	�R�����R���g���[���̌ʃC�x���g
+		HANDLE_MSG( hWnd, WM_NOTIFY,      Aai_OnNotify );		//	コモンコントロールの個別イベント
 #endif
 
 
@@ -435,10 +435,10 @@ LRESULT CALLBACK gpfAaItemsProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	AA�\���X�^�e�B�b�N�̃I�[�i�[�h���[�E�`��
-	@param[in]	hWnd			�e�E�C���h�E�n���h��
-	@param[in]	*pstDrawItem	�h���[���
-	@return		�Ȃ�
+	AA表示スタティックのオーナードロー・描画
+	@param[in]	hWnd			親ウインドウハンドル
+	@param[in]	*pstDrawItem	ドロー情報
+	@return		なし
 */
 VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 {
@@ -452,38 +452,38 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 	VIEWORDER	stVwrder;
 
 	INT		rdNextItem;
-	LONG	rdDrawPxTop, rdBottom;	//	�`��̍ŏ�ʁA�`��̈�̍����l�`�w
-	LONG	rdHeight, rdWidth;	//	�A�C�e���̍����E�`��̈�̕�
+	LONG	rdDrawPxTop, rdBottom;	//	描画の最上位、描画領域の高さＭＡＸ
+	LONG	rdHeight, rdWidth;	//	アイテムの高さ・描画領域の幅
 
 	HPEN	hOldPen;
 
-	//	���ڂ̊O�ڎl�p�`�̎擾
+	//	項目の外接四角形の取得
 	rect = pstDrawItem->rcItem;
 	rdBottom = rect.bottom;
 	rdWidth  = rect.right;
 	rdDrawPxTop = 0;
 
-	SetBkMode( pstDrawItem->hDC , TRANSPARENT );	//	�����`��͔w�i���߂Ŗ�I����
+	SetBkMode( pstDrawItem->hDC , TRANSPARENT );	//	文字描画は背景透過で夜露死苦
 
-	FillRect( pstDrawItem->hDC, &rect, ghBkBrush );	//	��U�w�i�h��Ԃ���
+	FillRect( pstDrawItem->hDC, &rect, ghBkBrush );	//	一旦背景塗りつぶして
 
 	gvcViewOrder.clear();
 
 	rdNextItem = gixTopItem;
 	for( rdDrawPxTop = 0; rdBottom > rdDrawPxTop; rdNextItem++ )
 	{
-		pcConts = AacAsciiArtGet( rdNextItem );	//	�ꗗ�̃g�b�v���m�F
+		pcConts = AacAsciiArtGet( rdNextItem );	//	一覧のトップを確認
 		if( !pcConts ){	break;	}
 
 		stVwrder.index = rdNextItem;
 
-		ptConStr = SjisDecodeAlloc( pcConts );	//	�\�����e�K���Ă���
+		ptConStr = SjisDecodeAlloc( pcConts );	//	表示内容ガメてくる
 		StringCchLength( ptConStr, STRSAFE_MAX_CCH, &rdLen );
 		rdLength = rdLen;
 
 		free( pcConts );
-#pragma message ("MAA�̍s�ԁA�����Ő������v�Z����ׂ�")
-		//	������ɍ��킹��RECT�m�ہE�v�Z�����ŁA�܂��������ĂȂ�
+#pragma message ("MAAの行間、ここで正しく計算するべき")
+		//	文字列に合わせてRECT確保・計算だけで、まだ書込してない
 		DrawText( pstDrawItem->hDC, ptConStr, rdLength, &rect, DT_LEFT | DT_EDITCONTROL | DT_NOPREFIX | DT_CALCRECT );
 		drawRect = rect;
 		rdHeight = drawRect.bottom;
@@ -495,7 +495,7 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 		stVwrder.dUpper  = drawRect.top;
 		stVwrder.dDownr  = drawRect.bottom;
 
-		//	���ڂ��ƂɌ݂��Ⴂ�̐F�ɂ��邩�A��؂��������
+		//	項目ごとに互い違いの色にするか、区切り線を引く
 		if( gbLineSep ){	FillRect( pstDrawItem->hDC, &drawRect, ghBkBrush );	}
 		else
 		{
@@ -503,10 +503,10 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 			else					FillRect( pstDrawItem->hDC, &drawRect, ghBkBrush );
 		}
 
-		//	�`�`�`��
+		//	ＡＡ描画
 		DrawText( pstDrawItem->hDC, ptConStr, rdLength, &drawRect, DT_LEFT | DT_EDITCONTROL | DT_NOPREFIX );
 
-		if( gbLineSep )	//	��������
+		if( gbLineSep )	//	線を引く
 		{
 			hOldPen = SelectPen( pstDrawItem->hDC, ghSepPen );
 			MoveToEx( pstDrawItem->hDC, drawRect.left, drawRect.bottom-1, NULL );
@@ -523,7 +523,7 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 	InvalidateRect( ghScrollWnd, NULL, TRUE );
 	UpdateWindow( ghScrollWnd );
 
-	//	�J�[�\���ʒu�m�ۂ������E�|�b�p�b�v�\���p
+	//	カーソル位置確保し直し・ポッパップ表示用
 	GetCursorPos( &stPoint );
 	ScreenToClient( ghItemsWnd, &stPoint );
 	Aai_OnMouseMove( hWnd, stPoint.x, stPoint.y, 0 );
@@ -535,10 +535,10 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 #if 0
 
 /*!
-	�I�[�i�[�h���[�E�T�C�Y�v��
-	@param[in]	hWnd			�e�E�C���h�E�n���h��
-	@param[in]	pstMeasureItem	�T�C�Y���
-	@return		HRESULT			�I����ԃR�[�h
+	オーナードロー・サイズ計測
+	@param[in]	hWnd			親ウインドウハンドル
+	@param[in]	pstMeasureItem	サイズ情報
+	@return		HRESULT			終了状態コード
 */
 VOID AaItemsMeasureItem( HWND hWnd, LPMEASUREITEMSTRUCT pstMeasureItem )
 {
@@ -547,7 +547,7 @@ VOID AaItemsMeasureItem( HWND hWnd, LPMEASUREITEMSTRUCT pstMeasureItem )
 	LPSTR	pcConts;
 	RECT	stRect;
 
-	//	���ڂ̕�����擾
+	//	項目の文字列取得
 	pcConts = AacAsciiArtGet( pstMeasureItem->itemID );
 	if( !pcConts )	return;
 
@@ -571,21 +571,21 @@ VOID AaItemsMeasureItem( HWND hWnd, LPMEASUREITEMSTRUCT pstMeasureItem )
 
 
 /*!
-	�L�[�_�E��������
-	@param[in]	hWnd	�E�C���h�E�n���h���E�r���[�̂Ƃ͌���Ȃ��̂Œ��ӃZ��
-	@param[in]	vk		�����ꂽ�L�[�����z�L�[�R�[�h�ŗ���
-	@param[in]	fDown	��O�_�E���@�O�A�b�v
-	@param[in]	cRepeat	�A���I�T���񐔁E���ĂȂ��H
-	@param[in]	flags	�L�[�t���O���낢��
-	@return		����
+	キーダウンが発生
+	@param[in]	hWnd	ウインドウハンドル・ビューのとは限らないので注意セヨ
+	@param[in]	vk		押されたキーが仮想キーコードで来る
+	@param[in]	fDown	非０ダウン　０アップ
+	@param[in]	cRepeat	連続オサレ回数・取れてない？
+	@param[in]	flags	キーフラグいろいろ
+	@return		無し
 */
 VOID Aai_OnKey( HWND hWnd, UINT vk, BOOL fDown, INT cRepeat, UINT flags )
 {
 	TRACE( TEXT("KEY[%u][%u]"), vk, cRepeat );
 
-	if( !(fDown) )	 return;	//	�Ƃ肠�����L�[�A�b�v�͂��邱�ƂȂ�
+	if( !(fDown) )	 return;	//	とりあえずキーアップはすることない
 
-//	�������Ȃ��R���g���[���Ƃ��m�F�Z��
+//	反応しないコントロールとか確認セヨ
 
 	switch( vk )
 	{
@@ -595,11 +595,11 @@ VOID Aai_OnKey( HWND hWnd, UINT vk, BOOL fDown, INT cRepeat, UINT flags )
 			Aai_OnVScroll( hWnd, ghScrollWnd, SB_PAGEDOWN, 0 );
 			break;
 
-		case  VK_DOWN:	//	��
+		case  VK_DOWN:	//	下
 			Aai_OnVScroll( hWnd, ghScrollWnd, SB_LINEDOWN, 0 );
 			break;
 
-		case  VK_UP:	//	��
+		case  VK_UP:	//	上
 			Aai_OnVScroll( hWnd, ghScrollWnd, SB_LINEUP, 0 );
 			break;
 
@@ -613,12 +613,12 @@ VOID Aai_OnKey( HWND hWnd, UINT vk, BOOL fDown, INT cRepeat, UINT flags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�}�E�X���������Ƃ��̏���
-	@param[in]	hWnd		�e�E�C���h�E�n���h��
-	@param[in]	x			�N���C�A���g���W�w
-	@param[in]	y			�N���C�A���g���W�x
-	@param[in]	keyFlags	������Ă鑼�̃{�^��
-	@return		�Ȃ�
+	マウスが動いたときの処理
+	@param[in]	hWnd		親ウインドウハンドル
+	@param[in]	x			クライアント座標Ｘ
+	@param[in]	y			クライアント座標Ｙ
+	@param[in]	keyFlags	押されてる他のボタン
+	@return		なし
 */
 VOID Aai_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
@@ -629,7 +629,7 @@ VOID Aai_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 	INT		iDot = 0, iLine = 0, iByte = 0;
 
-	//	���̂Ƃ��}�E�X�J�[�\�����ɂ���A�C�e����I�����Ă���
+	//	そのときマウスカーソル下にあるアイテムを選択しておく
 
 	if( !( gvcViewOrder.empty() ) )
 	{
@@ -643,7 +643,7 @@ VOID Aai_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 			if( y < bottom ){	iItem = gvcViewOrder.at(  i ).index;	break;	}
 		}
 	}
-	//	�J�[�\�����������Ȃ�AiItem�́|�P���
+	//	カーソル下が無効なら、iItemは−１状態
 
 #ifdef USE_HOVERTIP
 	if( gixNowToolTip != iItem ){	bReDraw =  TRUE;	}
@@ -690,12 +690,12 @@ VOID Aai_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�}�E�X�̍��{�^�������������Ƃ��̏���
-	@param[in]	hWnd			�e�E�C���h�E�n���h��
-	@param[in]	x				�N���C�A���g���W�w
-	@param[in]	y				�N���C�A���g���W�x
-	@param[in]	keyFlags		������Ă鑼�̃{�^��
-	@return		�Ȃ�
+	マウスの左ボタンがうｐしたときの処理
+	@param[in]	hWnd			親ウインドウハンドル
+	@param[in]	x				クライアント座標Ｘ
+	@param[in]	y				クライアント座標Ｙ
+	@param[in]	keyFlags		押されてる他のボタン
+	@return		なし
 */
 VOID Aai_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
@@ -709,12 +709,12 @@ VOID Aai_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�}�E�X�̒��{�^�������������Ƃ��̏���
-	@param[in]	hWnd			�e�E�C���h�E�n���h��
-	@param[in]	x				�N���C�A���g���W�w
-	@param[in]	y				�N���C�A���g���W�x
-	@param[in]	keyFlags		������Ă鑼�̃{�^��
-	@return		�Ȃ�
+	マウスの中ボタンがうｐしたときの処理
+	@param[in]	hWnd			親ウインドウハンドル
+	@param[in]	x				クライアント座標Ｘ
+	@param[in]	y				クライアント座標Ｙ
+	@param[in]	keyFlags		押されてる他のボタン
+	@return		なし
 */
 VOID Aai_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
@@ -728,12 +728,12 @@ VOID Aai_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�X�N���[���̏���
-	@param[in]	hWnd	�E�C���h�E�n���h��
-	@param[in]	hwndCtl	�X�N���[���o�[�̃E�C���h�E�n���h��
-	@param[in]	code	�����ԃR�[�h�E0xFF�����R�[�h�Ƃ��Ďg��
-	@param[in]	pos		�܂݂̈ʒu
-	@return		�����������e�Ƃ�
+	スクロールの処理
+	@param[in]	hWnd	ウインドウハンドル
+	@param[in]	hwndCtl	スクロールバーのウインドウハンドル
+	@param[in]	code	動作状態コード・0xFFを特殊コードとして使う
+	@param[in]	pos		つまみの位置
+	@return		処理した内容とか
 */
 VOID Aai_OnVScroll( HWND hWnd, HWND hwndCtl, UINT code, INT pos )
 {
@@ -742,7 +742,7 @@ VOID Aai_OnVScroll( HWND hWnd, HWND hwndCtl, UINT code, INT pos )
 
 	if( ghScrollWnd != hwndCtl )	return;
 
-	//	��Ԃ����₵��
+	//	状態をくやしく
 	ZeroMemory( &stScrollInfo, sizeof(SCROLLINFO) );
 	stScrollInfo.cbSize = sizeof(SCROLLINFO);
 	stScrollInfo.fMask = SIF_ALL;
@@ -750,7 +750,7 @@ VOID Aai_OnVScroll( HWND hWnd, HWND hwndCtl, UINT code, INT pos )
 
 	maePos = gixTopItem;
 
-	switch( code )	//	�X�N���[�������ɍ��킹�ē��e�����炷
+	switch( code )	//	スクロール方向に合わせて内容をずらす
 	{
 		case SB_TOP:
 			gixTopItem = 0;
@@ -776,17 +776,17 @@ VOID Aai_OnVScroll( HWND hWnd, HWND hwndCtl, UINT code, INT pos )
 			gixTopItem = stScrollInfo.nTrackPos;
 			break;
 
-		case SBP_DIRECT:	//	���[�U�R�[�h����ɒǉ�
+		case SBP_DIRECT:	//	ユーザコード勝手に追加
 			gixTopItem = pos;
 			break;
 
 		default:	return;
 	}
-	//	�ω��Ȃ��Ȃ�Ȃɂ�����ł���
+	//	変化ないならなにもせんでいい
 	if( maePos == gixTopItem )	return;
 
 	InvalidateRect( ghItemsWnd, NULL, TRUE );
-	UpdateWindow( ghItemsWnd  );	//	���A���^�C���`��ɕK�v
+	UpdateWindow( ghItemsWnd  );	//	リアルタイム描画に必要
 
 	stScrollInfo.fMask = SIF_POS;
 	stScrollInfo.nPos  = gixTopItem;
@@ -800,11 +800,11 @@ VOID Aai_OnVScroll( HWND hWnd, HWND hwndCtl, UINT code, INT pos )
 
 #ifdef MAA_TOOLTIP
 /*!
-	�m�[�e�B�t�@�C���b�Z�[�W�̏���
-	@param[in]	hWnd		�E�C���h�E�n���h��
-	@param[in]	idFrom		NOTIFY�𔭐��������R���g���[���̂h�c
-	@param[in]	pstNmhdr	NOTIFY�̏ڍ�
-	@return		�����������e�Ƃ�
+	ノーティファイメッセージの処理
+	@param[in]	hWnd		ウインドウハンドル
+	@param[in]	idFrom		NOTIFYを発生させたコントロールのＩＤ
+	@param[in]	pstNmhdr	NOTIFYの詳細
+	@return		処理した内容とか
 */
 LRESULT Aai_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 {
@@ -812,11 +812,11 @@ LRESULT Aai_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 	LPSTR			pcConts = NULL;
 	LPNMTTDISPINFO	pstDispInfo;
 
-	if( TTN_GETDISPINFO ==  pstNmhdr->code )	//	�c�[���`�b�v�̓��e�̖₢���킹��������
+	if( TTN_GETDISPINFO ==  pstNmhdr->code )	//	ツールチップの内容の問い合わせだったら
 	{
 		pstDispInfo = (LPNMTTDISPINFO)pstNmhdr;
 
-		if( !(gbAAtipView) )	//	��\���Ȃ牽�����Ȃ��ł���
+		if( !(gbAAtipView) )	//	非表示なら何もしないでおｋ
 		{
 			ZeroMemory( &(pstDispInfo->szText), sizeof(pstDispInfo->szText) );
 			pstDispInfo->lpszText = NULL;
@@ -825,10 +825,10 @@ LRESULT Aai_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 		FREE( gptTipBuffer );
 
-		pcConts = AacAsciiArtGet( gixNowSel );	//	�Y������C���f�b�N�XAA�����������Ă���
+		pcConts = AacAsciiArtGet( gixNowSel );	//	該当するインデックスAAを引っ張ってくる
 		if( !pcConts  ){	return 0;	}
 
-		rdLength = strlen( pcConts );	//	������̒����擾
+		rdLength = strlen( pcConts );	//	文字列の長さ取得
 
 		//gptTipBuffer = (LPTSTR)malloc( sizeof(TCHAR) * (rdLength+1) );
 		//ZeroMemory( gptTipBuffer, sizeof(TCHAR) * (rdLength+1) );
@@ -847,65 +847,65 @@ LRESULT Aai_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 #endif
 
 /*!
-	�R���e�L�X�g���j���[�Ăт����i�E�N���b�N�j
-	@param[in]	hWnd		�E�C���h�E�n���h��
-	@param[in]	hWndContext	�E�N���b�N�����q�E�C���h�E�n���h��
-	@param[in]	xPos		�}�E�X�J�[�\���̃X�N���[���w���W
-	@param[in]	yPos		�}�E�X�J�[�\���̃X�N���[���x���W
-	@return		�Ȃ�
+	コンテキストメニュー呼びだし（右クルック）
+	@param[in]	hWnd		ウインドウハンドル
+	@param[in]	hWndContext	右クルックした子ウインドウハンドル
+	@param[in]	xPos		マウスカーソルのスクリーンＸ座標
+	@param[in]	yPos		マウスカーソルのスクリーンＹ座標
+	@return		なし
 */
 VOID Aai_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 {
 	HMENU	hMenu, hSubMenu;
 	UINT	dRslt;
-	INT		dOpen;	//	�S�c���[�Ƃ��C�Ƀ��X�g�J���Ă��
+	INT		dOpen;	//	全ツリーとお気にリスト開いてるの
 	LPSTR	pcConts = NULL;
 	UINT_PTR	rdLength;
 	INT		sx, sy;
 
-	dOpen = TabMultipleNowSel(  );	//	�J���Ă�̂ŏ���������
+	dOpen = TabMultipleNowSel(  );	//	開いてるので処理かえる
 	//	ACT_ALLTREE	ACT_FAVLIST
 
-#pragma message ("Editor��viewer�́A���j���[���\�[�X�̐������ɒ��ӃZ��")
+#pragma message ("Editorとviewerの、メニューリソースの整合性に注意セヨ")
 	hMenu = LoadMenu( GetModuleHandle(NULL), MAKEINTRESOURCE(IDM_AALIST_POPUP) );
 	hSubMenu = GetSubMenu( hMenu, 0 );
 
 #ifdef _ORRVW
-	//	�g�p���X�g�̂݁A�폜��L���ɁA�ύX���邱�ƁE�W���Ŗ����ɂ��Ă���
+	//	使用リストのみ、削除を有効に、変更すること・標準で無効にしておく
 	if( ACT_FAVLIST ==  dOpen ){	EnableMenuItem( hSubMenu, IDM_MAA_FAV_DELETE , MF_ENABLED );	}
-	//	��ʃA�C�e�����폜�o����悤�ɂ���
+	//	一般アイテムも削除出来るようにする
 #endif
 
-	//	�c�[���`�b�v�̕\���E��\���̃g�S�D
+	//	ツールチップの表示・非表示のトゴゥ
 	if( gbAAtipView ){	CheckMenuItem( hSubMenu, IDM_MAA_AATIP_TOGGLE, MF_CHECKED );	}
 
 #ifndef _ORRVW
-	//	�t�H�[�J�X�߂����ǂ���
+	//	フォーカス戻すかどうか
 	if( gbMaaRetFocus ){	CheckMenuItem( hSubMenu, IDM_MAA_RETURN_FOCUS, MF_CHECKED );	}
 #endif
-	//	�}���`���j�^���Ă�ƁA���W�l���}�C�i�X�ɂȂ邱�Ƃ�����B
+	//	マルチモニタしてると、座標値がマイナスになることがある。
 	sx = (SHORT)xPos;
 	sy = (SHORT)yPos;
 
-	//	gixNowSel�́A���������Ƃ��낾�Ɓ|�P�ɂȂ�
+	//	gixNowSelは、何も無いところだと−１になる
 
-	//	�t���O��TPM_RETURNCMD���w�肷��ƁAWM_COMMAND����΂Ȃ�
+	//	フラグにTPM_RETURNCMDを指定すると、WM_COMMANDが飛ばない
 	dRslt = TrackPopupMenu( hSubMenu, TPM_RETURNCMD, sx, sy, 0, hWnd, NULL );	//	TPM_CENTERALIGN | TPM_VCENTERALIGN | 
 	DestroyMenu( hMenu );
 	switch( dRslt )
 	{
 		case IDM_MAA_FAV_DELETE:
-			if( ACT_FAVLIST == dOpen )	//	�g�p�̏ꍇ
+			if( ACT_FAVLIST == dOpen )	//	使用の場合
 			{
-				pcConts = AacAsciiArtGet( gixNowSel );	//	�Y������C���f�b�N�XAA�����������Ă���
+				pcConts = AacAsciiArtGet( gixNowSel );	//	該当するインデックスAAを引っ張ってくる
 				if( !pcConts ){	return;	}
 
-				rdLength = strlen( pcConts );	//	������̒����擾
-				AaItemsFavDelete( pcConts, rdLength );	//	�폜Commando���s
-				FavContsRedrawRequest( hWnd );	//	�ĕ`�悵�Ȃ��Ⴞ��
+				rdLength = strlen( pcConts );	//	文字列の長さ取得
+				AaItemsFavDelete( pcConts, rdLength );	//	削除Commando発行
+				FavContsRedrawRequest( hWnd );	//	再描画しなきゃだね
 			}
 #ifndef _ORRVW
-			else	//	����ȊO�Ȃ�A��^�u�����^�u
+			else	//	それ以外なら、主タブか副タブ
 			{
 				AacItemDelete( hWnd, gixNowSel );
 			}
@@ -948,7 +948,7 @@ VOID Aai_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 			break;
 
   #ifdef MAA_IADD_PLUS
-		//	�r���ǉ�
+		//	途中追加
 		case IDM_MAA_ITEM_INSERT:		AacItemInsert( hWnd, gixNowSel );	break;
   #endif
 #endif
@@ -959,9 +959,9 @@ VOID Aai_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�h���b�O���h���b�v�̎󂯓���
-	@param[in]	hWnd	�\���X�^�e�B�b�N�̃n���h��
-	@param[in]	hDrop	�h���b�s���I�u�W�F�N�g�n���h�D
+	ドラッグンドロップの受け入れ
+	@param[in]	hWnd	表示スタティックのハンドル
+	@param[in]	hDrop	ドロッピンオブジェクトハンドゥ
 */
 VOID Aai_OnDropFiles( HWND hWnd, HDROP hDrop )
 {
@@ -975,7 +975,7 @@ VOID Aai_OnDropFiles( HWND hWnd, HDROP hDrop )
 
 	TRACE( TEXT("AAI DROP[%s]"), atFileName );
 
-	//	�h���b�y���ꂽ�t�@�C���𕛃^�u�ɓW�J�����Ⴄ
+	//	ドロッペされたファイルを副タブに展開しちゃう
 	TabMultipleDropAdd( GetParent( hWnd ), atFileName );
 
 	return;
@@ -983,11 +983,11 @@ VOID Aai_OnDropFiles( HWND hWnd, HDROP hDrop )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	MLT�t�@�C�����������͂��C�ɓ��薼���󂯎���āA���e���X�^�e�B�b�N�ɓ����
-	@param[in]	hWnd		�e�E�C���h�E�n���h��
-	@param[in]	ptFileName	�t�@�C����
-	@param[in]	type		�O(ACT_ALLTREE)�F�t�@�C���W�J�@�P(ACT_FAVLIST)�FSQL�W�J�@�Q�F���^�u���
-	@return		HRESULT		�I����ԃR�[�h
+	MLTファイル名もしくはお気に入り名を受け取って、内容をスタティックに入れる
+	@param[in]	hWnd		親ウインドウハンドル
+	@param[in]	ptFileName	ファイル名
+	@param[in]	type		０(ACT_ALLTREE)：ファイル展開　１(ACT_FAVLIST)：SQL展開　２：副タブより
+	@return		HRESULT		終了状態コード
 */
 HRESULT AaItemsDoShow( HWND hWnd, LPTSTR ptFileName, UINT type )
 {
@@ -996,19 +996,19 @@ HRESULT AaItemsDoShow( HWND hWnd, LPTSTR ptFileName, UINT type )
 	ZeroMemory( &stScrollInfo, sizeof(SCROLLINFO) );
 	stScrollInfo.cbSize = sizeof(SCROLLINFO);
 
-	//	�`��ʒu���ŏ�����ɂ��āA�ĕ`���Ԃɂ���
+	//	描画位置を最初からにして、再描画状態にする
 	gixTopItem = 0;
 
-	AaTitleClear(  );	//	�����ŃN�����[���Ă݂�
+	AaTitleClear(  );	//	ここでクルヤーしてみる
 
-	//	�J��
+	//	開く
 	switch( type )
 	{
 		case ACT_ALLTREE:	gixMaxItem = AacAssembleFile( hWnd, ptFileName );	break;
 		case ACT_FAVLIST:	gixMaxItem = AacAssembleSql( hWnd, ptFileName );	break;
-		default:	//	���^�u
+		default:	//	副タブ
 			gixMaxItem = AacAssembleFile( hWnd, ptFileName );
-			//	���X�g�������[�E�����ŕ`��ʒu�𕜌�����
+			//	ラストメモリー・ここで描画位置を復元する
 			gixTopItem = TabMultipleTopMemory( -1 );
 			break;
 	}
@@ -1036,25 +1036,25 @@ HRESULT AaItemsDoShow( HWND hWnd, LPTSTR ptFileName, UINT type )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�g�����`�`�����C�ɓ���r�p�k�ɂ����
-	@param[in]	pcConts		AA�̕�����
-	@param[in]	rdLength	�o�C�g��
-	@return		HRESULT		�I����ԃR�[�h
+	使ったＡＡをお気に入りＳＱＬにいれる
+	@param[in]	pcConts		AAの文字列
+	@param[in]	rdLength	バイト数
+	@return		HRESULT		終了状態コード
 */
 HRESULT AaItemsFavUpload( LPSTR pcConts, UINT rdLength )
 {
 	LPTSTR	ptBaseName;
 	DWORD	dHash;
 
-	ptBaseName = TreeBaseNameGet(  );	//	�ꗗ�x�[�X���擾����
+	ptBaseName = TreeBaseNameGet(  );	//	一覧ベース名取得して
 
-	//	�h���b�s���I�u�W�F�N�g�Ȃ疳������̂ŁH
+	//	ドロッピンオブジェクトなら無視するので？
 	if( !( StrCmp( DROP_OBJ_NAME, ptBaseName ) ) )	return E_ABORT;
 
-	//	���̂`�`�̃n�b�V���l�����߂�
+	//	そのＡＡのハッシュ値を求めて
 	HashData( (LPBYTE)pcConts, rdLength, (LPBYTE)(&(dHash)), 4 );
 
-	//	���C�ɓ���ɋL�^����
+	//	お気に入りに記録する
 	SqlFavUpload( ptBaseName, dHash, pcConts, rdLength );
 
 	return S_OK;
@@ -1062,22 +1062,22 @@ HRESULT AaItemsFavUpload( LPSTR pcConts, UINT rdLength )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���C�ɓ��胊�X�g����폜����
-	@param[in]	pcConts		AA�̕�����
-	@param[in]	rdLength	�o�C�g��
-	@return		HRESULT		�I����ԃR�[�h
+	お気に入りリストから削除する
+	@param[in]	pcConts		AAの文字列
+	@param[in]	rdLength	バイト数
+	@return		HRESULT		終了状態コード
 */
 HRESULT AaItemsFavDelete( LPSTR pcConts, UINT rdLength )
 {
 	LPTSTR	ptBaseName;
 	DWORD	dHash;
 
-	ptBaseName = TreeBaseNameGet(  );	//	�ꗗ�x�[�X���擾����
+	ptBaseName = TreeBaseNameGet(  );	//	一覧ベース名取得して
 
-	//	���̂`�`�̃n�b�V���l�����߂�
+	//	そのＡＡのハッシュ値を求めて
 	HashData( (LPBYTE)pcConts, rdLength, (LPBYTE)(&(dHash)), 4 );
 
-	//	���C�ɓ��肩��폜����
+	//	お気に入りから削除する
 	SqlFavDelete( ptBaseName, dHash );
 
 	return S_OK;
@@ -1086,9 +1086,9 @@ HRESULT AaItemsFavDelete( LPSTR pcConts, UINT rdLength )
 
 
 /*!
-	MAA���̔w�i�F�I���_�C�����O�̖ʓ|����
-	@param[in]	hWnd	�I�[�i�[�E�C���h�E�n���h��
-	@return	HRESULT	�I����ԃR�[�h
+	MAA窓の背景色選択ダイヤログの面倒見る
+	@param[in]	hWnd	オーナーウインドウハンドル
+	@return	HRESULT	終了状態コード
 */
 HRESULT MaaBackColourChoose( HWND hWnd )
 {
@@ -1110,13 +1110,13 @@ HRESULT MaaBackColourChoose( HWND hWnd )
 	stChColour.lpCustColors = adColourTemp;
 	stChColour.Flags        = CC_RGBINIT;
 
-	bRslt = ChooseColor( &stChColour  );	//	�F�_�C�����O�g��
+	bRslt = ChooseColor( &stChColour  );	//	色ダイヤログ使う
 	if( bRslt )
 	{
 		dColour =  stChColour.rgbResult;
 		InitParamValue( INIT_SAVE, VL_MAA_BKCOLOUR, (INT)dColour );
 
-		DeleteBrush( ghBkBrush );	//	�u���V��蒼��
+		DeleteBrush( ghBkBrush );	//	ブラシ作り直し
 		ghBkBrush = CreateSolidBrush( dColour );
 
 		InvalidateRect( ghItemsWnd, NULL, TRUE );
@@ -1132,11 +1132,11 @@ HRESULT MaaBackColourChoose( HWND hWnd )
 
 
 /*!
-	�z�E�B�[����]�������̏�Ŕ���������
-	@param[in]	hWnd	�e�E�C���h�E�n���h��
-	@param[in]	hChdWnd	�}�E�X�J�[�\���́��ɂ������q�E�C���h�E
-	@param[in]	zDelta	��]�ʁE���Ȃ������A���Ȃ牺�����ւ̃X�N���[���ƌ��Ȃ�
-	@return		��O�����������@�O�֌W�Ȃ���
+	ホウィール回転が自分の上で発生したか
+	@param[in]	hWnd	親ウインドウハンドル
+	@param[in]	hChdWnd	マウスカーソルの↓にあった子ウインドウ
+	@param[in]	zDelta	回転量・正なら上方向、腐なら下方向へのスクロールと見なす
+	@return		非０自分だった　０関係ないね
 */
 UINT AaItemsIsUnderCursor( HWND hWnd, HWND hChdWnd, INT zDelta )
 {
@@ -1155,11 +1155,11 @@ UINT AaItemsIsUnderCursor( HWND hWnd, HWND hChdWnd, INT zDelta )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�^�[�Q�b�g���Ă���AA���g������
-	@param[in]	hWnd	����AA�ꗗ�̃E�C���h�E�n���h��
-	@param[in]	dMode	�g�p���[�h�������̓f�t�H��
-	@param[in]	dDirct	��O�}�E�X�����̂Ł@�O�\���g�b�v�̂�
-	@return		UINT	��O�`�`�Ƃ����@�O�`�`��������
+	ターゲットしているAAを使う処理
+	@param[in]	hWnd	多分AA一覧のウインドウハンドル
+	@param[in]	dMode	使用モードもしくはデフォで
+	@param[in]	dDirct	非０マウス直下ので　０表示トップので
+	@return		UINT	非０ＡＡとった　０ＡＡ無かった
 */
 UINT AaItemsDoSelect( HWND hWnd, UINT dMode, UINT dDirct )
 {
@@ -1167,18 +1167,18 @@ UINT AaItemsDoSelect( HWND hWnd, UINT dMode, UINT dDirct )
 	UINT		uRslt;
 	UINT_PTR	rdLength;
 
-	//	�Y������C���f�b�N�XAA�����������Ă���
+	//	該当するインデックスAAを引っ張ってくる
 	if( dDirct ){	pcConts = AacAsciiArtGet( gixNowSel );	}
 	else{			pcConts = AacAsciiArtGet( gixTopItem );	}
 
 	if( !pcConts  ){	return 0;	}
 
-	rdLength = strlen( pcConts );	//	������̒����擾
+	rdLength = strlen( pcConts );	//	文字列の長さ取得
 
-	uRslt = ViewMaaMaterialise( hWnd, pcConts, rdLength, dMode );	//	�{�̂ɔ�΂�
-	//	Editor��Viewer�Ŗ{�̂��قȂ�̂Œ���
+	uRslt = ViewMaaMaterialise( hWnd, pcConts, rdLength, dMode );	//	本体に飛ばす
+	//	EditorとViewerで本体が異なるので注意
 
-	//	�����ł��C�ɓ���ɓ����
+	//	ここでお気に入りに入れる
 	if( SUCCEEDED( AaItemsFavUpload( pcConts, rdLength ) ) )
 	{
 		FavContsRedrawRequest( hWnd );
@@ -1192,10 +1192,10 @@ UINT AaItemsDoSelect( HWND hWnd, UINT dMode, UINT dDirct )
 
 
 /*!
-	�|�b�p�b�v�̕����T�C�Y�ύX�ƕ\����\����������
-	@param[in]	ttSize	�����T�C�Y�E�P�Q���P�U�����Ȃ�
-	@param[in]	bView	��O�\���@�O�\�����Ȃ�
-	@return		HRESULT	�I����ԃR�[�h
+	ポッパップの文字サイズ変更と表示非表示が入った
+	@param[in]	ttSize	文字サイズ・１２か１６しかない
+	@param[in]	bView	非０表示　０表示しない
+	@return		HRESULT	終了状態コード
 */
 HRESULT AaItemsTipSizeChange( INT ttSize, UINT bView )
 {
@@ -1208,7 +1208,7 @@ HRESULT AaItemsTipSizeChange( INT ttSize, UINT bView )
 	SetWindowFont( ghToolTipWnd, GetStockFont(DEFAULT_GUI_FONT), FALSE );
 	DeleteFont( ghTipFont );
 
-	//	���g���Ă郄�c�Ԃ��󂵂Ă���A�V�����̂����Ă�������
+	//	今使ってるヤツぶっ壊してから、新しいのつくってくっつける
 	ViewingFontGet( &stFont );	//	gstBaseFont
 	stFont.lfHeight = (FONTSZ_REDUCE == ttSize) ? FONTSZ_REDUCE : FONTSZ_NORMAL;
 	ghTipFont = CreateFontIndirect( &stFont );
@@ -1222,9 +1222,9 @@ HRESULT AaItemsTipSizeChange( INT ttSize, UINT bView )
 
 #ifdef USE_HOVERTIP
 /*!
-	HoverTip�p�̃R�[���o�b�N���
-	@param[in]	pVoid	����`
-	@return	�m�ۂ���������E��������NULL
+	HoverTip用のコールバック受取
+	@param[in]	pVoid	未定義
+	@return	確保した文字列・もしくはNULL
 */
 LPTSTR CALLBACK AaItemsHoverTipInfo( LPVOID pVoid )
 {
@@ -1233,14 +1233,14 @@ LPTSTR CALLBACK AaItemsHoverTipInfo( LPVOID pVoid )
 	LPTSTR		ptBuffer = NULL;
 
 
-	if( !(gbAAtipView) ){		return NULL;	}	//	��\���Ȃ牽�����Ȃ��ł���
+	if( !(gbAAtipView) ){		return NULL;	}	//	非表示なら何もしないでおｋ
 	if( 0 > gixNowToolTip ){	return NULL;	}
 
-	pcConts = AacAsciiArtGet( gixNowToolTip );	//	�Y������C���f�b�N�X�̂`�`�����������Ă���
+	pcConts = AacAsciiArtGet( gixNowToolTip );	//	該当するインデックスのＡＡを引っ張ってくる
 	if( !pcConts  ){	return 0;	}
 
 	ptBuffer = SjisDecodeAlloc( pcConts );
-	rdLength = lstrlen( ptBuffer  );	//	������̒����擾
+	rdLength = lstrlen( ptBuffer  );	//	文字列の長さ取得
 
 	free( pcConts );
 
@@ -1256,10 +1256,10 @@ LPTSTR CALLBACK AaItemsHoverTipInfo( LPVOID pVoid )
 
 
 /*!
-	�����J�n�{�^��������E����Ɠ��ڈȍ~�̋�ʂɒ���
-	@param[in]	hWnd	�e�E�C���h�E�̃n���h��
-	@param[in]	bMode	��O�{�^���ɂ�錟���J�n�@�O�O�̏����Ŏ��̕ł��猟���J�n
-	@return		HRESULT	�I����ԃR�[�h
+	検索開始ボタン押され・初回と弐回目以降の区別に注意
+	@param[in]	hWnd	親ウインドウのハンドル
+	@param[in]	bMode	非０ボタンによる検索開始　０前の条件で次の頁から検索開始
+	@return		HRESULT	終了状態コード
 */
 HRESULT AacFindTextEntry( HWND hWnd, UINT bMode )
 {
@@ -1267,70 +1267,70 @@ HRESULT AacFindTextEntry( HWND hWnd, UINT bMode )
 	UINT	isNowPage, dRslt;
 	INT		iPage, i;
 
-	TRACE( TEXT("MAA�F�����n��") );
-	//	�e�R�Ȃ�A���̕ł���B�����̕������
-	//	�{�^���Ȃ�A�����񂪈قȂ��Ă�����w��ɏ]���E�����Ȃ�Â�����
+	TRACE( TEXT("MAA：検索始め") );
+	//	Ｆ３なら、今の頁から。既存の文字列で
+	//	ボタンなら、文字列が異なっていたら指定に従う・同じならつづきから
 
 	ZeroMemory( atString, sizeof(atString) );
 
 	SetDlgItemText( hWnd, IDS_MAA_TXTFIND_MSGBOX, TEXT("") );
 
-	if( bMode )	//	�{�^������
+	if( bMode )	//	ボタンから
 	{
 		GetDlgItemText( hWnd, IDE_MAA_TXTFIND_TEXT, atString, MAX_STRING );
-		//	�G�f�B�b�g�{�b�L�X����Ȃ�Ȃ������
+		//	エディットボッキスが空ならなんもせん
 		if( NULL == atString[0] )	return E_NOTIMPL;
 
-		//	�O�t�@�C���擪����@�P���̓V�ӕł���
+		//	０ファイル先頭から　１今の天辺頁から
 		isNowPage = IsDlgButtonChecked( hWnd, IDB_MAA_TXTFIND_TOP_GO ) ? FALSE : TRUE;
 	}
-	else	//	�e�R��
+	else	//	Ｆ３で
 	{
-		//	���������������Ƃ��͂Ȃɂ����Ȃ�
+		//	検索条件が無いときはなにもしない
 		if( NULL == gatFindText[0] )	return E_NOTIMPL;
 
-		//	�o�b�t�@����R�s�[���Ă����E����ɂ��O��Ɠ������������ɂȂ�
+		//	バッファからコピーしておく・これにより前回と同じ条件扱いになる
 		StringCchCopy( atString, MAX_STRING, gatFindText );
 	}
 
-//����Ɠ��ڈȍ~�̋�ʂǂ����邩
-	if( StrCmp( gatFindText, atString ) )	//	�قȂ邩��A���񏉂߂ĂƂ�����
+//初回と弐回目以降の区別どうするか
+	if( StrCmp( gatFindText, atString ) )	//	異なるから、今回初めてといえる
 	{
-		//	�o�b�t�@�ɃR�s�[
+		//	バッファにコピー
 		StringCchCopy( gatFindText, MAX_STRING, atString );
 
-		//	�����J�n�ʒu
-		if( !(isNowPage)  ){	iPage = 0;	}	//	�擪
-		else{	iPage =  gixTopItem + 1;	}	//	���̎��̕ł���
-		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	�U��؂�����擪�ɖ߂�
+		//	検索開始位置
+		if( !(isNowPage)  ){	iPage = 0;	}	//	先頭
+		else{	iPage =  gixTopItem + 1;	}	//	今の次の頁から
+		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	振り切ったら先頭に戻る
 
 	}
-	else	//	�����Ȃ�P�x����������̂͂��E�������珈���𑱂���
+	else	//	同じなら１度処理した後のはず・続きから処理を続ける
 	{
-		iPage =  gixTopItem + 1;	//	���̎��̕ł���
-		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	�U��؂�����擪�ɖ߂�
+		iPage =  gixTopItem + 1;	//	今の次の頁から
+		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	振り切ったら先頭に戻る
 	}
 
 	dRslt = FALSE;
-	//	�ł����Ԃɂ݂Ă���
-	for( i = 0; gixMaxItem > i; i++ )	//	�S�ŉ񂵂���I���
+	//	頁を順番にみていく
+	for( i = 0; gixMaxItem > i; i++ )	//	全頁回したら終わり
 	{
 		dRslt = AacItemFindOnePage( hWnd, atString, iPage );
-		if( dRslt ){	break;	}	//	�q�b�g
+		if( dRslt ){	break;	}	//	ヒット
 
-		//	�������łɂ͖��������ꍇ
+		//	今見た頁には無かった場合
 		iPage++;
-		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	�U��؂�����擪�ɖ߂�
+		if( gixMaxItem <= iPage ){	iPage = 0;	}	//	振り切ったら先頭に戻る
 	}
 
 	if( dRslt )
 	{
-		Aai_OnVScroll( hWnd, ghScrollWnd, SBP_DIRECT, iPage );	//	�Y������ʒu�փW�����v
+		Aai_OnVScroll( hWnd, ghScrollWnd, SBP_DIRECT, iPage );	//	該当する位置へジャンプ
 	}
 	else
 	{
-		SetDlgItemText( hWnd, IDS_MAA_TXTFIND_MSGBOX, TEXT("������Ȃ���") );
-		//MessageBox( hWnd, TEXT("������Ȃ�������"), TEXT("���ӂ���̂��m�点"), MB_OK );
+		SetDlgItemText( hWnd, IDS_MAA_TXTFIND_MSGBOX, TEXT("見つからないよ") );
+		//MessageBox( hWnd, TEXT("見つからなかったよ"), TEXT("お燐からのお知らせ"), MB_OK );
 	}
 
 	return S_OK;
@@ -1338,11 +1338,11 @@ HRESULT AacFindTextEntry( HWND hWnd, UINT bMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�w��̕ł��A�w��������󂯂Č�������
-	@param[in]	hWnd		�E�C���h�E�n���h��
-	@param[in]	ptFindText	����������������
-	@param[in]	iTargetPage	������
-	@return	UINT	��O���̕łɕ����񂪂������@�O�Ȃ�����
+	指定の頁を、指定条件を受けて検索する
+	@param[in]	hWnd		ウインドウハンドル
+	@param[in]	ptFindText	検索したい文字列
+	@param[in]	iTargetPage	検索頁
+	@return	UINT	非０その頁に文字列があった　０なかった
 */
 UINT AacItemFindOnePage( HWND hWnd, LPTSTR ptFindText, INT iTargetPage )
 {
@@ -1351,14 +1351,14 @@ UINT AacItemFindOnePage( HWND hWnd, LPTSTR ptFindText, INT iTargetPage )
 	INT		iMoziPos;
 	UINT	dFound = FALSE;
 
-	//	���g�����Ă���
+	//	中身もってくる
 	pcItem = AacAsciiArtGet( iTargetPage );
-	//	���j�R�[�h�ɒ����Ĕ�r����
+	//	ユニコードに直して比較する
 	ptTarget = SjisDecodeAlloc( pcItem );
 	FREE( pcItem );
 
-	ptFindPos = FindStringProc( ptTarget, ptFindText, &iMoziPos );	//	Viewer��
-	if( ptFindPos ){	dFound = TRUE;	}	//	���݂��Ă邩�H
+	ptFindPos = FindStringProc( ptTarget, ptFindText, &iMoziPos );	//	Viewer側
+	if( ptFindPos ){	dFound = TRUE;	}	//	存在してるか？
 
 	FREE( ptTarget );
 
@@ -1378,17 +1378,17 @@ UINT AacItemFindOnePage( HWND hWnd, LPTSTR ptFindText, INT iTargetPage )
 
 typedef struct tagITEMADDINFO
 {
-	LPTSTR	ptContent;			//!<	�{�����e
-	TCHAR	atSep[MAX_PATH];	//!<	�Z�p���[�^���e
-	INT		bType;				//!<	��OMLT�@�OAST
+	LPTSTR	ptContent;			//!<	本文内容
+	TCHAR	atSep[MAX_PATH];	//!<	セパレータ内容
+	INT		bType;				//!<	非０MLT　０AST
 
 } ITEMADDINFO, *LPITEMADDINFO;
 //--------------------------------------
 
 /*!
-	�c���[�̃t�@�C���ɃA�C�e���ǉ��E�ǉ��������t�@�C���̃p�X���󂯎��
-	@param[in]	hWnd	�E�C���h�E�n���h��
-	@param[in]	ptFile	�ǉ��������t�@�C���̃t���p�X
+	ツリーのファイルにアイテム追加・追加したいファイルのパスを受け取る
+	@param[in]	hWnd	ウインドウハンドル
+	@param[in]	ptFile	追加したいファイルのフルパス
 */
 HRESULT AacItemAdding( HWND hWnd, LPTSTR ptFile )
 {
@@ -1406,25 +1406,25 @@ HRESULT AacItemAdding( HWND hWnd, LPTSTR ptFile )
 
 	ZeroMemory( acCheck, sizeof(acCheck) );
 
-	//	�g���q�m�F
+	//	拡張子確認
 	if( FileExtensionCheck( ptFile, TEXT(".ast") ) ){	stIaInfo.bType =  0;	}
 	else{	stIaInfo.bType =  1;	}
 
 	if( DialogBoxParam( GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_MAA_IADD_DLG), hWnd, AaItemAddDlgProc, (LPARAM)(&stIaInfo) ) )
 	{
-		if( stIaInfo.ptContent )	//	���g���L���Ȃ珈������
+		if( stIaInfo.ptContent )	//	中身が有効なら処理する
 		{
 			hFile = CreateFile( ptFile, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
 			if( INVALID_HANDLE_VALUE != hFile )
 			{
-				//	�t�@�C����SJIS�^�ł���ƌ��Ȃ�
-				SetFilePointer( hFile, -2, NULL, FILE_END );	//	�����̏󋵂��m�F
-				ReadFile( hFile, acCheck, 6, &readed, NULL );	//	���̎��_�Ńt�@�C�������ɂ���
-				SetFilePointer( hFile,  0, NULL, FILE_END );	//	�O�̂��ߖ���
-				if( acCheck[0] != '\r' || acCheck[1] != '\n' )	//	���������s����Ȃ�������
+				//	ファイルはSJIS型であると見なす
+				SetFilePointer( hFile, -2, NULL, FILE_END );	//	末尾の状況を確認
+				ReadFile( hFile, acCheck, 6, &readed, NULL );	//	この時点でファイル末尾にくる
+				SetFilePointer( hFile,  0, NULL, FILE_END );	//	念のため末尾
+				if( acCheck[0] != '\r' || acCheck[1] != '\n' )	//	末尾が改行じゃなかったら
 				{
 					acCheck[0] = '\r';	acCheck[1] = '\n';	acCheck[2] = NULL;
-					WriteFile( hFile, acCheck, 2, &wrote, NULL );	//	���s�����Ă���
+					WriteFile( hFile, acCheck, 2, &wrote, NULL );	//	改行書いておく
 				}
 
 				StringCchLength( stIaInfo.atSep, MAX_PATH, &cchSep );
@@ -1437,7 +1437,7 @@ HRESULT AacItemAdding( HWND hWnd, LPTSTR ptFile )
 				pcOutput = SjisEncodeAlloc( ptBuffer );
 				cbSize = strlen( pcOutput );
 
-				WriteFile( hFile , pcOutput, cbSize, &wrote, NULL );	//	���e��������
+				WriteFile( hFile , pcOutput, cbSize, &wrote, NULL );	//	内容書き込む
 
 				SetEndOfFile( hFile );
 				CloseHandle( hFile );
@@ -1446,7 +1446,7 @@ HRESULT AacItemAdding( HWND hWnd, LPTSTR ptFile )
 			FREE(stIaInfo.ptContent);
 		}
 
-		//	�������C���ŊJ���Ă����烍�[�h�E�Ă������c���[���Œǉ����Ă��������ˁH
+		//	もしメインで開けていたらロード・ていうかツリー側で追加っておかしくね？
 	}
 
 	return S_OK;
@@ -1454,13 +1454,13 @@ HRESULT AacItemAdding( HWND hWnd, LPTSTR ptFile )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�A�C�e���ǉ��̖ʓ|����_�C�����O�[
-	@param[in]	hDlg		�_�C�����O�n���h��
-	@param[in]	message		�E�C���h�E���b�Z�[�W�̎��ʔԍ�
-	@param[in]	wParam		�ǉ��̏��P
-	@param[in]	lParam		�ǉ��̏��Q
-	@retval 0	���b�Z�[�W�͏������Ă��Ȃ�
-	@retval no0	�Ȃ񂩏������ꂽ
+	アイテム追加の面倒見るダイヤログー
+	@param[in]	hDlg		ダイヤログハンドル
+	@param[in]	message		ウインドウメッセージの識別番号
+	@param[in]	wParam		追加の情報１
+	@param[in]	lParam		追加の情報２
+	@retval 0	メッセージは処理していない
+	@retval no0	なんか処理された
 */
 INT_PTR CALLBACK AaItemAddDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -1476,24 +1476,24 @@ INT_PTR CALLBACK AaItemAddDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 			pstIaInfo = (LPITEMADDINFO)(lParam);
 			GetClientRect( hDlg, &rect );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("���̕�"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("�N���b�v�{�[�h"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL ); 
+			CreateWindowEx( 0, WC_BUTTON, TEXT("今の頁"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("クリップボード"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL ); 
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 195, 0, rect.right-195-50, 23, hDlg, (HMENU)IDE_MAID_ITEMNAME, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("�ǉ�"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("追加"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 23, rect.right, rect.bottom-23, hDlg, (HMENU)IDE_MAID_CONTENTS, GetModuleHandle(NULL), NULL );
-			//	�Ȃ�ł킴�킴����������̂��v���o���Ȃ��B
+			//	なんでわざわざこうやったのか思い出せない。
 
 			if( pstIaInfo->bType )
 			{
-				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("���̂�AST�łȂ��Ǝg�p�ł��Ȃ��̂ł�") );
+				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("名称はASTでないと使用できないのです") );
 				EnableWindow( GetDlgItem(hDlg,IDE_MAID_ITEMNAME), FALSE );
 				StringCchCopy( pstIaInfo->atSep, MAX_PATH, TEXT("[SPLIT]\r\n") );
 			}
 
-			//	�Ƃ肠�����N���b�v�{�[�h�̒��g���Ƃ�
+			//	とりあえずクリップボードの中身をとる
 			ptBuffer = DocClipboardDataGet( NULL );
 			if( !(ptBuffer) ){	DocPageGetAlloc( D_UNI , (LPVOID *)(&ptBuffer) );	}
-			//	�g���Ȃ��V�����m�Ȃ�A���̕ł̓��e�������Ă��ĕ\��
+			//	使えないシロモノなら、今の頁の内容を持ってきて表示
 			SetDlgItemText( hDlg, IDE_MAID_CONTENTS, ptBuffer );
 			return (INT_PTR)TRUE;
 

@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ“ƒgƒŠ ƒ|ƒCƒ“ƒg‚ð’è‹`‚µ‚Ü‚·B
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í OrinrinCollector.cpp ‚Å‚·B
+	@brief ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¨ãƒ³ãƒˆãƒª ãƒã‚¤ãƒ³ãƒˆã‚’å®šç¾©ã—ã¾ã™ã€‚
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ OrinrinCollector.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/10/06
 */
@@ -21,62 +21,62 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "OrinrinCollector.h"
 //-------------------------------------------------------------------------------------------------
 
-// ƒOƒ[ƒoƒ‹•Ï”:
-static HANDLE		ghMutex;					//!<	‘½d‹N“®–hŽ~—pMutex
+// ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°:
+static HANDLE		ghMutex;					//!<	å¤šé‡èµ·å‹•é˜²æ­¢ç”¨Mutex
 
-static HINSTANCE	ghInst;						//!<	Œ»Ý‚ÌƒCƒ“ƒ^[ƒtƒFƒCƒX
-static TCHAR		gatTitle[MAX_STRING];		//!<	ƒ^ƒCƒgƒ‹ƒo[‚ÌƒeƒLƒXƒg
-static TCHAR		gatWindowClass[MAX_STRING];	//!<	ƒƒCƒ“ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
+static HINSTANCE	ghInst;						//!<	ç¾åœ¨ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
+static TCHAR		gatTitle[MAX_STRING];		//!<	ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã®ãƒ†ã‚­ã‚¹ãƒˆ
+static TCHAR		gatWindowClass[MAX_STRING];	//!<	ãƒ¡ã‚¤ãƒ³ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
 
-static  HWND		ghToolTipWnd;				//!<	ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static HBRUSH		ghBrush;					//!<	”wŒiFƒuƒ‰ƒV
-static HICON		ghIcon;						//!<	ƒƒCƒ“ƒAƒCƒRƒ“
-static  UINT		grdTaskbarResetID;			//!<	ƒ^ƒXƒNƒo[‚ªÄ‹N“®‚·‚é‚Æ‚«‚ÌƒƒbƒZ[ƒWID‚ð•ÛŽ
-static  HWND		ghNextViewer;				//!<	ƒNƒŠƒbƒvƒ{[ƒhƒ`ƒFƒCƒ“‚ÌŽŸ‚Ì‚â‚Â
-static BOOLEAN		gbClipSteal;				//!<	ƒRƒs[’¸‘Õ‚·‚é
-static BOOLEAN		gGetMsgOn;					//!<	•Û‘¶‚µ‚½‚çƒoƒ‹[ƒ“‚·‚é
-static BOOLEAN		gIsAST;						//!<	•Û‘¶‚ÍASTŒ`Ž®‚Å
-static TCHAR		gatIniPath[MAX_PATH];		//!<	‚h‚m‚hƒtƒ@ƒCƒ‹‚ÌˆÊ’u
-static TCHAR		gatClipFile[MAX_PATH];		//!<	ƒNƒŠƒbƒv“à—e‚ð•Û‘¶‚·‚éƒtƒ@ƒCƒ‹–¼
-static NOTIFYICONDATA	gstNtfyIcon;			//!<	ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“§Œä‚Ì\‘¢‘Ì
+static  HWND		ghToolTipWnd;				//!<	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static HBRUSH		ghBrush;					//!<	èƒŒæ™¯è‰²ãƒ–ãƒ©ã‚·
+static HICON		ghIcon;						//!<	ãƒ¡ã‚¤ãƒ³ã‚¢ã‚¤ã‚³ãƒ³
+static  UINT		grdTaskbarResetID;			//!<	ã‚¿ã‚¹ã‚¯ãƒãƒ¼ãŒå†èµ·å‹•ã™ã‚‹ã¨ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸IDã‚’ä¿æŒ
+static  HWND		ghNextViewer;				//!<	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒã‚§ã‚¤ãƒ³ã®æ¬¡ã®ã‚„ã¤
+static BOOLEAN		gbClipSteal;				//!<	ã‚³ãƒ”ãƒ¼é ‚æˆ´ã™ã‚‹
+static BOOLEAN		gGetMsgOn;					//!<	ä¿å­˜ã—ãŸã‚‰ãƒãƒ«ãƒ¼ãƒ³ã™ã‚‹
+static BOOLEAN		gIsAST;						//!<	ä¿å­˜ã¯ASTå½¢å¼ã§
+static TCHAR		gatIniPath[MAX_PATH];		//!<	ï¼©ï¼®ï¼©ãƒ•ã‚¡ã‚¤ãƒ«ã®ä½ç½®
+static TCHAR		gatClipFile[MAX_PATH];		//!<	ã‚¯ãƒªãƒƒãƒ—å†…å®¹ã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å
+static NOTIFYICONDATA	gstNtfyIcon;			//!<	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³åˆ¶å¾¡ã®æ§‹é€ ä½“
 
-EXTERNED UINT		gbUniRadixHex;				//!<	”’lŽQÆ‚ð‚P‚Ui”Œ^‚Å•Û‘¶‚·‚é
+EXTERNED UINT		gbUniRadixHex;				//!<	æ•°å€¤å‚ç…§ã‚’ï¼‘ï¼–é€²æ•°åž‹ã§ä¿å­˜ã™ã‚‹
 
-static  UINT		gbHotMod;					//!<	ƒ|ƒbƒvƒAƒbƒvƒzƒbƒgƒL[CüŽq
-static  UINT		gbHotVkey;					//!<	ƒ|ƒbƒvƒAƒbƒvƒzƒbƒgƒL[‰¼‘zƒL[ƒR[ƒh
+static  UINT		gbHotMod;					//!<	ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ›ãƒƒãƒˆã‚­ãƒ¼ä¿®é£¾å­
+static  UINT		gbHotVkey;					//!<	ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ›ãƒƒãƒˆã‚­ãƒ¼ä»®æƒ³ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒGƒ“ƒgƒŠƒ|ƒCƒ“ƒg
-	@param[in]	hInstance		‚±‚Ìƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@param[in]	hPrevInstance	‘O‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB¡‚Í–¢Žg—p
-	@param[in]	lpCmdLine		ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“Bƒg[ƒNƒ“•ª‰ð‚Í‚³‚ê‚Ä‚È‚¢A‚½‚¾‚Ì•¶Žš—ñ
-	@param[in]	nCmdShow		‹N“®Žž‚Ì•\Ž¦ó‘Ô‚ª“ü‚Á‚Ä‚éB•\Ž¦‚Æ‚©‚»‚¤‚¢‚¤‚Ì
-	@retval FALSE	“r’†I—¹
+	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¨ãƒ³ãƒˆãƒªãƒã‚¤ãƒ³ãƒˆ
+	@param[in]	hInstance		ã“ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hPrevInstance	å‰ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚ä»Šã¯æœªä½¿ç”¨
+	@param[in]	lpCmdLine		ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã€‚ãƒˆãƒ¼ã‚¯ãƒ³åˆ†è§£ã¯ã•ã‚Œã¦ãªã„ã€ãŸã ã®æ–‡å­—åˆ—
+	@param[in]	nCmdShow		èµ·å‹•æ™‚ã®è¡¨ç¤ºçŠ¶æ…‹ãŒå…¥ã£ã¦ã‚‹ã€‚è¡¨ç¤ºã¨ã‹ãã†ã„ã†ã®
+	@retval FALSE	é€”ä¸­çµ‚äº†
 */
 INT APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow )
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	//	TODO: ‚±‚±‚ÉƒR[ƒh‚ð‘}“ü‚µ‚Ä‚­‚¾‚³‚¢B
+	//	TODO: ã“ã“ã«ã‚³ãƒ¼ãƒ‰ã‚’æŒ¿å…¥ã—ã¦ãã ã•ã„ã€‚
 	MSG	msg;
 	INT	msRslt;
 
 #ifdef _DEBUG
-	//_CRTDBG_ALLOC_MEM_DF;		// Žw’è‚ª•K—v‚Èƒtƒ‰ƒO
-	//_CRTDBG_CHECK_ALWAYS_DF;	//	ƒƒ‚ƒŠ‚ðƒ`ƒFƒbƒN		_CRTDBG_CHECK_EVERY_128_DF
-	//_CRTDBG_LEAK_CHECK_DF;		//	I—¹Žž‚Éƒƒ‚ƒŠƒŠ[ƒN‚ðƒ`ƒFƒbƒN
+	//_CRTDBG_ALLOC_MEM_DF;		// æŒ‡å®šãŒå¿…è¦ãªãƒ•ãƒ©ã‚°
+	//_CRTDBG_CHECK_ALWAYS_DF;	//	ãƒ¡ãƒ¢ãƒªã‚’ãƒã‚§ãƒƒã‚¯		_CRTDBG_CHECK_EVERY_128_DF
+	//_CRTDBG_LEAK_CHECK_DF;		//	çµ‚äº†æ™‚ã«ãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯ã‚’ãƒã‚§ãƒƒã‚¯
 	//_CRTDBG_DELAY_FREE_MEM_DF;	//	
-	//	‚±‚±‚ÅŽg—p‚·‚éƒtƒ‰ƒO‚ðŽw’è
+	//	ã“ã“ã§ä½¿ç”¨ã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’æŒ‡å®š
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_CHECK_ALWAYS_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
-	//	‘½d‹N“®–hŽ~
-	ghMutex = CreateMutex( NULL, TRUE, TEXT("OrinrinCollector") );	//	‚·‚Å‚É‹N“®‚µ‚Ä‚¢‚é‚©”»’è
-	if( GetLastError() == ERROR_ALREADY_EXISTS )	//	‚·‚Å‚É‹N“®‚µ‚Ä‚¢‚é
+	//	å¤šé‡èµ·å‹•é˜²æ­¢
+	ghMutex = CreateMutex( NULL, TRUE, TEXT("OrinrinCollector") );	//	ã™ã§ã«èµ·å‹•ã—ã¦ã„ã‚‹ã‹åˆ¤å®š
+	if( GetLastError() == ERROR_ALREADY_EXISTS )	//	ã™ã§ã«èµ·å‹•ã—ã¦ã„ã‚‹
 	{
-		MessageBox( NULL, TEXT("›ß‚ÉƒAƒvƒŠ‚Í‹N“®‚µ‚Ä‚é‚æI"), TEXT("‚¨—Ó‚©‚ç‚Ì‚¨’m‚ç‚¹"), MB_OK|MB_ICONINFORMATION );
+		MessageBox( NULL, TEXT("å·²ã«ã‚¢ãƒ—ãƒªã¯èµ·å‹•ã—ã¦ã‚‹ã‚ˆï¼"), TEXT("ãŠç‡ã‹ã‚‰ã®ãŠçŸ¥ã‚‰ã›"), MB_OK|MB_ICONINFORMATION );
 		ReleaseMutex( ghMutex );
 		CloseHandle( ghMutex );
 		return 0;
@@ -88,19 +88,19 @@ INT APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 	iccex.dwICC  = ICC_WIN95_CLASSES | ICC_USEREX_CLASSES;
 	InitCommonControlsEx( &iccex );
 
-	// ƒOƒ[ƒoƒ‹•¶Žš—ñ‚ð‰Šú‰»‚µ‚Ä‚¢‚Ü‚·B
+	// ã‚°ãƒ­ãƒ¼ãƒãƒ«æ–‡å­—åˆ—ã‚’åˆæœŸåŒ–ã—ã¦ã„ã¾ã™ã€‚
 	LoadString( hInstance, IDS_APP_TITLE, gatTitle, MAX_STRING );
 	LoadString( hInstance, IDC_ORINRINCOLLECTOR, gatWindowClass, MAX_STRING );
 	InitWndwClass( hInstance );
 
-	// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‰Šú‰»‚ðŽÀs‚µ‚Ü‚·:
+	// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–ã‚’å®Ÿè¡Œã—ã¾ã™:
 	if( !InitInstance( hInstance, nCmdShow ) )
 	{
 		return FALSE;
 	}
 
 
-	//	ƒƒCƒ“ƒƒbƒZ[ƒWƒ‹[ƒv
+	//	ãƒ¡ã‚¤ãƒ³ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ«ãƒ¼ãƒ—
 	for(;;)
 	{
 		msRslt = GetMessage( &msg, NULL, 0, 0 );
@@ -117,17 +117,17 @@ INT APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒEƒNƒ‰ƒX¶¬
-	‚±‚ÌŠÖ”‚¨‚æ‚ÑŽg‚¢•û‚ÍA'RegisterClassEx' ŠÖ”‚ª’Ç‰Á‚³‚ê‚½ Windows 95 ‚æ‚è‘O‚Ì Win32 ƒVƒXƒeƒ€‚ÆŒÝŠ·‚³‚¹‚éê‡‚É‚Ì‚Ý•K—v‚Å‚·B
-	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªAŠÖ˜A•t‚¯‚ç‚ê‚½³‚µ‚¢Œ`Ž®‚Ì¬‚³‚¢ƒAƒCƒRƒ“‚ðŽæ“¾‚Å‚«‚é‚æ‚¤‚É‚·‚é‚É‚ÍA‚±‚ÌŠÖ”‚ðŒÄ‚Ño‚µ‚Ä‚­‚¾‚³‚¢B
-	@param[in]	hInstance	‚±‚Ìƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@return		“o˜^‚µ‚½ƒNƒ‰ƒXƒAƒgƒ€
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ç”Ÿæˆ
+	ã“ã®é–¢æ•°ãŠã‚ˆã³ä½¿ã„æ–¹ã¯ã€'RegisterClassEx' é–¢æ•°ãŒè¿½åŠ ã•ã‚ŒãŸ Windows 95 ã‚ˆã‚Šå‰ã® Win32 ã‚·ã‚¹ãƒ†ãƒ ã¨äº’æ›ã•ã›ã‚‹å ´åˆã«ã®ã¿å¿…è¦ã§ã™ã€‚
+	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãŒã€é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸæ­£ã—ã„å½¢å¼ã®å°ã•ã„ã‚¢ã‚¤ã‚³ãƒ³ã‚’å–å¾—ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ã«ã¯ã€ã“ã®é–¢æ•°ã‚’å‘¼ã³å‡ºã—ã¦ãã ã•ã„ã€‚
+	@param[in]	hInstance	ã“ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç™»éŒ²ã—ãŸã‚¯ãƒ©ã‚¹ã‚¢ãƒˆãƒ 
 */
 ATOM InitWndwClass( HINSTANCE hInstance )
 {
 	WNDCLASSEX	wcex;
 
-	//‚±‚ê‚É‚æ‚éŽæ“¾‚Í”j‰ó‚µ‚È‚­‚Ä‚æ‚¢H
+	//ã“ã‚Œã«ã‚ˆã‚‹å–å¾—ã¯ç ´å£Šã—ãªãã¦ã‚ˆã„ï¼Ÿ
 	ghIcon = LoadIcon( hInstance, MAKEINTRESOURCE(IDI_ORINRINCOLLECTOR) );
 	ghBrush = CreateSolidBrush( BASIC_COLOUR );
 
@@ -149,11 +149,11 @@ ATOM InitWndwClass( HINSTANCE hInstance )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒCƒ“ƒXƒ^ƒ“ƒX ƒnƒ“ƒhƒ‹‚ð•Û‘¶‚µ‚ÄAƒƒCƒ“ ƒEƒBƒ“ƒhƒE‚ðì¬‚µ‚Ü‚·B
-		‚±‚ÌŠÖ”‚ÅAƒOƒ[ƒoƒ‹•Ï”‚ÅƒCƒ“ƒXƒ^ƒ“ƒX ƒnƒ“ƒhƒ‹‚ð•Û‘¶‚µA
-		ƒƒCƒ“ ƒvƒƒOƒ‰ƒ€ ƒEƒBƒ“ƒhƒE‚ðì¬‚¨‚æ‚Ñ•\Ž¦‚µ‚Ü‚·B
-	@param[in]	hInstance	ƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@param[in]	nCmdShow	‹N“®Žž‚Ì•\Ž¦ó‘Ô
+	ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿å­˜ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆã—ã¾ã™ã€‚
+		ã“ã®é–¢æ•°ã§ã€ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã§ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ ãƒãƒ³ãƒ‰ãƒ«ã‚’ä¿å­˜ã—ã€
+		ãƒ¡ã‚¤ãƒ³ ãƒ—ãƒ­ã‚°ãƒ©ãƒ  ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’ä½œæˆãŠã‚ˆã³è¡¨ç¤ºã—ã¾ã™ã€‚
+	@param[in]	hInstance	ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	nCmdShow	èµ·å‹•æ™‚ã®è¡¨ç¤ºçŠ¶æ…‹
 */
 BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
 {
@@ -163,20 +163,20 @@ BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
 
 	BOOL	bHotRslt;
 
-	ghInst = hInstance;	//	ƒOƒ[ƒoƒ‹•Ï”‚ÉƒCƒ“ƒXƒ^ƒ“ƒXˆ—‚ðŠi”[‚µ‚Ü‚·B
+	ghInst = hInstance;	//	ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å‡¦ç†ã‚’æ ¼ç´ã—ã¾ã™ã€‚
 
 
-	//	Ý’èƒtƒ@ƒCƒ‹ˆÊ’uŠm”F
+	//	è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ä½ç½®ç¢ºèª
 	GetModuleFileName( hInstance, gatIniPath, MAX_PATH );
 	PathRemoveFileSpec( gatIniPath );
 	PathAppend( gatIniPath, INI_FILE );
 
-	//	‚±‚±‚ç‚Å‰ŠúÝ’èŠm•Û
-	gbClipSteal   = InitParamValue( INIT_LOAD, VL_COLLECT_AON,  0 );	//	ƒRƒsƒy•Û‘¶EƒfƒtƒH‚Í‹N“®Žž‚n‚e‚e
+	//	ã“ã“ã‚‰ã§åˆæœŸè¨­å®šç¢ºä¿
+	gbClipSteal   = InitParamValue( INIT_LOAD, VL_COLLECT_AON,  0 );	//	ã‚³ãƒ”ãƒšä¿å­˜ãƒ»ãƒ‡ãƒ•ã‚©ã¯èµ·å‹•æ™‚ï¼¯ï¼¦ï¼¦
 	gGetMsgOn     = InitParamValue( INIT_LOAD, VL_USE_BALLOON,  1 );
 	gbUniRadixHex = InitParamValue( INIT_LOAD, VL_UNIRADIX_HEX, 0 );
 
-	//	‰ŠúÝ’è‚Í Ctrl+Shift+C
+	//	åˆæœŸè¨­å®šã¯ Ctrl+Shift+C
 	gbHotMod      = InitParamValue( INIT_LOAD, VL_COLHOT_MODY, (MOD_CONTROL | MOD_SHIFT) );
 	gbHotVkey     = InitParamValue( INIT_LOAD, VL_COLHOT_VKEY, VK_C );
 
@@ -191,16 +191,16 @@ BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
 	if( !hWnd ){	return FALSE;	}
 
 
-	//	ƒ^ƒXƒNƒgƒŒƒC‚ª‚ ‚Ú`‚ñ‚µ‚½‚Æ‚«‚ÌÄ‹N“®ƒƒbƒZ[ƒW”Ô†‚ðŠm•Û
+	//	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ãŒã‚ã¼ã€œã‚“ã—ãŸã¨ãã®å†èµ·å‹•ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç•ªå·ã‚’ç¢ºä¿
 	grdTaskbarResetID = RegisterWindowMessage( TEXT("TaskbarCreated") );
 
-	//	ƒNƒŠƒbƒvƒ{[ƒhƒ`ƒF[ƒ“‚ÉŽ©•ª‚ð“o˜^
+	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒã‚§ãƒ¼ãƒ³ã«è‡ªåˆ†ã‚’ç™»éŒ²
 	ghNextViewer = SetClipboardViewer( hWnd );
 
 
-	FileListViewInit( hWnd );	//	ƒŠƒXƒg‰Šú‰»
-	FileListViewGet( hWnd, 0, gatClipFile );	//	Žæ‚èž‚Ýƒtƒ@ƒCƒ‹‚ðŠm•Û‚µ‚Ä‚¨‚­
-	FileTypeCheck( gatClipFile );	//	AST‚©‚»‚¤‚Å‚È‚¢‚©‚ðŠm”F
+	FileListViewInit( hWnd );	//	ãƒªã‚¹ãƒˆåˆæœŸåŒ–
+	FileListViewGet( hWnd, 0, gatClipFile );	//	å–ã‚Šè¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç¢ºä¿ã—ã¦ãŠã
+	FileTypeCheck( gatClipFile );	//	ASTã‹ãã†ã§ãªã„ã‹ã‚’ç¢ºèª
 
 	if( gGetMsgOn ){		Button_SetCheck( GetDlgItem(hWnd,IDB_CLIP_USE_BALLOON)  , BST_CHECKED );	}
 	if( gbUniRadixHex ){	Button_SetCheck( GetDlgItem(hWnd,IDB_CLIP_UNIRADIX_HEX) , BST_CHECKED );	}
@@ -208,7 +208,7 @@ BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
 
 	TasktrayIconAdd( hWnd );
 
-	//	‚Æ‚è‚ ‚¦‚¸ACtrl+Shift+C
+	//	ã¨ã‚Šã‚ãˆãšã€Ctrl+Shift+C
 	bHotRslt = RegisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE, gbHotMod, gbHotVkey );
 
 	ShowWindow( hWnd, SW_HIDE );	//	SW_HIDE
@@ -218,26 +218,26 @@ BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŒƒWƒXƒ^ƒzƒbƒgƒL[‚ÆƒzƒbƒgƒL[ƒRƒ“ƒgƒ[ƒ‹‚ÌCüŽq‚ð“ü‘Ö
-	@param[in]	bSrc	Œ³‚ÌCüŽqƒR[ƒh
-	@param[in]	bDrct	”ñ‚OƒŒƒWƒXƒ^¨ƒRƒ“ƒgƒ[ƒ‹@‚OƒRƒ“ƒgƒ[ƒ‹¨ƒŒƒWƒXƒ^
-	@return	•ÏŠ·‚µ‚½ƒR[ƒh
+	ãƒ¬ã‚¸ã‚¹ã‚¿ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã¨ãƒ›ãƒƒãƒˆã‚­ãƒ¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ä¿®é£¾å­ã‚’å…¥æ›¿
+	@param[in]	bSrc	å…ƒã®ä¿®é£¾å­ã‚³ãƒ¼ãƒ‰
+	@param[in]	bDrct	éžï¼ãƒ¬ã‚¸ã‚¹ã‚¿â†’ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã€€ï¼ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«â†’ãƒ¬ã‚¸ã‚¹ã‚¿
+	@return	å¤‰æ›ã—ãŸã‚³ãƒ¼ãƒ‰
 */
 UINT RegHotModExchange( UINT bSrc, BOOLEAN bDrct )
 {
 	BYTE	bDest = 0;
 
-	if( bDrct  )	//	ƒŒƒWƒXƒ^¨ƒRƒ“ƒgƒ[ƒ‹
+	if( bDrct  )	//	ãƒ¬ã‚¸ã‚¹ã‚¿â†’ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
 	{
-		if( bSrc & MOD_SHIFT )		bDest |= HOTKEYF_SHIFT;		//	ƒVƒtƒg
-		if( bSrc & MOD_CONTROL )	bDest |= HOTKEYF_CONTROL;	//	ƒRƒ“ƒgƒ[ƒ‹
-		if( bSrc & MOD_ALT )		bDest |= HOTKEYF_ALT;		//	ƒAƒ‹ƒ^ƒl[ƒg
+		if( bSrc & MOD_SHIFT )		bDest |= HOTKEYF_SHIFT;		//	ã‚·ãƒ•ãƒˆ
+		if( bSrc & MOD_CONTROL )	bDest |= HOTKEYF_CONTROL;	//	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
+		if( bSrc & MOD_ALT )		bDest |= HOTKEYF_ALT;		//	ã‚¢ãƒ«ã‚¿ãƒãƒ¼ãƒˆ
 	}
-	else	//	ƒRƒ“ƒgƒ[ƒ‹¨ƒŒƒWƒXƒ^
+	else	//	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«â†’ãƒ¬ã‚¸ã‚¹ã‚¿
 	{
-		if( bSrc & HOTKEYF_SHIFT )		bDest |= MOD_SHIFT;		//	ƒVƒtƒg
-		if( bSrc & HOTKEYF_CONTROL )	bDest |= MOD_CONTROL;	//	ƒRƒ“ƒgƒ[ƒ‹
-		if( bSrc & HOTKEYF_ALT )		bDest |= MOD_ALT;		//	ƒAƒ‹ƒ^ƒl[ƒg
+		if( bSrc & HOTKEYF_SHIFT )		bDest |= MOD_SHIFT;		//	ã‚·ãƒ•ãƒˆ
+		if( bSrc & HOTKEYF_CONTROL )	bDest |= MOD_CONTROL;	//	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«
+		if( bSrc & HOTKEYF_ALT )		bDest |= MOD_ALT;		//	ã‚¢ãƒ«ã‚¿ãƒãƒ¼ãƒˆ
 	}
 
 	return bDest;
@@ -245,11 +245,11 @@ UINT RegHotModExchange( UINT bSrc, BOOLEAN bDrct )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒRƒ“ƒgƒ[ƒ‹‚Éƒc[ƒ‹ƒ`ƒbƒv‚ðÝ’èEƒc[ƒ‹ƒ`ƒbƒvƒnƒ“ƒhƒ‹‚Í‘åˆæ•Ï”‚ÅŠm•Û
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	itemID	ƒRƒ“ƒgƒ[ƒ‹‚Ì‚h‚c”Ô†
-	@param[in]	ptText	ƒ`ƒbƒv‚µ‚½‚¢•¶Žš—ñ
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã«ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚’è¨­å®šãƒ»ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ãƒãƒ³ãƒ‰ãƒ«ã¯å¤§åŸŸå¤‰æ•°ã§ç¢ºä¿
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	itemID	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ï¼©ï¼¤ç•ªå·
+	@param[in]	ptText	ãƒãƒƒãƒ—ã—ãŸã„æ–‡å­—åˆ—
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT ToolTipSetting( HWND hWnd, UINT itemID, LPTSTR ptText )
 {
@@ -266,15 +266,15 @@ HRESULT ToolTipSetting( HWND hWnd, UINT itemID, LPTSTR ptText )
 	stToolInfo.lpszText = ptText;
 
 	SendMessage( ghToolTipWnd, TTM_ADDTOOL, 0, (LPARAM)&stToolInfo );
-	SendMessage( ghToolTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );	//	ƒ`ƒbƒv‚Ì•B‚OÝ’è‚Å‚¢‚¢B‚±‚ê‚µ‚Æ‚©‚È‚¢‚Æ‰üs‚³‚ê‚È‚¢
+	SendMessage( ghToolTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );	//	ãƒãƒƒãƒ—ã®å¹…ã€‚ï¼è¨­å®šã§ã„ã„ã€‚ã“ã‚Œã—ã¨ã‹ãªã„ã¨æ”¹è¡Œã•ã‚Œãªã„
 
 	return S_OK;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒXƒgƒrƒ…[‘‚«’¼‚µ
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
+	ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼æ›¸ãç›´ã—
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
 */
 HRESULT FileListViewInit( HWND hWnd )
 {
@@ -297,10 +297,10 @@ HRESULT FileListViewInit( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒXƒgƒrƒ…[‚Éƒtƒ@ƒCƒ‹–¼‚ð’Ç‰Á‚·‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	ptPath	ƒtƒ@ƒCƒ‹ƒtƒ‹ƒpƒX
-	@return		’Ç‰ÁŒã‚ÌƒAƒCƒeƒ€”
+	ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã«ãƒ•ã‚¡ã‚¤ãƒ«åã‚’è¿½åŠ ã™ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	ptPath	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ãƒ«ãƒ‘ã‚¹
+	@return		è¿½åŠ å¾Œã®ã‚¢ã‚¤ãƒ†ãƒ æ•°
 */
 INT FileListViewAdd( HWND hWnd, LPTSTR ptPath )
 {
@@ -336,10 +336,10 @@ INT FileListViewAdd( HWND hWnd, LPTSTR ptPath )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒXƒgƒrƒ…[‚©‚çƒtƒ@ƒCƒ‹–¼‚ðŠm•Û
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	iNumber	ƒŠƒXƒgã‚Ì”Ô†
-	@param[in]	ptFile	ƒtƒ@ƒCƒ‹ƒtƒ‹ƒpƒXEMAX_PATH‚Å‚ ‚é‚±‚Æ
+	ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç¢ºä¿
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	iNumber	ãƒªã‚¹ãƒˆä¸Šã®ç•ªå·
+	@param[in]	ptFile	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ãƒ«ãƒ‘ã‚¹ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
 */
 HRESULT FileListViewGet( HWND hWnd, INT iNumber, LPTSTR ptFile )
 {
@@ -366,9 +366,9 @@ HRESULT FileListViewGet( HWND hWnd, INT iNumber, LPTSTR ptFile )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒXƒgƒrƒ…[‚ÌƒAƒCƒeƒ€‚ðíœ‚·‚é
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		íœŒã‚ÌƒAƒCƒeƒ€”
+	ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã®ã‚¢ã‚¤ãƒ†ãƒ ã‚’å‰Šé™¤ã™ã‚‹
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		å‰Šé™¤å¾Œã®ã‚¢ã‚¤ãƒ†ãƒ æ•°
 */
 INT FileListViewDelete( HWND hWnd )
 {
@@ -376,19 +376,19 @@ INT FileListViewDelete( HWND hWnd )
 	INT		iItem, iCount;
 	TCHAR	atPath[MAX_PATH];
 
-	//	‘I‘ð‚³‚ê‚Ä‚é€–Ú‚ðŠm•Û
+	//	é¸æŠžã•ã‚Œã¦ã‚‹é …ç›®ã‚’ç¢ºä¿
 	iItem = ListView_GetNextItem( hLvWnd, -1, LVNI_ALL | LVNI_SELECTED );
 
-	//	‘I‘ð‚³‚ê‚Ä‚éƒ‚ƒm‚ª‚È‚¢‚Æ–³ˆÓ–¡
+	//	é¸æŠžã•ã‚Œã¦ã‚‹ãƒ¢ãƒŽãŒãªã„ã¨ç„¡æ„å‘³
 	if( 0 <= iItem )
 	{
-		//	‚à‚µ‘I‘ð’†‚ÌƒAƒŒ‚È‚çíœ‚µ‚È‚¢
+		//	ã‚‚ã—é¸æŠžä¸­ã®ã‚¢ãƒ¬ãªã‚‰å‰Šé™¤ã—ãªã„
 		FileListViewGet( hWnd, iItem, atPath );
 		if( 0 == StrCmp( gatClipFile, atPath ) )
 		{
-			MessageBox( hWnd, TEXT("‚»‚Ìƒtƒ@ƒCƒ‹‚ÍŽg—p’†‚¾‚æB\r\níœ‚Å‚«‚È‚¢‚æB"), TEXT("‚¨—Ó‚©‚ç‚Ì‚¨’m‚ç‚¹"), MB_OK | MB_ICONERROR );
+			MessageBox( hWnd, TEXT("ãã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ä½¿ç”¨ä¸­ã ã‚ˆã€‚\r\nå‰Šé™¤ã§ããªã„ã‚ˆã€‚"), TEXT("ãŠç‡ã‹ã‚‰ã®ãŠçŸ¥ã‚‰ã›"), MB_OK | MB_ICONERROR );
 		}
-		else	//	–â‘è–³‚¢‚È‚çíœ
+		else	//	å•é¡Œç„¡ã„ãªã‚‰å‰Šé™¤
 		{
 			ListView_DeleteItem( hLvWnd, iItem );
 		}
@@ -401,9 +401,9 @@ INT FileListViewDelete( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‘SÝ’è‚ðƒZ[ƒu‚·‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	bActOn	‹N“®ŽžƒRƒsƒy•Û‘¶‹@”\‚n‚m‚É‚µ‚Ä‚¨‚­‚©
+	å…¨è¨­å®šã‚’ã‚»ãƒ¼ãƒ–ã™ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	bActOn	èµ·å‹•æ™‚ã‚³ãƒ”ãƒšä¿å­˜æ©Ÿèƒ½ï¼¯ï¼®ã«ã—ã¦ãŠãã‹
 */
 HRESULT InitSettingSave( HWND hWnd, UINT bActOn )
 {
@@ -414,7 +414,7 @@ HRESULT InitSettingSave( HWND hWnd, UINT bActOn )
 
 	iCount = ListView_GetItemCount( hLvWnd );
 
-	//	ˆê’UƒZƒNƒVƒ‡ƒ“‚ð‹ó‚É‚·‚é
+	//	ä¸€æ—¦ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‚’ç©ºã«ã™ã‚‹
 	ZeroMemory( atBuff, sizeof(atBuff) );
 	WritePrivateProfileSection( TEXT("Collector"), atBuff, gatIniPath );
 
@@ -436,11 +436,11 @@ HRESULT InitSettingSave( HWND hWnd, UINT bActOn )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒRƒsƒy•Û‘¶—pƒtƒ@ƒCƒ‹‚ÌƒZ[ƒuƒ[ƒh
-	@param[in]	dMode	”ñ‚Oƒ[ƒh@‚OƒZ[ƒu
-	@param[in]	dNumber	•Û‘¶ƒtƒ@ƒCƒ‹‚Ì”Ô†
-	@param[out]	ptFile	ƒtƒ‹ƒpƒXEMAX_PATH‚Å‚ ‚é‚±‚Æ
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚³ãƒ”ãƒšä¿å­˜ç”¨ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚»ãƒ¼ãƒ–ãƒ­ãƒ¼ãƒ‰
+	@param[in]	dMode	éžï¼ãƒ­ãƒ¼ãƒ‰ã€€ï¼ã‚»ãƒ¼ãƒ–
+	@param[in]	dNumber	ä¿å­˜ãƒ•ã‚¡ã‚¤ãƒ«ã®ç•ªå·
+	@param[out]	ptFile	ãƒ•ãƒ«ãƒ‘ã‚¹ãƒ»MAX_PATHã§ã‚ã‚‹ã“ã¨
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT InitClipStealOpen( UINT dMode, UINT dNumber, LPTSTR ptFile )
 {
@@ -461,27 +461,27 @@ HRESULT InitClipStealOpen( UINT dMode, UINT dNumber, LPTSTR ptFile )
 
 BOOLEAN FileTypeCheck( LPTSTR ptFile )
 {
-	LPTSTR		ptExten;	//	ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£Žq
+	LPTSTR		ptExten;	//	ãƒ•ã‚¡ã‚¤ãƒ«åã®æ‹¡å¼µå­
 	TCHAR		atExBuf[10];
 
-	//	•Û‘¶Œ`Ž®Šm”F
-	ptExten = PathFindExtension( ptFile );	//	Šg’£Žq‚ª–³‚¢‚È‚çNULLA‚Æ‚¢‚¤‚©––’[‚É‚È‚é
-	StringCchCopy( atExBuf, 10, ptExten );	//	‘€ì‚Ì‚½‚ßƒRƒs[
-	CharLower( atExBuf );	//	”äŠr‚Ì‚½‚ß‚É¬•¶Žš‚É‚µ‚¿‚á‚¤
-	//	AST‚Å‚ ‚é‚©
+	//	ä¿å­˜å½¢å¼ç¢ºèª
+	ptExten = PathFindExtension( ptFile );	//	æ‹¡å¼µå­ãŒç„¡ã„ãªã‚‰NULLã€ã¨ã„ã†ã‹æœ«ç«¯ã«ãªã‚‹
+	StringCchCopy( atExBuf, 10, ptExten );	//	æ“ä½œã®ãŸã‚ã‚³ãƒ”ãƒ¼
+	CharLower( atExBuf );	//	æ¯”è¼ƒã®ãŸã‚ã«å°æ–‡å­—ã«ã—ã¡ã‚ƒã†
+	//	ASTã§ã‚ã‚‹ã‹
 	if( !( StrCmp( atExBuf , TEXT(".ast") ) ) ){	gIsAST = TRUE;	}
-	else	gIsAST =  FALSE;	//	AST‚¶‚á‚È‚¢‚È‚çMLT‚Æ‚µ‚Äˆµ‚¤
+	else	gIsAST =  FALSE;	//	ASTã˜ã‚ƒãªã„ãªã‚‰MLTã¨ã—ã¦æ‰±ã†
 
 	return gIsAST;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒpƒ‰ƒ[ƒ^’l‚ÌƒZ[ƒuƒ[ƒh
-	@param[in]	dMode	”ñ‚Oƒ[ƒh@‚OƒZ[ƒu
-	@param[in]	dStyle	ƒpƒ‰ƒ[ƒ^‚ÌŽí—Þ
-	@param[in]	nValue	ƒ[ƒhFƒfƒtƒH’l@ƒZ[ƒuF’l
-	@return		INT	ƒ[ƒhF’l@ƒZ[ƒuF‚O
+	ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å€¤ã®ã‚»ãƒ¼ãƒ–ãƒ­ãƒ¼ãƒ‰
+	@param[in]	dMode	éžï¼ãƒ­ãƒ¼ãƒ‰ã€€ï¼ã‚»ãƒ¼ãƒ–
+	@param[in]	dStyle	ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ç¨®é¡ž
+	@param[in]	nValue	ãƒ­ãƒ¼ãƒ‰ï¼šãƒ‡ãƒ•ã‚©å€¤ã€€ã‚»ãƒ¼ãƒ–ï¼šå€¤
+	@return		INT	ãƒ­ãƒ¼ãƒ‰ï¼šå€¤ã€€ã‚»ãƒ¼ãƒ–ï¼šï¼
 */
 INT InitParamValue( UINT dMode, UINT dStyle, INT nValue )
 {
@@ -502,12 +502,12 @@ INT InitParamValue( UINT dMode, UINT dStyle, INT nValue )
 
 	StringCchPrintf( atBuff, MIN_STRING, TEXT("%d"), nValue );
 
-	if( dMode )	//	ƒ[ƒh
+	if( dMode )	//	ãƒ­ãƒ¼ãƒ‰
 	{
 		GetPrivateProfileString( TEXT("Collector"), atKeyName, atBuff, atBuff, MIN_STRING, gatIniPath );
 		dBuff = StrToInt( atBuff );
 	}
-	else	//	ƒZ[ƒu
+	else	//	ã‚»ãƒ¼ãƒ–
 	{
 		WritePrivateProfileString( TEXT("Collector"), atKeyName, atBuff, gatIniPath );
 	}
@@ -518,41 +518,41 @@ INT InitParamValue( UINT dMode, UINT dStyle, INT nValue )
 
 
 /*!
-	ƒƒCƒ“‚ÌƒEƒCƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	message		ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚ÌŽ¯•Ê”Ô†
-	@param[in]	wParam		’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam		’Ç‰Á‚Ìî•ñ‚Q
-	@retval 0	ƒƒbƒZ[ƒWˆ—Ï‚Ý
-	@retval no0	‚±‚±‚Å‚Íˆ—‚¹‚¸ŽŸ‚É‰ñ‚·
+	ãƒ¡ã‚¤ãƒ³ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	message		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam		è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam		è¿½åŠ ã®æƒ…å ±ï¼’
+	@retval 0	ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†æ¸ˆã¿
+	@retval no0	ã“ã“ã§ã¯å‡¦ç†ã›ãšæ¬¡ã«å›žã™
 */
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
 	{
-		HANDLE_MSG( hWnd, WM_CREATE,         Cls_OnCreate );	//	‰æ–Ê‚Ì\¬ƒp[ƒc‚ðì‚éBƒ{ƒ^ƒ“‚Æ‚©
-		HANDLE_MSG( hWnd, WM_PAINT,          Cls_OnPaint  );	//	‰æ–Ê‚ÌXV‚Æ‚©
-		HANDLE_MSG( hWnd, WM_COMMAND,        Cls_OnCommand );	//	ƒ{ƒ^ƒ“‰Ÿ‚³‚ê‚½‚Æ‚©‚ÌƒRƒ}ƒ“ƒhˆ—
-		HANDLE_MSG( hWnd, WM_DESTROY,        Cls_OnDestroy );	//	ƒ\ƒtƒgI—¹Žž‚Ìˆ—
+		HANDLE_MSG( hWnd, WM_CREATE,         Cls_OnCreate );	//	ç”»é¢ã®æ§‹æˆãƒ‘ãƒ¼ãƒ„ã‚’ä½œã‚‹ã€‚ãƒœã‚¿ãƒ³ã¨ã‹
+		HANDLE_MSG( hWnd, WM_PAINT,          Cls_OnPaint  );	//	ç”»é¢ã®æ›´æ–°ã¨ã‹
+		HANDLE_MSG( hWnd, WM_COMMAND,        Cls_OnCommand );	//	ãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸã¨ã‹ã®ã‚³ãƒžãƒ³ãƒ‰å‡¦ç†
+		HANDLE_MSG( hWnd, WM_DESTROY,        Cls_OnDestroy );	//	ã‚½ãƒ•ãƒˆçµ‚äº†æ™‚ã®å‡¦ç†
 		HANDLE_MSG( hWnd, WM_HOTKEY,         Cls_OnHotKey );	//	
 		HANDLE_MSG( hWnd, WM_CTLCOLORSTATIC, Cls_OnCtlColor );
-		HANDLE_MSG( hWnd, WM_DRAWCLIPBOARD,  Cls_OnDrawClipboard );	//	ƒNƒŠƒbƒvƒ{[ƒh‚É•ÏX‚ª‚ ‚Á‚½‚ç
-		HANDLE_MSG( hWnd, WM_CHANGECBCHAIN,  Cls_OnChangeCBChain );	//	ƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒƒ`ƒFƒCƒ“‚É•ÏX‚ª‚ ‚Á‚½‚ç
+		HANDLE_MSG( hWnd, WM_DRAWCLIPBOARD,  Cls_OnDrawClipboard );	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«å¤‰æ›´ãŒã‚ã£ãŸã‚‰
+		HANDLE_MSG( hWnd, WM_CHANGECBCHAIN,  Cls_OnChangeCBChain );	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒ“ãƒ¥ãƒ¼ãƒ¯ãƒã‚§ã‚¤ãƒ³ã«å¤‰æ›´ãŒã‚ã£ãŸã‚‰
 
-		case WM_CLOSE:	//	Ý’è•Â‚¶‚é‚Æ‚«
-			RegisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE, gbHotMod, gbHotVkey );	//	“o˜^‚µ’¼‚µ
+		case WM_CLOSE:	//	è¨­å®šé–‰ã˜ã‚‹ã¨ã
+			RegisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE, gbHotMod, gbHotVkey );	//	ç™»éŒ²ã—ç›´ã—
 			ShowWindow( hWnd, SW_HIDE );
 			return 0;
 
-		case WMP_TRAYNOTIFYICON:	//	ƒ^ƒXƒNƒgƒŒƒC‚ÌƒAƒCƒRƒ“‚ª¸Ø¯º‚³‚ê‚½‚ç
+		case WMP_TRAYNOTIFYICON:	//	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã®ã‚¢ã‚¤ã‚³ãƒ³ãŒã‚¯ãƒªãƒƒã‚³ã•ã‚ŒãŸã‚‰
 			TaskTrayIconEvent( hWnd, (UINT)wParam, (UINT)lParam );
 			return 0;
 
 		default:
-			if( grdTaskbarResetID == message )	//	ƒ^ƒXƒNƒgƒŒƒC‚ª‚ ‚Ú`‚ñ‚µ‚½Žž
+			if( grdTaskbarResetID == message )	//	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ãŒã‚ã¼ã€œã‚“ã—ãŸæ™‚
 			{
-				TasktrayIconAdd( hWnd );	//	ƒ^ƒXƒNƒgƒŒƒC‚ª‚ ‚Ú`‚ñ‚µ‚½‚Æ‚«‚ÌƒƒbƒZ[ƒWB
-				return 0;					//	“o˜^‚µ’¼‚µ
+				TasktrayIconAdd( hWnd );	//	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ãŒã‚ã¼ã€œã‚“ã—ãŸã¨ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã€‚
+				return 0;					//	ç™»éŒ²ã—ç›´ã—
 			}
 			break;
 	}
@@ -562,14 +562,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒƒCƒ“‚ÌƒNƒŠƒGƒCƒgB
-	@param[in]	hWnd			eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	lpCreateStruct	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Ì‰Šú‰»“à—e
-	@return	TRUE	“Á‚É‚È‚µ
+	ãƒ¡ã‚¤ãƒ³ã®ã‚¯ãƒªã‚¨ã‚¤ãƒˆã€‚
+	@param[in]	hWnd			è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	lpCreateStruct	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–å†…å®¹
+	@return	TRUE	ç‰¹ã«ãªã—
 */
 BOOLEAN Cls_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 {
-	HINSTANCE	lcInst = lpCreateStruct->hInstance;	//	Žó‚¯Žæ‚Á‚½‰Šú‰»î•ñ‚©‚çAƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹‚ð‚Ð‚Á‚Ï‚é
+	HINSTANCE	lcInst = lpCreateStruct->hInstance;	//	å—ã‘å–ã£ãŸåˆæœŸåŒ–æƒ…å ±ã‹ã‚‰ã€ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«ã‚’ã²ã£ã±ã‚‹
 	HWND	hWorkWnd;
 	RECT	rect;
 	LVCOLUMN	stLvColm;
@@ -578,69 +578,69 @@ BOOLEAN Cls_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 
 	GetClientRect( hWnd, &rect );
 
-//ƒc[ƒ‹ƒ`ƒbƒv
+//ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—
 	ghToolTipWnd = CreateWindowEx( 0, TOOLTIPS_CLASS, NULL, TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hWnd, NULL, lcInst, NULL );
 
-//ƒAƒCƒRƒ“
+//ã‚¢ã‚¤ã‚³ãƒ³
 	hWorkWnd = CreateWindowEx( 0, WC_STATIC, TEXT(""), WS_CHILD | WS_VISIBLE | SS_ICON, 8, 8, 32, 32, hWnd, (HMENU)IDC_MYICON, lcInst, NULL );
 	SendMessage( hWorkWnd, STM_SETICON, (WPARAM)ghIcon, 0 );
 
 	CreateWindowEx( 0, WC_STATIC, TEXT("OrinrinCollector, Version 1.2 (2012.510.2200.920)"), WS_CHILD | WS_VISIBLE, 44, 8, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("’¸‘Õ‚µ‚½ƒNƒŠƒbƒv“à—e‚ð•Û‘¶‚·‚éƒtƒ@ƒCƒ‹–¼"), WS_CHILD | WS_VISIBLE, 8, 48, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("é ‚æˆ´ã—ãŸã‚¯ãƒªãƒƒãƒ—å†…å®¹ã‚’ä¿å­˜ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«å"), WS_CHILD | WS_VISIBLE, 8, 48, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 
 	CreateWindowEx( 0, WC_EDIT, TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 8, 70, rect.right-16-160, 23, hWnd, (HMENU)IDE_CLIPSTEAL_FILE, lcInst, NULL );
-	ToolTipSetting( hWnd, IDE_CLIPSTEAL_FILE, TEXT("ƒtƒ@ƒCƒ‹–¼‚ð“ü—Í‚µ‚Ä‚ËBMLT‚ÆAST‚ªŽg‚¦‚é‚æB") );
+	ToolTipSetting( hWnd, IDE_CLIPSTEAL_FILE, TEXT("ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å…¥åŠ›ã—ã¦ã­ã€‚MLTã¨ASTãŒä½¿ãˆã‚‹ã‚ˆã€‚") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("ŽQÆ"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-160, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_REF, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_REF, TEXT("ƒtƒ@ƒCƒ‹‘I‘ðƒ_ƒCƒ„ƒƒO‚ðŠJ‚¢‚ÄAƒtƒ@ƒCƒ‹‚ðŽw’è‚Å‚«‚é‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("å‚ç…§"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-160, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_REF, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_REF, TEXT("ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠžãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã‚’é–‹ã„ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã§ãã‚‹ã‚ˆã€‚") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("’Ç‰Á"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-100, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEADD, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEADD, TEXT("Žw’è‚µ‚½ƒtƒ@ƒCƒ‹‚ðAŽg—pƒŠƒXƒg‚É’Ç‰Á‚·‚é‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("è¿½åŠ "), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-100, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEADD, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEADD, TEXT("æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã€ä½¿ç”¨ãƒªã‚¹ãƒˆã«è¿½åŠ ã™ã‚‹ã‚ˆã€‚") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("íœ"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-50, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEDEL, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEDEL, TEXT("Žg—pƒŠƒXƒg‚Å‘I‘ð‚µ‚½ƒtƒ@ƒCƒ‹‚ðAƒŠƒXƒg‚©‚çíœ‚·‚é‚æB\r\nƒtƒ@ƒCƒ‹Ž©‘Ì‚ðíœ‚·‚é‚í‚¯‚¶‚á‚È‚¢‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("å‰Šé™¤"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-50, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEDEL, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEDEL, TEXT("ä½¿ç”¨ãƒªã‚¹ãƒˆã§é¸æŠžã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã€ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤ã™ã‚‹ã‚ˆã€‚\r\nãƒ•ã‚¡ã‚¤ãƒ«è‡ªä½“ã‚’å‰Šé™¤ã™ã‚‹ã‚ã‘ã˜ã‚ƒãªã„ã‚ˆã€‚") );
 
 	hWorkWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("filelv"), WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT | LVS_NOSORTHEADER | LVS_SINGLESEL, 8, 95, rect.right-16, 105, hWnd, (HMENU)IDLV_CLIPSTEAL_FILELISTVW, lcInst, NULL );
 	ListView_SetExtendedListViewStyle( hWorkWnd, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES );
-	ToolTipSetting( hWnd, IDLV_CLIPSTEAL_FILELISTVW, TEXT("Žg—p‚·‚éƒtƒ@ƒCƒ‹‚Ìˆê——‚¾‚æB") );
+	ToolTipSetting( hWnd, IDLV_CLIPSTEAL_FILELISTVW, TEXT("ä½¿ç”¨ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸€è¦§ã ã‚ˆã€‚") );
 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 	stLvColm.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt = LVCFMT_LEFT;
-	stLvColm.pszText = TEXT("ƒtƒ@ƒCƒ‹–¼");	stLvColm.cx = 120;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
-	stLvColm.pszText = TEXT("ƒtƒ‹ƒpƒX");	stLvColm.cx = 300;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
+	stLvColm.pszText = TEXT("ãƒ•ã‚¡ã‚¤ãƒ«å");	stLvColm.cx = 120;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
+	stLvColm.pszText = TEXT("ãƒ•ãƒ«ãƒ‘ã‚¹");	stLvColm.cx = 300;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("•Û‘¶‚µ‚½‚çƒoƒ‹[ƒ“ƒƒbƒZ[ƒW‚ð•\Ž¦‚·‚é"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 207, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_USE_BALLOON, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_USE_BALLOON, TEXT("ƒtƒ@ƒCƒ‹‚ÉŽæ‚èž‚ñ‚¾‚çAƒoƒ‹[ƒ“ƒƒbƒZ[ƒW‚Å‚¨’m‚ç‚¹‚·‚é‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("ä¿å­˜ã—ãŸã‚‰ãƒãƒ«ãƒ¼ãƒ³ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã™ã‚‹"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 207, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_USE_BALLOON, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_USE_BALLOON, TEXT("ãƒ•ã‚¡ã‚¤ãƒ«ã«å–ã‚Šè¾¼ã‚“ã ã‚‰ã€ãƒãƒ«ãƒ¼ãƒ³ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã§ãŠçŸ¥ã‚‰ã›ã™ã‚‹ã‚ˆã€‚") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("ƒ†ƒjƒR[ƒh”’lŽQÆ‚Í‚P‚Ui”Œ^i”ñƒ`ƒFƒbƒN‚Å‚P‚Oi”j"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 234, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_UNIRADIX_HEX, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_UNIRADIX_HEX, TEXT("’¸‘Õ‚µ‚½“à—e‚Éƒ†ƒjƒR[ƒh‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚çA‚Ç‚¤‚¢‚¤Œ`Ž®‚Å•Û‘¶‚·‚é‚Ì‚©‚ðŒˆ‚ß‚Ä‚ËB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰æ•°å€¤å‚ç…§ã¯ï¼‘ï¼–é€²æ•°åž‹ï¼ˆéžãƒã‚§ãƒƒã‚¯ã§ï¼‘ï¼é€²æ•°ï¼‰"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 234, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_UNIRADIX_HEX, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_UNIRADIX_HEX, TEXT("é ‚æˆ´ã—ãŸå†…å®¹ã«ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãŒå«ã¾ã‚Œã¦ã„ãŸã‚‰ã€ã©ã†ã„ã†å½¢å¼ã§ä¿å­˜ã™ã‚‹ã®ã‹ã‚’æ±ºã‚ã¦ã­ã€‚") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("‹N“®‚µ‚½‚Æ‚«‚ÉAƒRƒsƒy•Û‘¶‚ð‚n‚m‚É‚·‚é"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 261, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_STEAL_ACT_ON, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_STEAL_ACT_ON, TEXT("‹N“®‚µ‚½‚Æ‚«‚ÉAƒRƒsƒy•Û‘¶‹@”\‚ð‚n‚m‚É‚µ‚Ä‚¨‚­‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("èµ·å‹•ã—ãŸã¨ãã«ã€ã‚³ãƒ”ãƒšä¿å­˜ã‚’ï¼¯ï¼®ã«ã™ã‚‹"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 261, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_STEAL_ACT_ON, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_STEAL_ACT_ON, TEXT("èµ·å‹•ã—ãŸã¨ãã«ã€ã‚³ãƒ”ãƒšä¿å­˜æ©Ÿèƒ½ã‚’ï¼¯ï¼®ã«ã—ã¦ãŠãã‚ˆã€‚") );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("ƒƒjƒ…[ƒ|ƒbƒvƒAƒbƒvƒzƒbƒgƒL["), WS_CHILD | WS_VISIBLE, 8, 290, 260, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ›ãƒƒãƒˆã‚­ãƒ¼"), WS_CHILD | WS_VISIBLE, 8, 290, 260, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 	hWorkWnd = CreateWindowEx( 0, HOTKEY_CLASS, TEXT(""), WS_CHILD | WS_VISIBLE, 270, 290, 200, 23, hWnd, (HMENU)IDHK_CLIP_POPUP_KEYBIND, lcInst, NULL );
-	ToolTipSetting( hWnd, IDHK_CLIP_POPUP_KEYBIND, TEXT("‚±‚±‚ðƒNƒŠƒbƒN‚µ‚ÄAƒL[‚Ì‘g‚Ý‡‚í‚¹‚ðÝ’è‚µ‚Ä‚ËB") );
+	ToolTipSetting( hWnd, IDHK_CLIP_POPUP_KEYBIND, TEXT("ã“ã“ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ã¦ã€ã‚­ãƒ¼ã®çµ„ã¿åˆã‚ã›ã‚’è¨­å®šã—ã¦ã­ã€‚") );
 
 	bCtrlMod = RegHotModExchange( gbHotMod, 1 );
 	SendMessage( hWorkWnd , HKM_SETHOTKEY, MAKEWORD(gbHotVkey, bCtrlMod), 0 );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("•Û‘¶‚µ‚Ä•Â‚¶‚é"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-150, rect.bottom-30, 150, 23, hWnd, (HMENU)IDB_CLIP_SAVE_AND_EXIT, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_SAVE_AND_EXIT, TEXT("•ÏX“à—e‚ð•Û‘¶‚µ‚ÄA‚±‚Ì‘‹‚ð•Â‚¶‚é‚æB") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("ä¿å­˜ã—ã¦é–‰ã˜ã‚‹"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-150, rect.bottom-30, 150, 23, hWnd, (HMENU)IDB_CLIP_SAVE_AND_EXIT, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_SAVE_AND_EXIT, TEXT("å¤‰æ›´å†…å®¹ã‚’ä¿å­˜ã—ã¦ã€ã“ã®çª“ã‚’é–‰ã˜ã‚‹ã‚ˆã€‚") );
 
 	return TRUE;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒƒCƒ“‚ÌCOMMANDƒƒbƒZ[ƒW‚ÌŽó‚¯Žæ‚èBƒ{ƒ^ƒ“‰Ÿ‚³‚ê‚½‚Æ‚©‚Å”­¶
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	id			ƒƒbƒZ[ƒW‚ð”­¶‚³‚¹‚½ŽqƒEƒCƒ“ƒhƒE‚ÌŽ¯•ÊŽq	LOWORD(wParam)
-	@param[in]	hwndCtl		ƒƒbƒZ[ƒW‚ð”­¶‚³‚¹‚½ŽqƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹	lParam
-	@param[in]	codeNotify	’Ê’mƒƒbƒZ[ƒW	HIWORD(wParam)
-	@return		‚È‚µ
+	ãƒ¡ã‚¤ãƒ³ã®COMMANDãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å—ã‘å–ã‚Šã€‚ãƒœã‚¿ãƒ³æŠ¼ã•ã‚ŒãŸã¨ã‹ã§ç™ºç”Ÿ
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	id			ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®è­˜åˆ¥å­	LOWORD(wParam)
+	@param[in]	hwndCtl		ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ç™ºç”Ÿã•ã›ãŸå­ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«	lParam
+	@param[in]	codeNotify	é€šçŸ¥ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸	HIWORD(wParam)
+	@return		ãªã—
 */
 VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 {
@@ -660,7 +660,7 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 
 		case IDM_CLIPSTEAL_OPTION:
 			ShowWindow( hWnd, SW_SHOW );
-			UnregisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE );	//	ƒL[ƒoƒCƒ“ƒhŽæ“¾‚Ì‚½‚ß‚ÉˆêŽž“I‚É‰ðœ
+			UnregisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE );	//	ã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰å–å¾—ã®ãŸã‚ã«ä¸€æ™‚çš„ã«è§£é™¤
 			break;
 
 		case IDM_CLIPSTEAL_TOGGLE:
@@ -668,7 +668,7 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 			TaskTrayIconCaptionChange( hWnd );
 			break;
 
-		case IDB_CLIPSTEAL_REF:	//	ƒtƒ@ƒCƒ‹ŠJ‚­ƒ_ƒCƒ„ƒƒOŒÄo
+		case IDB_CLIPSTEAL_REF:	//	ãƒ•ã‚¡ã‚¤ãƒ«é–‹ããƒ€ã‚¤ãƒ¤ãƒ­ã‚°å‘¼å‡º
 			if( SelectFileDlg( hWnd, atPath, MAX_PATH ) )
 			{
 				Edit_SetText( GetDlgItem(hWnd,IDE_CLIPSTEAL_FILE), atPath );
@@ -678,11 +678,11 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 		case IDB_CLIPSTEAL_FILEADD:
 			Edit_GetText( GetDlgItem(hWnd,IDE_CLIPSTEAL_FILE), atPath, MAX_PATH );
 			iRslt = FileListViewAdd( hWnd, atPath );
-			if( 1 == iRslt )	//	‚P”­–Ú‚È‚ç
+			if( 1 == iRslt )	//	ï¼‘ç™ºç›®ãªã‚‰
 			{
 				StringCchCopy( gatClipFile, MAX_PATH, atPath );
 				FileTypeCheck( gatClipFile );
-			}	//	Žæ‚èž‚Ýƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚·‚é
+			}	//	å–ã‚Šè¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ç™»éŒ²ã™ã‚‹
 			break;
 
 		case IDB_CLIPSTEAL_FILEDEL:
@@ -690,11 +690,11 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 			break;
 
 		case IDB_CLIP_SAVE_AND_EXIT:
-			//	ƒzƒbƒgƒL[Ý’è‚ðŠm•Û
+			//	ãƒ›ãƒƒãƒˆã‚­ãƒ¼è¨­å®šã‚’ç¢ºä¿
 			lRslt = SendDlgItemMessage( hWnd, IDHK_CLIP_POPUP_KEYBIND, HKM_GETHOTKEY, 0, 0 );
 			bVkey = LOBYTE( lRslt );
 			bMod  = RegHotModExchange( HIBYTE( lRslt ), 0 );
-			//	‚à‚µƒŒƒWƒXƒgŽ¸”s‚µ‚½‚ç•Â‚¶‚È‚¢E¬Œ÷‚Å”ñ‚O‚à‚Ç‚é
+			//	ã‚‚ã—ãƒ¬ã‚¸ã‚¹ãƒˆå¤±æ•—ã—ãŸã‚‰é–‰ã˜ãªã„ãƒ»æˆåŠŸã§éžï¼ã‚‚ã©ã‚‹
 			bHotRslt = RegisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE, bMod, bVkey );
 			if( bHotRslt )
 			{
@@ -703,7 +703,7 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 			}
 			else
 			{
-				MessageBox( hWnd, TEXT("ƒzƒbƒgƒL[‚ª“o˜^o—ˆ‚È‚©‚Á‚½‚æB\r\n›ß‚ÉŽg‚í‚ê‚Ä‚é‚Ý‚½‚¢B\r\n‘¼‚Ì‘g‚Ý‡‚í‚¹‚ðŽŽ‚µ‚Ä‚Ý‚ÄI"), TEXT("‚¨—Ó‚©‚ç‚Ì‚¨’m‚ç‚¹"), MB_OK | MB_ICONERROR );
+				MessageBox( hWnd, TEXT("ãƒ›ãƒƒãƒˆã‚­ãƒ¼ãŒç™»éŒ²å‡ºæ¥ãªã‹ã£ãŸã‚ˆã€‚\r\nå·²ã«ä½¿ã‚ã‚Œã¦ã‚‹ã¿ãŸã„ã€‚\r\nä»–ã®çµ„ã¿åˆã‚ã›ã‚’è©¦ã—ã¦ã¿ã¦ï¼"), TEXT("ãŠç‡ã‹ã‚‰ã®ãŠçŸ¥ã‚‰ã›"), MB_OK | MB_ICONERROR );
 				break;
 			}
 
@@ -723,16 +723,16 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 		default:	break;
 	}
 
-	if( IDM_CLIPSTEAL_SELECT <= id )	//	ƒƒjƒ…[‘I‚ñ‚¾
+	if( IDM_CLIPSTEAL_SELECT <= id )	//	ãƒ¡ãƒ‹ãƒ¥ãƒ¼é¸ã‚“ã 
 	{
-		iTgt = id - IDM_CLIPSTEAL_SELECT;	//	ƒŠƒXƒgã‚ÌˆÊ’u
+		iTgt = id - IDM_CLIPSTEAL_SELECT;	//	ãƒªã‚¹ãƒˆä¸Šã®ä½ç½®
 		FileListViewGet( hWnd, iTgt, atPath );
 		StringCchCopy( gatClipFile, MAX_PATH, atPath );
 		FileTypeCheck( gatClipFile );
-		//	Žæ‚èž‚Ýƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚·‚é
+		//	å–ã‚Šè¾¼ã¿ãƒ•ã‚¡ã‚¤ãƒ«ã¨ã—ã¦ç™»éŒ²ã™ã‚‹
 		PathStripPath( atPath );
-		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s ‚É•Û‘¶‚µ‚Ä‚¢‚­‚æ"), atPath );
-		TaskTrayIconBalloon( hWnd, atBuff, TEXT("•Û‘¶æ‚ð•ÏX‚µ‚½‚æ"), NIIF_INFO );
+		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s ã«ä¿å­˜ã—ã¦ã„ãã‚ˆ"), atPath );
+		TaskTrayIconBalloon( hWnd, atBuff, TEXT("ä¿å­˜å…ˆã‚’å¤‰æ›´ã—ãŸã‚ˆ"), NIIF_INFO );
 	}
 
 	return;
@@ -740,9 +740,9 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	PAINTB–³Œø—Ìˆæ‚ªo—ˆ‚½‚Æ‚«‚É”­¶B”wŒi‚Ìˆµ‚¢‚É’ˆÓB”wŒi‚ð“h‚è‚Â‚Ô‚µ‚Ä‚©‚çAƒIƒuƒWƒFƒNƒg‚ð•`‰æ
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		–³‚µ
+	PAINTã€‚ç„¡åŠ¹é ˜åŸŸãŒå‡ºæ¥ãŸã¨ãã«ç™ºç”Ÿã€‚èƒŒæ™¯ã®æ‰±ã„ã«æ³¨æ„ã€‚èƒŒæ™¯ã‚’å¡—ã‚Šã¤ã¶ã—ã¦ã‹ã‚‰ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç„¡ã—
 */
 VOID Cls_OnPaint( HWND hWnd )
 {
@@ -758,18 +758,18 @@ VOID Cls_OnPaint( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒE‚ð•Â‚¶‚é‚Æ‚«‚É”­¶BƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg‚Æ‚©Šm•Û‚µ‚½‰æ–Ê\‘¢‚Ìƒƒ‚ƒŠ‚Æ‚©‚àI—¹B
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		–³‚µ
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹ã¨ãã«ç™ºç”Ÿã€‚ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã¨ã‹ç¢ºä¿ã—ãŸç”»é¢æ§‹é€ ã®ãƒ¡ãƒ¢ãƒªã¨ã‹ã‚‚çµ‚äº†ã€‚
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç„¡ã—
 */
 VOID Cls_OnDestroy( HWND hWnd )
 {
 	UnregisterHotKey( hWnd, IDHK_CLIPSTEAL_FILECHANGE );
 
-	ChangeClipboardChain( hWnd , ghNextViewer );	//	ƒNƒŠƒbƒvƒ{[ƒhƒ`ƒFƒCƒ“‚©‚ç—£’E
+	ChangeClipboardChain( hWnd , ghNextViewer );	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒã‚§ã‚¤ãƒ³ã‹ã‚‰é›¢è„±
 
 	gstNtfyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP | NIF_INFO;
-	Shell_NotifyIcon( NIM_DELETE, &gstNtfyIcon );	//	ƒgƒŒƒCƒAƒCƒRƒ“”j‰ó
+	Shell_NotifyIcon( NIM_DELETE, &gstNtfyIcon );	//	ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ç ´å£Š
 
 	DeleteBrush( ghBrush );
 
@@ -780,12 +780,12 @@ VOID Cls_OnDestroy( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒRƒ“ƒgƒ[ƒ‹‚ÌF•Ï‚¦
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	hdc			F‚ð“h‚éƒfƒoƒCƒXƒRƒ“ƒeƒLƒXƒg
-	@param[in]	hWndChild	”­¶‚µ‚½ƒRƒ“ƒgƒ[ƒ‹‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	type		”­¶‚µ‚½ƒRƒ“ƒgƒ[ƒ‹‚Ìƒ^ƒCƒv
-	@return		‚»‚ÌF‚Ìƒuƒ‰ƒV
+	ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®è‰²å¤‰ãˆ
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hdc			è‰²ã‚’å¡—ã‚‹ãƒ‡ãƒã‚¤ã‚¹ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ
+	@param[in]	hWndChild	ç™ºç”Ÿã—ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	type		ç™ºç”Ÿã—ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ã‚¿ã‚¤ãƒ—
+	@return		ãã®è‰²ã®ãƒ–ãƒ©ã‚·
 */
 HBRUSH Cls_OnCtlColor( HWND hWnd, HDC hdc, HWND hWndChild, INT type )
 {
@@ -796,12 +796,12 @@ HBRUSH Cls_OnCtlColor( HWND hWnd, HDC hdc, HWND hWndChild, INT type )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒzƒbƒgƒL[‰Ÿ‚³‚ê‚½‚çŒÄ‚Î‚ê‚é
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	idHotKey	“o˜^‚µ‚Ä‚ ‚é‚h‚c
-	@param[in]	fuModifiers	CTRLASHIFTAALT ‚Ì‘g‚Ý‡‚í‚¹ó‘Ô
-	@param[in]	vk			‰Ÿ‚³‚ê‚Ä‚¢‚éˆê”ÊƒL[
-	@return		–³‚µ
+	ãƒ›ãƒƒãƒˆã‚­ãƒ¼æŠ¼ã•ã‚ŒãŸã‚‰å‘¼ã°ã‚Œã‚‹
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	idHotKey	ç™»éŒ²ã—ã¦ã‚ã‚‹ï¼©ï¼¤
+	@param[in]	fuModifiers	CTRLã€SHIFTã€ALT ã®çµ„ã¿åˆã‚ã›çŠ¶æ…‹
+	@param[in]	vk			æŠ¼ã•ã‚Œã¦ã„ã‚‹ä¸€èˆ¬ã‚­ãƒ¼
+	@return		ç„¡ã—
 */
 VOID Cls_OnHotKey( HWND hWnd, INT idHotKey, UINT fuModifiers, UINT vk )
 {
@@ -812,7 +812,7 @@ VOID Cls_OnHotKey( HWND hWnd, INT idHotKey, UINT fuModifiers, UINT vk )
 	{
 		GetCursorPos( &stPoint );
 
-		SetForegroundWindow( hWnd );//‚±‚¤‚µ‚È‚¢‚Æƒ|ƒbƒvƒAƒbƒv‚ªÁ‚¦‚È‚¢‚ç‚µ‚¢
+		SetForegroundWindow( hWnd );//ã“ã†ã—ãªã„ã¨ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãŒæ¶ˆãˆãªã„ã‚‰ã—ã„
 
 		hMenu = CreateFileSelMenu( hWnd, 1 );
 		TrackPopupMenu( hMenu, 0, stPoint.x, stPoint.y, 0, hWnd, NULL );
@@ -824,11 +824,11 @@ VOID Cls_OnHotKey( HWND hWnd, INT idHotKey, UINT fuModifiers, UINT vk )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒtƒ@ƒCƒ‹‘I‘ðƒ_ƒCƒ„ƒƒO‚Ì•\Ž¦
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	ptSelFile	ƒtƒ@ƒCƒ‹–¼‚ð“ü‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[
-	@param[in]	cchLen		ƒoƒbƒtƒ@‚Ì•¶Žš”BƒoƒCƒg”‚¶‚á‚È‚¢‚¼
-	@return		”ñ‚OFƒtƒ@ƒCƒ‹‚Æ‚Á‚½@‚OFƒLƒƒƒ“ƒZƒ‹‚µ‚½
+	ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠžãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã®è¡¨ç¤º
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	ptSelFile	ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å…¥ã‚Œã‚‹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	@param[in]	cchLen		ãƒãƒƒãƒ•ã‚¡ã®æ–‡å­—æ•°ã€‚ãƒã‚¤ãƒˆæ•°ã˜ã‚ƒãªã„ãž
+	@return		éžï¼ï¼šãƒ•ã‚¡ã‚¤ãƒ«ã¨ã£ãŸã€€ï¼ï¼šã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ãŸ
 */
 BOOLEAN SelectFileDlg( HWND hWnd, LPTSTR ptSelFile, UINT_PTR cchLen )
 {
@@ -845,21 +845,21 @@ BOOLEAN SelectFileDlg( HWND hWnd, LPTSTR ptSelFile, UINT_PTR cchLen )
 
 	stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 	stOpenFile.hwndOwner       = hWnd;
-	stOpenFile.lpstrFilter     = TEXT("ƒAƒXƒL[ƒA[ƒgƒtƒ@ƒCƒ‹ ( mlt, ast )\0*.mlt;*.ast\0‘S‚Ä‚ÌŒ`Ž®(*.*)\0*.*\0\0");
+	stOpenFile.lpstrFilter     = TEXT("ã‚¢ã‚¹ã‚­ãƒ¼ã‚¢ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ« ( mlt, ast )\0*.mlt;*.ast\0å…¨ã¦ã®å½¢å¼(*.*)\0*.*\0\0");
 	stOpenFile.nFilterIndex    = 1;
 	stOpenFile.lpstrFile       = atFilePath;
 	stOpenFile.nMaxFile        = MAX_PATH;
 	stOpenFile.lpstrFileTitle  = atFileName;
 	stOpenFile.nMaxFileTitle   = MAX_STRING;
 //	stOpenFile.lpstrInitialDir = 
-	stOpenFile.lpstrTitle      = TEXT("‚½‚ßž‚Þƒtƒ@ƒCƒ‹‚ðŽw’è‚·‚é‚Ì‚Å‚·");
+	stOpenFile.lpstrTitle      = TEXT("ãŸã‚è¾¼ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã™ã‚‹ã®ã§ã™");
 	stOpenFile.Flags           = OFN_EXPLORER | OFN_HIDEREADONLY;
 	stOpenFile.lpstrDefExt     = TEXT("mlt");
 
-	//‚±‚±‚Å FileSaveDialogue ‚ðo‚·
+	//ã“ã“ã§ FileSaveDialogue ã‚’å‡ºã™
 	bOpened = GetOpenFileName( &stOpenFile );
 
-	if( !(bOpened) ){	return FALSE;	}	//	ƒLƒƒƒ“ƒZƒ‹‚µ‚Ä‚½‚ç‰½‚à‚µ‚È‚¢
+	if( !(bOpened) ){	return FALSE;	}	//	ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã—ã¦ãŸã‚‰ä½•ã‚‚ã—ãªã„
 
 	StringCchCopy( ptSelFile, cchLen, atFilePath );
 
@@ -868,16 +868,16 @@ BOOLEAN SelectFileDlg( HWND hWnd, LPTSTR ptSelFile, UINT_PTR cchLen )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ^ƒXƒNƒgƒŒƒC‚ÉƒAƒCƒRƒ“‚ð•\Ž¦‚³‚¹‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã«ã‚¢ã‚¤ã‚³ãƒ³ã‚’è¡¨ç¤ºã•ã›ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT TasktrayIconAdd( HWND hWnd )
 {
 	INT	crdCount = 0;
 
 
-	//	ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“Ú‘±
+	//	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³æŽ¥ç¶š
 	ZeroMemory( &gstNtfyIcon, sizeof(gstNtfyIcon) );
 	gstNtfyIcon.cbSize = sizeof(NOTIFYICONDATA);
 	gstNtfyIcon.hWnd   = hWnd;
@@ -885,32 +885,32 @@ HRESULT TasktrayIconAdd( HWND hWnd )
 	gstNtfyIcon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	gstNtfyIcon.uCallbackMessage = WMP_TRAYNOTIFYICON;
 	gstNtfyIcon.hIcon  = ghIcon;
-	StringCchPrintf( gstNtfyIcon.szTip, 128, TEXT("OrinrinCollector [ %s"), gbClipSteal ? TEXT("ƒœ>@<œ„") : TEXT("‚y‚y‚yDDD") );
+	StringCchPrintf( gstNtfyIcon.szTip, 128, TEXT("OrinrinCollector ãƒ¼ %s"), gbClipSteal ? TEXT("ï¼œâ—>ã€€<â—ï¼ž") : TEXT("ï¼ºï¼ºï¼ºï¼Žï¼Žï¼Ž") );
 
-	// ƒAƒCƒRƒ“‚ð“o˜^‚Å‚«‚é‚©ƒGƒ‰[‚É‚È‚é‚Ü‚ÅŒJ‚è•Ô‚·
+	// ã‚¢ã‚¤ã‚³ãƒ³ã‚’ç™»éŒ²ã§ãã‚‹ã‹ã‚¨ãƒ©ãƒ¼ã«ãªã‚‹ã¾ã§ç¹°ã‚Šè¿”ã™
 	for( ; ; )
 	{
 		if( Shell_NotifyIcon(NIM_ADD, &gstNtfyIcon) )
 		{
-			break;	//	“o˜^‚Å‚«‚½‚çI‚í‚è
+			break;	//	ç™»éŒ²ã§ããŸã‚‰çµ‚ã‚ã‚Š
 		}
 		else
 		{
 			if ( ERROR_TIMEOUT != GetLastError() || 10 <= crdCount )
-			{	//	ƒ^ƒCƒ€ƒAƒEƒgˆÈŠO‚ÅŽ¸”sA‚à‚µ‚­‚Í‚P‚O‰ñƒŠƒgƒ‰ƒC‚µ‚Ä‚àƒ_ƒ‚Û
-				MessageBox( hWnd, TEXT("ƒ^ƒXƒNƒgƒŒƒC‚ÉƒAƒCƒRƒ“‚ð“o˜^‚Å‚«‚È‚©‚Á‚½‚Ì‚Å‚·B\r\nI—¹‚·‚é‚Ì‚Å‚·B"), NULL, MB_OK | MB_ICONERROR );
+			{	//	ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆä»¥å¤–ã§å¤±æ•—ã€ã‚‚ã—ãã¯ï¼‘ï¼å›žãƒªãƒˆãƒ©ã‚¤ã—ã¦ã‚‚ãƒ€ãƒ¡ã½
+				MessageBox( hWnd, TEXT("ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã«ã‚¢ã‚¤ã‚³ãƒ³ã‚’ç™»éŒ²ã§ããªã‹ã£ãŸã®ã§ã™ã€‚\r\nçµ‚äº†ã™ã‚‹ã®ã§ã™ã€‚"), NULL, MB_OK | MB_ICONERROR );
 				SendMessage( hWnd, WM_DESTROY, 0, 0 );
 				break;
 			}
 
-			//	“o˜^‚Å‚«‚Ä‚¢‚È‚¢‚±‚Æ‚ðŠm”F‚·‚é
+			//	ç™»éŒ²ã§ãã¦ã„ãªã„ã“ã¨ã‚’ç¢ºèªã™ã‚‹
 			if( Shell_NotifyIcon( NIM_MODIFY, &gstNtfyIcon) )
 			{
-				return S_OK;	//	ŽÀ‚Í“o˜^‚Å‚«‚Ä‚½
+				return S_OK;	//	å®Ÿã¯ç™»éŒ²ã§ãã¦ãŸ
 			}
 			else
 			{
-				Sleep( 500 );	//	“o˜^‚Å‚«‚Ä‚¢‚È‚©‚Á‚½
+				Sleep( 500 );	//	ç™»éŒ²ã§ãã¦ã„ãªã‹ã£ãŸ
 			}
 
 			crdCount++;
@@ -922,26 +922,26 @@ HRESULT TasktrayIconAdd( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“‚ÅƒCƒxƒ“ƒg‚ª”­¶‚µ‚½‚ç
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	uID		ƒCƒxƒ“ƒg‚ª”­¶‚µ‚½ƒgƒŒƒCƒAƒCƒRƒ“‚Ì‚h‚c
-	@param[in]	message	ƒ}ƒEƒXAƒL[ƒ{[ƒh‚Ì‘€ì‚ÌWMmessage
-	@return “Á‚É‚È‚µ
+	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ã§ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãŸã‚‰
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	uID		ã‚¤ãƒ™ãƒ³ãƒˆãŒç™ºç”Ÿã—ãŸãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ã®ï¼©ï¼¤
+	@param[in]	message	ãƒžã‚¦ã‚¹ã€ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®æ“ä½œã®WMmessage
+	@return ç‰¹ã«ãªã—
 */
 VOID TaskTrayIconEvent( HWND hWnd, UINT uID, UINT message )
 {
 	POINT	stPoint;
 	HMENU	hMenu, hSubMenu;
 
-	//	ƒ}ƒEƒX‚Ì‰E‚©¶ƒ{ƒ^ƒ“‰Ÿ‚µ‚ª—LŒø
+	//	ãƒžã‚¦ã‚¹ã®å³ã‹å·¦ãƒœã‚¿ãƒ³æŠ¼ã—ãŒæœ‰åŠ¹
 
 	GetCursorPos( &stPoint );
 
-	if( WM_RBUTTONUP == message )	//	ƒƒjƒ…[ŒÄo
+	if( WM_RBUTTONUP == message )	//	ãƒ¡ãƒ‹ãƒ¥ãƒ¼å‘¼å‡º
 	{
-		SetForegroundWindow( hWnd );//‚±‚¤‚µ‚È‚¢‚Æƒ|ƒbƒvƒAƒbƒv‚ªÁ‚¦‚È‚¢‚ç‚µ‚¢
+		SetForegroundWindow( hWnd );//ã“ã†ã—ãªã„ã¨ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãŒæ¶ˆãˆãªã„ã‚‰ã—ã„
 
-		//	ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ðŠJ‚­
+		//	ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é–‹ã
 		hMenu = LoadMenu( ghInst, MAKEINTRESOURCE(IDC_ORINRINCOLLECTOR) );
 		hSubMenu = GetSubMenu( hMenu, 0 );
 
@@ -951,9 +951,9 @@ VOID TaskTrayIconEvent( HWND hWnd, UINT uID, UINT message )
 		DestroyMenu( hMenu );
 	}
 
-	if( WM_LBUTTONUP == message )	//	‘I‘ð‚ÌƒAƒŒ
+	if( WM_LBUTTONUP == message )	//	é¸æŠžã®ã‚¢ãƒ¬
 	{
-		SetForegroundWindow( hWnd );//‚±‚¤‚µ‚È‚¢‚Æƒ|ƒbƒvƒAƒbƒv‚ªÁ‚¦‚È‚¢‚ç‚µ‚¢
+		SetForegroundWindow( hWnd );//ã“ã†ã—ãªã„ã¨ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãŒæ¶ˆãˆãªã„ã‚‰ã—ã„
 
 		hMenu = CreateFileSelMenu( hWnd, 0 );
 		TrackPopupMenu( hMenu, 0, stPoint.x, stPoint.y, 0, hWnd, NULL );
@@ -965,10 +965,10 @@ VOID TaskTrayIconEvent( HWND hWnd, UINT uID, UINT message )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒtƒ@ƒCƒ‹‘I‘ðƒ|ƒbƒp[ì‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	bStyle	”ñ‚O‰¡Žæ‚èON/OFF“ü‚ê‚é@‚Oƒtƒ@ƒCƒ‹‘I‘ð‚Ì‚Ý
-	@return		ì‚Á‚½ƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹EŒÄ‚ñ‚¾‘¤‚ÅÁ‚·‚±‚Æ
+	ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠžãƒãƒƒãƒ‘ãƒ¼ä½œã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	bStyle	éžï¼æ¨ªå–ã‚ŠON/OFFå…¥ã‚Œã‚‹ã€€ï¼ãƒ•ã‚¡ã‚¤ãƒ«é¸æŠžã®ã¿
+	@return		ä½œã£ãŸãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«ãƒ»å‘¼ã‚“ã å´ã§æ¶ˆã™ã“ã¨
 */
 HMENU CreateFileSelMenu( HWND hWnd, UINT bStyle )
 {
@@ -982,14 +982,14 @@ HMENU CreateFileSelMenu( HWND hWnd, UINT bStyle )
 	hMenu = CreatePopupMenu(  );
 	if( 0 == iCount )
 	{
-		AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_SELECT, TEXT("iÙj") );
+		AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_SELECT, TEXT("ï¼ˆæ— ï¼‰") );
 		EnableMenuItem( hMenu, IDM_CLIPSTEAL_SELECT, MF_GRAYED );
 	}
 	else
 	{
 		if( bStyle )
 		{
-			AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_TOGGLE, TEXT("ƒRƒs[“à—e‚ð’¸‘Õ‚·‚é") );
+			AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_TOGGLE, TEXT("ã‚³ãƒ”ãƒ¼å†…å®¹ã‚’é ‚æˆ´ã™ã‚‹") );
 			AppendMenu( hMenu, MF_SEPARATOR, 0, NULL );
 
 			if( gbClipSteal )	CheckMenuItem( hMenu, IDM_CLIPSTEAL_TOGGLE, MF_CHECKED );
@@ -1002,7 +1002,7 @@ HMENU CreateFileSelMenu( HWND hWnd, UINT bStyle )
 			PathStripPath( atName );
 			AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_SELECT+i, atName );
 
-			//	Žg—p’†‚Ì‚â‚Â‚ðŒŸo‚µ‚Äƒ`ƒFƒbƒN‚Â‚¯‚é
+			//	ä½¿ç”¨ä¸­ã®ã‚„ã¤ã‚’æ¤œå‡ºã—ã¦ãƒã‚§ãƒƒã‚¯ã¤ã‘ã‚‹
 			if( 0 == StrCmp( gatClipFile, atPath ) )
 			{
 				CheckMenuItem( hMenu, IDM_CLIPSTEAL_SELECT+i, MF_CHECKED );
@@ -1015,15 +1015,15 @@ HMENU CreateFileSelMenu( HWND hWnd, UINT bStyle )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ó‹µ‚É‡‚í‚¹‚ÄƒAƒCƒRƒ“‚Ì•\Ž¦ƒƒbƒZ[ƒW‚ð•ÏX‚·‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	çŠ¶æ³ã«åˆã‚ã›ã¦ã‚¢ã‚¤ã‚³ãƒ³ã®è¡¨ç¤ºãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å¤‰æ›´ã™ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT TaskTrayIconCaptionChange( HWND hWnd )
 {
 	gstNtfyIcon.uFlags = NIF_TIP;
 
-	StringCchPrintf( gstNtfyIcon.szTip, 128, TEXT("OrinrinCollector [ %s"), gbClipSteal ? TEXT("ƒœ>@<œ„") : TEXT("‚y‚y‚yDDD") );
+	StringCchPrintf( gstNtfyIcon.szTip, 128, TEXT("OrinrinCollector ãƒ¼ %s"), gbClipSteal ? TEXT("ï¼œâ—>ã€€<â—ï¼ž") : TEXT("ï¼ºï¼ºï¼ºï¼Žï¼Žï¼Ž") );
 
 	Shell_NotifyIcon( NIM_MODIFY, &gstNtfyIcon );
 
@@ -1032,20 +1032,20 @@ HRESULT TaskTrayIconCaptionChange( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ^ƒXƒNƒgƒŒƒCƒAƒCƒRƒ“‚É‚Î‚è‚ã`‚ñ‚ß‚¹[‚¶‚ðÚ‚¹‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	ptInfo	ƒoƒ‹[ƒ“‚Ì–{•¶
-	@param[in]	ptTitle	ƒoƒ‹[ƒ“‚Ìƒ^ƒCƒgƒ‹
-	@param[in]	dIconTy	‚­‚Á‚Â‚­ƒAƒCƒRƒ“A‚Pî•ñA‚QŒxA‚RƒGƒ‰[
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚¿ã‚¹ã‚¯ãƒˆãƒ¬ã‚¤ã‚¢ã‚¤ã‚³ãƒ³ã«ã°ã‚Šã‚…ã€œã‚“ã‚ã›ãƒ¼ã˜ã‚’è¼‰ã›ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	ptInfo	ãƒãƒ«ãƒ¼ãƒ³ã®æœ¬æ–‡
+	@param[in]	ptTitle	ãƒãƒ«ãƒ¼ãƒ³ã®ã‚¿ã‚¤ãƒˆãƒ«
+	@param[in]	dIconTy	ãã£ã¤ãã‚¢ã‚¤ã‚³ãƒ³ã€ï¼‘æƒ…å ±ã€ï¼’è­¦å‘Šã€ï¼“ã‚¨ãƒ©ãƒ¼
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT TaskTrayIconBalloon( HWND hWnd, LPTSTR ptInfo, LPTSTR ptTitle, DWORD dIconTy )
 {
 	gstNtfyIcon.uFlags       = NIF_INFO;
 	StringCchCopy( gstNtfyIcon.szInfoTitle, 64, ptTitle );
 	StringCchCopy( gstNtfyIcon.szInfo, 256, ptInfo );
-	gstNtfyIcon.uTimeout     = 11111;	//	‚‚“‚Å‚P‚P•b‚­‚ç‚¢•\Ž¦‚³‚¹‚Ä‚Ý‚éEŒø‚¢‚Ä‚È‚¢
-	gstNtfyIcon.dwInfoFlags  = dIconTy;	//	—p‚¢‚éƒAƒCƒRƒ“ƒ^ƒCƒv
+	gstNtfyIcon.uTimeout     = 11111;	//	ï½ï½“ã§ï¼‘ï¼‘ç§’ãã‚‰ã„è¡¨ç¤ºã•ã›ã¦ã¿ã‚‹ãƒ»åŠ¹ã„ã¦ãªã„
+	gstNtfyIcon.dwInfoFlags  = dIconTy;	//	ç”¨ã„ã‚‹ã‚¢ã‚¤ã‚³ãƒ³ã‚¿ã‚¤ãƒ—
 	Shell_NotifyIcon( NIM_MODIFY, &gstNtfyIcon );
 
 //	NIIF_INFO       0x00000001
@@ -1057,31 +1057,31 @@ HRESULT TaskTrayIconBalloon( HWND hWnd, LPTSTR ptInfo, LPTSTR ptTitle, DWORD dIc
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒNƒŠƒbƒvƒ{[ƒhƒrƒ…[ƒƒ`ƒFƒCƒ“‚©‚ç’N‚©‚ª—£‚ê‚½‚Æ‚«‚ÌŒq‚¬Š·‚¦ˆ—
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	hWndRemove	ƒ`ƒFƒCƒ“‚©‚ç—£‚ê‚éƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	hWndNext	—£‚ê‚éHWND‚ÌAŽŸ‚Ì‚â‚Â‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãƒ“ãƒ¥ãƒ¼ãƒ¯ãƒã‚§ã‚¤ãƒ³ã‹ã‚‰èª°ã‹ãŒé›¢ã‚ŒãŸã¨ãã®ç¹‹ãŽæ›ãˆå‡¦ç†
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWndRemove	ãƒã‚§ã‚¤ãƒ³ã‹ã‚‰é›¢ã‚Œã‚‹ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWndNext	é›¢ã‚Œã‚‹HWNDã®ã€æ¬¡ã®ã‚„ã¤ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 */
 VOID Cls_OnChangeCBChain( HWND hWnd, HWND hWndRemove, HWND hWndNext )
 {
-	//	—£‚ê‚éƒnƒ“ƒhƒ‹‚ªAŽ©•ª‚ÌŽŸ‚Ìƒ„ƒc‚¾‚Á‚½‚çAŽŸ‚Ìs‚«æ•ÏX‚µ‚ÄŠ®—¹B
+	//	é›¢ã‚Œã‚‹ãƒãƒ³ãƒ‰ãƒ«ãŒã€è‡ªåˆ†ã®æ¬¡ã®ãƒ¤ãƒ„ã ã£ãŸã‚‰ã€æ¬¡ã®è¡Œãå…ˆå¤‰æ›´ã—ã¦å®Œäº†ã€‚
 	if( hWndRemove == ghNextViewer ){	ghNextViewer = hWndNext;	}
 	else if( hWndNext ){	SendMessage( hWndNext, WM_CHANGECBCHAIN, (WPARAM)hWndRemove, (LPARAM)hWndNext );	}
-	//	ŠÖŒW‚È‚¢‚È‚çA“¯‚¶“à—e‚ðŽŸ‚É“n‚·B
+	//	é–¢ä¿‚ãªã„ãªã‚‰ã€åŒã˜å†…å®¹ã‚’æ¬¡ã«æ¸¡ã™ã€‚
 	return;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒNƒŠƒbƒvƒ{[ƒh‚Ì“à—e‚ª•ÏX‚³‚ê‚½ê‡‚ÌŠm•Ûˆ—BŽ©•ª‚Å‘‚«ž‚ñ‚¾ê‡‚à”­¶B
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		–³‚µ
+	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã®å†…å®¹ãŒå¤‰æ›´ã•ã‚ŒãŸå ´åˆã®ç¢ºä¿å‡¦ç†ã€‚è‡ªåˆ†ã§æ›¸ãè¾¼ã‚“ã å ´åˆã‚‚ç™ºç”Ÿã€‚
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç„¡ã—
 */
 VOID Cls_OnDrawClipboard( HWND hWnd )
 {
-	OutputDebugString( TEXT("ƒNƒŠƒbƒvƒ{[ƒh“à—eŠm”F\r\n") );
+	OutputDebugString( TEXT("ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰å†…å®¹ç¢ºèª\r\n") );
 
-	//	•ÏX‚ª‚ ‚Á‚½‚±‚Æ‚ðAŽŸ‚Ìƒrƒ…[ƒ‚É’m‚ç‚¹‚Ä‚¨‚­
+	//	å¤‰æ›´ãŒã‚ã£ãŸã“ã¨ã‚’ã€æ¬¡ã®ãƒ“ãƒ¥ãƒ¼ãƒ¯ã«çŸ¥ã‚‰ã›ã¦ãŠã
 	if( ghNextViewer )	SendMessage( ghNextViewer, WM_DRAWCLIPBOARD, 0, 0 );
 
 	ClipStealDoing( hWnd );
@@ -1092,9 +1092,9 @@ VOID Cls_OnDrawClipboard( HWND hWnd )
 
 
 /*!
-	ƒNƒŠƒbƒvƒ{[ƒh‚É•ÏX‚ª‚ ‚Á‚½ê‡‚Ìˆ—EŽ©•ª‚©‚ç‚Ì•ÏX‚É”½‰ž‚µ‚È‚¢‚æ‚¤‚É‚¹‚É‚á
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹EŽg‚í‚È‚¢‚©
-	@return	HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã«å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã®å‡¦ç†ãƒ»è‡ªåˆ†ã‹ã‚‰ã®å¤‰æ›´ã«åå¿œã—ãªã„ã‚ˆã†ã«ã›ã«ã‚ƒ
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ãƒ»ä½¿ã‚ãªã„ã‹
+	@return	HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT ClipStealDoing( HWND hWnd )
 {
@@ -1111,22 +1111,22 @@ HRESULT ClipStealDoing( HWND hWnd )
 	SYSTEMTIME	stTime;
 
 
-	//	•Û‘¶‚·‚éƒtƒ@ƒCƒ‹Žw’è‚ª–³‚¢‚È‚çƒiƒj‚à‚µ‚È‚¢
+	//	ä¿å­˜ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®šãŒç„¡ã„ãªã‚‰ãƒŠãƒ‹ã‚‚ã—ãªã„
 	if( NULL == gatClipFile[0] ){	return E_NOTIMPL;	}
 
-	//	ƒNƒŠƒbƒvƒXƒeƒB[ƒ‹‹@”\—LŒøH
+	//	ã‚¯ãƒªãƒƒãƒ—ã‚¹ãƒ†ã‚£ãƒ¼ãƒ«æ©Ÿèƒ½æœ‰åŠ¹ï¼Ÿ
 	if( !(gbClipSteal) ){	return  S_FALSE;	}
 
 
 	ptTexts = ClipboardDataGet( NULL );
 	if( !(ptTexts) ){	return E_ACCESSDENIED;	}
-	//	ƒNƒŠƒbƒv‚³‚ê‚½‚Ì‚ª•¶Žš—ñ‚Å‚Í‚È‚©‚Á‚½‚ç’¼‚®I‚í‚é
+	//	ã‚¯ãƒªãƒƒãƒ—ã•ã‚ŒãŸã®ãŒæ–‡å­—åˆ—ã§ã¯ãªã‹ã£ãŸã‚‰ç›´ãçµ‚ã‚ã‚‹
 
-	//	SJISŒ^‚É•ÏŠ·
+	//	SJISåž‹ã«å¤‰æ›
 	pcStrs = SjisEncodeAlloc( ptTexts );
 	StringCchLengthA( pcStrs, STRSAFE_MAX_CCH, &cbSize );
 
-	//	ƒQƒbƒg‚µ‚½ƒRƒsƒy•¶Žš—ñ‚Ì•Û‘¶ˆ—
+	//	ã‚²ãƒƒãƒˆã—ãŸã‚³ãƒ”ãƒšæ–‡å­—åˆ—ã®ä¿å­˜å‡¦ç†
 	hFile = CreateFile( gatClipFile, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 	if( INVALID_HANDLE_VALUE != hFile )
 	{
@@ -1155,11 +1155,11 @@ HRESULT ClipStealDoing( HWND hWnd )
 	FREE( ptTexts );
 	FREE( pcStrs );
 
-	//	•Û‘¶‚µ‚½ƒƒbƒZ[ƒW‚ª•K—v
+	//	ä¿å­˜ã—ãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒå¿…è¦
 	if( gGetMsgOn )
 	{
-		StringCchPrintf( atMsg, MAX_STRING, TEXT("%u Byte Žæ“¾"), cbSize );
-		TaskTrayIconBalloon( hWnd, TEXT("ƒRƒs[‚³‚ê‚½•¶Žš—ñ‚ð•Û‘¶‚µ‚½‚æB"), atMsg, 1 );
+		StringCchPrintf( atMsg, MAX_STRING, TEXT("%u Byte å–å¾—"), cbSize );
+		TaskTrayIconBalloon( hWnd, TEXT("ã‚³ãƒ”ãƒ¼ã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’ä¿å­˜ã—ãŸã‚ˆã€‚"), atMsg, 1 );
 	}
 
 	return S_OK;
@@ -1167,47 +1167,47 @@ HRESULT ClipStealDoing( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒNƒŠƒbƒvƒ{[ƒh‚Ìƒf[ƒ^‚ð‚¢‚½‚¾‚­E“¯‚¶ƒ‚ƒm‚ªADocInsDelCtrl.cpp ‚É‚ ‚é
-	@param[in]	pVoid	“Á‚É‚È‚µ
-	@return		Šm•Û‚µ‚½•¶Žš—ñEmalloc‚µ‚Ä‚é‚Ì‚ÅA”Ÿ”ŒÄ‚ñ‚¾•û‚Åfree–Y‚ê‚È‚¢‚æ‚¤‚É
+	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã„ãŸã ããƒ»åŒã˜ãƒ¢ãƒŽãŒã€DocInsDelCtrl.cpp ã«ã‚ã‚‹
+	@param[in]	pVoid	ç‰¹ã«ãªã—
+	@return		ç¢ºä¿ã—ãŸæ–‡å­—åˆ—ãƒ»mallocã—ã¦ã‚‹ã®ã§ã€å‡½æ•°å‘¼ã‚“ã æ–¹ã§freeå¿˜ã‚Œãªã„ã‚ˆã†ã«
 */
 LPTSTR ClipboardDataGet( LPVOID pVoid )
 {
 	LPTSTR	ptString = NULL, ptClipTxt;
-	LPSTR	pcStr, pcClipTp;	//	•ÏŠ·—p—ÕŽž
+	LPSTR	pcStr, pcClipTp;	//	å¤‰æ›ç”¨è‡¨æ™‚
 	DWORD	cbSize;
 	UINT	dEnumFmt;
 	INT		ixCount, iC;
 	HANDLE	hClipData;
 
-	//	ƒNƒŠƒbƒvƒ{[ƒh‚Ì’†g‚ðƒ`ƒFƒLE‚Ç‚Á‚¿‚É‚µ‚Ä‚àƒ†ƒjƒR[ƒhƒeƒLƒXƒgƒtƒ‰ƒO‚Í‚ ‚é
+	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã®ä¸­èº«ã‚’ãƒã‚§ã‚­ãƒ»ã©ã£ã¡ã«ã—ã¦ã‚‚ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ†ã‚­ã‚¹ãƒˆãƒ•ãƒ©ã‚°ã¯ã‚ã‚‹
 	if( IsClipboardFormatAvailable( CF_UNICODETEXT ) )
 	{
-		OpenClipboard( NULL );	//	ƒNƒŠƒbƒvƒ{[ƒh‚ðƒI[ƒ|ƒ“‚·‚é
-		//	ŠJ‚¯‚Á•ú‚µ‚¾‚Æ‘¼‚ÌƒAƒvƒŠ‚É–À˜f‚È‚Ì‚Å‚·‚®•Â‚ß‚é‚æ‚¤‚É
+		OpenClipboard( NULL );	//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã‚’ã‚ªãƒ¼ãƒãƒ³ã™ã‚‹
+		//	é–‹ã‘ã£æ”¾ã—ã ã¨ä»–ã®ã‚¢ãƒ—ãƒªã«è¿·æƒ‘ãªã®ã§ã™ãé–‰ã‚ã‚‹ã‚ˆã†ã«
 
-		dEnumFmt = 0;	//	‰Šú’l‚Í‚O
+		dEnumFmt = 0;	//	åˆæœŸå€¤ã¯ï¼
 		ixCount = CountClipboardFormats(  );
 		for( iC = 0; ixCount > iC; iC++ )
-		{	//	‡”Ô‚É—ñ‹“‚µ‚ÄAæ‚Éƒqƒbƒg‚µ‚½ƒtƒH[ƒ}ƒbƒg‚Åˆµ‚¤
+		{	//	é †ç•ªã«åˆ—æŒ™ã—ã¦ã€å…ˆã«ãƒ’ãƒƒãƒˆã—ãŸãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆã§æ‰±ã†
 			dEnumFmt = EnumClipboardFormats( dEnumFmt );
 			if( CF_UNICODETEXT == dEnumFmt || CF_TEXT == dEnumFmt ){	break;	}
 		}
 		if( 0 == dEnumFmt ){	return NULL;	}
-		//	‚»‚êˆÈã—ñ‹“‚ª–³‚¢‚©A”Ÿ”Ž¸”s‚È‚ç‚O‚É‚È‚é
+		//	ãã‚Œä»¥ä¸Šåˆ—æŒ™ãŒç„¡ã„ã‹ã€å‡½æ•°å¤±æ•—ãªã‚‰ï¼ã«ãªã‚‹
 
-		//	ƒNƒŠƒbƒvƒ{[ƒh‚Ìƒf[ƒ^‚ðƒQƒbƒcI
-		//	ƒnƒ“ƒhƒ‹‚ÌƒI[ƒi[‚ÍƒNƒŠƒbƒvƒ{[ƒh‚È‚Ì‚ÅA‚±‚¿‚ç‚©‚ç‚Í‘€ì‚µ‚È‚¢‚æ‚¤‚É
-		//	’†g‚Ì•ÏX‚È‚Ç‚à‚Á‚Ä‚Ì‚Ù‚©‚Å‚ ‚é
+		//	ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ã®ãƒ‡ãƒ¼ã‚¿ã‚’ã‚²ãƒƒãƒ„ï¼
+		//	ãƒãƒ³ãƒ‰ãƒ«ã®ã‚ªãƒ¼ãƒŠãƒ¼ã¯ã‚¯ãƒªãƒƒãƒ—ãƒœãƒ¼ãƒ‰ãªã®ã§ã€ã“ã¡ã‚‰ã‹ã‚‰ã¯æ“ä½œã—ãªã„ã‚ˆã†ã«
+		//	ä¸­èº«ã®å¤‰æ›´ãªã©ã‚‚ã£ã¦ã®ã»ã‹ã§ã‚ã‚‹
 		hClipData = GetClipboardData( dEnumFmt );
 
 		if( CF_UNICODETEXT == dEnumFmt )
 		{
-			//	Žæ“¾ƒf[ƒ^‚ðˆ—BTEXT‚È‚çAƒnƒ“ƒhƒ‹‚ÍƒOƒ[ƒoƒ‹ƒƒ‚ƒŠƒnƒ“ƒhƒ‹
-			//	V‚½‚ÉƒRƒs[‚³‚ê‚½‚çƒnƒ“ƒhƒ‹‚Í–³Œø‚É‚È‚é‚Ì‚ÅA’†g‚ðƒRƒs[‚¹‚æ
+			//	å–å¾—ãƒ‡ãƒ¼ã‚¿ã‚’å‡¦ç†ã€‚TEXTãªã‚‰ã€ãƒãƒ³ãƒ‰ãƒ«ã¯ã‚°ãƒ­ãƒ¼ãƒãƒ«ãƒ¡ãƒ¢ãƒªãƒãƒ³ãƒ‰ãƒ«
+			//	æ–°ãŸã«ã‚³ãƒ”ãƒ¼ã•ã‚ŒãŸã‚‰ãƒãƒ³ãƒ‰ãƒ«ã¯ç„¡åŠ¹ã«ãªã‚‹ã®ã§ã€ä¸­èº«ã‚’ã‚³ãƒ”ãƒ¼ã›ã‚ˆ
 			ptClipTxt = (LPTSTR)GlobalLock( hClipData );
 			cbSize    = GlobalSize( (HGLOBAL)hClipData );
-			//	Šm•Ûo—ˆ‚é‚Ì‚ÍƒoƒCƒgƒTƒCƒYEƒeƒLƒXƒg‚¾‚Æ––”ö‚ÌNULLƒ^[ƒ~ƒl[ƒ^ŠÜ‚Þ
+			//	ç¢ºä¿å‡ºæ¥ã‚‹ã®ã¯ãƒã‚¤ãƒˆã‚µã‚¤ã‚ºãƒ»ãƒ†ã‚­ã‚¹ãƒˆã ã¨æœ«å°¾ã®NULLã‚¿ãƒ¼ãƒŸãƒãƒ¼ã‚¿å«ã‚€
 
 			if( 0 < cbSize )
 			{
@@ -1215,7 +1215,7 @@ LPTSTR ClipboardDataGet( LPVOID pVoid )
 				StringCchCopy( ptString, (cbSize / 2), ptClipTxt );
 			}
 		}
-		else	//	”ñƒ†ƒjƒR[ƒh‚ª—Dæ‚³‚ê‚Ä‚¢‚éê‡
+		else	//	éžãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãŒå„ªå…ˆã•ã‚Œã¦ã„ã‚‹å ´åˆ
 		{
 			pcClipTp = (LPSTR)GlobalLock( hClipData );
 			cbSize   = GlobalSize( (HGLOBAL)hClipData );
@@ -1225,13 +1225,13 @@ LPTSTR ClipboardDataGet( LPVOID pVoid )
 				pcStr = (LPSTR)malloc( cbSize );
 				StringCchCopyA( pcStr, cbSize, pcClipTp );
 
-				ptString = SjisDecodeAlloc( pcStr );	//	SJIS‚Ì“à—e‚ðƒ†ƒjƒR[ƒh‚É‚·‚é
+				ptString = SjisDecodeAlloc( pcStr );	//	SJISã®å†…å®¹ã‚’ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ã«ã™ã‚‹
 				free( pcStr );
 			}
 		}
 
 
-		//	Žg‚¢I‚í‚Á‚½‚ç•Â‚¶‚Ä‚¨‚­
+		//	ä½¿ã„çµ‚ã‚ã£ãŸã‚‰é–‰ã˜ã¦ãŠã
 		GlobalUnlock( hClipData );
 		CloseClipboard(  );
 	}

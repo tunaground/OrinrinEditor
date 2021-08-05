@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒAƒvƒŠ‘S‘Ì‚Åg‚¤’è”‚â”Ÿ”‚Å‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í OrinrinEditor.h ‚Å‚·B
+	@brief ã‚¢ãƒ—ãƒªå…¨ä½“ã§ä½¿ã†å®šæ•°ã‚„å‡½æ•°ã§ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ OrinrinEditor.h ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/00/00
 */
@@ -27,45 +27,45 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "SplitBar.h"
 //-------------------------------------------------------------------------------------------------
 
-//!	MLT‚Ì‹æØ‚è•¶š—ñ
+//!	MLTã®åŒºåˆ‡ã‚Šæ–‡å­—åˆ—
 #define MLT_SEPARATERW	TEXT("[SPLIT]")
 #define MLT_SEPARATERA	("[SPLIT]")
 #define MLT_SPRT_CCH	7
 
-//!	AST‚Ì‹æØ‚è•¶š—ñ
+//!	ASTã®åŒºåˆ‡ã‚Šæ–‡å­—åˆ—
 #define AST_SEPARATERW	TEXT("[AA]")
 #define AST_SEPARATERA	("[AA]")
 #define AST_SPRT_CCH	4
 
-//!	ƒeƒ“ƒvƒŒ‚ÌƒAƒŒ
+//!	ãƒ†ãƒ³ãƒ—ãƒ¬ã®ã‚¢ãƒ¬
 #define TMPLE_BEGINW	TEXT("[ListName=")
 #define TMPLE_ENDW		TEXT("[end]")
 
-//!	‰üs
+//!	æ”¹è¡Œ
 #define CH_CRLFW	TEXT("\r\n")
 #define CH_CRLFA	("\r\n")
 #define CH_CRLF_CCH	2
 
-//!	EOFƒ}[ƒN
+//!	EOFãƒãƒ¼ã‚¯
 #define EOF_SIZE	5
 CONST  TCHAR	gatEOF[] = TEXT("[EOF]");
 #define EOF_WIDTH	39
 
 
-#define YY2_CRLF	6	//!<	‚x‚xƒJƒLƒR‚Ì‰üsƒoƒCƒg”
-#define STRB_CRLF	4	//!<	‚µ‚½‚ç‚Î”Â‚Ì‰üsƒoƒCƒg”
+#define YY2_CRLF	6	//!<	ï¼¹ï¼¹ã‚«ã‚­ã‚³ã®æ”¹è¡Œãƒã‚¤ãƒˆæ•°
+#define STRB_CRLF	4	//!<	ã—ãŸã‚‰ã°æ¿ã®æ”¹è¡Œãƒã‚¤ãƒˆæ•°
 
-#define PAGE_BYTE_MAX	4096	//!<	‚P•Å‚ÌÅ‘åƒoƒCƒg”E‚½‚¾‚µ”Â‚É‚æ‚é
+#define PAGE_BYTE_MAX	4096	//!<	ï¼‘é ã®æœ€å¤§ãƒã‚¤ãƒˆæ•°ãƒ»ãŸã ã—æ¿ã«ã‚ˆã‚‹
 
-#define MODIFY_MSG	TEXT("[•ÏX]")
+#define MODIFY_MSG	TEXT("[å¤‰æ›´]")
 //-------------------------------------------------------------------------------------------------
 
-//	‚µ‚½‚ç‚Î—pFw’èƒ^ƒO
-#define COLOUR_TAG_WHITE	TEXT("<jbbs fontcolor=\"#ffffff\">")	//!<	‚µ‚½‚ç‚ÎFw’èF”’
-#define COLOUR_TAG_BLUE		TEXT("<jbbs fontcolor=\"#0000ff\">")	//!<	‚µ‚½‚ç‚ÎFw’èF‘“
-#define COLOUR_TAG_BLACK	TEXT("<jbbs fontcolor=\"#000000\">")	//!<	‚µ‚½‚ç‚ÎFw’èF•
-#define COLOUR_TAG_RED		TEXT("<jbbs fontcolor=\"#ff0000\">")	//!<	‚µ‚½‚ç‚ÎFw’èFg
-#define COLOUR_TAG_GREEN	TEXT("<jbbs fontcolor=\"#00ff00\">")	//!<	‚µ‚½‚ç‚ÎFw’èF‰
+//	ã—ãŸã‚‰ã°ç”¨è‰²æŒ‡å®šã‚¿ã‚°
+#define COLOUR_TAG_WHITE	TEXT("<jbbs fontcolor=\"#ffffff\">")	//!<	ã—ãŸã‚‰ã°è‰²æŒ‡å®šï¼šç™½
+#define COLOUR_TAG_BLUE		TEXT("<jbbs fontcolor=\"#0000ff\">")	//!<	ã—ãŸã‚‰ã°è‰²æŒ‡å®šï¼šè’¼
+#define COLOUR_TAG_BLACK	TEXT("<jbbs fontcolor=\"#000000\">")	//!<	ã—ãŸã‚‰ã°è‰²æŒ‡å®šï¼šé»’
+#define COLOUR_TAG_RED		TEXT("<jbbs fontcolor=\"#ff0000\">")	//!<	ã—ãŸã‚‰ã°è‰²æŒ‡å®šï¼šç´…
+#define COLOUR_TAG_GREEN	TEXT("<jbbs fontcolor=\"#00ff00\">")	//!<	ã—ãŸã‚‰ã°è‰²æŒ‡å®šï¼šç¿ 
 
 //-------------------------------------------------------------------------------------------------
 
@@ -77,26 +77,26 @@ CONST  TCHAR	gatEOF[] = TEXT("[EOF]");
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
-//ƒAƒ“ƒhƒD—pCOMMANDO
-#define DO_INSERT	1	//!<	ƒAƒ“ƒhƒD—pCOMMANDO@•¶š“ü—ÍEƒy[ƒXƒg‚Æ‚©
-#define DO_DELETE	2	//!<	ƒAƒ“ƒhƒD—pCOMMANDO@•¶šíœEØ‚èæ‚è‚Æ‚©
+//ã‚¢ãƒ³ãƒ‰ã‚¥ç”¨COMMANDO
+#define DO_INSERT	1	//!<	ã‚¢ãƒ³ãƒ‰ã‚¥ç”¨COMMANDOã€€æ–‡å­—å…¥åŠ›ãƒ»ãƒšãƒ¼ã‚¹ãƒˆã¨ã‹
+#define DO_DELETE	2	//!<	ã‚¢ãƒ³ãƒ‰ã‚¥ç”¨COMMANDOã€€æ–‡å­—å‰Šé™¤ãƒ»åˆ‡ã‚Šå–ã‚Šã¨ã‹
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
 
-#define LINE_HEIGHT	18	//!<	‚`‚`‚Ìˆës‚Ì‚‚³ƒhƒbƒg
+#define LINE_HEIGHT	18	//!<	ï¼¡ï¼¡ã®å£±è¡Œã®é«˜ã•ãƒ‰ãƒƒãƒˆ
 
-#define RULER_AREA	13	//!<	•ÒW‘‹‚Ìƒ‹[ƒ‰[ƒGƒŠƒA‚‚³
+#define RULER_AREA	13	//!<	ç·¨é›†çª“ã®ãƒ«ãƒ¼ãƒ©ãƒ¼ã‚¨ãƒªã‚¢é«˜ã•
 
-#define LINENUM_WID	37	//!<	•ÒW‘‹‚Ìs”Ô†•\¦ƒGƒŠƒA‚Ì•
-#define LINENUM_COLOUR		0xFF8000	//!<	•ÒW‘‹‚Ìs”Ô†•\¦ƒGƒŠƒA‚ÌF
+#define LINENUM_WID	37	//!<	ç·¨é›†çª“ã®è¡Œç•ªå·è¡¨ç¤ºã‚¨ãƒªã‚¢ã®å¹…
+#define LINENUM_COLOUR		0xFF8000	//!<	ç·¨é›†çª“ã®è¡Œç•ªå·è¡¨ç¤ºã‚¨ãƒªã‚¢ã®è‰²
 
 #define RUL_LNNUM_COLOURBK	0xC0C0C0
 //-------------------------------------------------------------------------------------------------
 
-//	ƒXƒy[ƒX‚Ì•
-#define SPACE_HAN	5	//!<	”¼ŠpƒXƒy[ƒX‚Ì•ƒhƒbƒg
-#define SPACE_ZEN	11	//!<	‘SŠpƒXƒy[ƒX‚Ì•ƒhƒbƒg
+//	ã‚¹ãƒšãƒ¼ã‚¹ã®å¹…
+#define SPACE_HAN	5	//!<	åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã®å¹…ãƒ‰ãƒƒãƒˆ
+#define SPACE_ZEN	11	//!<	å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹ã®å¹…ãƒ‰ãƒƒãƒˆ
 //-------------------------------------------------------------------------------------------------
 
 #define CLR_BLACK	0x000000
@@ -118,43 +118,43 @@ CONST  TCHAR	gatEOF[] = TEXT("[EOF]");
 
 //-------------------------------------------------------------------------------------------------
 
-//	•`‰æ•¶š‚ÌƒAƒŒ
-#define CT_NORMAL	0x0000	//!<	•’Ê‚Ì•¶š—ñ
-#define CT_WARNING	0x0001	//!<	˜A‘±”¼Šp‹ó”’‚Ì‚æ‚¤‚ÈŒx
-#define CT_SPACE	0x0002	//!<	‹ó”’
-#define CT_SELECT	0x0004	//!<	‘I‘ğó‘Ô‚Å‚ ‚é
-#define CT_CANTSJIS	0x0008	//!<	ƒVƒtƒgJIS‚É•ÏŠ·‚Å‚«‚È‚¢•¶š
-#define CT_LYR_TRNC	0x0010	//!<	ƒŒƒCƒ„ƒ{ƒbƒNƒX‚Å“§‰ß”ÍˆÍ
-#define CT_FINDED	0x0020	//!<	ŒŸõƒqƒbƒg•¶š—ñ
+//	æç”»æ–‡å­—ã®ã‚¢ãƒ¬
+#define CT_NORMAL	0x0000	//!<	æ™®é€šã®æ–‡å­—åˆ—
+#define CT_WARNING	0x0001	//!<	é€£ç¶šåŠè§’ç©ºç™½ã®ã‚ˆã†ãªè­¦å‘Š
+#define CT_SPACE	0x0002	//!<	ç©ºç™½
+#define CT_SELECT	0x0004	//!<	é¸æŠçŠ¶æ…‹ã§ã‚ã‚‹
+#define CT_CANTSJIS	0x0008	//!<	ã‚·ãƒ•ãƒˆJISã«å¤‰æ›ã§ããªã„æ–‡å­—
+#define CT_LYR_TRNC	0x0010	//!<	ãƒ¬ã‚¤ãƒ¤ãƒœãƒƒã‚¯ã‚¹ã§é€éç¯„å›²
+#define CT_FINDED	0x0020	//!<	æ¤œç´¢ãƒ’ãƒƒãƒˆæ–‡å­—åˆ—
 
-#define CT_SELRTN	0x0100	//!<	s––‰üs‚à‘I‘ğó‘Ô
-#define CT_LASTSP	0x0200	//!<	s––‚ª‹ó”’‚Å‚ ‚é
-#define CT_RETURN	0x0400	//!<	‰üs‚ª•K—v
-#define CT_EOF		0x0800	//!<	––’[‚Å‚ ‚é
-#define CT_FINDRTN	0x1000	//!<	s––‰üs‚ªŒŸõƒqƒbƒg
+#define CT_SELRTN	0x0100	//!<	è¡Œæœ«æ”¹è¡Œã‚‚é¸æŠçŠ¶æ…‹
+#define CT_LASTSP	0x0200	//!<	è¡Œæœ«ãŒç©ºç™½ã§ã‚ã‚‹
+#define CT_RETURN	0x0400	//!<	æ”¹è¡ŒãŒå¿…è¦
+#define CT_EOF		0x0800	//!<	æœ«ç«¯ã§ã‚ã‚‹
+#define CT_FINDRTN	0x1000	//!<	è¡Œæœ«æ”¹è¡ŒãŒæ¤œç´¢ãƒ’ãƒƒãƒˆ
 //-------------------------------------------------------------------------------------------------
 
 
 
 #define OPENHIST_MAX	12
-//!	ŠJ‚¢‚½—š—ğ—pEƒvƒƒtƒ@ƒCƒ‹‚É‚àg‚¤
+//!	é–‹ã„ãŸå±¥æ­´ç”¨ãƒ»ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚‚ä½¿ã†
 typedef struct tagOPENHISTORY
 {
-	TCHAR	atFile[MAX_PATH];	//!<	ƒtƒ@ƒCƒ‹ƒpƒX
-	DWORD	dMenuNumber;		//!<	ƒƒjƒ…[”Ô†‚ÌŠ„“–
+	TCHAR	atFile[MAX_PATH];	//!<	ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	DWORD	dMenuNumber;		//!<	ãƒ¡ãƒ‹ãƒ¥ãƒ¼ç•ªå·ã®å‰²å½“
 
 } OPENHIST, *LPOPENHIST;
 typedef list<OPENHIST>::iterator	OPHIS_ITR;
 //----------------
 
-//!	ˆë•¶š‚Ìî•ñEó‚¯“n‚µ‚É‚àg‚¤
+//!	å£±æ–‡å­—ã®æƒ…å ±ãƒ»å—ã‘æ¸¡ã—ã«ã‚‚ä½¿ã†
 typedef struct tagLETTER
 {
-	TCHAR	cchMozi;	//!<	•¶š
-	INT		rdWidth;	//!<	‚±‚Ì•¶š‚Ì•
-	UINT	mzStyle;	//!<	•¶š‚Ìƒ^ƒCƒvE‹ó”’‚Æ‚©‚»‚¤‚¢‚¤‚Ì
-	CHAR	acSjis[10];	//!<	ƒVƒtƒgJISƒR[ƒhA‚à‚µ‚­‚Íu&#dddd;vŒ`®‚ğ‚¢‚ê‚é
-	INT_PTR	mzByte;		//!<	SJISƒoƒCƒgƒTƒCƒY
+	TCHAR	cchMozi;	//!<	æ–‡å­—
+	INT		rdWidth;	//!<	ã“ã®æ–‡å­—ã®å¹…
+	UINT	mzStyle;	//!<	æ–‡å­—ã®ã‚¿ã‚¤ãƒ—ãƒ»ç©ºç™½ã¨ã‹ãã†ã„ã†ã®
+	CHAR	acSjis[10];	//!<	ã‚·ãƒ•ãƒˆJISã‚³ãƒ¼ãƒ‰ã€ã‚‚ã—ãã¯ã€Œ&#dddd;ã€å½¢å¼ã‚’ã„ã‚Œã‚‹
+	INT_PTR	mzByte;		//!<	SJISãƒã‚¤ãƒˆã‚µã‚¤ã‚º
 
 } LETTER, *LPLETTER;
 typedef vector<LETTER>::iterator	LETR_ITR;
@@ -164,164 +164,164 @@ typedef vector<LETTER>::iterator	LETR_ITR;
 
 #define PARTS_CCH	130
 
-//!	˜gƒp[ƒcƒf[ƒ^	20120105	•¡”s‚ÉŒü‚¯‚Ä’²®
+//!	æ ãƒ‘ãƒ¼ãƒ„ãƒ‡ãƒ¼ã‚¿	20120105	è¤‡æ•°è¡Œã«å‘ã‘ã¦èª¿æ•´
 typedef struct tagFRAMEITEM
 {
-	TCHAR	atParts[PARTS_CCH];	//!<	ƒp[ƒc•¶š—ñE‚Xš‚Ü‚Å
-	INT		dDot;	//!<	‰¡•ƒhƒbƒg”
-	INT		iLine;	//!<	g—ps”
-	INT		iNowLn;	//!<	g—ps”Ô†E”z’u‚Ég‚¤
+	TCHAR	atParts[PARTS_CCH];	//!<	ãƒ‘ãƒ¼ãƒ„æ–‡å­—åˆ—ãƒ»ï¼™å­—ã¾ã§
+	INT		dDot;	//!<	æ¨ªå¹…ãƒ‰ãƒƒãƒˆæ•°
+	INT		iLine;	//!<	ä½¿ç”¨è¡Œæ•°
+	INT		iNowLn;	//!<	ä½¿ç”¨è¡Œç•ªå·ãƒ»é…ç½®æ™‚ã«ä½¿ã†
 
 } FRAMEITEM, *LPFRAMEITEM;
 //----------------
-//!	˜gˆ——p
+//!	æ å‡¦ç†ç”¨
 typedef struct tagFRAMEINFO
 {
-	TCHAR	atFrameName[MAX_STRING];	//!<	–¼‘OE–¢g—p
+	TCHAR	atFrameName[MAX_STRING];	//!<	åå‰ãƒ»æœªä½¿ç”¨
 
-	FRAMEITEM	stDaybreak;	//!<	¶		„ 
-	FRAMEITEM	stMorning;	//!<	¶ã	„¡
-	FRAMEITEM	stNoon;		//!<	ã		„Ÿ
-	FRAMEITEM	stAfternoon;//!<	‰Eã	„¢
-	FRAMEITEM	stNightfall;//!<	‰E		„ 
-	FRAMEITEM	stTwilight;	//!<	‰E‰º	„£
-	FRAMEITEM	stMidnight;	//!<	‰º		„Ÿ
-	FRAMEITEM	stDawn;		//!<	¶‰º	„¤
+	FRAMEITEM	stDaybreak;	//!<	å·¦		â”‚
+	FRAMEITEM	stMorning;	//!<	å·¦ä¸Š	â”Œ
+	FRAMEITEM	stNoon;		//!<	ä¸Š		â”€
+	FRAMEITEM	stAfternoon;//!<	å³ä¸Š	â”
+	FRAMEITEM	stNightfall;//!<	å³		â”‚
+	FRAMEITEM	stTwilight;	//!<	å³ä¸‹	â”˜
+	FRAMEITEM	stMidnight;	//!<	ä¸‹		â”€
+	FRAMEITEM	stDawn;		//!<	å·¦ä¸‹	â””
 
-	INT		dLeftOffset;	//!<	¶•Ç‚Ì”z’uƒIƒtƒZƒbƒgE‚O‚Í¶ã‚Ìn“_
-	INT		dRightOffset;	//!<	‰E•Ç‚Ì”z’uƒIƒtƒZƒbƒgE‚O‚Í‰Eã‚Ìn“_
+	INT		dLeftOffset;	//!<	å·¦å£ã®é…ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆãƒ»ï¼ã¯å·¦ä¸Šã®å§‹ç‚¹
+	INT		dRightOffset;	//!<	å³å£ã®é…ç½®ã‚ªãƒ•ã‚»ãƒƒãƒˆãƒ»ï¼ã¯å³ä¸Šã®å§‹ç‚¹
 
-	UINT	dRestPadd;		//!<	‚ ‚Ü‚è‚ğ–„‚ß‚é‚©‚Ç‚¤‚©E
+	UINT	dRestPadd;		//!<	ã‚ã¾ã‚Šã‚’åŸ‹ã‚ã‚‹ã‹ã©ã†ã‹ãƒ»
 
 } FRAMEINFO, *LPFRAMEINFO;
 //-----------------------------
 
-//!	ƒgƒŒƒXƒ‚[ƒh—pParameter•Û
+//!	ãƒˆãƒ¬ã‚¹ãƒ¢ãƒ¼ãƒ‰ç”¨Parameterä¿æŒ
 typedef struct tagTRACEPARAM
 {
-	POINT	stOffsetPt;	//!<	ˆÊ’u‡‚í‚¹
-	INT		dContrast;	//!<	ƒRƒ“ƒgƒ‰ƒXƒg
-	INT		dGamma;		//!<	ƒKƒ“ƒ}
-	INT		dGrayMoph;	//!<	’WF
-	INT		dZooming;	//!<	Šg‘åk¬
-	INT		dTurning;	//!<	‰ñ“]
+	POINT	stOffsetPt;	//!<	ä½ç½®åˆã‚ã›
+	INT		dContrast;	//!<	ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ
+	INT		dGamma;		//!<	ã‚¬ãƒ³ãƒ
+	INT		dGrayMoph;	//!<	æ·¡è‰²
+	INT		dZooming;	//!<	æ‹¡å¤§ç¸®å°
+	INT		dTurning;	//!<	å›è»¢
 
 	UINT	bUpset;		//!<	
 	UINT	bMirror;	//!<	
 
-	COLORREF	dMoziColour;	//!<	•¶šF‚É‚Â‚¢‚Ä
+	COLORREF	dMoziColour;	//!<	æ–‡å­—è‰²ã«ã¤ã„ã¦
 
 } TRACEPARAM, *LPTRACEPARAM;
 //----------------
 
 
-//!	‘€ìƒƒO–{‘Ì
+//!	æ“ä½œãƒ­ã‚°æœ¬ä½“
 typedef struct tagOPERATELOG
 {
-	UINT	dCommando;	//!<	‘€ìƒ^ƒCƒv
-	UINT	ixSequence;	//!<	‘€ì”Ô†E‚Ó‚è‚«‚Á‚½‚ç‚Ç‚¤‚µ‚æ
-	UINT	ixGroup;	//!<	‘€ìƒOƒ‹[ƒvE‚P‰ñ‚Ìˆ—E‚PƒCƒ“ƒfƒbƒNƒX
+	UINT	dCommando;	//!<	æ“ä½œã‚¿ã‚¤ãƒ—
+	UINT	ixSequence;	//!<	æ“ä½œç•ªå·ãƒ»ãµã‚Šãã£ãŸã‚‰ã©ã†ã—ã‚ˆ
+	UINT	ixGroup;	//!<	æ“ä½œã‚°ãƒ«ãƒ¼ãƒ—ãƒ»ï¼‘å›ã®å‡¦ç†ãƒ»ï¼‘ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
-	INT		rdXdot;		//!<	‘€ì‚Ì‚ ‚Á‚½ƒhƒbƒgE•¶šˆÊ’u‚Æ‚Ç‚Á‚¿‚ª—Ç‚¢H
-//	INT		rdXmozi;	//!<	‘€ì‚Ì‚ ‚Á‚½ƒhƒLƒ…ƒƒ“ƒg•¶šˆÊ’u
-	INT		rdYline;	//!<	‘€ì‚Ì‚ ‚Á‚½ƒhƒLƒ…ƒƒ“ƒgs
+	INT		rdXdot;		//!<	æ“ä½œã®ã‚ã£ãŸãƒ‰ãƒƒãƒˆãƒ»æ–‡å­—ä½ç½®ã¨ã©ã£ã¡ãŒè‰¯ã„ï¼Ÿ
+//	INT		rdXmozi;	//!<	æ“ä½œã®ã‚ã£ãŸãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆæ–‡å­—ä½ç½®
+	INT		rdYline;	//!<	æ“ä½œã®ã‚ã£ãŸãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆè¡Œ
 
-	LPTSTR	ptText;		//!<	‘€ì‚³‚ê‚½•¶š—ñ
-	UINT	cchSize;	//!<	•¶š—ñ‚Ì•¶š”
+	LPTSTR	ptText;		//!<	æ“ä½œã•ã‚ŒãŸæ–‡å­—åˆ—
+	UINT	cchSize;	//!<	æ–‡å­—åˆ—ã®æ–‡å­—æ•°
 
 } OPERATELOG, *LPOPERATELOG;
 typedef vector<OPERATELOG>::iterator	OPSQ_ITR;
 //-----------------------------
 
-//!	ƒAƒ“ƒhƒDƒoƒbƒtƒ@
+//!	ã‚¢ãƒ³ãƒ‰ã‚¥ãƒãƒƒãƒ•ã‚¡
 typedef struct tagUNDOBUFF
 {
-	UINT_PTR	dNowSqn;	//!<	QÍ’†‚Ì‘€ìˆÊ’uH
-	UINT		dTopSqn;	//!<	ÅV‚Ì‘€ì”Ô†‚PƒCƒ“ƒfƒbƒNƒXE’Ç‰Á‚ÍƒCƒ“ƒNƒŠ‚µ‚Ä‚©‚ç
-	UINT		dGrpSqn;	//!<	‘€ìƒOƒ‹[ƒvE‚PƒCƒ“ƒfƒbƒNƒX
+	UINT_PTR	dNowSqn;	//!<	å‚ç« ä¸­ã®æ“ä½œä½ç½®ï¼Ÿ
+	UINT		dTopSqn;	//!<	æœ€æ–°ã®æ“ä½œç•ªå·ï¼‘ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ»è¿½åŠ ã¯ã‚¤ãƒ³ã‚¯ãƒªã—ã¦ã‹ã‚‰
+	UINT		dGrpSqn;	//!<	æ“ä½œã‚°ãƒ«ãƒ¼ãƒ—ãƒ»ï¼‘ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
-	vector<OPERATELOG>	vcOpeSqn;	//!<	‘€ìƒƒO–{‘Ì
+	vector<OPERATELOG>	vcOpeSqn;	//!<	æ“ä½œãƒ­ã‚°æœ¬ä½“
 
 } UNDOBUFF, *LPUNDOBUFF;
 //-----------------------------
 
-//ˆë•¶š‚Ìî•ñ\‘¢‘ÌéŒ¾‚ğª‚ÉˆÚ“®
+//å£±æ–‡å­—ã®æƒ…å ±æ§‹é€ ä½“å®£è¨€ã‚’â†‘ã«ç§»å‹•
 
-//!	ˆës‚ÌŠÇ—
+//!	å£±è¡Œã®ç®¡ç†
 typedef struct tagONELINE
 {
-	INT		iDotCnt;		//!<	ƒhƒbƒg”
-	INT		iByteSz;		//!<	ƒoƒCƒg”
-	UINT	dStyle;			//!<	‚±‚Ìs‚Ì“Áêó‘Ô
-	BOOLEAN	bBadSpace;		//!<	Œx•t‚«‹ó”’‚ª‚ ‚é‚©
+	INT		iDotCnt;		//!<	ãƒ‰ãƒƒãƒˆæ•°
+	INT		iByteSz;		//!<	ãƒã‚¤ãƒˆæ•°
+	UINT	dStyle;			//!<	ã“ã®è¡Œã®ç‰¹æ®ŠçŠ¶æ…‹
+	BOOLEAN	bBadSpace;		//!<	è­¦å‘Šä»˜ãç©ºç™½ãŒã‚ã‚‹ã‹
 
-	vector<LETTER>	vcLine;	//!<	‚±‚Ìs‚Ì“à—eE‰üs‚ÍŠÜ‚Ü‚È‚¢
+	vector<LETTER>	vcLine;	//!<	ã“ã®è¡Œã®å†…å®¹ãƒ»æ”¹è¡Œã¯å«ã¾ãªã„
 
-	//	ƒŒƒCƒ„ƒ{ƒbƒNƒX—p
-	INT		dFrtSpDot;		//!<	‘O‚Ì‹ó”’ƒhƒbƒg
-	INT		dFrtSpMozi;		//!<	‘O‚Ì‹ó”’•¶š”
+	//	ãƒ¬ã‚¤ãƒ¤ãƒœãƒƒã‚¯ã‚¹ç”¨
+	INT		dFrtSpDot;		//!<	å‰ã®ç©ºç™½ãƒ‰ãƒƒãƒˆ
+	INT		dFrtSpMozi;		//!<	å‰ã®ç©ºç™½æ–‡å­—æ•°
 
 } ONELINE, *LPONELINE;
 typedef list<ONELINE>::iterator		LINE_ITR;
 //-----------------------------
 
-//!	SPLITƒy[ƒWˆë•ª
+//!	SPLITãƒšãƒ¼ã‚¸å£±åˆ†
 typedef struct tagONEPAGE
 {
 	TCHAR	atPageName[SUB_STRING];	//!<	
 
-	INT		dByteSz;		//!<	ƒoƒCƒg”
+	INT		dByteSz;		//!<	ãƒã‚¤ãƒˆæ•°
 
-	//	‘I‘ğó‘Ô‚É‚Â‚¢‚Ä
-	INT		dSelLineTop;	//!<	ˆê”Ôã‚Ì‘I‘ğ‚ª‚ ‚és
-	INT		dSelLineBottom;	//!<	ˆê”Ô‰º‚Ì‘I‘ğ‚ª‚ ‚és
-	UNDOBUFF	stUndoLog;	//!<	‘€ì—š—ğEƒAƒ“ƒhƒD‚Ég‚¤
+	//	é¸æŠçŠ¶æ…‹ã«ã¤ã„ã¦
+	INT		dSelLineTop;	//!<	ä¸€ç•ªä¸Šã®é¸æŠãŒã‚ã‚‹è¡Œ
+	INT		dSelLineBottom;	//!<	ä¸€ç•ªä¸‹ã®é¸æŠãŒã‚ã‚‹è¡Œ
+	UNDOBUFF	stUndoLog;	//!<	æ“ä½œå±¥æ­´ãƒ»ã‚¢ãƒ³ãƒ‰ã‚¥ã«ä½¿ã†
 
-	list<ONELINE>	ltPage;	//!<	s‘S‘Ì
+	list<ONELINE>	ltPage;	//!<	è¡Œå…¨ä½“
 
-	LPTSTR	ptRawData;		//!<	•Å‚Ì¶ƒf[ƒ^
-	INT		iLineCnt;		//!<	s”E¶ƒf[ƒ^—p
-	INT		iMoziCnt;		//!<	•¶š”E¶ƒf[ƒ^—p
+	LPTSTR	ptRawData;		//!<	é ã®ç”Ÿãƒ‡ãƒ¼ã‚¿
+	INT		iLineCnt;		//!<	è¡Œæ•°ãƒ»ç”Ÿãƒ‡ãƒ¼ã‚¿ç”¨
+	INT		iMoziCnt;		//!<	æ–‡å­—æ•°ãƒ»ç”Ÿãƒ‡ãƒ¼ã‚¿ç”¨
 
 } ONEPAGE, *LPONEPAGE;
 typedef vector<ONEPAGE>::iterator	PAGE_ITR;
 //-----------------------------
 
-//!	ˆê‚Â‚Ìƒtƒ@ƒCƒ‹•Û
+//!	ä¸€ã¤ã®ãƒ•ã‚¡ã‚¤ãƒ«ä¿æŒ
 typedef struct tagONEFILE
 {
-	TCHAR	atFileName[MAX_PATH];	//!<	ƒtƒ@ƒCƒ‹–¼
-	//	•Å”‚Íƒ”ƒFƒNƒ^ƒ‹‚ğƒJƒEƒ“ƒc‚·‚ê‚Î‚n‚jH
-	UINT	dModify;		//!<	•ÏX‚µ‚½‚©‚Ç‚¤‚©
+	TCHAR	atFileName[MAX_PATH];	//!<	ãƒ•ã‚¡ã‚¤ãƒ«å
+	//	é æ•°ã¯ãƒ´ã‚§ã‚¯ã‚¿ãƒ«ã‚’ã‚«ã‚¦ãƒ³ãƒ„ã™ã‚Œã°ï¼¯ï¼«ï¼Ÿ
+	UINT	dModify;		//!<	å¤‰æ›´ã—ãŸã‹ã©ã†ã‹
 
-	LPARAM	dUnique;		//!<	’Ê‚µ”Ô†E‚PƒCƒ“ƒfƒbƒNƒX
-	TCHAR	atDummyName[MAX_PATH];	//!<	ƒtƒ@ƒCƒ‹–¼‚È‚¢‚Æ‚«‚Ì‰¼–¼Ì
+	LPARAM	dUnique;		//!<	é€šã—ç•ªå·ãƒ»ï¼‘ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	TCHAR	atDummyName[MAX_PATH];	//!<	ãƒ•ã‚¡ã‚¤ãƒ«åãªã„ã¨ãã®ä»®åç§°
 
-	INT		dNowPage;		//!<	Œ©‚Ä‚é•Å
+	INT		dNowPage;		//!<	è¦‹ã¦ã‚‹é 
 
-	POINT	stCaret;		//!<	CaretˆÊ’uEƒhƒbƒgAs”
+	POINT	stCaret;		//!<	Caretä½ç½®ãƒ»ãƒ‰ãƒƒãƒˆã€è¡Œæ•°
 
-	vector<ONEPAGE>	vcCont;	//!<	ƒy[ƒW‚ğ•Û‚·‚é
+	vector<ONEPAGE>	vcCont;	//!<	ãƒšãƒ¼ã‚¸ã‚’ä¿æŒã™ã‚‹
 
 } ONEFILE, *LPONEFILE;
 
 typedef list<ONEFILE>::iterator	FILES_ITR;
 //-----------------------------
 
-//	•¡”ƒtƒ@ƒCƒ‹ˆµ‚¤‚È‚çA‚³‚ç‚ÉƒRƒŒ‚ğ•ïŠÜ‚·‚ê‚Î‚¢‚¢H
+//	è¤‡æ•°ãƒ•ã‚¡ã‚¤ãƒ«æ‰±ã†ãªã‚‰ã€ã•ã‚‰ã«ã‚³ãƒ¬ã‚’åŒ…å«ã™ã‚Œã°ã„ã„ï¼Ÿ
 
-//!	ˆësEƒuƒ‰ƒVƒeƒ“ƒvƒŒ—pEƒJƒeƒSƒŠ–¼•Û‚ÌƒAƒŒ
+//!	å£±è¡Œãƒ»ãƒ–ãƒ©ã‚·ãƒ†ãƒ³ãƒ—ãƒ¬ç”¨ãƒ»ã‚«ãƒ†ã‚´ãƒªåä¿æŒã®ã‚¢ãƒ¬
 typedef struct tagAATEMPLATE
 {
-	TCHAR	atCtgryName[SUB_STRING];	//!<	ƒZƒbƒg‚Ì–¼‘O
+	TCHAR	atCtgryName[SUB_STRING];	//!<	ã‚»ãƒƒãƒˆã®åå‰
 
-	vector<wstring>	vcItems;	//!<	ƒeƒ“ƒvƒŒ•¶š—ñ–{‘Ì
+	vector<wstring>	vcItems;	//!<	ãƒ†ãƒ³ãƒ—ãƒ¬æ–‡å­—åˆ—æœ¬ä½“
 
 } AATEMPLATE, *LPAATEMPLATE;
 typedef vector<AATEMPLATE>::iterator	TEMPL_ITR;	
 //-----------------------------
 
-//!	ƒŠƒo[‚ÌˆÊ’uŠm’è—p
+//!	ãƒªãƒãƒ¼ã®ä½ç½®ç¢ºå®šç”¨
 typedef struct tagREBARLAYOUTINFO
 {
 	UINT	wID;
@@ -332,14 +332,14 @@ typedef struct tagREBARLAYOUTINFO
 //-----------------------------
 
 
-//!	•Åî•ñŠm•Û—p
+//!	é æƒ…å ±ç¢ºä¿ç”¨
 typedef struct tagPAGEINFOS
 {
-	UINT	dMasqus;	//!<	•K—v‚Èî•ñ‚ÌƒAƒŒ
+	UINT	dMasqus;	//!<	å¿…è¦ãªæƒ…å ±ã®ã‚¢ãƒ¬
 
-	INT_PTR	iLines;	//!<	s”
-	INT_PTR	iBytes;	//!<	g—pƒoƒCƒg”
-	INT_PTR	iMozis;	//!<	g—p•¶š”
+	INT_PTR	iLines;	//!<	è¡Œæ•°
+	INT_PTR	iBytes;	//!<	ä½¿ç”¨ãƒã‚¤ãƒˆæ•°
+	INT_PTR	iMozis;	//!<	ä½¿ç”¨æ–‡å­—æ•°
 
 	TCHAR	atPageName[SUB_STRING];	//!<	
 
@@ -353,29 +353,29 @@ typedef struct tagPAGEINFOS
 
 //-------------------------------------------------------------------------------------------------
 
-typedef UINT (CALLBACK* PAGELOAD)(LPTSTR, LPCTSTR, INT);	//!<	•Åƒ[ƒh—pƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌŒ^éŒ¾
+typedef UINT (CALLBACK* PAGELOAD)(LPTSTR, LPCTSTR, INT);	//!<	é ãƒ­ãƒ¼ãƒ‰ç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®å‹å®£è¨€
 
 #endif	//	NOT _ORRVW
 
 
-//	MaaCatalogue.cpp‚©‚çˆÚ“®
-//!	MLT‚Ì•Û
+//	MaaCatalogue.cppã‹ã‚‰ç§»å‹•
+//!	MLTã®ä¿æŒ
 typedef struct tagAAMATRIX
 {
-	CHAR	acAstName[MAX_STRING];	//!<	AST‚Ìê‡A•Å–¼Ì‚ğ‚Á‚Ä‚¨‚­
+	CHAR	acAstName[MAX_STRING];	//!<	ASTã®å ´åˆã€é åç§°ã‚’æŒã£ã¦ãŠã
 
-	UINT	ixNum;	//!<	’Ê‚µ”Ô†‚OƒCƒ“ƒfƒbƒNƒX
-	DWORD	cbItem;	//!<	AA‚Ì•¶šƒoƒCƒg”E
+	UINT	ixNum;	//!<	é€šã—ç•ªå·ï¼ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	DWORD	cbItem;	//!<	AAã®æ–‡å­—ãƒã‚¤ãƒˆæ•°ãƒ»
 
-	LPSTR	pcItem;	//!<	“Ç‚İ‚ñ‚¾AA‚ğ•Û‚µ‚Ä‚¨‚­ƒ|ƒCƒ“ƒ^ESJISŒ`®‚Ì‚Ü‚Ü‚Å‚¢‚¢‚©H
+	LPSTR	pcItem;	//!<	èª­ã¿è¾¼ã‚“ã AAã‚’ä¿æŒã—ã¦ãŠããƒã‚¤ãƒ³ã‚¿ãƒ»SJISå½¢å¼ã®ã¾ã¾ã§ã„ã„ã‹ï¼Ÿ
 
 	INT		iByteSize;	//!<	
-	//	ƒTƒ€ƒl—p
-	INT		iMaxDot;	//!<	‰¡•Å‘åƒhƒbƒg”
-	INT		iLines;		//!<	g—ps”
+	//	ã‚µãƒ ãƒç”¨
+	INT		iMaxDot;	//!<	æ¨ªå¹…æœ€å¤§ãƒ‰ãƒƒãƒˆæ•°
+	INT		iLines;		//!<	ä½¿ç”¨è¡Œæ•°
 
-	SIZE	stSize;		//!<	ƒsƒNƒZƒ‹ƒTƒCƒY
-	HBITMAP	hThumbBmp;	//!<	ƒTƒ€ƒlƒCƒ‹—pƒrƒbƒgƒ}ƒbƒvƒnƒ“ƒhƒ‹
+	SIZE	stSize;		//!<	ãƒ”ã‚¯ã‚»ãƒ«ã‚µã‚¤ã‚º
+	HBITMAP	hThumbBmp;	//!<	ã‚µãƒ ãƒã‚¤ãƒ«ç”¨ãƒ“ãƒƒãƒˆãƒãƒƒãƒ—ãƒãƒ³ãƒ‰ãƒ«
 
 } AAMATRIX, *LPAAMATRIX;
 typedef vector<AAMATRIX>::iterator	MAAM_ITR;	
@@ -384,15 +384,15 @@ typedef vector<AAMATRIX>::iterator	MAAM_ITR;
 
 #ifdef USE_HOVERTIP
 
-//!	HoverTip—p‚Ì•\¦“à—eŠm•ÛE“à—e‚Í‘‚â‚·‚©‚à
+//!	HoverTipç”¨ã®è¡¨ç¤ºå†…å®¹ç¢ºä¿ãƒ»å†…å®¹ã¯å¢—ã‚„ã™ã‹ã‚‚
 //typedef struct tagHOVERTIPINFO
 //{
-//	LPTSTR	ptInfo;	//	•¶š—ñ“à—e‚ğ¦‚·ƒ|ƒCƒ“ƒ^
+//	LPTSTR	ptInfo;	//	æ–‡å­—åˆ—å†…å®¹ã‚’ç¤ºã™ãƒã‚¤ãƒ³ã‚¿
 //
 //} HOVERTIPINFO, *LPHOVERTIPINFO;
 
-//!	HoverTip—pƒR[ƒ‹ƒoƒbƒN”Ÿ”
-typedef LPTSTR (CALLBACK* HOVERTIPDISP)( LPVOID );	//!<	HoverTipƒR[ƒ‹ƒoƒbƒNŠÖ”‚ÌŒ^éŒ¾
+//!	HoverTipç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯å‡½æ•°
+typedef LPTSTR (CALLBACK* HOVERTIPDISP)( LPVOID );	//!<	HoverTipã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®å‹å®£è¨€
 
 
 HRESULT	HoverTipInitialise( HINSTANCE, HWND );	//!<	
@@ -406,7 +406,7 @@ LRESULT	HoverTipOnMouseLeave( HWND );	//!<
 //-------------------------------------------------------------------------------------------------
 
 
-//	‚±‚ÌƒR[ƒh ƒ‚ƒWƒ…[ƒ‹‚ÉŠÜ‚Ü‚ê‚éŠÖ”‚ÌéŒ¾
+//	ã“ã®ã‚³ãƒ¼ãƒ‰ ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã«å«ã¾ã‚Œã‚‹é–¢æ•°ã®å®£è¨€
 INT_PTR		CALLBACK About( HWND, UINT, WPARAM, LPARAM );	//!<	
 
 INT_PTR		MessageBoxCheckBox( HWND, HINSTANCE, UINT );	//!<	
@@ -530,10 +530,10 @@ LPTSTR		ExePathGet( VOID  );		//!<
 HRESULT		UniDlgInitialise( HWND , UINT );	//!<	
 HRESULT		UniDialogueEntry( HINSTANCE, HWND );		//!<	
 
-HRESULT		FrameInitialise( LPTSTR, HINSTANCE );		//!<	˜gİ’è‚ÌINIƒtƒ@ƒCƒ‹–¼Šm•ÛEƒAƒvƒŠ‹N“®Œã‚·‚®ŒÄ‚Î‚ê‚é
+HRESULT		FrameInitialise( LPTSTR, HINSTANCE );		//!<	æ è¨­å®šã®INIãƒ•ã‚¡ã‚¤ãƒ«åç¢ºä¿ãƒ»ã‚¢ãƒ—ãƒªèµ·å‹•å¾Œã™ãå‘¼ã°ã‚Œã‚‹
 HRESULT		FrameNameModifyPopUp( HMENU, UINT );		//!<	
 INT_PTR		FrameEditDialogue( HINSTANCE, HWND, UINT );	//!<	
-HRESULT		FrameNameLoad( UINT, LPTSTR, UINT_PTR );	//!<	w’è‚³‚ê‚½˜g‚Ì–¼‘O‚ğ•Ô‚·
+HRESULT		FrameNameLoad( UINT, LPTSTR, UINT_PTR );	//!<	æŒ‡å®šã•ã‚ŒãŸæ ã®åå‰ã‚’è¿”ã™
 
 HWND		FrameInsBoxCreate( HINSTANCE, HWND );	//!<	
 HRESULT		FrameMoveFromView( HWND, UINT );		//!<	
@@ -585,7 +585,7 @@ COLORREF	ViewBackColourGet( LPVOID );	//!<
 
 HRESULT		ViewCaretCreate( HWND, COLORREF, COLORREF );	//!<	
 HRESULT		ViewCaretDelete( VOID );		//!<	
-BOOLEAN		ViewDrawCaret( INT, INT , BOOLEAN );	//!<	–{“–‚Íƒhƒ[‚¶‚á‚È‚­‚Äƒ|ƒWƒVƒ‡ƒ“ƒ`ƒFƒ“ƒW‚¾‚¯
+BOOLEAN		ViewDrawCaret( INT, INT , BOOLEAN );	//!<	æœ¬å½“ã¯ãƒ‰ãƒ­ãƒ¼ã˜ã‚ƒãªãã¦ãƒã‚¸ã‚·ãƒ§ãƒ³ãƒã‚§ãƒ³ã‚¸ã ã‘
 BOOLEAN		ViewPosResetCaret( INT, INT );	//!<	
 HRESULT		ViewCaretReColour( COLORREF );	//!<	
 
@@ -648,7 +648,7 @@ HRESULT		LineTmplePositionReset( HWND  );		//!<
 VOID		DockingTabSizeGet( LPRECT );	//!<	
 HRESULT		DockingTabContextMenu( HWND, HWND, LONG, LONG );	//!<	
 HWND		DockingTabGet( VOID );			//!<	
-HRESULT		DockingTmplViewToggle( UINT );	//!<	”Ÿ”‚ÌêŠˆá‚¤‚©‚ç’ˆÓ
+HRESULT		DockingTmplViewToggle( UINT );	//!<	å‡½æ•°ã®å ´æ‰€é•ã†ã‹ã‚‰æ³¨æ„
 
 HWND		BrushTmpleInitialise( HINSTANCE, HWND, LPRECT, HWND );	//!<	
 LPTSTR		BrushStringMake( INT , LPTSTR );	//!<	
@@ -657,9 +657,9 @@ HRESULT		BrushTmplePositionReset( HWND );	//!<
 
 INT			UserDefInitialise( HWND, UINT );	//!<	
 HRESULT		UserDefItemInsert( HWND, UINT );	//!<	
-HRESULT		UserDefMenuWrite( HMENU, UINT );	//!<	ƒ†[ƒU’è‹`ƒƒjƒ…[‚Ì’†g‚ğ‚­‚Á‚Â‚¯‚é
-HRESULT		UserDefItemNameget( UINT, LPTSTR, UINT_PTR );	//!<	ƒAƒCƒeƒ€‚Ì–¼‘O‚ğˆø‚Á’£‚é
-HRESULT		UserDefSetString( vector<ONELINE> *, LPCTSTR, UINT );	//!<	•Û\‘¢‘Ì‚É•¶š—ñ‚ğ‹L˜^‚·‚é
+HRESULT		UserDefMenuWrite( HMENU, UINT );	//!<	ãƒ¦ãƒ¼ã‚¶å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ä¸­èº«ã‚’ãã£ã¤ã‘ã‚‹
+HRESULT		UserDefItemNameget( UINT, LPTSTR, UINT_PTR );	//!<	ã‚¢ã‚¤ãƒ†ãƒ ã®åå‰ã‚’å¼•ã£å¼µã‚‹
+HRESULT		UserDefSetString( vector<ONELINE> *, LPCTSTR, UINT );	//!<	ä¿æŒæ§‹é€ ä½“ã«æ–‡å­—åˆ—ã‚’è¨˜éŒ²ã™ã‚‹
 
 HRESULT		FrameNameModifyMenu( HWND );	//!<	
 
@@ -710,7 +710,7 @@ INT			DocPageCreate( INT );	//!<
 HRESULT		DocPageDelete( INT, INT );	//!<	
 HRESULT		DocPageChange( INT );	//!<	
 
-UINT		DocDelayPageLoad( FILES_ITR , INT );	//!<	ƒfƒBƒŒƒC•Å‚Ìƒ[ƒh
+UINT		DocDelayPageLoad( FILES_ITR , INT );	//!<	ãƒ‡ã‚£ãƒ¬ã‚¤é ã®ãƒ­ãƒ¼ãƒ‰
 
 HRESULT		DocModifyContent( UINT );	//!<	
 
@@ -889,7 +889,7 @@ LPTSTR		NextLineW( LPTSTR );	//!<
 LPSTR		NextLineA( LPSTR  );	//!<	
 
 
-//Viewer‚à—L‚è
+//Viewerã‚‚æœ‰ã‚Š
 HRESULT	DraughtInitialise( HINSTANCE, HWND );	//!<	
 HWND	DraughtWindowCreate( HINSTANCE, HWND, UINT );	//!<	
 

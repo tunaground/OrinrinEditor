@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒc[ƒ‹ƒo[‚ðì‚è‚Ü‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í ToolBar.cpp ‚Å‚·B
+	@brief ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ä½œã‚Šã¾ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ ToolBar.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/09/11
 */
@@ -23,13 +23,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 //-------------------------------------------------------------------------------------------------
 
-static  HWND	ghRebarWnd;			//!<	ƒŠƒo[
+static  HWND	ghRebarWnd;			//!<	ãƒªãƒãƒ¼
 
-static  HWND	ghMainTBWnd;		//!<	ƒƒCƒ“ƒc[ƒ‹ƒo[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static  HWND	ghEditTBWnd;		//!<	•ÒWƒc[ƒ‹ƒo[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static  HWND	ghInsertTBWnd;		//!<	‘}“üƒc[ƒ‹ƒo[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static  HWND	ghLayoutTBWnd;		//!<	®Œ`ƒc[ƒ‹ƒo[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static  HWND	ghViewTBWnd;		//!<	•\Ž¦ƒc[ƒ‹ƒo[‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
+static  HWND	ghMainTBWnd;		//!<	ãƒ¡ã‚¤ãƒ³ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static  HWND	ghEditTBWnd;		//!<	ç·¨é›†ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static  HWND	ghInsertTBWnd;		//!<	æŒ¿å…¥ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static  HWND	ghLayoutTBWnd;		//!<	æ•´å½¢ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static  HWND	ghViewTBWnd;		//!<	è¡¨ç¤ºãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 
 static HIMAGELIST	ghMainImgLst;	//!<	
 static HIMAGELIST	ghEditImgLst;	//!<	
@@ -39,7 +39,7 @@ static HIMAGELIST	ghViewImgLst;	//!<
 
 static WNDPROC	gpfOrigTBProc;		//!<	
 
-extern HMENU	ghHistyMenu;		//	—š—ð•\Ž¦‚·‚é•”•ªE“®“I‚É“à—eì¬‚¹‚È‚¢‚©‚ñ
+extern HMENU	ghHistyMenu;		//	å±¥æ­´è¡¨ç¤ºã™ã‚‹éƒ¨åˆ†ãƒ»å‹•çš„ã«å†…å®¹ä½œæˆã›ãªã„ã‹ã‚“
 //-------------------------------------------------------------------------------------------------
 
 static LRESULT	CALLBACK gpfToolbarProc( HWND, UINT, WPARAM, LPARAM );
@@ -47,7 +47,7 @@ static LRESULT	CALLBACK gpfToolbarProc( HWND, UINT, WPARAM, LPARAM );
 
 #define TBT_STRING	32
 
-//	ƒtƒ@ƒCƒ‹
+//	ãƒ•ã‚¡ã‚¤ãƒ«
 #define TB_MAIN_ITEMS	5
 static  TBBUTTON	gstMainTBInfo[] = {
 	{  0,	IDM_NEWFILE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,						{0, 0}, 0, 0  },	//	
@@ -55,53 +55,53 @@ static  TBBUTTON	gstMainTBInfo[] = {
 	{  2,	IDM_OVERWRITESAVE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,						{0, 0}, 0, 0  },	//	
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,							{0, 0}, 0, 0  },
 	{  3,	IDM_GENERAL_OPTION,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,						{0, 0}, 0, 0  } 	//	
-};	//	“à—e•ÏX‚µ‚½‚çAƒc[ƒ‹ƒo[•¶Žš—ñ‚ÌÝ’è‚Æ‚©‚à•ÏXƒZƒˆ
+};	//	å†…å®¹å¤‰æ›´ã—ãŸã‚‰ã€ãƒ„ãƒ¼ãƒ«ãƒãƒ¼æ–‡å­—åˆ—ã®è¨­å®šã¨ã‹ã‚‚å¤‰æ›´ã‚»ãƒ¨
 
 static CONST TCHAR	gatMainTBtext[TB_MAIN_ITEMS][TBT_STRING] = { 
-	{ TEXT("V‹Kì¬") },	{ TEXT("ƒtƒ@ƒCƒ‹ŠJ‚­") },	{ TEXT("ã‘‚«•Û‘¶") },	{ TEXT("") },
-	{ TEXT("ˆê”ÊÝ’è") }
+	{ TEXT("æ–°è¦ä½œæˆ") },	{ TEXT("ãƒ•ã‚¡ã‚¤ãƒ«é–‹ã") },	{ TEXT("ä¸Šæ›¸ãä¿å­˜") },	{ TEXT("") },
+	{ TEXT("ä¸€èˆ¬è¨­å®š") }
 };
 
 
-//	•ÒW
+//	ç·¨é›†
 #define TB_EDIT_ITEMS	21
 static  TBBUTTON	gstEditTBInfo[] = {
-	{  0,	IDM_UNDO,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ƒAƒ“ƒhƒD
-	{  1,	IDM_REDO,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ƒŠƒhƒD
+	{  0,	IDM_UNDO,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ã‚¢ãƒ³ãƒ‰ã‚¥
+	{  1,	IDM_REDO,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ãƒªãƒ‰ã‚¥
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{  2,	IDM_CUT,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	Ø‚èŽæ‚è
-	{  3,	IDM_COPY,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ƒRƒs[
-	{  4,	IDM_PASTE,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	“\•t
-	{  5,	IDM_DELETE,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	íœ
+	{  2,	IDM_CUT,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	åˆ‡ã‚Šå–ã‚Š
+	{  3,	IDM_COPY,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ã‚³ãƒ”ãƒ¼
+	{  4,	IDM_PASTE,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	è²¼ä»˜
+	{  5,	IDM_DELETE,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	å‰Šé™¤
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{  6,	IDM_SJISCOPY,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	‚r‚i‚h‚rƒRƒs[
-	{  7,	IDM_SJISCOPY_ALL,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	•Å‘S‘ÌSJISƒRƒs[
+	{  6,	IDM_SJISCOPY,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ï¼³ï¼ªï¼©ï¼³ã‚³ãƒ”ãƒ¼
+	{  7,	IDM_SJISCOPY_ALL,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	é å…¨ä½“SJISã‚³ãƒ”ãƒ¼
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{  8,	IDM_ALLSEL,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	‘S‘I‘ð
-	{  9,	IDM_SQSELECT,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	‹éŒ`‘I‘ð
+	{  8,	IDM_ALLSEL,			TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	å…¨é¸æŠž
+	{  9,	IDM_SQSELECT,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	çŸ©å½¢é¸æŠž
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{ 10,	IDM_LAYERBOX,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ƒŒƒCƒ„ƒ{ƒbƒNƒX‹N“®
+	{ 10,	IDM_LAYERBOX,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ãƒ¬ã‚¤ãƒ¤ãƒœãƒƒã‚¯ã‚¹èµ·å‹•
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{ 11,	IDM_PAGEL_DIVIDE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ƒy[ƒW•ªŠ„
+	{ 11,	IDM_PAGEL_DIVIDE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,					{0, 0}, 0, 0  },	//	ãƒšãƒ¼ã‚¸åˆ†å‰²
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{ 12,	IDM_EXTRACTION_MODE,TBSTATE_ENABLED,	TBSTYLE_CHECK | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	’Šoƒ‚[ƒh
+	{ 12,	IDM_EXTRACTION_MODE,TBSTATE_ENABLED,	TBSTYLE_CHECK | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	æŠ½å‡ºãƒ¢ãƒ¼ãƒ‰
 	{  0,	0,					TBSTATE_ENABLED,	TBSTYLE_SEP,						{0, 0}, 0, 0  },
-	{ 13,	IDM_UNICODE_TOGGLE,	TBSTATE_ENABLED,	TBSTYLE_CHECK | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ƒ†ƒjƒR[ƒhŽg—pON/OFF
+	{ 13,	IDM_UNICODE_TOGGLE,	TBSTATE_ENABLED,	TBSTYLE_CHECK | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ä½¿ç”¨ON/OFF
 };
 
 static CONST TCHAR	gatEditTBtext[TB_EDIT_ITEMS][TBT_STRING] = { 
-	{ TEXT("Œ³‚É–ß‚·") },	{ TEXT("‚â‚è’¼‚µ") },	{ TEXT("") },
-	{ TEXT("Ø‚èŽæ‚è") },	{ TEXT("ƒRƒs[") },	{ TEXT("“\•t") },	{ TEXT("íœ") },	{ TEXT("") },
-	{ TEXT("SJISƒRƒs[") },	{ TEXT("‘S‘Ì‚ðSJISƒRƒs[") },	{ TEXT("") },
-	{ TEXT("‘S‘I‘ð") },	{ TEXT("‹éŒ`‘I‘ð") },	{ TEXT("") },
-	{ TEXT("ƒŒƒCƒ„ƒ{ƒbƒNƒX") },	{ TEXT("") },
-	{ TEXT("ŽŸ‚ÌsˆÈ~‚ðV•Å‚É•ªŠ„") },	{ TEXT("") },
-	{ TEXT("•”•ª’Šoƒ‚[ƒh") },	{ TEXT("") },
-	{ TEXT("ƒ†ƒjƒR[ƒh‹ó”’‚ðŽg‚¤") }
+	{ TEXT("å…ƒã«æˆ»ã™") },	{ TEXT("ã‚„ã‚Šç›´ã—") },	{ TEXT("") },
+	{ TEXT("åˆ‡ã‚Šå–ã‚Š") },	{ TEXT("ã‚³ãƒ”ãƒ¼") },	{ TEXT("è²¼ä»˜") },	{ TEXT("å‰Šé™¤") },	{ TEXT("") },
+	{ TEXT("SJISã‚³ãƒ”ãƒ¼") },	{ TEXT("å…¨ä½“ã‚’SJISã‚³ãƒ”ãƒ¼") },	{ TEXT("") },
+	{ TEXT("å…¨é¸æŠž") },	{ TEXT("çŸ©å½¢é¸æŠž") },	{ TEXT("") },
+	{ TEXT("ãƒ¬ã‚¤ãƒ¤ãƒœãƒƒã‚¯ã‚¹") },	{ TEXT("") },
+	{ TEXT("æ¬¡ã®è¡Œä»¥é™ã‚’æ–°é ã«åˆ†å‰²") },	{ TEXT("") },
+	{ TEXT("éƒ¨åˆ†æŠ½å‡ºãƒ¢ãƒ¼ãƒ‰") },	{ TEXT("") },
+	{ TEXT("ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ç©ºç™½ã‚’ä½¿ã†") }
 };
 
 
-//	‘}“ü
+//	æŒ¿å…¥
 #define  TB_INSERT_ITEMS	6
 static  TBBUTTON	gstInsertTBInfo[] = {
 	{  0, IDM_IN_UNI_SPACE,		TBSTATE_ENABLED,	TBSTYLE_DROPDOWN | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	
@@ -113,45 +113,45 @@ static  TBBUTTON	gstInsertTBInfo[] = {
 };
 
 static CONST TCHAR	gatInsertTBtext[TB_INSERT_ITEMS][TBT_STRING] = { 
-	{ TEXT("ƒ†ƒjƒR[ƒh‹ó”’") },	{ TEXT("F•ÏXƒ^ƒO") },	{ TEXT("˜g") },	{ TEXT("ƒ†[ƒU’è‹`") },	{ TEXT("") },
-	{ TEXT("•¶Žš‚`‚`•ÏŠ·ƒ{ƒbƒNƒX") }
+	{ TEXT("ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ç©ºç™½") },	{ TEXT("è‰²å¤‰æ›´ã‚¿ã‚°") },	{ TEXT("æž ") },	{ TEXT("ãƒ¦ãƒ¼ã‚¶å®šç¾©") },	{ TEXT("") },
+	{ TEXT("æ–‡å­—ï¼¡ï¼¡å¤‰æ›ãƒœãƒƒã‚¯ã‚¹") }
 };
 
 
-//	®Œ`
+//	æ•´å½¢
 #define  TB_LAYOUT_ITEMS	19
 static  TBBUTTON	gstLayoutTBInfo[] = {
-	{  0, IDM_RIGHT_GUIDE_SET,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‰E‘µ‚¦ü
-	{  1, IDM_INS_TOPSPACE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	s“ª‚É‹ó”’‘}“ü
+	{  0, IDM_RIGHT_GUIDE_SET,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	å³æƒãˆç·š
+	{  1, IDM_INS_TOPSPACE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	è¡Œé ­ã«ç©ºç™½æŒ¿å…¥
 	{  0, 0,					TBSTATE_ENABLED,	TBSTYLE_SEP,		{0, 0}, 0, 0  },
-	{  2, IDM_DEL_TOPSPACE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	s“ª‹ó”’íœ
-	{  3, IDM_DEL_LASTSPACE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	s––‹ó”’íœ
-	{  4, IDM_DEL_LASTLETTER,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	s––•¶Žšíœ
+	{  2, IDM_DEL_TOPSPACE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	è¡Œé ­ç©ºç™½å‰Šé™¤
+	{  3, IDM_DEL_LASTSPACE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	è¡Œæœ«ç©ºç™½å‰Šé™¤
+	{  4, IDM_DEL_LASTLETTER,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	è¡Œæœ«æ–‡å­—å‰Šé™¤
 	{  0, 0,					TBSTATE_ENABLED,	TBSTYLE_SEP,		{0, 0}, 0, 0  },
 	{ 10, IDM_MIRROR_INVERSE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	
 	{ 11, IDM_UPSET_INVERSE,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	
 	{  0, 0,					TBSTATE_ENABLED,	TBSTYLE_SEP,		{0, 0}, 0, 0  },
-	{  5, IDM_RIGHT_SLIDE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‰E‚ÉŠñ‚¹‚é
-	{  6, IDM_INCREMENT_DOT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‚Pƒhƒbƒg‘‚â‚·
-	{  7, IDM_DECREMENT_DOT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‚PƒhƒbƒgŒ¸‚ç‚·
+	{  5, IDM_RIGHT_SLIDE,		TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	å³ã«å¯„ã›ã‚‹
+	{  6, IDM_INCREMENT_DOT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ï¼‘ãƒ‰ãƒƒãƒˆå¢—ã‚„ã™
+	{  7, IDM_DECREMENT_DOT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ï¼‘ãƒ‰ãƒƒãƒˆæ¸›ã‚‰ã™
 	{  0, 0,					TBSTATE_ENABLED,	TBSTYLE_SEP,		{0, 0}, 0, 0  },
-	{  8, IDM_INCR_DOT_LINES,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‚Pƒhƒbƒg‰E‚Ö
-	{  9, IDM_DECR_DOT_LINES,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	‚Pƒhƒbƒg¶‚Ö
+	{  8, IDM_INCR_DOT_LINES,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ï¼‘ãƒ‰ãƒƒãƒˆå³ã¸
+	{  9, IDM_DECR_DOT_LINES,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	ï¼‘ãƒ‰ãƒƒãƒˆå·¦ã¸
 	{  0, 0,					TBSTATE_ENABLED,	TBSTYLE_SEP,		{0, 0}, 0, 0  },
-	{ 12, IDM_DOT_SPLIT_LEFT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	^‚ñ’†‚©‚ç‚Pƒhƒbƒg‰E‚Ö
-	{ 13, IDM_DOT_SPLIT_RIGHT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  } 	//	^‚ñ’†‚©‚ç‚Pƒhƒbƒg¶‚Ö
+	{ 12, IDM_DOT_SPLIT_LEFT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	çœŸã‚“ä¸­ã‹ã‚‰ï¼‘ãƒ‰ãƒƒãƒˆå³ã¸
+	{ 13, IDM_DOT_SPLIT_RIGHT,	TBSTATE_ENABLED,	TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  } 	//	çœŸã‚“ä¸­ã‹ã‚‰ï¼‘ãƒ‰ãƒƒãƒˆå·¦ã¸
 };
 
 static CONST TCHAR	gatLayoutTBtext[TB_LAYOUT_ITEMS][TBT_STRING] = { 
-	{ TEXT("‰E‘µ‚¦ü") },	{ TEXT("s“ª‚É‘SŠp‹ó”’’Ç‰Á") },	{ TEXT("") },
-	{ TEXT("s“ª‹ó”’íœ") },	{ TEXT("s––‹ó”’íœ") },	{ TEXT("s––•¶Žšíœ") },	{ TEXT("") },
-	{ TEXT("¶‰E”½“]") },	{ TEXT("ã‰º”½“]") },	{ TEXT("") },
-	{ TEXT("‰E‚ÉŠñ‚¹‚é") },	{ TEXT("‚Pƒhƒbƒg‘‚â‚·") },	{ TEXT("‚PƒhƒbƒgŒ¸‚ç‚·") },	{ TEXT("") },
-	{ TEXT("‘S‘Ì‚ð‚Pƒhƒbƒg‰E‚Ö") },	{ TEXT("‘S‘Ì‚ð‚Pƒhƒbƒg¶‚Ö") },	{ TEXT("") },
-	{ TEXT("Žw’èˆÊ’u‚©‚ç¶‚É‹·‚ß‚é") },	{ TEXT("Žw’èˆÊ’u‚©‚ç‰E‚ÖL‚°‚é") }
+	{ TEXT("å³æƒãˆç·š") },	{ TEXT("è¡Œé ­ã«å…¨è§’ç©ºç™½è¿½åŠ ") },	{ TEXT("") },
+	{ TEXT("è¡Œé ­ç©ºç™½å‰Šé™¤") },	{ TEXT("è¡Œæœ«ç©ºç™½å‰Šé™¤") },	{ TEXT("è¡Œæœ«æ–‡å­—å‰Šé™¤") },	{ TEXT("") },
+	{ TEXT("å·¦å³åè»¢") },	{ TEXT("ä¸Šä¸‹åè»¢") },	{ TEXT("") },
+	{ TEXT("å³ã«å¯„ã›ã‚‹") },	{ TEXT("ï¼‘ãƒ‰ãƒƒãƒˆå¢—ã‚„ã™") },	{ TEXT("ï¼‘ãƒ‰ãƒƒãƒˆæ¸›ã‚‰ã™") },	{ TEXT("") },
+	{ TEXT("å…¨ä½“ã‚’ï¼‘ãƒ‰ãƒƒãƒˆå³ã¸") },	{ TEXT("å…¨ä½“ã‚’ï¼‘ãƒ‰ãƒƒãƒˆå·¦ã¸") },	{ TEXT("") },
+	{ TEXT("æŒ‡å®šä½ç½®ã‹ã‚‰å·¦ã«ç‹­ã‚ã‚‹") },	{ TEXT("æŒ‡å®šä½ç½®ã‹ã‚‰å³ã¸åºƒã’ã‚‹") }
 };
 
-//	•\Ž¦
+//	è¡¨ç¤º
 #define TB_VIEW_ITEMS	5
 static  TBBUTTON	gstViewTBInfo[] = {
 	{  0, IDM_UNI_PALETTE,			TBSTATE_ENABLED,	TBSTYLE_CHECK | TBSTYLE_AUTOSIZE,	{0, 0}, 0, 0  },	//	
@@ -162,29 +162,29 @@ static  TBBUTTON	gstViewTBInfo[] = {
 };
 
 static CONST TCHAR	gatViewTBtext[TB_VIEW_ITEMS][TBT_STRING] = { 
-	{ TEXT("ƒ†ƒjƒR[ƒh•\") },	{ TEXT("ƒgƒŒƒXƒ‚[ƒh") },	{ TEXT("ƒvƒŒƒrƒ…[") },	{ TEXT("ƒhƒ‰ƒtƒgƒ{[ƒh") },	{ TEXT("•¡”sƒTƒ€ƒlƒCƒ‹") }
+	{ TEXT("ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰è¡¨") },	{ TEXT("ãƒˆãƒ¬ã‚¹ãƒ¢ãƒ¼ãƒ‰") },	{ TEXT("ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼") },	{ TEXT("ãƒ‰ãƒ©ãƒ•ãƒˆãƒœãƒ¼ãƒ‰") },	{ TEXT("è¤‡æ•°è¡Œã‚µãƒ ãƒã‚¤ãƒ«") }
 };
 
-//‘S‘Ì
+//å…¨ä½“
 #define TB_BAND_COUNT	5
 static CONST REBARLAYOUTINFO	gcstReBarDef[] = {
-	{ IDTB_MAIN_TOOLBAR,   180, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	ƒƒCƒ“
-	{ IDTB_EDIT_TOOLBAR,   450, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	•ÒW
-	{ IDTB_INSERT_TOOLBAR, 280, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE | RBBS_BREAK  },	//	‘}“ü
-	{ IDTB_LAYOUT_TOOLBAR, 310, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	®Œ`
-	{ IDTB_VIEW_TOOLBAR,   140, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               } 	//	•\Ž¦
-};	//	‰Šú\¬
+	{ IDTB_MAIN_TOOLBAR,   180, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	ãƒ¡ã‚¤ãƒ³
+	{ IDTB_EDIT_TOOLBAR,   450, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	ç·¨é›†
+	{ IDTB_INSERT_TOOLBAR, 280, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE | RBBS_BREAK  },	//	æŒ¿å…¥
+	{ IDTB_LAYOUT_TOOLBAR, 310, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               },	//	æ•´å½¢
+	{ IDTB_VIEW_TOOLBAR,   140, RBBS_GRIPPERALWAYS | RBBS_CHILDEDGE               } 	//	è¡¨ç¤º
+};	//	åˆæœŸæ§‹æˆ
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX
-	WindowsXP‚ÅAƒc[ƒ‹ƒo[‚Ìƒ{ƒ^ƒ“ã‚Åƒ}ƒEƒX‚Ì¶ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½‚Ü‚Ü‰Eƒ{ƒ^ƒ“‚ð‰Ÿ‚·‚ÆA
-	‚»‚êˆÈ~‚Ìƒ}ƒEƒX‘€ì‚ð³í‚ÉŽó‚¯•t‚¯‚È‚­‚È‚éB‚»‚ê‚Ì‘Îô
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	msg		ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚ÌŽ¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@return	ˆ—‚µ‚½Œ‹‰Ê‚Æ‚©
+	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	WindowsXPã§ã€ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒœã‚¿ãƒ³ä¸Šã§ãƒžã‚¦ã‚¹ã®å·¦ãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã¾ã¾å³ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™ã¨ã€
+	ãã‚Œä»¥é™ã®ãƒžã‚¦ã‚¹æ“ä½œã‚’æ­£å¸¸ã«å—ã‘ä»˜ã‘ãªããªã‚‹ã€‚ãã‚Œã®å¯¾ç­–
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	msg		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@return	å‡¦ç†ã—ãŸçµæžœã¨ã‹
 */
 LRESULT CALLBACK gpfToolbarProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -206,9 +206,9 @@ LRESULT CALLBACK gpfToolbarProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 
 /*!
-	ƒc[ƒ‹ƒo[‚ð‚Â‚­‚éEƒŠƒo[‚©‚à
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	lcInst	ƒAƒvƒŠ‚ÌŽÀ‘¶
+	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ã¤ãã‚‹ãƒ»ãƒªãƒãƒ¼ã‹ã‚‚
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	lcInst	ã‚¢ãƒ—ãƒªã®å®Ÿå­˜
 */
 VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 {
@@ -222,7 +222,7 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 
 	HBITMAP	hImg, hMsq;
 
-//ƒŠƒo[
+//ãƒªãƒãƒ¼
 	ghRebarWnd = CreateWindowEx( WS_EX_TOOLWINDOW, REBARCLASSNAME, NULL,	//	RBS_VARHEIGHT
 		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | RBS_BANDBORDERS | RBS_DBLCLKTOGGLE | CCS_NODIVIDER | CCS_TOP,
 		0, 0, 0, 0, hWnd, (HMENU)IDRB_REBAR, lcInst, NULL);
@@ -231,7 +231,7 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	stRbrInfo.cbSize = sizeof(REBARINFO);
 	SendMessage( ghRebarWnd, RB_SETBARINFO, 0, (LPARAM)&stRbrInfo );
 
-	//	‰Šú’l
+	//	åˆæœŸå€¤
 	ZeroMemory( stInfo, sizeof(stInfo) );
 	for( d = 0; TB_BAND_COUNT > d; d++ )
 	{
@@ -239,15 +239,15 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 		stInfo[d].cx     = gcstReBarDef[d].cx;
 		stInfo[d].fStyle = gcstReBarDef[d].fStyle;
 	}
-	//	•Û‘¶ó‘Ô“Çž
+	//	ä¿å­˜çŠ¶æ…‹èª­è¾¼
 	InitToolBarLayout( INIT_LOAD, TB_BAND_COUNT, stInfo );
-	//	ƒf[ƒ^—L‚ê‚Î‘‚«Š·‚í‚éA‚È‚©‚Á‚½‚ç‰Šú’l‚»‚Ì‚Ü‚Ü
+	//	ãƒ‡ãƒ¼ã‚¿æœ‰ã‚Œã°æ›¸ãæ›ã‚ã‚‹ã€ãªã‹ã£ãŸã‚‰åˆæœŸå€¤ãã®ã¾ã¾
 
-//ƒƒCƒ“ƒc[ƒ‹ƒo[
+//ãƒ¡ã‚¤ãƒ³ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	ghMainTBWnd = CreateWindowEx( 0, TOOLBARCLASSNAME, TEXT("maintb"),
 		WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER
 		, 0, 0, 0, 0, ghRebarWnd, (HMENU)IDTB_MAIN_TOOLBAR, lcInst, NULL);
-	//	Ž©“®ƒc[ƒ‹ƒ`ƒbƒvƒXƒ^ƒCƒ‹‚ð’Ç‰Á
+	//	è‡ªå‹•ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ 
 	SendMessage( ghMainTBWnd, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_MIXEDBUTTONS | TBSTYLE_EX_DRAWDDARROWS );
 
 	ghMainImgLst = ImageList_Create( 16, 16, ILC_COLOR24 | ILC_MASK, 4, 1 );
@@ -256,34 +256,34 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	{
 		hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
 		hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
-		ImageList_Add( ghMainImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+		ImageList_Add( ghMainImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 		DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 	}
 	SendMessage( ghMainTBWnd, TB_SETIMAGELIST, 0, (LPARAM)ghMainImgLst );
 	SendMessage( ghMainTBWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 
 	SendMessage( ghMainTBWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
-	//	ƒc[ƒ‹ƒ`ƒbƒv•¶Žš—ñ‚ðÝ’èEƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ªƒc[ƒ‹ƒ`ƒbƒv‚É‚È‚é
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—æ–‡å­—åˆ—ã‚’è¨­å®šãƒ»ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã«ãªã‚‹
 	StringCchCopy( atBuff, MAX_STRING, gatMainTBtext[0] );	gstMainTBInfo[0].iString = SendMessage( ghMainTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatMainTBtext[1] );	gstMainTBInfo[1].iString = SendMessage( ghMainTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatMainTBtext[2] );	gstMainTBInfo[2].iString = SendMessage( ghMainTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatMainTBtext[4] );	gstMainTBInfo[4].iString = SendMessage( ghMainTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 
-	SendMessage( ghMainTBWnd, TB_ADDBUTTONS, (WPARAM)TB_MAIN_ITEMS, (LPARAM)&gstMainTBInfo );	//	ƒc[ƒ‹ƒo[‚Éƒ{ƒ^ƒ“‚ð‘}“ü
+	SendMessage( ghMainTBWnd, TB_ADDBUTTONS, (WPARAM)TB_MAIN_ITEMS, (LPARAM)&gstMainTBInfo );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ãƒœã‚¿ãƒ³ã‚’æŒ¿å…¥
 
-	SendMessage( ghMainTBWnd, TB_AUTOSIZE, 0, 0 );	//	ƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚É‡‚í‚¹‚Äƒc[ƒ‹ƒo[‚ðƒŠƒTƒCƒY
-//	InvalidateRect( ghMainTBWnd , NULL, TRUE );	//	ƒNƒ‰ƒCƒ„ƒ“ƒg‘S‘Ì‚ðÄ•`‰æ‚·‚é
+	SendMessage( ghMainTBWnd, TB_AUTOSIZE, 0, 0 );	//	ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ãƒªã‚µã‚¤ã‚º
+//	InvalidateRect( ghMainTBWnd , NULL, TRUE );	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆå…¨ä½“ã‚’å†æç”»ã™ã‚‹
 
-	//	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX‰»
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–
 	gpfOrigTBProc = SubclassWindow( ghMainTBWnd, gpfToolbarProc );
 
 
 
-//•ÒWƒc[ƒ‹ƒo[
+//ç·¨é›†ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	ghEditTBWnd = CreateWindowEx( 0, TOOLBARCLASSNAME, TEXT("edittb"),
 		WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER
 		, 0, 0, 0, 0, ghRebarWnd, (HMENU)IDTB_EDIT_TOOLBAR, lcInst, NULL);
-	//	Ž©“®ƒc[ƒ‹ƒ`ƒbƒvƒXƒ^ƒCƒ‹‚ð’Ç‰Á
+	//	è‡ªå‹•ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ 
 	SendMessage( ghEditTBWnd, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_MIXEDBUTTONS );
 
 	//stToolBmp.hInst = HINST_COMMCTRL;
@@ -295,7 +295,7 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	{
 		hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
 		hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
-		ImageList_Add( ghEditImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+		ImageList_Add( ghEditImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 		DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 	}
 	SendMessage( ghEditTBWnd, TB_SETIMAGELIST, 0, (LPARAM)ghEditImgLst );
@@ -303,7 +303,7 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	SendMessage( ghEditTBWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 
 	SendMessage( ghEditTBWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
-	//	ƒc[ƒ‹ƒ`ƒbƒv•¶Žš—ñ‚ðÝ’èEƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ªƒc[ƒ‹ƒ`ƒbƒv‚É‚È‚é
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—æ–‡å­—åˆ—ã‚’è¨­å®šãƒ»ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã«ãªã‚‹
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[ 0] );	gstEditTBInfo[ 0].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[ 1] );	gstEditTBInfo[ 1].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[ 3] );	gstEditTBInfo[ 3].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
@@ -318,18 +318,18 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[16] );	gstEditTBInfo[16].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[18] );	gstEditTBInfo[18].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatEditTBtext[20] );	gstEditTBInfo[20].iString = SendMessage( ghEditTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	SendMessage( ghEditTBWnd, TB_ADDBUTTONS, (WPARAM)TB_EDIT_ITEMS, (LPARAM)&gstEditTBInfo );	//	ƒc[ƒ‹ƒo[‚Éƒ{ƒ^ƒ“‚ð‘}“ü
-	SendMessage( ghEditTBWnd, TB_AUTOSIZE, 0, 0 );	//	ƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚É‡‚í‚¹‚Äƒc[ƒ‹ƒo[‚ðƒŠƒTƒCƒY
+	SendMessage( ghEditTBWnd, TB_ADDBUTTONS, (WPARAM)TB_EDIT_ITEMS, (LPARAM)&gstEditTBInfo );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ãƒœã‚¿ãƒ³ã‚’æŒ¿å…¥
+	SendMessage( ghEditTBWnd, TB_AUTOSIZE, 0, 0 );	//	ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ãƒªã‚µã‚¤ã‚º
 
-	//	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX‰»
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–
 	gpfOrigTBProc = SubclassWindow( ghEditTBWnd, gpfToolbarProc );
 
 
-//‘}“üƒc[ƒ‹ƒo[
+//æŒ¿å…¥ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	ghInsertTBWnd = CreateWindowEx( 0, TOOLBARCLASSNAME, TEXT("inserttb"),
 		WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER,
 		0, 0, 0, 0, ghRebarWnd, (HMENU)IDTB_INSERT_TOOLBAR, lcInst, NULL);
-	//	Ž©“®ƒc[ƒ‹ƒ`ƒbƒvƒXƒ^ƒCƒ‹‚ð’Ç‰Á	ƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[‚ð—LŒø‚É‚·‚é
+	//	è‡ªå‹•ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ 	ãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 	SendMessage( ghInsertTBWnd, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_MIXEDBUTTONS | TBSTYLE_EX_DRAWDDARROWS );
 
 	//stToolBmp.hInst = HINST_COMMCTRL;
@@ -341,12 +341,12 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	{
 		hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
 		hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
-		ImageList_Add( ghInsertImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+		ImageList_Add( ghInsertImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 		DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 	}
 	hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMP_MOZI_SCRIPT ) );
 	hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMQ_MOZI_SCRIPT ) );
-	ImageList_Add( ghInsertImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+	ImageList_Add( ghInsertImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 	DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 
 	SendMessage( ghInsertTBWnd, TB_SETIMAGELIST, 0, (LPARAM)ghInsertImgLst );
@@ -354,24 +354,24 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	SendMessage( ghInsertTBWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 
 	SendMessage( ghInsertTBWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
-	//	ƒc[ƒ‹ƒ`ƒbƒv•¶Žš—ñ‚ðÝ’èEƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ªƒc[ƒ‹ƒ`ƒbƒv‚É‚È‚é
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—æ–‡å­—åˆ—ã‚’è¨­å®šãƒ»ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã«ãªã‚‹
 	StringCchCopy( atBuff, MAX_STRING, gatInsertTBtext[ 0] );	gstInsertTBInfo[ 0].iString = SendMessage( ghInsertTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatInsertTBtext[ 1] );	gstInsertTBInfo[ 1].iString = SendMessage( ghInsertTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatInsertTBtext[ 2] );	gstInsertTBInfo[ 2].iString = SendMessage( ghInsertTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatInsertTBtext[ 3] );	gstInsertTBInfo[ 3].iString = SendMessage( ghInsertTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatInsertTBtext[ 5] );	gstInsertTBInfo[ 5].iString = SendMessage( ghInsertTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	SendMessage( ghInsertTBWnd , TB_ADDBUTTONS, (WPARAM)TB_INSERT_ITEMS, (LPARAM)&gstInsertTBInfo );	//	ƒc[ƒ‹ƒo[‚Éƒ{ƒ^ƒ“‚ð‘}“ü
-	SendMessage( ghInsertTBWnd, TB_AUTOSIZE, 0, 0 );	//	ƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚É‡‚í‚¹‚Äƒc[ƒ‹ƒo[‚ðƒŠƒTƒCƒY
+	SendMessage( ghInsertTBWnd , TB_ADDBUTTONS, (WPARAM)TB_INSERT_ITEMS, (LPARAM)&gstInsertTBInfo );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ãƒœã‚¿ãƒ³ã‚’æŒ¿å…¥
+	SendMessage( ghInsertTBWnd, TB_AUTOSIZE, 0, 0 );	//	ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ãƒªã‚µã‚¤ã‚º
 
-	//	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX‰»
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–
 	gpfOrigTBProc = SubclassWindow( ghInsertTBWnd, gpfToolbarProc );
 
 
-//®Œ`ƒc[ƒ‹ƒo[
+//æ•´å½¢ãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	ghLayoutTBWnd = CreateWindowEx( 0, TOOLBARCLASSNAME, TEXT("layouttb"),
 		WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER,
 		0, 0, 0, 0, ghRebarWnd, (HMENU)IDTB_LAYOUT_TOOLBAR, lcInst, NULL);
-	//	Ž©“®ƒc[ƒ‹ƒ`ƒbƒvƒXƒ^ƒCƒ‹‚ð’Ç‰Á
+	//	è‡ªå‹•ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ 
 	SendMessage( ghLayoutTBWnd, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_MIXEDBUTTONS );
 
 	//stToolBmp.hInst = HINST_COMMCTRL;
@@ -383,17 +383,17 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	{
 		hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
 		hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
-		ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+		ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 		DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 	}
 	hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMP_SPLIT_LEFT ) );
 	hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMQ_SPLIT_LEFT ) );
-	ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+	ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 	DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 
 	hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMP_SPLIT_RIGHT ) );
 	hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( IDBMQ_SPLIT_RIGHT ) );
-	ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+	ImageList_Add( ghLayoutImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 	DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 
 	SendMessage( ghLayoutTBWnd, TB_SETIMAGELIST, 0, (LPARAM)ghLayoutImgLst );
@@ -402,7 +402,7 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	SendMessage( ghLayoutTBWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 
 	SendMessage( ghLayoutTBWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
-	//	ƒc[ƒ‹ƒ`ƒbƒv•¶Žš—ñ‚ðÝ’èEƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ªƒc[ƒ‹ƒ`ƒbƒv‚É‚È‚é
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—æ–‡å­—åˆ—ã‚’è¨­å®šãƒ»ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã«ãªã‚‹
 	StringCchCopy( atBuff, MAX_STRING, gatLayoutTBtext[ 0] );	gstLayoutTBInfo[ 0].iString = SendMessage( ghLayoutTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatLayoutTBtext[ 1] );	gstLayoutTBInfo[ 1].iString = SendMessage( ghLayoutTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatLayoutTBtext[ 3] );	gstLayoutTBInfo[ 3].iString = SendMessage( ghLayoutTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
@@ -418,30 +418,30 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	StringCchCopy( atBuff, MAX_STRING, gatLayoutTBtext[17] );	gstLayoutTBInfo[17].iString = SendMessage( ghLayoutTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING, gatLayoutTBtext[18] );	gstLayoutTBInfo[18].iString = SendMessage( ghLayoutTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 
-	SendMessage( ghLayoutTBWnd , TB_ADDBUTTONS, (WPARAM)TB_LAYOUT_ITEMS, (LPARAM)&gstLayoutTBInfo );	//	ƒc[ƒ‹ƒo[‚Éƒ{ƒ^ƒ“‚ð‘}“ü
+	SendMessage( ghLayoutTBWnd , TB_ADDBUTTONS, (WPARAM)TB_LAYOUT_ITEMS, (LPARAM)&gstLayoutTBInfo );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ãƒœã‚¿ãƒ³ã‚’æŒ¿å…¥
 
-	SendMessage( ghLayoutTBWnd, TB_AUTOSIZE, 0, 0 );	//	ƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚É‡‚í‚¹‚Äƒc[ƒ‹ƒo[‚ðƒŠƒTƒCƒY
+	SendMessage( ghLayoutTBWnd, TB_AUTOSIZE, 0, 0 );	//	ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ãƒªã‚µã‚¤ã‚º
 
-	//	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX‰»
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–
 	gpfOrigTBProc = SubclassWindow( ghLayoutTBWnd, gpfToolbarProc );
 
 
-//•\Ž¦ƒc[ƒ‹ƒo[
+//è¡¨ç¤ºãƒ„ãƒ¼ãƒ«ãƒãƒ¼
 	ghViewTBWnd = CreateWindowEx( 0, TOOLBARCLASSNAME, TEXT("viewtb"),
 		WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS | CCS_NOPARENTALIGN | CCS_NORESIZE | CCS_NODIVIDER,
 		0, 0, 0, 0, ghRebarWnd, (HMENU)IDTB_VIEW_TOOLBAR, lcInst, NULL);
-	//	Ž©“®ƒc[ƒ‹ƒ`ƒbƒvƒXƒ^ƒCƒ‹‚ð’Ç‰Á
+	//	è‡ªå‹•ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ 
 	SendMessage( ghViewTBWnd, TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_MIXEDBUTTONS );
 
 //	hImg = ImageList_LoadBitmap( lcInst, MAKEINTRESOURCE(IDBMP_UNIPALETTE), 16, 0, RGB(0xFF,0x00,0xFF) );
-//	‚±‚¤‚·‚ê‚ÎMASK‚Ü‚Åˆê”­¶¬‚Å‚«‚éE‚Q‚T‚UF—p‚Á‚Û‚¢
+//	ã“ã†ã™ã‚Œã°MASKã¾ã§ä¸€ç™ºç”Ÿæˆã§ãã‚‹ãƒ»ï¼’ï¼•ï¼–è‰²ç”¨ã£ã½ã„
 	ghViewImgLst = ImageList_Create( 16, 16, ILC_COLOR24 | ILC_MASK, 5, 1 );
 	resnum = IDBMPQ_VIEW_TB_FIRST;
 	for( ici = 0; 5 > ici; ici++ )
 	{
 		hImg = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
 		hMsq = LoadBitmap( lcInst, MAKEINTRESOURCE( (resnum++) ) );
-		ImageList_Add( ghViewImgLst, hImg, hMsq );	//	ƒCƒ[ƒWƒŠƒXƒg‚ÉƒCƒ[ƒW‚ð’Ç‰Á
+		ImageList_Add( ghViewImgLst, hImg, hMsq );	//	ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒªã‚¹ãƒˆã«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’è¿½åŠ 
 		DeleteBitmap( hImg );	DeleteBitmap( hMsq );
 	}
 	SendMessage( ghViewTBWnd, TB_SETIMAGELIST, 0, (LPARAM)ghViewImgLst );
@@ -449,21 +449,21 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 	SendMessage( ghViewTBWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 
 	SendMessage( ghViewTBWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
-	//	ƒc[ƒ‹ƒ`ƒbƒv•¶Žš—ñ‚ðÝ’èEƒ{ƒ^ƒ“ƒeƒLƒXƒg‚ªƒc[ƒ‹ƒ`ƒbƒv‚É‚È‚é
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—æ–‡å­—åˆ—ã‚’è¨­å®šãƒ»ãƒœã‚¿ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã«ãªã‚‹
 	StringCchCopy( atBuff, MAX_STRING , gatViewTBtext[ 0] );	gstViewTBInfo[ 0].iString = SendMessage( ghViewTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatViewTBtext[ 1] );	gstViewTBInfo[ 1].iString = SendMessage( ghViewTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatViewTBtext[ 2] );	gstViewTBInfo[ 2].iString = SendMessage( ghViewTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatViewTBtext[ 3] );	gstViewTBInfo[ 3].iString = SendMessage( ghViewTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 	StringCchCopy( atBuff, MAX_STRING , gatViewTBtext[ 4] );	gstViewTBInfo[ 4].iString = SendMessage( ghViewTBWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 
-	SendMessage( ghViewTBWnd, TB_ADDBUTTONS, (WPARAM)TB_VIEW_ITEMS, (LPARAM)&gstViewTBInfo );	//	ƒc[ƒ‹ƒo[‚Éƒ{ƒ^ƒ“‚ð‘}“ü
-	SendMessage( ghViewTBWnd, TB_AUTOSIZE, 0, 0 );	//	ƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚É‡‚í‚¹‚Äƒc[ƒ‹ƒo[‚ðƒŠƒTƒCƒY
+	SendMessage( ghViewTBWnd, TB_ADDBUTTONS, (WPARAM)TB_VIEW_ITEMS, (LPARAM)&gstViewTBInfo );	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã«ãƒœã‚¿ãƒ³ã‚’æŒ¿å…¥
+	SendMessage( ghViewTBWnd, TB_AUTOSIZE, 0, 0 );	//	ãƒœã‚¿ãƒ³ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ãƒªã‚µã‚¤ã‚º
 
-	//	ƒc[ƒ‹ƒo[ƒTƒuƒNƒ‰ƒX‰»
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚µãƒ–ã‚¯ãƒ©ã‚¹åŒ–
 	gpfOrigTBProc = SubclassWindow( ghViewTBWnd, gpfToolbarProc );
 
 
-	//”z’u
+	//é…ç½®
 	ZeroMemory( &stRbandInfo, sizeof(REBARBANDINFO) );
 	stRbandInfo.cbSize     = sizeof(REBARBANDINFO);
 	stRbandInfo.fMask      = RBBIM_TEXT | RBBIM_STYLE | RBBIM_CHILD | RBBIM_CHILDSIZE | RBBIM_SIZE | RBBIM_ID;
@@ -475,27 +475,27 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 		switch( stInfo[d].wID )
 		{
 			case IDTB_MAIN_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("ƒtƒ@ƒCƒ‹");
+				stRbandInfo.lpText    = TEXT("ãƒ•ã‚¡ã‚¤ãƒ«");
 				stRbandInfo.hwndChild = ghMainTBWnd;
 				break;
 
 			case IDTB_EDIT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("•ÒW");
+				stRbandInfo.lpText    = TEXT("ç·¨é›†");
 				stRbandInfo.hwndChild = ghEditTBWnd;
 				break;
 
 			case IDTB_INSERT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("‘}“ü");
+				stRbandInfo.lpText    = TEXT("æŒ¿å…¥");
 				stRbandInfo.hwndChild = ghInsertTBWnd;
 				break;
 
 			case IDTB_LAYOUT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("®Œ`");
+				stRbandInfo.lpText    = TEXT("æ•´å½¢");
 				stRbandInfo.hwndChild = ghLayoutTBWnd;
 				break;
 
 			case IDTB_VIEW_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("•\Ž¦");
+				stRbandInfo.lpText    = TEXT("è¡¨ç¤º");
 				stRbandInfo.hwndChild = ghViewTBWnd;
 				break;
 
@@ -514,10 +514,10 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒc[ƒ‹ƒo[‚ÌƒCƒ“ƒtƒHƒ`ƒbƒv‚ÌƒAƒNƒZƒ‹ƒL[ƒeƒLƒXƒg‚ð•ÏX
-	@param[in]	pstAccel	“à—eƒe[ƒuƒ‹E–³‚¢Žž‚ÍNULL
-	@param[in]	iEntry		ƒe[ƒuƒ‹‚ÌƒGƒ“ƒgƒŠ”
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¤ãƒ³ãƒ•ã‚©ãƒãƒƒãƒ—ã®ã‚¢ã‚¯ã‚»ãƒ«ã‚­ãƒ¼ãƒ†ã‚­ã‚¹ãƒˆã‚’å¤‰æ›´
+	@param[in]	pstAccel	å†…å®¹ãƒ†ãƒ¼ãƒ–ãƒ«ãƒ»ç„¡ã„æ™‚ã¯NULL
+	@param[in]	iEntry		ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚¨ãƒ³ãƒˆãƒªæ•°
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT ToolBarInfoChange( LPACCEL pstAccel, INT iEntry )
 {
@@ -582,7 +582,7 @@ HRESULT ToolBarInfoChange( LPACCEL pstAccel, INT iEntry )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒc[ƒ‹ƒo[‚Ì”j‰ó
+	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ç ´å£Š
 */
 VOID ToolBarDestroy( VOID )
 {
@@ -597,9 +597,9 @@ VOID ToolBarDestroy( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒc[ƒ‹ƒo[‚Ì‘å‚«‚³‚ð‚Æ‚é
-	@param[in]	pstRect	ƒTƒCƒY‚ð–ß‚·ƒoƒbƒtƒ@
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®å¤§ãã•ã‚’ã¨ã‚‹
+	@param[in]	pstRect	ã‚µã‚¤ã‚ºã‚’æˆ»ã™ãƒãƒƒãƒ•ã‚¡
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT ToolBarSizeGet( LPRECT pstRect )
 {
@@ -619,10 +619,10 @@ HRESULT ToolBarSizeGet( LPRECT pstRect )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‚Â‚é‚Î€–Ú‚ðƒ`ƒFƒbƒN‚µ‚½‚èŠO‚µ‚½‚è
-	@param[in]	itemID	‘€ì‚·‚éƒƒjƒ…[‚Ì‚h‚c
-	@param[in]	bCheck	”ñ‚Oƒ`ƒFƒbƒNE‚O‚Í‚¸‚·
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã¤ã‚‹ã°é …ç›®ã‚’ãƒã‚§ãƒƒã‚¯ã—ãŸã‚Šå¤–ã—ãŸã‚Š
+	@param[in]	itemID	æ“ä½œã™ã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ï¼©ï¼¤
+	@param[in]	bCheck	éžï¼ãƒã‚§ãƒƒã‚¯ãƒ»ï¼ã¯ãšã™
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT ToolBarCheckOnOff( UINT itemID, UINT bCheck )
 {
@@ -647,12 +647,12 @@ HRESULT ToolBarCheckOnOff( UINT itemID, UINT bCheck )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒE‚ªƒTƒCƒY•ÏX‚³‚ê‚½‚Æ‚«
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	state	•ÏX‚Ìó‘ÔESIZE_MINIMIZED ‚Æ‚©
-	@param[in]	cx		ƒNƒ‰ƒCƒ„ƒ“ƒg‚wƒTƒCƒY
-	@param[in]	cy		ƒNƒ‰ƒCƒ„ƒ“ƒg‚xƒTƒCƒY
-	@return		–³‚µ
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒã‚µã‚¤ã‚ºå¤‰æ›´ã•ã‚ŒãŸã¨ã
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	state	å¤‰æ›´ã®çŠ¶æ…‹ãƒ»SIZE_MINIMIZED ã¨ã‹
+	@param[in]	cx		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆï¼¸ã‚µã‚¤ã‚º
+	@param[in]	cy		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆï¼¹ã‚µã‚¤ã‚º
+	@return		ç„¡ã—
 */
 HRESULT ToolBarOnSize( HWND hWnd, UINT state, INT cx, INT cy )
 {
@@ -663,9 +663,9 @@ HRESULT ToolBarOnSize( HWND hWnd, UINT state, INT cx, INT cy )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒm[ƒeƒBƒtƒ@ƒCƒƒbƒZ[ƒW‚Ìƒ_ƒ~[¶¬
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	itemID	‰Ÿ‚³‚ê‚½ƒ{ƒ^ƒ“‚Ì‚h‚c
+	ãƒŽãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ€ãƒŸãƒ¼ç”Ÿæˆ
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	itemID	æŠ¼ã•ã‚ŒãŸãƒœã‚¿ãƒ³ã®ï¼©ï¼¤
 */
 VOID ToolBarPseudoDropDown( HWND hWnd, INT itemID )
 {
@@ -684,7 +684,7 @@ VOID ToolBarPseudoDropDown( HWND hWnd, INT itemID )
 			iFrom = IDTB_INSERT_TOOLBAR;
 			break;
 
-		default:	 return;	//	‚·‚é‚±‚Æ‚Í‚È‚¢
+		default:	 return;	//	ã™ã‚‹ã“ã¨ã¯ãªã„
 	}
 
 	stNmToolBar.hdr.idFrom   = iFrom;
@@ -698,12 +698,12 @@ VOID ToolBarPseudoDropDown( HWND hWnd, INT itemID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[ŒÄ‚Ñ‚¾‚µƒAƒNƒVƒ‡ƒ“(—v‚Í‰EƒNƒ‹ƒbƒNjƒŠƒo[‚Ì‚â‚Â
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	hWndContext	ƒRƒ“ƒeƒLƒXƒg‚ª”­¶‚µ‚½ƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	xPos		ƒXƒNƒŠ[ƒ“‚wÀ•W
-	@param[in]	yPos		ƒXƒNƒŠ[ƒ“‚xÀ‹Æ
-	@return		ˆ—‚µ‚½‚ç”ñ‚OA‰½‚à–³‚©‚Á‚½‚ç‚O
+	ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼å‘¼ã³ã ã—ã‚¢ã‚¯ã‚·ãƒ§ãƒ³(è¦ã¯å³ã‚¯ãƒ«ãƒƒã‚¯ï¼‰ãƒªãƒãƒ¼ã®ã‚„ã¤
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hWndContext	ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãŒç™ºç”Ÿã—ãŸã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	xPos		ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ï¼¸åº§æ¨™
+	@param[in]	yPos		ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ï¼¹åº§æ¥­
+	@return		å‡¦ç†ã—ãŸã‚‰éžï¼ã€ä½•ã‚‚ç„¡ã‹ã£ãŸã‚‰ï¼
 */
 LRESULT ToolBarOnContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos )
 {
@@ -714,7 +714,7 @@ LRESULT ToolBarOnContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos 
 	TRACE( TEXT("REBAR CONTEXT[%d x %d]"), xPos, yPos );
 
 	hPopupMenu = CreatePopupMenu(  );
-	AppendMenu( hPopupMenu, MF_STRING, IDM_REBER_DORESET, TEXT("”z’u‚ð‰Šúó‘Ô‚É–ß‚·") );
+	AppendMenu( hPopupMenu, MF_STRING, IDM_REBER_DORESET, TEXT("é…ç½®ã‚’åˆæœŸçŠ¶æ…‹ã«æˆ»ã™") );
 	TrackPopupMenu( hPopupMenu, 0, xPos, yPos, 0, hWnd, NULL );
 	DestroyMenu( hPopupMenu );
 
@@ -723,11 +723,11 @@ LRESULT ToolBarOnContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos 
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒm[ƒeƒBƒtƒ@ƒCƒƒbƒZ[ƒW‚Ìˆ—
-	@param[in]	hWnd		eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	idFrom		NOTIFY‚ð”­¶‚³‚¹‚½ƒRƒ“ƒgƒ[ƒ‹‚Ì‚h‚c
-	@param[in]	pstNmhdr	NOTIFY‚ÌÚ×
-	@return		ˆ—‚µ‚½“à—e‚Æ‚©E“Á‚É•Ô‚·ƒ‚ƒm‚Í‚È‚¢
+	ãƒŽãƒ¼ãƒ†ã‚£ãƒ•ã‚¡ã‚¤ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+	@param[in]	hWnd		è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	idFrom		NOTIFYã‚’ç™ºç”Ÿã•ã›ãŸã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®ï¼©ï¼¤
+	@param[in]	pstNmhdr	NOTIFYã®è©³ç´°
+	@return		å‡¦ç†ã—ãŸå†…å®¹ã¨ã‹ãƒ»ç‰¹ã«è¿”ã™ãƒ¢ãƒŽã¯ãªã„
 */
 LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 {
@@ -744,16 +744,16 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 		if( RBN_HEIGHTCHANGE == pstNmhdr->code )
 		{
 			if( !( AppClientAreaCalc( &rect ) ) )	return 0;
-			ViewSizeMove( hWnd, &rect );	//	ƒƒCƒ“‚Ìƒc[ƒ‹ƒo[‚Å•Ï‰»‚ª‚ ‚Á‚½
+			ViewSizeMove( hWnd, &rect );	//	ãƒ¡ã‚¤ãƒ³ã®ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã§å¤‰åŒ–ãŒã‚ã£ãŸ
 			InvalidateRect( hWnd, NULL, TRUE );
 			InvalidateRect( ghRebarWnd, NULL, TRUE );
 		}
 	}
 
-	//	ƒc[ƒ‹ƒo[‚Ìƒhƒƒbƒvƒ_ƒEƒ“ƒƒjƒ…[	IDTB_INSERT_TOOLBAR == idFrom && 
+	//	ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼	IDTB_INSERT_TOOLBAR == idFrom && 
 	if( TBN_DROPDOWN == pstNmhdr->code )
 	{
-		TRACE( TEXT("ƒhƒƒbƒvƒ_ƒEƒ“”­¶") );
+		TRACE( TEXT("ãƒ‰ãƒ­ãƒƒãƒ—ãƒ€ã‚¦ãƒ³ç™ºç”Ÿ") );
 		pstNmToolBar = (LPNMTOOLBAR)pstNmhdr;
 
 		iItem    = pstNmToolBar->iItem;
@@ -761,9 +761,9 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 		hMainMenu = GetMenu( hWnd );
 
-		//	ƒ{ƒ^ƒ“‚ÌÀ•W‚ðŽæ“¾
+		//	ãƒœã‚¿ãƒ³ã®åº§æ¨™ã‚’å–å¾—
 		SendMessage( hWndFrom, TB_GETRECT, (WPARAM)iItem, (LPARAM)(&rect) );
-		//	‘¼‚ÌƒEƒBƒ“ƒhƒE‚ðŠî€‚Æ‚·‚éÀ•W‚Ö•ÏŠ·
+		//	ä»–ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’åŸºæº–ã¨ã™ã‚‹åº§æ¨™ã¸å¤‰æ›
 		MapWindowPoints( hWndFrom, HWND_DESKTOP, (LPPOINT)(&rect), 2 );
 
 		ZeroMemory( &stTpmParam, sizeof(TPMPARAMS) );
@@ -788,7 +788,7 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 			case IDM_FRMINSBOX_OPEN:
 				hPopupMenu = CreatePopupMenu(  );
-				for( i = 0; FRAME_MAX > i; i++ ){	AppendMenu( hPopupMenu, MF_STRING, (IDM_INSFRAME_ALPHA + i), TEXT("˜g") );	}
+				for( i = 0; FRAME_MAX > i; i++ ){	AppendMenu( hPopupMenu, MF_STRING, (IDM_INSFRAME_ALPHA + i), TEXT("æž ") );	}
 				FrameNameModifyPopUp( hPopupMenu, 1 );
 				TrackPopupMenuEx( hPopupMenu, TPM_VERTICAL, rect.left, rect.bottom, hWnd, &stTpmParam );
 				DestroyMenu( hPopupMenu );
@@ -811,7 +811,7 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒo[‚Ì”z’u‚ðŒ³‚É–ß‚·
+	ãƒªãƒãƒ¼ã®é…ç½®ã‚’å…ƒã«æˆ»ã™
 */
 HRESULT ToolBarBandReset( HWND hWnd )
 {
@@ -844,7 +844,7 @@ HRESULT ToolBarBandReset( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒŠƒo[‚Ì”z’uî•ñ‚ðŠm”F‚·‚é
+	ãƒªãƒãƒ¼ã®é…ç½®æƒ…å ±ã‚’ç¢ºèªã™ã‚‹
 */
 UINT ToolBarBandInfoGet( LPVOID pVoid )
 {
@@ -868,16 +868,16 @@ UINT ToolBarBandInfoGet( LPVOID pVoid )
 		stInfo[d].fStyle = stBandInfo.fStyle;
 	}
 
-	InitToolBarLayout( INIT_SAVE, TB_BAND_COUNT, stInfo );	//	•Û‘¶
+	InitToolBarLayout( INIT_SAVE, TB_BAND_COUNT, stInfo );	//	ä¿å­˜
 
 	return TB_BAND_COUNT;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*
-ŽŸ‰ñ‹N“®Žž‚ÉˆÊ’u‚ð•œŒ³‚·‚é‚½‚ß‚É•K—v‚Èî•ñ‚ÍRB_GETBANDINFOƒƒbƒZ[ƒW‚Å’²‚×‚éB
+æ¬¡å›žèµ·å‹•æ™‚ã«ä½ç½®ã‚’å¾©å…ƒã™ã‚‹ãŸã‚ã«å¿…è¦ãªæƒ…å ±ã¯RB_GETBANDINFOãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã§èª¿ã¹ã‚‹ã€‚
 
-•œŒ³‚·‚é‚Ì‚É•K—v‚È‚Ì‚ÍAƒoƒ“ƒh‚Ì•À‚ñ‚Å‚¢‚é‡”ÔAƒoƒ“ƒh‚Ì•A‚»‚µ‚Ä‚Ç‚Ìƒoƒ“ƒh‚Å‰üs‚·‚é‚©B
+å¾©å…ƒã™ã‚‹ã®ã«å¿…è¦ãªã®ã¯ã€ãƒãƒ³ãƒ‰ã®ä¸¦ã‚“ã§ã„ã‚‹é †ç•ªã€ãƒãƒ³ãƒ‰ã®å¹…ã€ãã—ã¦ã©ã®ãƒãƒ³ãƒ‰ã§æ”¹è¡Œã™ã‚‹ã‹ã€‚
 
 UINT count = SendMessage(hRebar, RB_GETBANDCOUNT, 0, 0);
 
@@ -898,12 +898,12 @@ for (UINT i = 0; i < count; ++i)
 	WriteFile(hfile, &rbi.cx, sizeof(rbi.cx), &written, NULL);
 }
 
-RBBS_BREAK‚Íƒoƒ“ƒh‚ð‘}“ü‚µ‚½Žž‚Ç‚¤‚¾‚Á‚½‚©‚Å‚Í‚È‚­A
-RB_GETBANDINFO‚ð‘—‚Á‚½Žž“_‚Å‚Ì‰üsó‹µ‚ð‹³‚¦‚Ä‚­‚ê‚éB
-‚½‚¾‚µ‚Ps–Ú‚ÌÅ‰‚Ìƒoƒ“ƒh‚É‚ÍRBBS_BREAK‚ªŠÜ‚Ü‚ê‚éê‡‚ÆŠÜ‚Ü‚ê‚È‚¢ê‡‚ª‚ ‚éB
+RBBS_BREAKã¯ãƒãƒ³ãƒ‰ã‚’æŒ¿å…¥ã—ãŸæ™‚ã©ã†ã ã£ãŸã‹ã§ã¯ãªãã€
+RB_GETBANDINFOã‚’é€ã£ãŸæ™‚ç‚¹ã§ã®æ”¹è¡ŒçŠ¶æ³ã‚’æ•™ãˆã¦ãã‚Œã‚‹ã€‚
+ãŸã ã—ï¼‘è¡Œç›®ã®æœ€åˆã®ãƒãƒ³ãƒ‰ã«ã¯RBBS_BREAKãŒå«ã¾ã‚Œã‚‹å ´åˆã¨å«ã¾ã‚Œãªã„å ´åˆãŒã‚ã‚‹ã€‚
 
 
-[I—¹Žž]
+[çµ‚äº†æ™‚]
 char iniSection[50];
 REBARBANDINFO bandInfo;
 ZeroMemory(&bandInfo, sizeof(bandInfo)); 
@@ -914,7 +914,7 @@ for(int i = 0; i < barcnt; i++){
     sprintf(iniSection, INISECTION_BAR, i);
     SendMessage(hRebar, RB_GETBANDINFO, (WPARAM)(UINT)i, (LPARAM)(LPREBARBANDINFO)&bandInfo);
 
-    // wID, cx, fStyle ‚ð ini ƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+    // wID, cx, fStyle ã‚’ ini ãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹
     MyWriteProfileInt(iniSection, "ID", bandInfo.wID);
     MyWriteProfileInt(iniSection, "CX", bandInfo.cx);
     MyWriteProfileInt(iniSection, "FL_BREAK", (bandInfo.fStyle & RBBS_BREAK) ? 1 : 0);
@@ -922,10 +922,10 @@ for(int i = 0; i < barcnt; i++){
 }
 
 
-[‹N“®Žž]
+[èµ·å‹•æ™‚]
 int i;
 char iniSection[50];
-// CreateToolbarx ‚Íƒoƒ“ƒh“à‚Ìƒc[ƒ‹ƒo[‚ðì¬‚·‚éŠÖ”
+// CreateToolbarx ã¯ãƒãƒ³ãƒ‰å†…ã®ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã‚’ä½œæˆã™ã‚‹é–¢æ•°
 HWND (*hwndproc[])(HWND) = {CreateToolbar1, CreateToolbar2};
 
 REBARBANDINFO rbBand;

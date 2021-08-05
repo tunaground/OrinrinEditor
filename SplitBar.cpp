@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒXƒvƒŠƒbƒgƒo[‚Ìˆ—‚µ‚Ü‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í SplitBar.cpp ‚Å‚·B
+	@brief ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®å‡¦ç†ã—ã¾ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ SplitBar.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/04/04
 */
@@ -17,7 +17,7 @@ If not, see <http://www.gnu.org/licenses/>.
 */
 //-------------------------------------------------------------------------------------------------
 
-//	•¡”g‚¤‚Æ‚«Eƒo[ƒEƒCƒ“ƒhƒE‚ÉTAG‚µ‚Ä‚¨‚­
+//	è¤‡æ•°ä½¿ã†ã¨ããƒ»ãƒãƒ¼ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«TAGã—ã¦ãŠã
 
 #include "stdafx.h"
 #include "SplitBar.h"
@@ -33,9 +33,9 @@ VOID	Spt_OnLButtonUp( HWND, INT, INT, UINT );
 
 
 /*!
-	ƒXƒvƒŠƒbƒgƒo[‚ÌƒNƒ‰ƒX‚ğì¬
-	@param[in]	hInst	‚±‚Ìƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@return		“o˜^‚µ‚½ƒNƒ‰ƒXƒAƒgƒ€
+	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆ
+	@param[in]	hInst	ã“ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç™»éŒ²ã—ãŸã‚¯ãƒ©ã‚¹ã‚¢ãƒˆãƒ 
 */
 ATOM SplitBarClass( HINSTANCE hInst )
 {
@@ -59,13 +59,13 @@ ATOM SplitBarClass( HINSTANCE hInst )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒXƒvƒŠƒbƒgƒo[‚ğì‚é
-	@param[in]	hInst	‚±‚Ìƒ‚ƒWƒ…[ƒ‹‚ÌƒCƒ“ƒXƒ^ƒ“ƒXƒnƒ“ƒhƒ‹
-	@param[in]	hPrWnd	eƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x		ƒNƒ‰ƒCƒ„ƒ“ƒg“I‚È¶À•W
-	@param[in]	y		ƒNƒ‰ƒCƒ„ƒ“ƒg“I‚ÈãÀ•W
-	@param[in]	dHeight	‚‚³
-	@return		ƒXƒvƒŠƒbƒgƒo[‚Ìƒnƒ“ƒhƒ‹
+	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã‚’ä½œã‚‹
+	@param[in]	hInst	ã“ã®ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hPrWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆçš„ãªå·¦åº§æ¨™
+	@param[in]	y		ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆçš„ãªä¸Šåº§æ¨™
+	@param[in]	dHeight	é«˜ã•
+	@return		ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«
 */
 HWND SplitBarCreate( HINSTANCE hInst, HWND hPrWnd, INT x, INT y, INT dHeight )
 {
@@ -81,19 +81,19 @@ HWND SplitBarCreate( HINSTANCE hInst, HWND hPrWnd, INT x, INT y, INT dHeight )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒXƒvƒŠƒbƒgƒo[‚ÌƒEƒCƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	message		ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚Ì¯•Ê”Ô†
-	@param[in]	wParam		’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam		’Ç‰Á‚Ìî•ñ‚Q
-	@retval 0	ƒƒbƒZ[ƒWˆ—Ï‚İ
-	@retval no0	‚±‚±‚Å‚Íˆ—‚¹‚¸Ÿ‚É‰ñ‚·
+	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	message		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam		è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam		è¿½åŠ ã®æƒ…å ±ï¼’
+	@retval 0	ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†æ¸ˆã¿
+	@retval no0	ã“ã“ã§ã¯å‡¦ç†ã›ãšæ¬¡ã«å›ã™
 */
 LRESULT CALLBACK SplitProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
 	{
-		HANDLE_MSG( hWnd, WM_PAINT,       Spt_OnPaint );		//	‰æ–Ê‚ÌXV‚Æ‚©
+		HANDLE_MSG( hWnd, WM_PAINT,       Spt_OnPaint );		//	ç”»é¢ã®æ›´æ–°ã¨ã‹
 		HANDLE_MSG( hWnd, WM_LBUTTONDOWN, Spt_OnLButtonDown );	
 		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Spt_OnMouseMove );	
 		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Spt_OnLButtonUp );	
@@ -106,9 +106,9 @@ LRESULT CALLBACK SplitProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	PAINTB–³Œø—Ìˆæ‚ªo—ˆ‚½‚Æ‚«‚É”­¶B”wŒi‚Ìˆµ‚¢‚É’ˆÓB”wŒi‚ğ“h‚è‚Â‚Ô‚µ‚Ä‚©‚çAƒIƒuƒWƒFƒNƒg‚ğ•`‰æ
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		–³‚µ
+	PAINTã€‚ç„¡åŠ¹é ˜åŸŸãŒå‡ºæ¥ãŸã¨ãã«ç™ºç”Ÿã€‚èƒŒæ™¯ã®æ‰±ã„ã«æ³¨æ„ã€‚èƒŒæ™¯ã‚’å¡—ã‚Šã¤ã¶ã—ã¦ã‹ã‚‰ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç„¡ã—
 */
 VOID Spt_OnPaint( HWND hWnd )
 {
@@ -124,21 +124,21 @@ VOID Spt_OnPaint( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚Ì¶ƒ{ƒ^ƒ“‚ªƒ_ƒEƒ“(ƒ_ƒuƒ‹ƒNƒ‹ƒbƒRj‚µ‚½‚Æ‚«‚Ìˆ—
-	@param[in]	hWnd			eƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	fDoubleClick	ƒ_ƒuƒ‹ƒNƒ‹ƒbƒR‚³‚ê‚½‚Æ‚«‚È‚ç”ñ‚O‚Æ‚È‚é
-	@param[in]	x				ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚w
-	@param[in]	y				ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚x
-	@param[in]	keyFlags		‰Ÿ‚³‚ê‚Ä‚é‘¼‚Ìƒ{ƒ^ƒ“
+	ãƒã‚¦ã‚¹ã®å·¦ãƒœã‚¿ãƒ³ãŒãƒ€ã‚¦ãƒ³(ãƒ€ãƒ–ãƒ«ã‚¯ãƒ«ãƒƒã‚³ï¼‰ã—ãŸã¨ãã®å‡¦ç†
+	@param[in]	hWnd			è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	fDoubleClick	ãƒ€ãƒ–ãƒ«ã‚¯ãƒ«ãƒƒã‚³ã•ã‚ŒãŸã¨ããªã‚‰éï¼ã¨ãªã‚‹
+	@param[in]	x				ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¸
+	@param[in]	y				ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¹
+	@param[in]	keyFlags		æŠ¼ã•ã‚Œã¦ã‚‹ä»–ã®ãƒœã‚¿ãƒ³
 */
 VOID Spt_OnLButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlags )
 {
-	if( fDoubleClick )	return;	//	ƒ_ƒuƒ‹ƒNƒ‹ƒbƒN‚Í‰½‚à‚µ‚È‚¢
+	if( fDoubleClick )	return;	//	ãƒ€ãƒ–ãƒ«ã‚¯ãƒ«ãƒƒã‚¯ã¯ä½•ã‚‚ã—ãªã„
 
-	//	ƒXƒvƒŠƒbƒgƒo[‚ªƒNƒŠƒbƒN‚³‚ê‚½‚çƒTƒCƒY•ÏXƒ‚[ƒh‚É‚È‚é
+	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ãŒã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‚‰ã‚µã‚¤ã‚ºå¤‰æ›´ãƒ¢ãƒ¼ãƒ‰ã«ãªã‚‹
 	SetWindowLongPtr( hWnd, GWLP_USERDATA, 1 );
 
-	//	ƒ}ƒEƒX‚Ì“®‚«‚ğŠÄ‹‚·‚é
+	//	ãƒã‚¦ã‚¹ã®å‹•ãã‚’ç›£è¦–ã™ã‚‹
 	SetCapture( hWnd );
 
 	return;
@@ -146,11 +146,11 @@ VOID Spt_OnLButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚ª“®‚¢‚½‚Æ‚«‚Ìˆ—
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			ƒXƒvƒŠƒbƒgƒo[¶‚©‚ç‚Ì‘Š‘ÎÀ•W‚w
-	@param[in]	y			ƒXƒvƒŠƒbƒgƒo[ã‚©‚ç‚Ì‘Š‘ÎÀ•W‚x
-	@param[in]	keyFlags	‰Ÿ‚³‚ê‚Ä‚é‘¼‚Ìƒ{ƒ^ƒ“
+	ãƒã‚¦ã‚¹ãŒå‹•ã„ãŸã¨ãã®å‡¦ç†
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼å·¦ã‹ã‚‰ã®ç›¸å¯¾åº§æ¨™ï¼¸
+	@param[in]	y			ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ä¸Šã‹ã‚‰ã®ç›¸å¯¾åº§æ¨™ï¼¹
+	@param[in]	keyFlags	æŠ¼ã•ã‚Œã¦ã‚‹ä»–ã®ãƒœã‚¿ãƒ³
 */
 VOID Spt_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
@@ -163,14 +163,14 @@ VOID Spt_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 	bSpliting = GetWindowLongPtr( hWnd, GWLP_USERDATA );
 
-	//	ƒTƒCƒY•ÏXƒ‚[ƒh‚È‚çA‚¸‚è‚¸‚è“®‚©‚·
+	//	ã‚µã‚¤ã‚ºå¤‰æ›´ãƒ¢ãƒ¼ãƒ‰ãªã‚‰ã€ãšã‚Šãšã‚Šå‹•ã‹ã™
 	if( bSpliting )
 	{
 		hPrWnd = GetParent( hWnd );
-		GetClientRect( hPrWnd, &stRect );	//	eƒEƒCƒ“ƒhƒE
-		wWidth = stRect.right;	//	•Šm•Û
+		GetClientRect( hPrWnd, &stRect );	//	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦
+		wWidth = stRect.right;	//	å¹…ç¢ºä¿
 
-		SplitBarPosGet( hWnd, &stRect );	//	ƒXƒvƒŠƒbƒgƒo[‚Ì¶ã‚Æ•‚‚³
+		SplitBarPosGet( hWnd, &stRect );	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®å·¦ä¸Šã¨å¹…é«˜ã•
 		wLeft = stRect.left + x;
 
 		if( wLeft < SPLITBAR_LEFTLIMIT){	wLeft =  SPLITBAR_LEFTLIMIT;	}
@@ -184,11 +184,11 @@ VOID Spt_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒXƒ{ƒ^ƒ“‚ª—£‚³‚ê‚½
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚w
-	@param[in]	y			ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚x
-	@param[in]	keyFlags	‰Ÿ‚³‚ê‚Ä‚é‘¼‚Ìƒ{ƒ^ƒ“
+	ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒé›¢ã•ã‚ŒãŸ
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¸
+	@param[in]	y			ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¹
+	@param[in]	keyFlags	æŠ¼ã•ã‚Œã¦ã‚‹ä»–ã®ãƒœã‚¿ãƒ³
 */
 VOID Spt_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
@@ -200,18 +200,18 @@ VOID Spt_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 	bSpliting = GetWindowLongPtr( hWnd, GWLP_USERDATA );
 
-	//	ƒTƒCƒY•ÏXƒ‚[ƒhI—¹
+	//	ã‚µã‚¤ã‚ºå¤‰æ›´ãƒ¢ãƒ¼ãƒ‰çµ‚äº†
 	if( bSpliting )
 	{
 		hPrWnd = GetParent( hWnd );
 
-		ReleaseCapture(   );	//	ƒ}ƒEƒXƒLƒƒƒvƒ`ƒƒI—¹
+		ReleaseCapture(   );	//	ãƒã‚¦ã‚¹ã‚­ãƒ£ãƒ—ãƒãƒ£çµ‚äº†
 		SetWindowPos( hWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE );
 		GetClientRect( hPrWnd, &stRect );
 		//wHeight = stRect.bottom - stRect.top;
 		//wWidth  = stRect.right  - stRect.left;
 
-		//	ƒTƒCƒY•ÏX”­¶‚ğeƒEƒCƒ“ƒhƒE‚É‘—M
+		//	ã‚µã‚¤ã‚ºå¤‰æ›´ç™ºç”Ÿã‚’è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«é€ä¿¡
 #ifdef SPLIT_BAR_POS_FIX
 		FORWARD_WM_SIZE( hPrWnd, SIZE_SPLITBAR_MOVED, x, y, PostMessage );
 #else
@@ -226,9 +226,9 @@ VOID Spt_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒXƒvƒŠƒbƒgƒo[‚ÌƒNƒ‰ƒCƒAƒ“ƒgã‚Ì¶ãÀ•W‚ÆA•‚Æ‚‚³‚ğŠm•Û‚·‚é
-	@param[in]	hSplitWnd	‘ÎÛ‚ÌƒXƒvƒŠƒbƒgƒo[ƒnƒ“ƒhƒ‹
-	@param[out]	ptRect		ƒXƒvƒŠƒbƒgƒo[‚ÌƒTƒCƒY‚ğ“ü‚ê‚é\‘¢‘Ì‚Ö‚Ìƒ|ƒCƒ“ƒ^[
+	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆä¸Šã®å·¦ä¸Šåº§æ¨™ã¨ã€å¹…ã¨é«˜ã•ã‚’ç¢ºä¿ã™ã‚‹
+	@param[in]	hSplitWnd	å¯¾è±¡ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+	@param[out]	ptRect		ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®ã‚µã‚¤ã‚ºã‚’å…¥ã‚Œã‚‹æ§‹é€ ä½“ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼
 */
 VOID SplitBarPosGet( HWND hSplitWnd, LPRECT ptRect )
 {
@@ -251,16 +251,16 @@ VOID SplitBarPosGet( HWND hSplitWnd, LPRECT ptRect )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‰æ–ÊƒTƒCƒY‚ª•Ï‚í‚Á‚½‚Ì‚ÅƒTƒCƒY•ÏX
-	@param[in]	hSplitWnd	‘ÎÛ‚ÌƒXƒvƒŠƒbƒgƒo[ƒnƒ“ƒhƒ‹
-	@param[in]	ptRect		ƒNƒ‰ƒCƒAƒ“ƒg—Ìˆæ
-	@return		‰æ–Ê¶‚©‚ç‚ÌˆÊ’u
+	ç”»é¢ã‚µã‚¤ã‚ºãŒå¤‰ã‚ã£ãŸã®ã§ã‚µã‚¤ã‚ºå¤‰æ›´
+	@param[in]	hSplitWnd	å¯¾è±¡ã®ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	ptRect		ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆé ˜åŸŸ
+	@return		ç”»é¢å·¦ã‹ã‚‰ã®ä½ç½®
 */
 LONG SplitBarResize( HWND hSplitWnd, LPRECT ptRect )
 {
 	RECT	rect;
 
-	SplitBarPosGet( hSplitWnd, &rect );	//	¶‚©‚ç‚ÌˆÊ’u‚ª•Ï‚í‚ç‚È‚¢
+	SplitBarPosGet( hSplitWnd, &rect );	//	å·¦ã‹ã‚‰ã®ä½ç½®ãŒå¤‰ã‚ã‚‰ãªã„
 
 	SetWindowPos( hSplitWnd, HWND_TOP, rect.left, ptRect->top, SPLITBAR_WIDTH, ptRect->bottom, 0 );
 

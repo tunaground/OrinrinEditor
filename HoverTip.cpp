@@ -1,6 +1,6 @@
 /*! @file
-	@brief Ž©ì‚Ìƒc[ƒ‹ƒ`ƒbƒv‚Ì§Œä
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í HoverTip.cpp ‚Å‚·B
+	@brief è‡ªä½œã®ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã®åˆ¶å¾¡
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ HoverTip.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2012/06/08
 */
@@ -23,38 +23,38 @@ If not, see <http://www.gnu.org/licenses/>.
 
 
 /*
-ƒc[ƒ‹ƒ`ƒbƒv‚ÌƒTƒuƒNƒ‰ƒX‚Å‚«‚È‚¢‚©H
+ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã®ã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§ããªã„ã‹ï¼Ÿ
 
-ƒc[ƒ‹ƒ`ƒbƒvƒrƒ…[‚ðì‚é‚É‚Í
-Šî–{“I‚Éƒ}ƒEƒXƒ€[ƒu‚Å”­¶‚·‚é‚Í‚¸
-§Œä—p‚Ìƒnƒ“ƒhƒ‹‚Â‚­‚é‚©H
-TrackMouseEvent WM_MOUSEHOVER WM_MOUSELEAVE ‚ð‚Â‚©‚¤
-WM_MOUSEHOVER‚ª—ˆ‚½‚çAƒŠƒXƒgƒrƒ…[‚Æ‚©‚Ìƒnƒ“ƒhƒ‹“n‚µ‚Äƒc[ƒ‹ƒ`ƒbƒvƒ|ƒbƒpƒbƒv‚ðƒR[ƒ‹‚·‚éB
-ƒR[ƒ‹‚³‚ê‚½‚çA‚»‚Ìƒnƒ“ƒhƒ‹‚É‘Î‚µ‚ÄDISPINFO“I‚Èmessage‚ð‘—‚é
-‚à‚µ‚­‚ÍƒR[ƒ‹ƒoƒbƒN”Ÿ”‚ðŽw’è‚·‚é‚Æ‚©B
-“à—eƒQƒbƒg‚µ‚½‚çAì¬‚µ‚Ä•\Ž¦B’P‘Ì‚µ‚©‚ ‚è“¾‚È‚¢‚Ì‚ÅA
-‘O‚Ì‚ª‚ ‚Á‚½‚ç”j‰ó‚·‚é‚æ‚¤‚ÉB
-”ñ•\Ž¦‚Ì‚Ü‚ÜWM_MOUSELEAVE‚ª—ˆ‚½‚çƒLƒƒƒ“ƒZƒ‹‚©H
+ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ãƒ“ãƒ¥ãƒ¼ã‚’ä½œã‚‹ã«ã¯
+åŸºæœ¬çš„ã«ãƒžã‚¦ã‚¹ãƒ ãƒ¼ãƒ–ã§ç™ºç”Ÿã™ã‚‹ã¯ãš
+åˆ¶å¾¡ç”¨ã®ãƒãƒ³ãƒ‰ãƒ«ã¤ãã‚‹ã‹ï¼Ÿ
+TrackMouseEvent WM_MOUSEHOVER WM_MOUSELEAVE ã‚’ã¤ã‹ã†
+WM_MOUSEHOVERãŒæ¥ãŸã‚‰ã€ãƒªã‚¹ãƒˆãƒ“ãƒ¥ãƒ¼ã¨ã‹ã®ãƒãƒ³ãƒ‰ãƒ«æ¸¡ã—ã¦ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ãƒãƒƒãƒ‘ãƒƒãƒ—ã‚’ã‚³ãƒ¼ãƒ«ã™ã‚‹ã€‚
+ã‚³ãƒ¼ãƒ«ã•ã‚ŒãŸã‚‰ã€ãã®ãƒãƒ³ãƒ‰ãƒ«ã«å¯¾ã—ã¦DISPINFOçš„ãªmessageã‚’é€ã‚‹
+ã‚‚ã—ãã¯ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯å‡½æ•°ã‚’æŒ‡å®šã™ã‚‹ã¨ã‹ã€‚
+å†…å®¹ã‚²ãƒƒãƒˆã—ãŸã‚‰ã€ä½œæˆã—ã¦è¡¨ç¤ºã€‚å˜ä½“ã—ã‹ã‚ã‚Šå¾—ãªã„ã®ã§ã€
+å‰ã®ãŒã‚ã£ãŸã‚‰ç ´å£Šã™ã‚‹ã‚ˆã†ã«ã€‚
+éžè¡¨ç¤ºã®ã¾ã¾WM_MOUSELEAVEãŒæ¥ãŸã‚‰ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã‹ï¼Ÿ
 
-ƒtƒ[ƒeƒBƒ“ƒOƒEƒCƒ“ƒhƒE‚Â‚­‚Á‚Ä‚»‚±‚É•\Ž¦Eƒhƒ‰ƒtƒgƒ{[ƒh‚Æ“¯‚¶‚æ‚¤‚É
-•\Ž¦˜g‚Ìe‚ÍƒfƒXƒNƒgƒbƒv‚©–³‚µ‚Å‚¢‚¢B
-ƒ}ƒEƒXƒNƒ‹ƒbƒN‚Å•Â‚¶‚éE‚R‚O•bŒo‰ß‚Å•Â‚¶‚é
-”pixel‚Ìƒ}ƒEƒXƒ€[ƒu‚ðŒŸ’m‚µ‚Ä•Â‚¶‚é
+ãƒ•ãƒ­ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã¤ãã£ã¦ãã“ã«è¡¨ç¤ºãƒ»ãƒ‰ãƒ©ãƒ•ãƒˆãƒœãƒ¼ãƒ‰ã¨åŒã˜ã‚ˆã†ã«
+è¡¨ç¤ºæž ã®è¦ªã¯ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã‹ç„¡ã—ã§ã„ã„ã€‚
+ãƒžã‚¦ã‚¹ã‚¯ãƒ«ãƒƒã‚¯ã§é–‰ã˜ã‚‹ãƒ»ï¼“ï¼ç§’çµŒéŽã§é–‰ã˜ã‚‹
+æ•°pixelã®ãƒžã‚¦ã‚¹ãƒ ãƒ¼ãƒ–ã‚’æ¤œçŸ¥ã—ã¦é–‰ã˜ã‚‹
 
-ƒ|ƒbƒvƒAƒbƒv‚ÌƒTƒCƒY‚ÍA•¶Žš—ñ‚ÅŒˆ‚ß‚éB‰Žæ‚è‚Q‚‚˜‚­‚ç‚¢‚ÅB
-”wŒi‚Æ•¶ŽšF‚Í GetSysColor ‚Å‚Æ‚ê‚é
+ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ã®ã‚µã‚¤ã‚ºã¯ã€æ–‡å­—åˆ—ã§æ±ºã‚ã‚‹ã€‚ç¸å–ã‚Šï¼’ï½ï½˜ãã‚‰ã„ã§ã€‚
+èƒŒæ™¯ã¨æ–‡å­—è‰²ã¯ GetSysColor ã§ã¨ã‚Œã‚‹
 
-SystemParametersInfo  SPI_GETMOUSEHOVERTIME  SPI_GETMOUSEHOVERWIDTH ‚Å’²®o—ˆ‚é
+SystemParametersInfo  SPI_GETMOUSEHOVERTIME  SPI_GETMOUSEHOVERWIDTH ã§èª¿æ•´å‡ºæ¥ã‚‹
 
 */
 
 /*
-o—ˆ‚é‚¾‚¯“à—e‚Í‰B•Á‚·‚é
-Žg—p‘¤‚Å‚ÍAWM_MOUSEHOVER ‚ÌƒLƒƒƒbƒ`‚·‚éB”­¶ƒ|ƒCƒ“ƒg‚ÌÀ•WŽó‚¯Žæ‚é
-“à—e‚ÌŒÄo‚ÍAƒR[ƒ‹ƒoƒbƒN‚·‚é‚©H•\Ž¦“à—e‚Ì•¶Žš—ñƒ|ƒCƒ“ƒ^‚ðŽó‚¯Žæ‚é
-ŠJ•ú‚Í‚±‚Á‚¿‚Å‚â‚ê‚Î‚¢‚¢H
+å‡ºæ¥ã‚‹ã ã‘å†…å®¹ã¯éš è”½ã™ã‚‹
+ä½¿ç”¨å´ã§ã¯ã€WM_MOUSEHOVER ã®ã‚­ãƒ£ãƒƒãƒã™ã‚‹ã€‚ç™ºç”Ÿãƒã‚¤ãƒ³ãƒˆã®åº§æ¨™å—ã‘å–ã‚‹
+å†…å®¹ã®å‘¼å‡ºã¯ã€ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯ã™ã‚‹ã‹ï¼Ÿè¡¨ç¤ºå†…å®¹ã®æ–‡å­—åˆ—ãƒã‚¤ãƒ³ã‚¿ã‚’å—ã‘å–ã‚‹
+é–‹æ”¾ã¯ã“ã£ã¡ã§ã‚„ã‚Œã°ã„ã„ï¼Ÿ
 
-ƒ`ƒbƒvŽ©‘Ì‚ÍƒXƒ^ƒeƒBƒbƒN‚ÅƒI[ƒi[ƒhƒ[
+ãƒãƒƒãƒ—è‡ªä½“ã¯ã‚¹ã‚¿ãƒ†ã‚£ãƒƒã‚¯ã§ã‚ªãƒ¼ãƒŠãƒ¼ãƒ‰ãƒ­ãƒ¼
 */
 #ifdef USE_HOVERTIP
 
@@ -62,21 +62,21 @@ SystemParametersInfo  SPI_GETMOUSEHOVERTIME  SPI_GETMOUSEHOVERWIDTH ‚Å’²®o—ˆ‚é
 
 #define HOVER_TIPS_CLASS	TEXT("HOVER_TIPS")
 
-#define HOVER_TIME	15000	//!<	ƒfƒtƒHƒ‹ƒg•\Ž¦‚‚“
-#define HOVER_TMID	1234	//!<	ƒ^ƒCƒ}‚h‚c
-#define HOVER_MOVE	   8	//!<	‚±‚êˆÈãƒ}ƒEƒXƒ€[ƒu‚ª“ü‚Á‚½‚çÁ‚·è‡’l
+#define HOVER_TIME	15000	//!<	ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆè¡¨ç¤ºï½ï½“
+#define HOVER_TMID	1234	//!<	ã‚¿ã‚¤ãƒžï¼©ï¼¤
+#define HOVER_MOVE	   8	//!<	ã“ã‚Œä»¥ä¸Šãƒžã‚¦ã‚¹ãƒ ãƒ¼ãƒ–ãŒå…¥ã£ãŸã‚‰æ¶ˆã™é–¾å€¤
 
-#define HOVER_DELAY	1000	//!<	ƒ}ƒEƒX’âŽ~‚©‚ç‚ÌoŒ»‘Ò‚¿ŽžŠÔ
+#define HOVER_DELAY	1000	//!<	ãƒžã‚¦ã‚¹åœæ­¢ã‹ã‚‰ã®å‡ºç¾å¾…ã¡æ™‚é–“
 //-------------------------------------------------------------------------------------------------
 
-static  ATOM	gTipAtom;	//!<	ƒEƒCƒ“ƒhƒEƒNƒ‰ƒXƒAƒgƒ€
-static  HWND	ghTipWnd;	//!<	ƒzƒo[ƒ`ƒbƒv‚ÌƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-static HFONT	ghTipFont;	//!<	ƒc[ƒ‹ƒ`ƒbƒv—p
+static  ATOM	gTipAtom;	//!<	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚¢ãƒˆãƒ 
+static  HWND	ghTipWnd;	//!<	ãƒ›ãƒãƒ¼ãƒãƒƒãƒ—ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+static HFONT	ghTipFont;	//!<	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ç”¨
 
-static  UINT	gdMoveVol;	//!<	ˆÚ“®—ÊƒJƒEƒ“ƒg
+static  UINT	gdMoveVol;	//!<	ç§»å‹•é‡ã‚«ã‚¦ãƒ³ãƒˆ
 
-static LPTSTR	gptContent;	//!<	•\Ž¦“à—e
-static RECT		gstContSize;//!<	•\Ž¦‘å‚«‚³
+static LPTSTR	gptContent;	//!<	è¡¨ç¤ºå†…å®¹
+static RECT		gstContSize;//!<	è¡¨ç¤ºå¤§ãã•
 //-------------------------------------------------------------------------------------------------
 
 
@@ -93,10 +93,10 @@ VOID	Htp_OnMouseMove( HWND, INT, INT, UINT );	//!<
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‰Šú‰»
-	@param[in]	hInstance	ƒAƒvƒŠ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	@param[in]	hPtWnd		ƒƒCƒ“‘‹ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	åˆæœŸåŒ–
+	@param[in]	hInstance	ã‚¢ãƒ—ãƒªã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	@param[in]	hPtWnd		ãƒ¡ã‚¤ãƒ³çª“ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT HoverTipInitialise( HINSTANCE hInstance, HWND hPtWnd )
 {
@@ -109,7 +109,7 @@ HRESULT HoverTipInitialise( HINSTANCE hInstance, HWND hPtWnd )
 		gptContent = NULL;
 		gdMoveVol = 0;
 
-		//	•\Ž¦ƒ`ƒbƒvƒEƒCƒ“ƒhƒEƒNƒ‰ƒXì¬
+		//	è¡¨ç¤ºãƒãƒƒãƒ—ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ä½œæˆ
 		ZeroMemory( &wcex, sizeof(WNDCLASSEX) );
 		wcex.cbSize			= sizeof(WNDCLASSEX);
 		wcex.style			= CS_HREDRAW | CS_VREDRAW;
@@ -119,20 +119,20 @@ HRESULT HoverTipInitialise( HINSTANCE hInstance, HWND hPtWnd )
 		wcex.hInstance		= hInstance;
 		wcex.hIcon			= NULL;
 		wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground	= (HBRUSH)(COLOR_INFOBK+1);	//	ƒc[ƒ‹ƒ`ƒbƒvƒRƒ“ƒgƒ[ƒ‹‚Ì”wŒiF
+		wcex.hbrBackground	= (HBRUSH)(COLOR_INFOBK+1);	//	ãƒ„ãƒ¼ãƒ«ãƒãƒƒãƒ—ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®èƒŒæ™¯è‰²
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= HOVER_TIPS_CLASS;
 		wcex.hIconSm		= NULL;
 
 		gTipAtom = RegisterClassEx( &wcex );
 	
-		//	•\Ž¦ƒ`ƒbƒvƒEƒCƒ“ƒhƒEì¬ | WS_EX_TOPMOST
+		//	è¡¨ç¤ºãƒãƒƒãƒ—ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ä½œæˆ | WS_EX_TOPMOST
 		ghTipWnd = CreateWindowEx( WS_EX_TOOLWINDOW, HOVER_TIPS_CLASS, TEXT("InfoTip"), WS_POPUP | WS_BORDER, 0, 0, 15, 15, NULL, NULL, hInstance, NULL );
-		//	Å‰‚Í”ñ•\Ž¦
+		//	æœ€åˆã¯éžè¡¨ç¤º
 
-		//	•\Ž¦ƒtƒHƒ“ƒgì¬
+		//	è¡¨ç¤ºãƒ•ã‚©ãƒ³ãƒˆä½œæˆ
 		ViewingFontGet( &stFont );
-		ttSize = InitParamValue( INIT_LOAD, VL_MAATIP_SIZE, FONTSZ_REDUCE );	//	ƒTƒCƒYŠm”F
+		ttSize = InitParamValue( INIT_LOAD, VL_MAATIP_SIZE, FONTSZ_REDUCE );	//	ã‚µã‚¤ã‚ºç¢ºèª
 		stFont.lfHeight = (FONTSZ_REDUCE == ttSize) ? FONTSZ_REDUCE : FONTSZ_NORMAL;
 		ghTipFont = CreateFontIndirect( &stFont );
 	}
@@ -150,13 +150,13 @@ HRESULT HoverTipInitialise( HINSTANCE hInstance, HWND hPtWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	MouseHover‚Ì“o˜^‚·‚é
-	@param[in]	hTgtWnd	ƒ`ƒFƒbƒN‘ÎÛ‚ÌƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	MouseHoverã®ç™»éŒ²ã™ã‚‹
+	@param[in]	hTgtWnd	ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT HoverTipResist( HWND hTgtWnd )
 {
-	//	HoverŒÅ’èELEAVE‚ÍŽg‚í‚È‚¢‚©
+	//	Hoverå›ºå®šãƒ»LEAVEã¯ä½¿ã‚ãªã„ã‹
 
 	TRACKMOUSEEVENT	stTrackMsEv;
 
@@ -166,7 +166,7 @@ HRESULT HoverTipResist( HWND hTgtWnd )
 	stTrackMsEv.cbSize      = sizeof(TRACKMOUSEEVENT);
 	stTrackMsEv.dwFlags     = TME_HOVER | TME_LEAVE;
 	stTrackMsEv.hwndTrack   = hTgtWnd;
-	stTrackMsEv.dwHoverTime = HOVER_DELAY;	//	ŽžŠÔA‚»‚Ì‚¤‚¿’²®o—ˆ‚é‚æ‚¤‚É	HOVER_DEFAULT
+	stTrackMsEv.dwHoverTime = HOVER_DELAY;	//	æ™‚é–“ã€ãã®ã†ã¡èª¿æ•´å‡ºæ¥ã‚‹ã‚ˆã†ã«	HOVER_DEFAULT
 	TrackMouseEvent( &stTrackMsEv );
 
 
@@ -175,9 +175,9 @@ HRESULT HoverTipResist( HWND hTgtWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ|ƒbƒpƒbƒv‚Ì•¶ŽšƒTƒCƒY•ÏX
-	@param[in]	ttSize	•¶ŽšƒTƒCƒYE‚P‚Q‚©‚P‚U‚µ‚©‚È‚¢
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒãƒƒãƒ‘ãƒƒãƒ—ã®æ–‡å­—ã‚µã‚¤ã‚ºå¤‰æ›´
+	@param[in]	ttSize	æ–‡å­—ã‚µã‚¤ã‚ºãƒ»ï¼‘ï¼’ã‹ï¼‘ï¼–ã—ã‹ãªã„
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT HoverTipSizeChange( INT ttSize )
 {
@@ -185,7 +185,7 @@ HRESULT HoverTipSizeChange( INT ttSize )
 
 	DeleteFont( ghTipFont );
 
-	//	¡Žg‚Á‚Ä‚éƒ„ƒc‚Ô‚Á‰ó‚µ‚Ä‚©‚çAV‚µ‚¢‚Ì‚Â‚­‚Á‚Ä‚­‚Á‚Â‚¯‚é
+	//	ä»Šä½¿ã£ã¦ã‚‹ãƒ¤ãƒ„ã¶ã£å£Šã—ã¦ã‹ã‚‰ã€æ–°ã—ã„ã®ã¤ãã£ã¦ãã£ã¤ã‘ã‚‹
 	ViewingFontGet( &stFont );
 	stFont.lfHeight = (FONTSZ_REDUCE == ttSize) ? FONTSZ_REDUCE : FONTSZ_NORMAL;
 	ghTipFont = CreateFontIndirect( &stFont );
@@ -197,12 +197,12 @@ HRESULT HoverTipSizeChange( INT ttSize )
 
 
 /*!
-	WM_MOUSEHOVER‚ðŽó‚¯Žæ‚é
-	@param[in]	hEvWnd		”­¶‚µ‚½ƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	wParam		’Ç‰Áî•ñ‚P
-	@param[in]	lParam		’Ç‰Áî•ñ‚Q
-	@param[in]	pfInfoGet	•\Ž¦“à—e‚ð‚¢‚½‚¾‚­ƒR[ƒ‹ƒoƒbƒN”Ÿ”
-	@return	ˆ—‚µ‚½‚ç‚O
+	WM_MOUSEHOVERã‚’å—ã‘å–ã‚‹
+	@param[in]	hEvWnd		ç™ºç”Ÿã—ãŸã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	wParam		è¿½åŠ æƒ…å ±ï¼‘
+	@param[in]	lParam		è¿½åŠ æƒ…å ±ï¼’
+	@param[in]	pfInfoGet	è¡¨ç¤ºå†…å®¹ã‚’ã„ãŸã ãã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯å‡½æ•°
+	@return	å‡¦ç†ã—ãŸã‚‰ï¼
 */
 LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTIPDISP pfInfoGet )
 {
@@ -249,7 +249,7 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 	FREE( gptContent );
 
 	ptText = pfInfoGet( NULL );
-	if( !(ptText) )	//	‚È‚ñ‚©‚¨‚©‚µ‚¢
+	if( !(ptText) )	//	ãªã‚“ã‹ãŠã‹ã—ã„
 	{
 		return 0;
 	}
@@ -258,41 +258,41 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 
 	hdc = GetDC( ghTipWnd );
 
-	SetRect( &gstContSize, 0, 0, 2222, 100 );	//	ƒTƒCƒY‚Í“K“–E‰¡•‚Í‘å‚«‚­—]—T‚ª•K—v
+	SetRect( &gstContSize, 0, 0, 2222, 100 );	//	ã‚µã‚¤ã‚ºã¯é©å½“ãƒ»æ¨ªå¹…ã¯å¤§ããä½™è£•ãŒå¿…è¦
 
-	hOldFnt = SelectFont( hdc , ghTipFont );	//	ƒTƒCƒY•¹‚¹‚é•K—v‚ª‚ ‚é
+	hOldFnt = SelectFont( hdc , ghTipFont );	//	ã‚µã‚¤ã‚ºä½µã›ã‚‹å¿…è¦ãŒã‚ã‚‹
 
-	//	•K—v‚È—Ìˆæ‚ðŠm”F
+	//	å¿…è¦ãªé ˜åŸŸã‚’ç¢ºèª
 	DrawText( hdc, gptContent, -1, &gstContSize, DT_LEFT | DT_CALCRECT | DT_NOPREFIX );
 	TRACE( TEXT("HOVER Size[ %d x %d, %d : %d"), gstContSize.left, gstContSize.top, gstContSize.right, gstContSize.bottom );
 
 	SelectFont( hdc, hOldFnt );
 
-	//	‰Žæ‚è
+	//	ç¸å–ã‚Š
 	gstContSize.right  += 4;
 	gstContSize.bottom += 4;
 
-	//	ƒfƒXƒNƒgƒbƒvƒTƒCƒYŠm•Û
+	//	ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã‚µã‚¤ã‚ºç¢ºä¿
 	GetWindowRect( GetDesktopWindow(), &deskRect );
-	//	‰æ–Ê‚æ‚èƒfƒJ‚¢‚È‚çƒJƒbƒg
+	//	ç”»é¢ã‚ˆã‚Šãƒ‡ã‚«ã„ãªã‚‰ã‚«ãƒƒãƒˆ
 	if( gstContSize.right  >  deskRect.right  ){	gstContSize.right  = deskRect.right;	}
 	if( gstContSize.bottom >  deskRect.bottom ){	gstContSize.bottom = deskRect.bottom;	}
 
-	//	‰E‰º‚É‚Í‚Ýo‚·‚È‚çA•\Ž¦o—ˆ‚é‚Æ‚±‚ë‚Ü‚ÅƒIƒtƒZƒbƒg‚·‚é
+	//	å³ä¸‹ã«ã¯ã¿å‡ºã™ãªã‚‰ã€è¡¨ç¤ºå‡ºæ¥ã‚‹ã¨ã“ã‚ã¾ã§ã‚ªãƒ•ã‚»ãƒƒãƒˆã™ã‚‹
 	xSub = (point.x + gstContSize.right) - deskRect.right;
 	if( 0 <  xSub ){	point.x -= xSub;	}
 	ySub = (point.y + gstContSize.bottom) - deskRect.bottom;
 	if( 0 <  ySub ){	point.y -= ySub;	}
 
 	gdMoveVol = 0;
-	//	ˆÊ’u‡‚í‚¹‚µ‚Ä•\Ž¦
+	//	ä½ç½®åˆã‚ã›ã—ã¦è¡¨ç¤º
 //	SetWindowPos( ghTipWnd, HWND_TOP, (point.x + 1), (point.y + 1), gstContSize.right, gstContSize.bottom, SWP_SHOWWINDOW );
 	SetWindowPos( ghTipWnd, HWND_TOPMOST, (point.x + 1), (point.y + 1), gstContSize.right, gstContSize.bottom, SWP_SHOWWINDOW | SWP_NOACTIVATE );
-	SetTimer( ghTipWnd , HOVER_TMID, HOVER_TIME, NULL );	//	Á‚µ—pƒ^ƒCƒ}
+	SetTimer( ghTipWnd , HOVER_TMID, HOVER_TIME, NULL );	//	æ¶ˆã—ç”¨ã‚¿ã‚¤ãƒž
 
 	ReleaseDC( ghTipWnd, hdc );
 
-	//	ƒhƒ‰ƒtƒgƒ{[ƒh‚Æ“¯‚¶‚æ‚¤‚ÉAƒtƒ[ƒeƒBƒ“ƒOƒEƒCƒ“ƒhƒEì‚Á‚ÄAWM_PAINT ‚Å•`‰æ‚·‚ê‚Î‚¢‚¢
+	//	ãƒ‰ãƒ©ãƒ•ãƒˆãƒœãƒ¼ãƒ‰ã¨åŒã˜ã‚ˆã†ã«ã€ãƒ•ãƒ­ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ä½œã£ã¦ã€WM_PAINT ã§æç”»ã™ã‚Œã°ã„ã„
 
 
 	return 0;	//	If an application processes this message, it should return zero.
@@ -300,15 +300,15 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	WM_MOUSELEAVE‚ðŽó‚¯Žæ‚é
-	@param[in]	hEvWnd		”­¶‚µ‚½ƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return	ˆ—‚µ‚½‚ç‚O
+	WM_MOUSELEAVEã‚’å—ã‘å–ã‚‹
+	@param[in]	hEvWnd		ç™ºç”Ÿã—ãŸã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return	å‡¦ç†ã—ãŸã‚‰ï¼
 */
 LRESULT HoverTipOnMouseLeave( HWND hEvWnd )
 {
 	TRACE( TEXT("MOUSE LEAVE RISING") );
 
-	//	‚±‚±‚ÅAƒ}ƒEƒXƒJ[ƒ\ƒ‹‚ªƒ`ƒbƒv‚Ìã‚É‚­‚é‚Æƒ„ƒoƒC
+	//	ã“ã“ã§ã€ãƒžã‚¦ã‚¹ã‚«ãƒ¼ã‚½ãƒ«ãŒãƒãƒƒãƒ—ã®ä¸Šã«ãã‚‹ã¨ãƒ¤ãƒã‚¤
 	//HoverTipClose( ghTipWnd );
 
 	return 0;	//	If an application processes this message, it should return zero.
@@ -316,8 +316,8 @@ LRESULT HoverTipOnMouseLeave( HWND hEvWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	HoverTip‚ð•Â‚¶‚é
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
+	HoverTipã‚’é–‰ã˜ã‚‹
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
 */
 VOID HoverTipClose( HWND hWnd )
 {
@@ -329,23 +329,23 @@ VOID HoverTipClose( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒEƒCƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	message	ƒEƒCƒ“ƒhƒEƒƒbƒZ[ƒW‚ÌŽ¯•Ê”Ô†
-	@param[in]	wParam	’Ç‰Á‚Ìî•ñ‚P
-	@param[in]	lParam	’Ç‰Á‚Ìî•ñ‚Q
-	@retval 0	ƒƒbƒZ[ƒWˆ—Ï‚Ý
-	@retval no0	‚±‚±‚Å‚Íˆ—‚¹‚¸ŽŸ‚É‰ñ‚·
+	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	message	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®è­˜åˆ¥ç•ªå·
+	@param[in]	wParam	è¿½åŠ ã®æƒ…å ±ï¼‘
+	@param[in]	lParam	è¿½åŠ ã®æƒ…å ±ï¼’
+	@retval 0	ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†æ¸ˆã¿
+	@retval no0	ã“ã“ã§ã¯å‡¦ç†ã›ãšæ¬¡ã«å›žã™
 */
 LRESULT CALLBACK HoverTipProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
 	{
-		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Htp_OnLButtonUp );	//	ƒ}ƒEƒXƒNƒ‹ƒbƒNE“Z‚ß‚Ä‚à‚¨‚‹H
+		HANDLE_MSG( hWnd, WM_LBUTTONUP,   Htp_OnLButtonUp );	//	ãƒžã‚¦ã‚¹ã‚¯ãƒ«ãƒƒã‚¯ãƒ»çºã‚ã¦ã‚‚ãŠï½‹ï¼Ÿ
 		HANDLE_MSG( hWnd, WM_MBUTTONUP,   Htp_OnMButtonUp );
 		HANDLE_MSG( hWnd, WM_RBUTTONUP,   Htp_OnRButtonUp );
 		HANDLE_MSG( hWnd, WM_MOUSEMOVE,   Htp_OnMouseMove );
-		HANDLE_MSG( hWnd, WM_KILLFOCUS,   Htp_OnKillFocus );	//	ƒtƒH[ƒJƒX‚ðŽ¸‚Á‚½
+		HANDLE_MSG( hWnd, WM_KILLFOCUS,   Htp_OnKillFocus );	//	ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¤±ã£ãŸ
 		HANDLE_MSG( hWnd, WM_PAINT,       Htp_OnPaint );
 		HANDLE_MSG( hWnd, WM_TIMER,       htp_OnTimer );
 
@@ -357,9 +357,9 @@ LRESULT CALLBACK HoverTipProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	PAINTB–³Œø—Ìˆæ‚ªo—ˆ‚½‚Æ‚«‚É”­¶B”wŒi‚Ìˆµ‚¢‚É’ˆÓB”wŒi‚ð“h‚è‚Â‚Ô‚µ‚Ä‚©‚çAƒIƒuƒWƒFƒNƒg‚ð•`‰æ
-	@param[in]	hWnd	eƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
-	@return		–³‚µ
+	PAINTã€‚ç„¡åŠ¹é ˜åŸŸãŒå‡ºæ¥ãŸã¨ãã«ç™ºç”Ÿã€‚èƒŒæ™¯ã®æ‰±ã„ã«æ³¨æ„ã€‚èƒŒæ™¯ã‚’å¡—ã‚Šã¤ã¶ã—ã¦ã‹ã‚‰ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»
+	@param[in]	hWnd	è¦ªã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
+	@return		ç„¡ã—
 */
 VOID Htp_OnPaint( HWND hWnd )
 {
@@ -389,13 +389,13 @@ VOID Htp_OnPaint( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ^ƒCƒ}ƒCƒxƒ“ƒg”­¶
-	@param[in]	hWnd	ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	id		ƒ^ƒCƒ}‚h‚c
+	ã‚¿ã‚¤ãƒžã‚¤ãƒ™ãƒ³ãƒˆç™ºç”Ÿ
+	@param[in]	hWnd	ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	id		ã‚¿ã‚¤ãƒžï¼©ï¼¤
 */
 VOID htp_OnTimer( HWND hWnd, UINT id )
 {
-	//	ŠÖŒW‚È‚¢ê‡Eæ‚¸‚ ‚è‚¦‚È‚¢ƒnƒY‚¾‚ª
+	//	é–¢ä¿‚ãªã„å ´åˆãƒ»å…ˆãšã‚ã‚Šãˆãªã„ãƒã‚ºã ãŒ
 	if( HOVER_TMID != id )	return;
 
 	HoverTipClose( hWnd );
@@ -405,28 +405,28 @@ VOID htp_OnTimer( HWND hWnd, UINT id )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒtƒH[ƒJƒX‚ðŽ¸‚Á‚½ê‡
-	@param[in]	hWnd			ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	hwndNewFocus	ƒtƒH[ƒJƒX‚ð“¾‚½ƒEƒCƒ“ƒhƒE‚Ìƒnƒ“ƒhƒ‹
+	ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¤±ã£ãŸå ´åˆ
+	@param[in]	hWnd			ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	hwndNewFocus	ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¾—ãŸã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®ãƒãƒ³ãƒ‰ãƒ«
 */
 VOID Htp_OnKillFocus( HWND hWnd, HWND hwndNewFocus )
 {
-//	HoverTipClose( hWnd );	//	TOPMOST‚È‚ç—v‚ç‚È‚¢
+//	HoverTipClose( hWnd );	//	TOPMOSTãªã‚‰è¦ã‚‰ãªã„
 
 	return;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚Ì¶ƒ{ƒ^ƒ“‚ª‚¤‚Á‚‚³‚ê‚½‚Æ‚«
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			”­¶‚µ‚½‚wÀ•W’l
-	@param[in]	y			”­¶‚µ‚½‚xÀ•W’l
-	@param[in]	keyFlags	‘¼‚É‰Ÿ‚³‚ê‚Ä‚éƒL[‚É‚Â‚¢‚Ä
+	ãƒžã‚¦ã‚¹ã®å·¦ãƒœã‚¿ãƒ³ãŒã†ã£ï½ã•ã‚ŒãŸã¨ã
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ç™ºç”Ÿã—ãŸï¼¸åº§æ¨™å€¤
+	@param[in]	y			ç™ºç”Ÿã—ãŸï¼¹åº§æ¨™å€¤
+	@param[in]	keyFlags	ä»–ã«æŠ¼ã•ã‚Œã¦ã‚‹ã‚­ãƒ¼ã«ã¤ã„ã¦
 */
 VOID Htp_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP LUP %d x %d"), x , y );	//	ƒNƒ‰ƒCƒ„ƒ“ƒgÀ•W
+	TRACE( TEXT("HTP LUP %d x %d"), x , y );	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆåº§æ¨™
 
 	HoverTipClose( hWnd );
 
@@ -435,15 +435,15 @@ VOID Htp_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚Ì’†ƒ{ƒ^ƒ“‚ª‚¤‚Á‚‚³‚ê‚½‚Æ‚«
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			”­¶‚µ‚½‚wÀ•W’l
-	@param[in]	y			”­¶‚µ‚½‚xÀ•W’l
-	@param[in]	keyFlags	‘¼‚É‰Ÿ‚³‚ê‚Ä‚éƒL[‚É‚Â‚¢‚Ä
+	ãƒžã‚¦ã‚¹ã®ä¸­ãƒœã‚¿ãƒ³ãŒã†ã£ï½ã•ã‚ŒãŸã¨ã
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ç™ºç”Ÿã—ãŸï¼¸åº§æ¨™å€¤
+	@param[in]	y			ç™ºç”Ÿã—ãŸï¼¹åº§æ¨™å€¤
+	@param[in]	keyFlags	ä»–ã«æŠ¼ã•ã‚Œã¦ã‚‹ã‚­ãƒ¼ã«ã¤ã„ã¦
 */
 VOID Htp_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP MUP %d x %d"), x , y );	//	ƒNƒ‰ƒCƒ„ƒ“ƒgÀ•W
+	TRACE( TEXT("HTP MUP %d x %d"), x , y );	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆåº§æ¨™
 
 	HoverTipClose( hWnd );
 
@@ -452,15 +452,15 @@ VOID Htp_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚Ì‰Eƒ{ƒ^ƒ“‚ª‚¤‚Á‚‚³‚ê‚½‚Æ‚«
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			”­¶‚µ‚½‚wÀ•W’l
-	@param[in]	y			”­¶‚µ‚½‚xÀ•W’l
-	@param[in]	keyFlags	‘¼‚É‰Ÿ‚³‚ê‚Ä‚éƒL[‚É‚Â‚¢‚Ä
+	ãƒžã‚¦ã‚¹ã®å³ãƒœã‚¿ãƒ³ãŒã†ã£ï½ã•ã‚ŒãŸã¨ã
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ç™ºç”Ÿã—ãŸï¼¸åº§æ¨™å€¤
+	@param[in]	y			ç™ºç”Ÿã—ãŸï¼¹åº§æ¨™å€¤
+	@param[in]	keyFlags	ä»–ã«æŠ¼ã•ã‚Œã¦ã‚‹ã‚­ãƒ¼ã«ã¤ã„ã¦
 */
 VOID Htp_OnRButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP RUP %d x %d"), x , y );	//	ƒNƒ‰ƒCƒ„ƒ“ƒgÀ•W
+	TRACE( TEXT("HTP RUP %d x %d"), x , y );	//	ã‚¯ãƒ©ã‚¤ãƒ¤ãƒ³ãƒˆåº§æ¨™
 
 	HoverTipClose( hWnd );
 
@@ -469,12 +469,12 @@ VOID Htp_OnRButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ}ƒEƒX‚ª“®‚¢‚½‚Æ‚«‚Ìˆ—
-	@param[in]	hWnd		ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	x			ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚w
-	@param[in]	y			ƒNƒ‰ƒCƒAƒ“ƒgÀ•W‚x
-	@param[in]	keyFlags	‰Ÿ‚³‚ê‚Ä‚é‘¼‚Ìƒ{ƒ^ƒ“
-	@return		‚È‚µ
+	ãƒžã‚¦ã‚¹ãŒå‹•ã„ãŸã¨ãã®å‡¦ç†
+	@param[in]	hWnd		ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	x			ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¸
+	@param[in]	y			ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆåº§æ¨™ï¼¹
+	@param[in]	keyFlags	æŠ¼ã•ã‚Œã¦ã‚‹ä»–ã®ãƒœã‚¿ãƒ³
+	@return		ãªã—
 */
 VOID Htp_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 {

@@ -1,6 +1,6 @@
 /*! @file
-	@brief �g���X�@�\�̖ʓ|���܂��E�摜�ۑ��̖ʓ|�����܂�
-	���̃t�@�C���� TraceCtrl.cpp �ł��B
+	@brief トレス機能の面倒見ます・画像保存の面倒も見ます
+	このファイルは TraceCtrl.cpp です。
 	@author	SikigamiHNQ
 	@date	2011/07/19
 */
@@ -21,67 +21,67 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "OrinrinEditor.h"
 
 
-//	�摜�ۑ��@�\�ɂ��g�����璍��
+//	画像保存機能にも使うから注意
 #define IMGCTL_RUNTIME
 #include "imgctl.h"
 //-------------------------------------------------------------------------------------------------
 
 /*
-�X���C�_�ƃX�N���[���o�[�̃_�C�����O���\�[�X�̎g����
+スライダとスクロールバーのダイヤログリソースの使い方
     CONTROL         "",IDC_SLIDER1,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,14,66,100,15
     SCROLLBAR       IDC_SCROLLBAR1,134,68,82,11
 */
 #define TRC_SCROLLBAR
 
-#define TRC_POSITION_RANGE	2000	//	�ʒu���킹�|�P�O�O�O�`�P�O�O�O
-#define TRC_POSITION_OFFSET	1000	//	���ꂪ��ʒu
+#define TRC_POSITION_RANGE	2000	//	位置合わせ−１０００〜１０００
+#define TRC_POSITION_OFFSET	1000	//	これが基準位置
 
-#define TRC_CONTRA_RANGE	 510	//	�R���g���X�g�́|�Q�T�T�`�Q�T�T
-#define TRC_CONTRA_OFFSET	 255	//	����łO�i���얳���j
+#define TRC_CONTRA_RANGE	 510	//	コントラストは−２５５〜２５５
+#define TRC_CONTRA_OFFSET	 255	//	これで０（操作無し）
 
-#define TRC_GAMMA_RANGE		3000	//	�K���}�@�O�`�R�D�O
-#define TRC_GAMMA_OFFSET	1000	//	����łP�D�O�i���얳���j�E���̒l���̂܂܎w��ł���
+#define TRC_GAMMA_RANGE		3000	//	ガンマ　０〜３．０
+#define TRC_GAMMA_OFFSET	1000	//	これで１．０（操作無し）・この値そのまま指定できる
 
-#define TRC_GRAYMOPH_RANGE	 255	//	�W�F���@�O�`�Q�T�T
+#define TRC_GRAYMOPH_RANGE	 255	//	淡色化　０〜２５５
 
-#define TRC_ZOOM_RANGE		 250	//	�g��k���͂T�O���`�R�O�O��
-#define TRC_ZOOM_OFFSET		  50	//	����łP�O�O���i���얳���j�E�����ĂP�O�O�Ŋ���
+#define TRC_ZOOM_RANGE		 250	//	拡大縮小は５０％〜３００％
+#define TRC_ZOOM_OFFSET		  50	//	これで１００％（操作無し）・足して１００で割る
 
-#define TRC_TURN_RANGE		 359	//	��T����΂���
+#define TRC_TURN_RANGE		 359	//	一週すればいい
 //-------------------------------------------------------------------------------------------------
 
-static HMODULE		ghImgctl;		//!<	ImgCtl.dll�̃n���h��
+static HMODULE		ghImgctl;		//!<	ImgCtl.dllのハンドル
 
-TODIB		gpifToDIB;		//!<	�t�@�C��������C���[�W�Q�b�g
-DELETEDIB	gpifDeleteDIB;	//!<	�摜�f�[�^��j������
-HEADDIB		gpifHeadDIB;	//!<	�摜�̃f�[�^���Q�b�c
+TODIB		gpifToDIB;		//!<	ファイル名からイメージゲット
+DELETEDIB	gpifDeleteDIB;	//!<	画像データを破棄する
+HEADDIB		gpifHeadDIB;	//!<	画像のデータをゲッツ
 COPYDIB		gpifCopyDIB;	//!<	
-TURNDIBEX	gpifTurnDIBex;	//!<	�摜��C�ӂ̊p�x�ɉ�]����
-GRAYDIB		gpifGrayDIB;	//!<	�摜��W�F������
-GAMMADIB	gpifGammaDIB;	//!<	�K���}�␳
-CONTRASTDIB	gpifContrastDIB;//!<	�R���g���X�g�␳
+TURNDIBEX	gpifTurnDIBex;	//!<	画像を任意の角度に回転する
+GRAYDIB		gpifGrayDIB;	//!<	画像を淡色化する
+GAMMADIB	gpifGammaDIB;	//!<	ガンマ補正
+CONTRASTDIB	gpifContrastDIB;//!<	コントラスト補正
 
-DIBTODCEX	gpifDIBtoDCex;	//!<	�摜�f�[�^���f�B�o�C�X�R���e�L�X�c�ɂ؂�����
+DIBTODCEX	gpifDIBtoDCex;	//!<	画像データをディバイスコンテキスツにぺたっと
 
-DCTODIB		gpifDCtoDIB;	//!<	�f�o�C�X�R���e�L�X�g���摜�ł�����
+DCTODIB		gpifDCtoDIB;	//!<	デバイスコンテキストを画像でぇたに
 DIBTOBMP	gpifDIBtoBMP;	//!<	
 //DIBTOJPG	gpifDIBtoJPG;	//!<	
-DIBTOPNG	gpifDIBtoPNG;	//!<	�摜�f�[�^��PNG�`���ŃA�E�c
+DIBTOPNG	gpifDIBtoPNG;	//!<	画像データをPNG形式でアウツ
 
-static  HDIB	ghOutDib;				//!<	�t�@�C���o�͗p
-static  HDIB	ghImgDib, ghOrigDib;	//!<	�g���X�\���p
-static  SIZE	gstImgSize;				//!<	�ǂݍ��񂾉摜�̃T�C�Y
+static  HDIB	ghOutDib;				//!<	ファイル出力用
+static  HDIB	ghImgDib, ghOrigDib;	//!<	トレス表示用
+static  SIZE	gstImgSize;				//!<	読み込んだ画像のサイズ
 
-static HBRUSH	gMoziClrBrush;	//!<	�����F�u���V
+static HBRUSH	gMoziClrBrush;	//!<	文字色ブラシ
 
-static  HWND	ghTraceDlg;		//!<	�g���X�@�\���[�_���X�_�C�����O�n���h��
+static  HWND	ghTraceDlg;		//!<	トレス機能モーダレスダイヤログハンドル
 
-static BOOLEAN	gbThumbUse;		//!<	�摜�I�[�|���_�C�����[�O�ŃT���l�[����L����
+static BOOLEAN	gbThumbUse;		//!<	画像オーポンダイヤローグでサムネールを有効に
 
-//	�S�ăX���C�_�̐��l���L�^����
+//	全てスライダの数値を記録する
 static TRACEPARAM	gstTrcPrm;
 
-static BOOLEAN	gbOnView;		//!<	��O�ŕ\��
+static BOOLEAN	gbOnView;		//!<	非０で表示
 //-------------------------------------------------------------------------------------------------
 
 INT_PTR	CALLBACK TraceCtrlDlgProc( HWND, UINT, WPARAM, LPARAM );
@@ -95,9 +95,9 @@ INT_PTR	TraceOnScroll( HWND, HWND, UINT, INT );
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ImgCtl.dll�����[�h����
-	@param[in]	hWnd	�E�C���h�E�n���h��
-	@param[in]	bMode	��O�쐬�@�O�j��
+	ImgCtl.dllをロードする
+	@param[in]	hWnd	ウインドウハンドル
+	@param[in]	bMode	非０作成　０破壊
 */
 INT TraceInitialise( HWND hWnd, UINT bMode )
 {
@@ -109,7 +109,7 @@ INT TraceInitialise( HWND hWnd, UINT bMode )
 
 		ghImgctl = LoadLibrary( TEXT("imgctl.dll") );
 
-//�g���XDIALOGUE�A�g��k�����Ȃ�
+//トレスDIALOGUE、拡大縮小がない
 
 		gpifToDIB       = (TODIB)GetProcAddress( ghImgctl, "ToDIB" );
 		gpifDeleteDIB   = (DELETEDIB)GetProcAddress( ghImgctl, "DeleteDIB" );
@@ -123,9 +123,9 @@ INT TraceInitialise( HWND hWnd, UINT bMode )
 		gpifContrastDIB = (CONTRASTDIB)GetProcAddress( ghImgctl, "ContrastDIB" );
 
 		gpifDIBtoDCex   = (DIBTODCEX)GetProcAddress( ghImgctl, "DIBtoDCex" );
-		//	����ex�łȂ��Ƃ�����
+		//	これexでないといかんか
 
-		//	�摜de�ۑ��p
+		//	画像de保存用
 		gpifDCtoDIB  = (DCTODIB)GetProcAddress( ghImgctl, "DCtoDIB" );
 		gpifDIBtoBMP = (DIBTOBMP)GetProcAddress( ghImgctl, "DIBtoBMP" );
 	//	gpifDIBtoJPG = (DIBTOJPG)GetProcAddress( ghImgctl, "DIBtoJPG" );
@@ -169,9 +169,9 @@ INT TraceInitialise( HWND hWnd, UINT bMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	���[�_���X�g���X�_�C�����O���J��������݂�ł�����
-	@param[in]	hInst	�A�v���̎���
-	@param[in]	hWnd	���C���E�C���h�E�n���h���ł���悤��
+	モーダレストレスダイヤログを開けるを試みるですだよ
+	@param[in]	hInst	アプリの実存
+	@param[in]	hWnd	メインウインドウハンドルであるように
 */
 HRESULT TraceDialogueOpen( HINSTANCE hInst, HWND hWnd )
 {
@@ -179,7 +179,7 @@ HRESULT TraceDialogueOpen( HINSTANCE hInst, HWND hWnd )
 	LONG	x;
 	RECT	rect, dtRect, trRect;
 
-	if( !(ghImgctl) )	return E_HANDLE;	//	DLL����ł���A�E�c�I
+	if( !(ghImgctl) )	return E_HANDLE;	//	DLL死んでたらアウツ！
 
 	if( ghTraceDlg )
 	{
@@ -188,23 +188,23 @@ HRESULT TraceDialogueOpen( HINSTANCE hInst, HWND hWnd )
 		return S_OK;
 	}
 
-	GetWindowRect( hWnd, &rect );	//	���C�����̃X�N���[�����W
+	GetWindowRect( hWnd, &rect );	//	メイン窓のスクリーン座標
 	
-	//	�X�N���[���o�[�ɂ��Ă݂�e�X�g
+	//	スクロールバーにしてみるテスト
 #ifdef TRC_SCROLLBAR
 	ghTraceDlg = CreateDialogParam( hInst, MAKEINTRESOURCE(IDD_TRACEADJUST_DLG2), hWnd, TraceCtrlDlgProc, 0 );
 #else
 	ghTraceDlg = CreateDialogParam( hInst, MAKEINTRESOURCE(IDD_TRACEADJUST_DLG), hWnd, TraceCtrlDlgProc, 0 );
 #endif
-	GetClientRect( ghTraceDlg, &trRect );	//	�g���X���䑋�̃T�C�Y
+	GetClientRect( ghTraceDlg, &trRect );	//	トレス制御窓のサイズ
 
-	//	�f�B�X�N�g�b�v����͂ݏo���Ȃ��悤��
+	//	ディスクトップからはみ出さないように
 	hDktpWnd = GetDesktopWindow(  );
 	GetWindowRect( hDktpWnd, &dtRect );
 
-	x = dtRect.right - rect.right;	//	�E�̗]�T�m�F
+	x = dtRect.right - rect.right;	//	右の余裕確認
 	if( trRect.right >  x ){	rect.right = dtRect.right - trRect.right;	}
-	//	����Ȃ��悤�Ȃ�A�\���ʒu���I�t�Z�b�g���Ă���
+	//	足りないようなら、表示位置をオフセットしておく
 
 	SetWindowPos( ghTraceDlg, HWND_TOP, rect.right, rect.top, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 
@@ -219,13 +219,13 @@ HRESULT TraceDialogueOpen( HINSTANCE hInst, HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�g���X�R���g���[���_�C�����O�̃v���V�[�W��
-	@param[in]	hDlg		�_�C�����O�n���h��
-	@param[in]	message		�E�C���h�E���b�Z�[�W�̎��ʔԍ�
-	@param[in]	wParam		�ǉ��̏��P
-	@param[in]	lParam		�ǉ��̏��Q
-	@retval 0	���b�Z�[�W�͏������Ă��Ȃ�
-	@retval no0	�Ȃ񂩏������ꂽ
+	トレスコントロールダイヤログのプロシージャ
+	@param[in]	hDlg		ダイヤログハンドル
+	@param[in]	message		ウインドウメッセージの識別番号
+	@param[in]	wParam		追加の情報１
+	@param[in]	lParam		追加の情報２
+	@retval 0	メッセージは処理していない
+	@retval no0	なんか処理された
 */
 INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -254,7 +254,7 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 			stSclInfo.cbSize = sizeof(SCROLLINFO);
 			stSclInfo.fMask  = SIF_RANGE;
 
-			stSclInfo.nMax   = TRC_POSITION_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_POSITION_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
 			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_POSITION_RANGE) );	//	
@@ -265,7 +265,7 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_VART_POS );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_POSITION_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_POSITION_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
 			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_POSITION_RANGE) );	//	
@@ -276,10 +276,10 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_CONTRAST );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_CONTRA_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_CONTRA_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
-			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_CONTRA_RANGE) );	//	�R���g���X�g
+			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_CONTRA_RANGE) );	//	コントラスト
 			SendMessage( hWorkWnd, TBM_SETPOS, TRUE , gstTrcPrm.dContrast );	//	
 			SendMessage( hWorkWnd, TBM_SETPAGESIZE, 0, 10 );
 #endif
@@ -287,10 +287,10 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_GAMMA );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_GAMMA_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_GAMMA_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
-			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_GAMMA_RANGE) );	//	�K���}
+			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE, (LPARAM)MAKELONG(0, TRC_GAMMA_RANGE) );	//	ガンマ
 			SendMessage( hWorkWnd, TBM_SETPOS, TRUE , gstTrcPrm.dGamma );	//	
 			SendMessage( hWorkWnd, TBM_SETPAGESIZE, 0, 100 );
 #endif
@@ -298,10 +298,10 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_GRAYMOPH );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_GRAYMOPH_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_GRAYMOPH_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
-			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_GRAYMOPH_RANGE) );	//	�W�F��
+			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_GRAYMOPH_RANGE) );	//	淡色化
 			SendMessage( hWorkWnd, TBM_SETPOS, TRUE , gstTrcPrm.dGrayMoph );	//	
 			SendMessage( hWorkWnd, TBM_SETPAGESIZE, 0, 10 );
 #endif
@@ -309,22 +309,22 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_ZOOM );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_ZOOM_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_ZOOM_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
-			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_ZOOM_RANGE) );	//	�g��k��
-			SendMessage( hWorkWnd, TBM_SETPOS, TRUE, gstTrcPrm.dZooming );	//	�����Ă邩�H
+			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_ZOOM_RANGE) );	//	拡大縮小
+			SendMessage( hWorkWnd, TBM_SETPOS, TRUE, gstTrcPrm.dZooming );	//	合ってるか？
 			SendMessage( hWorkWnd, TBM_SETPAGESIZE, 0, 5 );
 #endif
 			TraceOnScroll( hDlg, hWorkWnd, TB_THUMBPOSITION, gstTrcPrm.dZooming );
 
 			hWorkWnd = GetDlgItem( hDlg, IDSL_TRC_TURN );
 #ifdef TRC_SCROLLBAR
-			stSclInfo.nMax   = TRC_TURN_RANGE;	//	nMin���O
+			stSclInfo.nMax   = TRC_TURN_RANGE;	//	nMin＝０
 			SetScrollInfo( hWorkWnd, SB_CTL, &stSclInfo, TRUE );
 #else
-			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_TURN_RANGE) );	//	��]
-			SendMessage( hWorkWnd, TBM_SETPOS, TRUE, gstTrcPrm.dTurning );	//	�����Ă邩�H
+			SendMessage( hWorkWnd, TBM_SETRANGE, TRUE , (LPARAM)MAKELONG(0, TRC_TURN_RANGE) );	//	回転
+			SendMessage( hWorkWnd, TBM_SETPOS, TRUE, gstTrcPrm.dTurning );	//	合ってるか？
 			SendMessage( hWorkWnd, TBM_SETPAGESIZE, 0, 5 );
 #endif
 			TraceOnScroll( hDlg, hWorkWnd, TB_THUMBPOSITION, gstTrcPrm.dTurning );
@@ -341,7 +341,7 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 			hdc = (HDC)(wParam);
 			hWndChild = (HWND)(lParam);
 			id = GetDlgCtrlID( hWndChild );
-			if( IDPL_TRC_MOZICOLOUR == id )	//	�^�[�Q�b�g�͈����
+			if( IDPL_TRC_MOZICOLOUR == id )	//	ターゲットは一つだけ
 			{
 				GetClientRect( hWndChild, &rect );
 				FillRect( hdc, &rect, gMoziClrBrush );
@@ -367,9 +367,9 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 				case IDB_TRC_VIEWTOGGLE:
 					gbOnView = gbOnView ? FALSE : TRUE;
-					SetDlgItemText( hDlg, IDB_TRC_VIEWTOGGLE, gbOnView ? TEXT("��\��") : TEXT("�\��") );
+					SetDlgItemText( hDlg, IDB_TRC_VIEWTOGGLE, gbOnView ? TEXT("非表示") : TEXT("表示") );
 					ViewRedrawSetLine( -1 );
-					ViewFocusSet(  );	//	20110728	�t�H�[�J�X��`��ɖ߂�
+					ViewFocusSet(  );	//	20110728	フォーカスを描画に戻す
 					break;
 
 				case IDB_TRC_RESET:
@@ -393,7 +393,7 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 #ifdef TRC_SCROLLBAR
 					SendDlgItemMessage( hDlg, IDSL_TRC_HRIZ_POS, SBM_SETPOS, gstTrcPrm.stOffsetPt.x, TRUE );
 					SendDlgItemMessage( hDlg, IDSL_TRC_VART_POS, SBM_SETPOS, gstTrcPrm.stOffsetPt.y, TRUE );	//	
-					SendDlgItemMessage( hDlg, IDSL_TRC_CONTRAST, SBM_SETPOS, gstTrcPrm.dContrast, TRUE );	//	�|�Q�T�T�`�Q�T�T�Ȃ̂�
+					SendDlgItemMessage( hDlg, IDSL_TRC_CONTRAST, SBM_SETPOS, gstTrcPrm.dContrast, TRUE );	//	−２５５〜２５５なので
 					SendDlgItemMessage( hDlg, IDSL_TRC_GAMMA,    SBM_SETPOS, gstTrcPrm.dGamma, TRUE );		//	
 					SendDlgItemMessage( hDlg, IDSL_TRC_GRAYMOPH, SBM_SETPOS, gstTrcPrm.dGrayMoph, TRUE );	//	
 					SendDlgItemMessage( hDlg, IDSL_TRC_ZOOM,     SBM_SETPOS, gstTrcPrm.dZooming, TRUE  );	//	
@@ -401,7 +401,7 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 #else
 					SendDlgItemMessage( hDlg, IDSL_TRC_HRIZ_POS, TBM_SETPOS, TRUE, gstTrcPrm.stOffsetPt.x );	//	
 					SendDlgItemMessage( hDlg, IDSL_TRC_VART_POS, TBM_SETPOS, TRUE, gstTrcPrm.stOffsetPt.y );	//	
-					SendDlgItemMessage( hDlg, IDSL_TRC_CONTRAST, TBM_SETPOS, TRUE, gstTrcPrm.dContrast );	//	�|�Q�T�T�`�Q�T�T�Ȃ̂�
+					SendDlgItemMessage( hDlg, IDSL_TRC_CONTRAST, TBM_SETPOS, TRUE, gstTrcPrm.dContrast );	//	−２５５〜２５５なので
 					SendDlgItemMessage( hDlg, IDSL_TRC_GAMMA,    TBM_SETPOS, TRUE, gstTrcPrm.dGamma );		//	
 					SendDlgItemMessage( hDlg, IDSL_TRC_GRAYMOPH, TBM_SETPOS, TRUE, gstTrcPrm.dGrayMoph );	//	
 					SendDlgItemMessage( hDlg, IDSL_TRC_ZOOM,     TBM_SETPOS, TRUE, gstTrcPrm.dZooming  );	//	
@@ -419,12 +419,12 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 					gbOnView = TRUE;
 
 					ViewRedrawSetLine( -1 );
-					ViewFocusSet(  );	//	20110728	�t�H�[�J�X��`��ɖ߂�
+					ViewFocusSet(  );	//	20110728	フォーカスを描画に戻す
 					break;
 
-				//case IDCANCEL:	//	�v��Ȃ����ȁH
+				//case IDCANCEL:	//	要らないかな？
 				//case IDOK:
-				//	//	�Ȃ񂩏���
+				//	//	なんか処理
 				//	DestroyWindow( hDlg );
 				//	ghTraceDlg = NULL;
 				//	return (INT_PTR)TRUE;
@@ -438,17 +438,17 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 	//		if( ghImgDib  ){	gpifDeleteDIB( ghImgDib );	ghImgDib = NULL;	}
 			DestroyWindow( hDlg );
 			ghTraceDlg = NULL;
-			ViewMoziColourGet( &caretColour );	//	�L�����b�g�F���ɖ߂�
+			ViewMoziColourGet( &caretColour );	//	キャレット色元に戻す
 			ViewCaretReColour( caretColour );
-			ViewRedrawSetLine( -1 );	//	�`��̈�ĕ`��
+			ViewRedrawSetLine( -1 );	//	描画領域再描画
 			DeleteBrush( gMoziClrBrush );
 			MenuItemCheckOnOff( IDM_TRACE_MODE_ON, FALSE );
 			return (INT_PTR)TRUE;
 
 		case WM_DESTROY:
 			InitTraceValue( INIT_SAVE, &gstTrcPrm );
-			ViewFocusSet(  );	//	20110728	�t�H�[�J�X��`��ɖ߂�
-			AppTitleTrace( FALSE);	//	�^�C�g���o�[���ɖ߂�
+			ViewFocusSet(  );	//	20110728	フォーカスを描画に戻す
+			AppTitleTrace( FALSE);	//	タイトルバー元に戻す
 			return (INT_PTR)TRUE;
 	}
 
@@ -459,12 +459,12 @@ INT_PTR CALLBACK TraceCtrlDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 
 
 /*!
-	�J���_�C�A���O�̃t�b�N�v���V�[�W��
+	開くダイアログのフックプロシージャ
 */
 UINT_PTR CALLBACK ImageOpenDlgHookProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	static  HWND	chUseCbxWnd, chPanelWnd;
-	static  HDIB	chThumbDib;		//	�T���l�p
+	static  HDIB	chThumbDib;		//	サムネ用
 
 	HWND	hWndCtl, hWndChild, hWnd;
 	HDC		hDC;
@@ -477,7 +477,7 @@ UINT_PTR CALLBACK ImageOpenDlgHookProc( HWND hDlg, UINT message, WPARAM wParam, 
 	POINT	stPoint;
 	SIZE	stSize;
 
-	//	�R�����_�C�����O�̈ʒu�͕ύX�o���Ȃ�
+	//	コモンダイヤログの位置は変更出来ない
 
 	switch( message )
 	{
@@ -545,14 +545,14 @@ UINT_PTR CALLBACK ImageOpenDlgHookProc( HWND hDlg, UINT message, WPARAM wParam, 
 			pstOfNty = (LPOFNOTIFY)lParam;
 			if( CDN_SELCHANGE == pstOfNty->hdr.code )
 			{
-				//	pstOfNty->hdr.hwndFrom �́A�_�C�����O�S�̂�STATIC�݂����Ȃ��
+				//	pstOfNty->hdr.hwndFrom は、ダイヤログ全体のSTATICみたいなやつ
 				TRACE( TEXT("%X,%X,%d"), hDlg, pstOfNty->hdr.hwndFrom, pstOfNty->hdr.idFrom );
 
 				CommDlg_OpenSave_GetSpec( pstOfNty->hdr.hwndFrom, atSpec, MAX_PATH );
-				TRACE( TEXT("[SPEC]%s"), atSpec );	//	�t�@�C�����̂�
+				TRACE( TEXT("[SPEC]%s"), atSpec );	//	ファイル名のみ
 
 				CommDlg_OpenSave_GetFilePath( pstOfNty->hdr.hwndFrom, atFile, MAX_PATH );
-				TRACE( TEXT("[FILE]%s"), atFile );	//	�t���p�X
+				TRACE( TEXT("[FILE]%s"), atFile );	//	フルパス
 
 				ZeroMemory( acName, sizeof(acName) );
 				WideCharToMultiByte( CP_ACP, WC_NO_BEST_FIT_CHARS, atFile, MAX_PATH, acName, MAX_PATH, NULL, NULL );
@@ -577,8 +577,8 @@ UINT_PTR CALLBACK ImageOpenDlgHookProc( HWND hDlg, UINT message, WPARAM wParam, 
 
 
 /*!
-	�摜���J���ăA�b�[�I
-	@param[in]	hDlg	�_�C�����O�n���h��
+	画像を開いてアッー！
+	@param[in]	hDlg	ダイヤログハンドル
 */
 HRESULT TraceImageFileOpen( HWND hDlg )
 {
@@ -600,14 +600,14 @@ HRESULT TraceImageFileOpen( HWND hDlg )
 	stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 	stOpenFile.hInstance       = GetModuleHandle( NULL );
 	stOpenFile.hwndOwner       = GetDesktopWindow(  );
-	stOpenFile.lpstrFilter     = TEXT("�摜�t�@�C�� ( bmp, png, jpg, gif )\0*.bmp;*.png;*.jpg;*.jpeg;*.jpe;*.gif\0\0");
+	stOpenFile.lpstrFilter     = TEXT("画像ファイル ( bmp, png, jpg, gif )\0*.bmp;*.png;*.jpg;*.jpeg;*.jpe;*.gif\0\0");
 //	stOpenFile.nFilterIndex    = 1;
 	stOpenFile.lpstrFile       = atFilePath;
 	stOpenFile.nMaxFile        = MAX_PATH;
 	stOpenFile.lpstrFileTitle  = atFileName;
 	stOpenFile.nMaxFileTitle   = MAX_STRING;
 //	stOpenFile.lpstrInitialDir = 
-	stOpenFile.lpstrTitle      = TEXT("�摜�t�@�C�����w�肷��́[");
+	stOpenFile.lpstrTitle      = TEXT("画像ファイルを指定するのー");
 	stOpenFile.Flags           = OFN_EXPLORER | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_ENABLETEMPLATE | OFN_ENABLEHOOK | OFN_ENABLESIZING;
 //	stOpenFile.lpstrDefExt     = TEXT("");
 
@@ -616,18 +616,18 @@ HRESULT TraceImageFileOpen( HWND hDlg )
 
 	bOpened = GetOpenFileName( &stOpenFile );
 
-	if( !(bOpened) ){	return  E_ABORT;	}	//	�L�����Z�����Ă��牽�����Ȃ�
+	if( !(bOpened) ){	return  E_ABORT;	}	//	キャンセルしてたら何もしない
 
 	StringCchLength( atFilePath, MAX_PATH, &cchSize );
 
 	ZeroMemory( acName, sizeof(acName) );
 	WideCharToMultiByte( CP_ACP, WC_NO_BEST_FIT_CHARS, atFilePath, cchSize, acName, MAX_PATH, NULL, NULL );
 
-	//	�O�̊J�����ςȂ�j��
+	//	前の開きっぱなら破壊
 	if( ghImgDib  ){	gpifDeleteDIB( ghImgDib );	ghImgDib = NULL;	}
 	if( ghOrigDib ){	gpifDeleteDIB( ghOrigDib );	ghOrigDib = NULL;	}
 
-	//	�Y�[�������͌��ɖ߂�
+	//	ズームだけは元に戻す
 	gstTrcPrm.dZooming  = TRC_ZOOM_OFFSET;
 	SendDlgItemMessage( hDlg, IDSL_TRC_ZOOM,     TBM_SETPOS, TRUE, gstTrcPrm.dZooming  );	//	
 	TraceOnScroll( hDlg, GetDlgItem( hDlg, IDSL_TRC_ZOOM ),     TB_THUMBPOSITION, gstTrcPrm.dZooming );
@@ -654,15 +654,15 @@ HRESULT TraceImageFileOpen( HWND hDlg )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�����p�́A�F�I���_�C�����O�[���J���ăA�b�[�I
-	@param[in]	hDlg	�_�C�����O�n���h��
+	文字用の、色選択ダイヤログーを開いてアッー！
+	@param[in]	hDlg	ダイヤログハンドル
 */
 HRESULT TraceMoziColourChoice( HWND hDlg )
 {
 	CHOOSECOLOR	stChsColour;
 	COLORREF	adColours[16];
 
-	TRACE( TEXT("�F����") );
+	TRACE( TEXT("色調整") );
 
 	ZeroMemory( adColours, sizeof(adColours) );
 	adColours[0] = gstTrcPrm.dMoziColour;
@@ -671,11 +671,11 @@ HRESULT TraceMoziColourChoice( HWND hDlg )
 
 	stChsColour.lStructSize  = sizeof(CHOOSECOLOR);
 	stChsColour.hwndOwner    = hDlg;
-	stChsColour.rgbResult    = gstTrcPrm.dMoziColour;	//	�_�C�A���O���ŏ��ɑI�����Ă��鏉���J���[���w�肵�܂��B���[�U�[���F��I�����ă_�C�A���O�������́A�I�������F���i�[����Ă��܂��B
-	stChsColour.lpCustColors = adColours;	//	�_�C�A���O�������Ă����{�F���i�[����16�� COLORREF �z��ւ̃|�C���^���w�肵�܂��B���[�U�[�́A�쐬�����F���_�C�A���O�̃p���b�g�̈�Ɉꎞ�ۑ����邱�Ƃ��ł����̕ϐ��̔z��ɂ́A���̃_�C�A���O�̊�{�F���i�[����܂��B
+	stChsColour.rgbResult    = gstTrcPrm.dMoziColour;	//	ダイアログが最初に選択している初期カラーを指定します。ユーザーが色を選択してダイアログを閉じた後は、選択した色が格納されています。
+	stChsColour.lpCustColors = adColours;	//	ダイアログが持っている基本色を格納する16個の COLORREF 配列へのポインタを指定します。ユーザーは、作成した色をダイアログのパレット領域に一時保存することができこの変数の配列には、そのダイアログの基本色が格納されます。
 	stChsColour.Flags        = CC_RGBINIT;
 
-	if( ChooseColor( &stChsColour ) )	//	�F�_�C�����O�[�o��
+	if( ChooseColor( &stChsColour ) )	//	色ダイヤログー出す
 	{
 		gstTrcPrm.dMoziColour = stChsColour.rgbResult;
 
@@ -694,25 +694,25 @@ HRESULT TraceMoziColourChoice( HWND hDlg )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�e���炢���`�����삳�ꂽ
-	@param[in]	hDlg	�_�C�����[�O�n���h��
-	@param[in]	hWndCtl	�X���C�_�̃n���h��
-	@param[in]	code	�X�N���[���R�[�h
-	@param[in]	pos		�X�N���[���{�b�N�X�i�܂݁j�̈ʒu
-	@return		����
+	各すらいだ〜が操作された
+	@param[in]	hDlg	ダイヤローグハンドル
+	@param[in]	hWndCtl	スライダのハンドル
+	@param[in]	code	スクロールコード
+	@param[in]	pos		スクロールボックス（つまみ）の位置
+	@return		無し
 */
 INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 {
 /*
 #define TB_LINEUP               0
 #define TB_LINEDOWN             1
-#define TB_PAGEUP               2	���炢���G���A�N���b�N�EPOS���Ȃ�
-#define TB_PAGEDOWN             3	���炢���G���A�N���b�N�EPOS���Ȃ�
-#define TB_THUMBPOSITION        4	�c�}�~�������I�������N��
-#define TB_THUMBTRACK           5	�c�}�~�������Ă�Ƃ��ɃN��
+#define TB_PAGEUP               2	すらいだエリアクルック・POS来ない
+#define TB_PAGEDOWN             3	すらいだエリアクルック・POS来ない
+#define TB_THUMBPOSITION        4	ツマミ動かし終わったらクル
+#define TB_THUMBTRACK           5	ツマミ動かしてるときにクル
 #define TB_TOP                  6
 #define TB_BOTTOM               7
-#define TB_ENDTRACK             8	����I�������N���EPOS���Ȃ�
+#define TB_ENDTRACK             8	操作終わったらクル・POS来ない
 
 #define SB_LINEUP           0
 #define SB_LINEDOWN         1
@@ -724,7 +724,7 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 #define SB_BOTTOM           7
 #define SB_ENDSCROLL        8
 */
-//	���ł���pos�̓X���C�_�l���̂܂܂ɂȂ��Ă���悤�ɒ��ӃZ��
+//	飛んでくるposはスライダ値そのままになっているように注意セヨ
 
 
 	static BOOLEAN	bThumPos = FALSE;
@@ -737,7 +737,7 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 
 	ZeroMemory( atBuffer, sizeof(atBuffer) );
 
-	//	�����̂Ƃ���pos�Ȃ��̂Ŏ��O�ňʒu�m�F
+	//	これらのときはposないので自前で位置確認
 	if( TB_PAGEDOWN == code || TB_PAGEUP ==code || TB_ENDTRACK == code || TB_LINEUP == code || TB_LINEDOWN == code )
 	{
 #ifdef TRC_SCROLLBAR
@@ -881,7 +881,7 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 			if( TRC_ZOOM_RANGE < pos )	pos = TRC_ZOOM_RANGE;
 #endif
 			gstTrcPrm.dZooming = pos;
-			StringCchPrintf( atBuffer, SUB_STRING, TEXT("%d ��"), pos + TRC_ZOOM_OFFSET );
+			StringCchPrintf( atBuffer, SUB_STRING, TEXT("%d ％"), pos + TRC_ZOOM_OFFSET );
 			Edit_SetText( GetDlgItem(hDlg,IDE_TRC_ZOOM_VALUE), atBuffer );
 #ifdef TRC_SCROLLBAR
 			SendDlgItemMessage( hDlg, IDSL_TRC_ZOOM, SBM_SETPOS, pos, TRUE );
@@ -889,7 +889,7 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 			break;
 
 
-		case IDSL_TRC_TURN:	//	��]����Ɖ摜�T�C�Y�ς��
+		case IDSL_TRC_TURN:	//	回転すると画像サイズ変わる
 #ifdef TRC_SCROLLBAR
 			switch( code )
 			{
@@ -911,13 +911,13 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 		default:	return (INT_PTR)FALSE;
 	}
 
-	if( (TB_ENDTRACK == code || TB_THUMBPOSITION == code) &&  ghImgDib )	//	�K�p�����l���ł��邩�H
+	if( (TB_ENDTRACK == code || TB_THUMBPOSITION == code) &&  ghImgDib )	//	適用順を考慮できるか？
 	{
 		if( bThumPos && TB_ENDTRACK == code ){	bThumPos = FALSE;	}
 		else{	TraceRedrawIamge(  );	}
 	}
 
-	//	20110728	�t�H�[�J�X��`��ɖ߂�
+	//	20110728	フォーカスを描画に戻す
 	if( TB_ENDTRACK == code ){	ViewFocusSet(  );	}
 
 	return (INT_PTR)TRUE;
@@ -925,7 +925,7 @@ INT_PTR TraceOnScroll( HWND hDlg, HWND hWndCtl, UINT code, INT pos )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�C���[�W���ĕ`�悷��
+	イメージを再描画する
 */
 HRESULT TraceRedrawIamge( VOID )
 {
@@ -954,14 +954,14 @@ HRESULT TraceRedrawIamge( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�摜�̕\����\����ON/OFF����
+	画像の表示非表示のON/OFFする
 */
 HRESULT TraceImgViewTglExt( VOID )
 {
 	if( !(ghTraceDlg) ){	return E_HANDLE;	}
 
 	gbOnView = gbOnView ? FALSE : TRUE;
-	SetDlgItemText( ghTraceDlg, IDB_TRC_VIEWTOGGLE, gbOnView ? TEXT("��\��") : TEXT("�\��") );
+	SetDlgItemText( ghTraceDlg, IDB_TRC_VIEWTOGGLE, gbOnView ? TEXT("非表示") : TEXT("表示") );
 	ViewRedrawSetLine( -1 );
 
 	return S_OK;
@@ -969,10 +969,10 @@ HRESULT TraceImgViewTglExt( VOID )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�����`��F�����m�点����
-	@param[in]	pColour	�I������Ă���F������
-	@retval	��O	�g���X��
-	@retval	�O		�g���X���[�h�ɂȂ��Ă��Ȃ�
+	文字描画色をお知らせする
+	@param[in]	pColour	選択されている色を入れる
+	@retval	非０	トレス中
+	@retval	０		トレスモードになっていない
 */
 UINT TraceMoziColourGet( LPCOLORREF pColour )
 {
@@ -987,12 +987,12 @@ UINT TraceMoziColourGet( LPCOLORREF pColour )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�C���[�W�J���Ăĕ\���L���ȁE�r���[�`��ŌĂ΂��
-	@param[in]	hdc		�`�悷��f�o�C�X�R���e�L�X�g
-	@param[in]	iScrlX	�`��̈�̂w�X�N���[��Dot��
-	@param[in]	iScrlY	�`��̈�̂x�X�N���[��Dot��
-	@retval	��O		�摜�C���[�W������
-	@retval	�O			�摜�͊J����Ă��Ȃ�
+	イメージ開いてて表示有効な・ビュー描画で呼ばれる
+	@param[in]	hdc		描画するデバイスコンテキスト
+	@param[in]	iScrlX	描画領域のＸスクロールDot数
+	@param[in]	iScrlY	描画領域のＹスクロールDot数
+	@retval	非０		画像イメージあった
+	@retval	０			画像は開かれていない
 */
 UINT TraceImageAppear( HDC hdc, INT iScrlX, INT iScrlY )
 {
@@ -1003,23 +1003,23 @@ UINT TraceImageAppear( HDC hdc, INT iScrlX, INT iScrlY )
 
 	if( !(gbOnView) ){	return FALSE;	}
 
-	//	����̃I�t�Z�b�g���l�����ĕ`��Z��
+	//	左上のオフセットを考慮して描画セヨ
 
 	SetStretchBltMode( hdc, COLORONCOLOR );
 
-	//	�ʒu���킹�Ɏg��
+	//	位置合わせに使う
 	stBegin.x = LINENUM_WID + (gstTrcPrm.stOffsetPt.x - TRC_POSITION_OFFSET);
 	stBegin.y = RULER_AREA  + (gstTrcPrm.stOffsetPt.y - TRC_POSITION_OFFSET);
-	//	�X�N���[�����̍l��
+	//	スクロール分の考慮
 	stBegin.x -= iScrlX;
 	stBegin.y -= iScrlY;
 
-	//	�g��k���Ɏg��
+	//	拡大縮小に使う
 	stStretch = gstImgSize;
 	stStretch.cx *= (gstTrcPrm.dZooming + TRC_ZOOM_OFFSET);	stStretch.cx /= 100;
 	stStretch.cy *= (gstTrcPrm.dZooming + TRC_ZOOM_OFFSET);	stStretch.cy /= 100;
 
-	//	���]�Ɏg��
+	//	反転に使う
 	stReverse = gstImgSize;
 	if( BST_CHECKED == gstTrcPrm.bUpset )	stReverse.cy *= -1;
 	if( BST_CHECKED == gstTrcPrm.bMirror )	stReverse.cx *= -1;
@@ -1036,11 +1036,11 @@ UINT TraceImageAppear( HDC hdc, INT iScrlX, INT iScrlY )
 
 
 /*!
-	�f�o�C�X�R���e�L�X�g�̓��e���A�e�`���ŕۑ�����
-	@param[in]	hDC		�ۑ����������e���͂����Ă�f�B�o�C�X�R���e�B�L�X�g
-	@param[in]	ptName	�ۑ��������t���p�X�E�g���q�͎w��ɍ��킹�ďC�������Ⴄ�EMAX_PATH�ł��邱��
-	@param[in]	iType	�t�@�C���^�C�v�w��@�P�F�a�l�o�@�Q�F�i�o�f�@�R�F�o�m�f
-	@return		HRESULT	�I����ԃR�[�h
+	デバイスコンテキストの内容を、各形式で保存する
+	@param[in]	hDC		保存したい内容がはいってるディバイスコンティキスト
+	@param[in]	ptName	保存したいフルパス・拡張子は指定に合わせて修正しちゃう・MAX_PATHであること
+	@param[in]	iType	ファイルタイプ指定　１：ＢＭＰ　２：ＪＰＧ　３：ＰＮＧ
+	@return		HRESULT	終了状態コード
 */
 HRESULT ImageFileSaveDC( HDC hDC, LPTSTR ptName, INT iType )
 {
@@ -1053,13 +1053,13 @@ HRESULT ImageFileSaveDC( HDC hDC, LPTSTR ptName, INT iType )
 
 	ZeroMemory( acOutName, sizeof(acOutName) );
 
-	hDIB = gpifDCtoDIB( hDC, 0, 0, 0, 0 );	//	����ŉ�ʑS��
+	hDIB = gpifDCtoDIB( hDC, 0, 0, 0, 0 );	//	これで画面全体
 
-	PathRemoveExtension( ptName );	//	�g���q���ځ`��
+	PathRemoveExtension( ptName );	//	拡張子あぼ〜ん
 
 	switch( iType )
 	{
-		case  ISAVE_BMP:	//	BMP�ۑ��́A�Q�l�Ƃ��Q�T�U�F�ł���
+		case  ISAVE_BMP:	//	BMP保存は、２値とか２５６色でおｋ
 			PathAddExtension( ptName, TEXT(".bmp") );
 			StringCchLength( ptName, MAX_PATH, &cchSize );
 			WideCharToMultiByte( CP_ACP, 0, ptName, cchSize, acOutName, MAX_PATH, NULL, NULL );

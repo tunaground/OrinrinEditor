@@ -1,6 +1,6 @@
 /*! @file
-	@brief �͈͑I���̊Ǘ������܂�
-	���̃t�@�C���� ViewSelect.cpp �ł��B
+	@brief 範囲選択の管理をします
+	このファイルは ViewSelect.cpp です。
 	@author	SikigamiHNQ
 	@date	2011/04/22
 */
@@ -21,42 +21,42 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "OrinrinEditor.h"
 //-------------------------------------------------------------------------------------------------
 
-//	TODO:	ALT�����Ȃ���J�[�\���A�}�E�X���������炻�̂Ƃ�������`�I���ɂȂ�悤�ɂ���
+//	TODO:	ALT押しながらカーソル、マウス動かしたらそのときだけ矩形選択になるようにする
 
 
-extern  HWND	ghPrntWnd;		//	�e�E�C���h�E�n���h��
-extern  HWND	ghViewWnd;		//	���̃E�C���h�E�̃n���h��
+extern  HWND	ghPrntWnd;		//	親ウインドウハンドル
+extern  HWND	ghViewWnd;		//	このウインドウのハンドル
 
-extern INT		gdDocXdot;		//	�L�����b�g�̂w�h�b�g�E�h�L�������g�ʒu
-extern INT		gdDocLine;		//	�L�����b�g�̂x�s���E�h�L�������g�ʒu
+extern INT		gdDocXdot;		//	キャレットのＸドット・ドキュメント位置
+extern INT		gdDocLine;		//	キャレットのＹ行数・ドキュメント位置
 
-//	��ʃT�C�Y���m�F���āA�ړ��ɂ��X�N���[���̖ʓ|�݂�
-extern INT		gdHideXdot;		//	���̉B�ꕔ��
-extern INT		gdViewTopLine;	//	�\�����̍ŏ㕔�s�ԍ�
-extern SIZE		gstViewArea;	//	�\���̈�̃T�C�Y�E���[���[���̗̈�͖���
-extern INT		gdDispingLine;	//	�����Ă�s���E���r���[�Ɍ����Ă閖�[�͊܂܂Ȃ�
+//	画面サイズを確認して、移動によるスクロールの面倒みる
+extern INT		gdHideXdot;		//	左の隠れ部分
+extern INT		gdViewTopLine;	//	表示中の最上部行番号
+extern SIZE		gstViewArea;	//	表示領域のサイズ・ルーラー等の領域は無し
+extern INT		gdDispingLine;	//	見えてる行数・中途半端に見えてる末端は含まない
 
-//	�����̃L�[�̋�́AGetKeyState��������GetKeyboardState���g���΂���
-extern BOOLEAN	gbShiftOn;		//	�V�t�g��������Ă���
-extern BOOLEAN	gbCtrlOn;		//	�R���g���[����������Ă���
-extern BOOLEAN	gbAltOn;		//	�A���^��������Ă���
+//	これらのキーの具合は、GetKeyStateもしくはGetKeyboardStateを使えばいい
+extern BOOLEAN	gbShiftOn;		//	シフトが押されている
+extern BOOLEAN	gbCtrlOn;		//	コントロールが押されている
+extern BOOLEAN	gbAltOn;		//	アルタが押されている
 
 extern BOOLEAN	gbExtract;	
 
-extern POINT	gstCursor;		//	�������l�����Ȃ��ACursor�̃h�b�g���s�ʒu�E���ϐ��ł����̂��낤��
+extern POINT	gstCursor;		//	文字を考慮しない、Cursorのドット＆行位置・大域変数でいいのだろうか
 
-//	�I��͈͂̎n�_�I�_�E�l�͂w�h�b�g�̂x�s���ŁE��`�p�ɂ���
-static POINT	gstSqSelBegin;	//!<	�n�_
-static POINT	gstSqSelEnd;	//!<	�I�_
+//	選択範囲の始点終点・値はＸドットのＹ行数で・矩形用にする
+static POINT	gstSqSelBegin;	//!<	始点
+static POINT	gstSqSelEnd;	//!<	終点
 
-static POINT	gstSelBgnOrig;	//!<	�͈͑I�����J�n�����n�_
-static POINT	gstSelEndOrig;	//!<	�͈͑I�����I�������n�_
+static POINT	gstSelBgnOrig;	//!<	範囲選択を開始した地点
+static POINT	gstSelEndOrig;	//!<	範囲選択を終了した地点
 
-static POINT	gstPrePos;		//!<	���O�̑I���ʒu
+static POINT	gstPrePos;		//!<	直前の選択位置
 
 
-static BOOLEAN	gbSelecting;	//!<	�I�𑀍쒆���H
-EXTERNED UINT	gbSqSelect;		//!<	��`�I�𒆂ł��� D_SQUARE
+static BOOLEAN	gbSelecting;	//!<	選択操作中か？
+EXTERNED UINT	gbSqSelect;		//!<	矩形選択中である D_SQUARE
 //-------------------------------------------------------------------------------------------------
 
 HRESULT	ViewSelStateChange( UINT );
@@ -64,9 +64,9 @@ HRESULT	ViewSqSelAdjust( INT );
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�I�𑀍쒆�ł��邩�ǂ����̖₢���킹
-	@param[out]	pSqSel	��`�I�𒆂ł��邩�ǂ����ENULL��
-	@return	BOOLEAN	��O�I�𒆂ł���@�O�I�����ĂȂ�
+	選択操作中であるかどうかの問い合わせ
+	@param[out]	pSqSel	矩形選択中であるかどうか・NULL可
+	@return	BOOLEAN	非０選択中である　０選択してない
 */
 BOOLEAN IsSelecting( PUINT pSqSel )
 {
@@ -77,28 +77,28 @@ BOOLEAN IsSelecting( PUINT pSqSel )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�J�[�\�����삵���Ƃ��Ƃ��A�}�E�X�N���b�N�ŃJ�[�\���ړ������Ƃ��Ƃ��ɌĂ΂��
-	@param[in]	pVoid	�Ȃɂ�
-	@return		HRESULT	�I����ԃR�[�h
+	カーソル操作したときとか、マウスクルックでカーソル移動したときとかに呼ばれる
+	@param[in]	pVoid	なにか
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewSelPositionSet( LPVOID pVoid )
 {
 	INT	iBgn, iEnd, iDmy = 0;
 
-	//	���[���ĕ`��E�w�ړ������Ȃ�`��̕K�v�͖���
+	//	ルーラ再描画・Ｘ移動無しなら描画の必要は無い
 	if( (gstPrePos.x != gdDocXdot) )
 	{
 		iBgn =  gstPrePos.x;	if( 0 > iBgn )	iBgn = 0;
 		iEnd =  gstPrePos.x + 1;
 		ViewPositionTransform( &iBgn, &iDmy, 1 );
 		ViewPositionTransform( &iEnd, &iDmy, 1 );
-		ViewRulerRedraw( iBgn, iEnd );	//	�X�V!?�͈͂������
+		ViewRulerRedraw( iBgn, iEnd );	//	更新!?範囲をいれる
 
 		iBgn =  gdDocXdot;	if( 0 > iBgn )	iBgn = 0;
 		iEnd =  gdDocXdot + 1;
 		ViewPositionTransform( &iBgn, &iDmy, 1 );
 		ViewPositionTransform( &iEnd, &iDmy, 1 );
-		ViewRulerRedraw( iBgn, iEnd );	//	�X�V!?�͈͂������
+		ViewRulerRedraw( iBgn, iEnd );	//	更新!?範囲をいれる
 	}
 
 	gstPrePos.x = gdDocXdot;
@@ -109,19 +109,19 @@ HRESULT ViewSelPositionSet( LPVOID pVoid )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	��`�I�����[�h��ON/OFF�g�O��
-	@param[in]	bMode	��O���j���[����@�O�͈͑I�������̒�����
-	@param[in]	pVoid	�Ȃɂ�
-	@return	UINT	��O��`���[�h�n�m�@�O��`���[�h�n�e�e
+	矩形選択モードのON/OFFトグル
+	@param[in]	bMode	非０メニューから　０範囲選択処理の中から
+	@param[in]	pVoid	なにか
+	@return	UINT	非０矩形モードＯＮ　０矩形モードＯＦＦ
 */
 UINT ViewSqSelModeToggle( UINT bMode, LPVOID pVoid )
 {
 	POINT	point;
 
-	TRACE( TEXT("��`�I��ON/OFF") );
+	TRACE( TEXT("矩形選択ON/OFF") );
 
-	//	�I�𓮍쒆�̓��[�h�ύX���Ȃ�
-	if( gbSelecting )	return gbSqSelect;	//	�Ȃ���RETURN�������Ă��H
+	//	選択動作中はモード変更しない
+	if( gbSelecting )	return gbSqSelect;	//	なぜかRETURNが抜けてた？
 
 	if( bMode )	//	20120313
 	{
@@ -129,22 +129,22 @@ UINT ViewSqSelModeToggle( UINT bMode, LPVOID pVoid )
 	}
 	else
 	{
-		//gbSqSelect &= ~D_SQUARE;	//	��U��������
+		//gbSqSelect &= ~D_SQUARE;	//	一旦解除して
 		if( gbAltOn ){	gbSqSelect |=  D_SQUARE;	}
-		//	20120323	Alt������Ă���ON�A�Ⴄ�Ȃ�f�ʂ�
+		//	20120323	Alt押されてたらON、違うなら素通り
 	}
 
-	//	�J�n���Ă��I�����Ă�����������͕̂ς��Ȃ�
+	//	開始しても終了しても初期化するのは変わらない
 	gstSqSelBegin.x = -1;
 	gstSqSelBegin.y = -1;
 	gstSqSelEnd.x   = -1;
 	gstSqSelEnd.y   = -1;
 
-	MenuItemCheckOnOff( IDM_SQSELECT , gbSqSelect );	//	���j���[�`�F�b�N
+	MenuItemCheckOnOff( IDM_SQSELECT , gbSqSelect );	//	メニューチェック
 
 	OperationOnStatusBar(  );
 
-	//	�J�[�\����ύX���Ă݂�E��`�Ȃ�N���X��
+	//	カーソルを変更してみる・矩形ならクロスで
 	if( D_SQUARE & gbSqSelect )
 	{
 		SetClassLongPtr( ghViewWnd, GCLP_HCURSOR, (LONG_PTR)(LoadCursor( NULL, IDC_CROSS ) ) );
@@ -161,24 +161,24 @@ UINT ViewSqSelModeToggle( UINT bMode, LPVOID pVoid )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�I��͈͊m�F���āA�n�_�I�_�������������������
-	@param[in]	dMode	��F���ɍl���Ȃ��@���F�I���J�n�������[�h�E�ł��g���ĂȂ�
-	@return	��O�n�_�I�_���قȂ�@�O����
+	選択範囲確認して、始点終点同じだったら解除する
+	@param[in]	dMode	零：特に考慮なし　非零：選択開始強制モード・でも使ってない
+	@return	非０始点終点が異なる　０同じ
 */
 UINT ViewSelRangeCheck( UINT dMode )
 {
 
-	//	�n�_�I�_�������ʒu�������I�����Ă��Ȃ�
+	//	始点終点が同じ位置＝何も選択していない
 	if( gstSelBgnOrig.x == gstSelEndOrig.x && gstSelBgnOrig.y == gstSelEndOrig.y )
 	{
-		TRACE( TEXT("�͈͏��łɂ��I������") );
+		TRACE( TEXT("範囲消滅による選択解除") );
 		if( IsSelecting( NULL ) )
 		{
-			TRACE( TEXT("�I�𒆂ł�������͈͉���") );
-			ViewSelPageAll( -1 );	//	���̒���DocSelRangeSet
+			TRACE( TEXT("選択中であったら範囲解除") );
+			ViewSelPageAll( -1 );	//	中の中でDocSelRangeSet
 		}
 
-		//	��`�p
+		//	矩形用
 		gstSqSelBegin.x = -1;
 		gstSqSelBegin.y = -1;
 		gstSqSelEnd.x   = -1;
@@ -197,15 +197,15 @@ UINT ViewSelRangeCheck( UINT dMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�I�����邩�ǂ����m�F���āA�n�_�Ƃ�����邩���E�L�[�}�E�X�������痈��
-	�L�����b�g�̈ړ������̑O�ɁA���O�̈ʒu���o���Ă����K�v������E���������_
-	@param[in]	dMode	��F���ɍl���Ȃ��@���F�I���J�n�������[�h
-	@return	HRESULT		�I����ԃR�[�h
+	選択するかどうか確認して、始点とかいれるかも・キーマウス両方から来る
+	キャレットの移動処理の前に、直前の位置を覚えておく必要がある・そこが原点
+	@param[in]	dMode	零：特に考慮なし　非零：選択開始強制モード
+	@return	HRESULT		終了状態コード
 */
 HRESULT ViewSelMoveCheck( UINT dMode )
 {
 
-	if( gbExtract && dMode )	//	���o���[�h�Ȃ�
+	if( gbExtract && dMode )	//	抽出モードなら
 	{
 		ViewSelStateChange( FALSE );
 
@@ -214,7 +214,7 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 
 	if( gbSelecting )
 	{
-		if( gbShiftOn || dMode )	//	�V�t�g������Ă邩�A�h���b�O�I�𒆂ł���
+		if( gbShiftOn || dMode )	//	シフト押されてるか、ドラッグ選択中である
 		{
 			ViewSelStateChange( FALSE );
 
@@ -222,10 +222,10 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 		}
 		else
 		{
-			TRACE( TEXT("������ɂ��I������") );
+			TRACE( TEXT("他操作による選択解除") );
 			ViewSelPageAll( -1 );
 
-			//	��`�p
+			//	矩形用
 			gstSqSelBegin.x = -1;
 			gstSqSelBegin.y = -1;
 			gstSqSelEnd.x   = -1;
@@ -239,26 +239,26 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 	}
 	else
 	{
-		//	���I����ԂŁA�V�t�g�I�T���Ȃ���J�[�\���̈ړ�����������
-		//	�������̓h���b�O�I���Ȃ�
+		//	未選択状態で、シフトオサレながらカーソルの移動があったら
+		//	もしくはドラッグ選択なら
 		if( gbShiftOn || dMode )
 		{
-			//	ALT�����Ȃ���I���J�n������A��`�I����Toggle����
+			//	ALT押しながら選択開始したら、矩形選択をToggleする
 		//	if( gbAltOn )	//	20120313
 				ViewSqSelModeToggle( 0, NULL );
 
 			TRACE( TEXT("STATE[%d %d %d]"), gbShiftOn, gbAltOn, dMode );
 
-			//	��`�p
-			gstSqSelBegin = gstPrePos;	//	�`��ʒu�H
+			//	矩形用
+			gstSqSelBegin = gstPrePos;	//	描画位置？
 			gstSqSelEnd.x = gdDocXdot;
 			gstSqSelEnd.y = gdDocLine;
 
 			gstSelBgnOrig = gstSqSelBegin;
 			gstSelEndOrig = gstSqSelEnd;
 
-			gbSelecting   = TRUE;	//	�I�������J�n
-			TRACE( TEXT("�I�������J�n[%d:%d]"), gstSqSelBegin.x, gstSqSelBegin.y );
+			gbSelecting   = TRUE;	//	選択処理開始
+			TRACE( TEXT("選択処理開始[%d:%d]"), gstSqSelBegin.x, gstSqSelBegin.y );
 
 			ViewSelStateChange( TRUE );
 		}
@@ -270,125 +270,125 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�y�[�W�S�̂̑I����Ԃ�ON/OFF����
-	@param[in]	dForce	�O�ف@�{�I����ԁ@�[�I������
-	@return		�S�̕�����
+	ページ全体の選択状態をON/OFFする
+	@param[in]	dForce	０无　＋選択状態　ー選択解除
+	@return		全体文字数
 */
 INT ViewSelPageAll( INT dForce )
 {
-	TRACE( TEXT("�S�I��[%d]"), dForce );
+	TRACE( TEXT("全選択[%d]"), dForce );
 
-	if( 0 < dForce )		gbSelecting =  TRUE;	//	�I�������J�n
-	else if( 0 > dForce )	gbSelecting = FALSE;	//	�I�������I��
-	else					return 0;	//	�O�Ȃ珈�����Ȃ�
+	if( 0 < dForce )		gbSelecting =  TRUE;	//	選択処理開始
+	else if( 0 > dForce )	gbSelecting = FALSE;	//	選択処理終了
+	else					return 0;	//	０なら処理しない
 
 	return DocPageSelStateToggle( dForce );
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�X�V���ꂽ�I��͈͂́A�I����Ԃ�ON/OFF����
-	@param[in]	dFirst	�I���J�n�����Ƃ����ǂ����E�g���ĂȂ�
-	@return		HRESULT	�I����ԃR�[�h
+	更新された選択範囲の、選択状態のON/OFFする
+	@param[in]	dFirst	選択開始したときかどうか・使ってない
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewSelStateChange( UINT dFirst )
 {
-	//	���O�̃J�[�\���ʒu����A���̑I��͈�END�ʒu�̊Ԃ̕���
-	//	����͔͈͍X�V���ꂽ�͈͂Ɋ܂ނ�̏���
+	//	直前のカーソル位置から、今の選択範囲END位置の間の文字
+	//	これは範囲更新された範囲に含むやつの処理
 	INT		dBeginDot, dEndDot, dStep = 0;
 	INT		dBaseLine, dJpLn;
 //	LONG	dBuffer;
 
-	//	���O�̏�Ԃ���s�܂������������ǂ���-
+	//	直前の状態から行またぎあったかどうか-
 	if( gstPrePos.y != gdDocLine )
 	{
-		dStep = gdDocLine - gstPrePos.y;	//	�}�C�i�X�����ɒ��ӃZ��
+		dStep = gdDocLine - gstPrePos.y;	//	マイナス方向に注意セヨ
 		
-		TRACE( TEXT("�I���ōs�܂��������FD[%d] L[%d] St[%d]"), gdDocXdot, gdDocLine, dStep );
+		TRACE( TEXT("選択で行またぎ発生：D[%d] L[%d] St[%d]"), gdDocXdot, gdDocLine, dStep );
 
-		//	���X�L�����b�g�̂������s�̏���
-		//	�t�����ւ̑I�������͂����ł���Ă�����͂�
-		if( 0 <  dStep )	//	�����Ɍ�������
+		//	元々キャレットのあった行の処理
+		//	逆方向への選択処理はここでやっていけるはず
+		if( 0 <  dStep )	//	末尾に向かって
 		{
-			dBeginDot =  gstPrePos.x;	//	�L�����b�g�ʒu����
-			dEndDot   =  -1;	//	�s�I�[�܂�
+			dBeginDot =  gstPrePos.x;	//	キャレット位置から
+			dEndDot   =  -1;	//	行終端まで
 		}
-		else	//	�����O�Ȃ炻�����������܂ŗ��Ȃ����炨��
+		else	//	差分０ならそもそもここまで来ないからおｋ
 		{
 			dBeginDot = 0;
 			dEndDot   = gstPrePos.x;
 		}
 
-		gstSqSelEnd.x =  gdDocXdot;	//	����Ɣ͈͎w��Ɏg��
+		gstSqSelEnd.x =  gdDocXdot;	//	洗濯業範囲指定に使う
 
-		dBaseLine = gstPrePos.y;	//	���X�L�����b�g�̑��݂��Ă����s
+		dBaseLine = gstPrePos.y;	//	元々キャレットの存在していた行
 	}
-	else	//	�܂����łȂ�
+	else	//	またいでない
 	{
-		if( gstPrePos.x < gdDocXdot )	//	�����Ɍ�������
+		if( gstPrePos.x < gdDocXdot )	//	末尾に向かって
 		{
 			dBeginDot = gstPrePos.x;
 			dEndDot   = gdDocXdot;
 		}
-		else	//	�K���Ɍ�������
+		else	//	銭湯に向かって
 		{
 			dBeginDot = gdDocXdot;
 			dEndDot   = gstPrePos.x;
 		}
 
 
-		dBaseLine = gdDocLine;	//	���X�L�����b�g�̑��݂��Ă����s
+		dBaseLine = gdDocLine;	//	元々キャレットの存在していた行
 	}
 
 	gstSelEndOrig.x = gdDocXdot;
 	gstSelEndOrig.y = gdDocLine;
 
-	//	�I��͈́A����E�������EOrig�ʒu�͐�ΓI�ȓ��e�̂͂��EOrig�l�����ɂ���΂������H
-	if( gstSelBgnOrig.y >  gstSelEndOrig.y )	//	�J�n����O�ɃC�b����
+	//	選択範囲、左上右下調整・Orig位置は絶対的な内容のはず・Orig値を元にすればいいか？
+	if( gstSelBgnOrig.y >  gstSelEndOrig.y )	//	開始より手前にイッたら
 	{
 		gstSqSelBegin.y = gdDocLine;
 		gstSqSelEnd.y   = gstSelBgnOrig.y;
 	}
-	else	//	�ʏ�Ȃ�
+	else	//	通常なら
 	{
 		gstSqSelBegin.y = gstSelBgnOrig.y;
 		gstSqSelEnd.y   = gdDocLine;
 	}
 
-	if( gstSelBgnOrig.x >  gstSelEndOrig.x )	//	�J�n����O�ɃC�b����
+	if( gstSelBgnOrig.x >  gstSelEndOrig.x )	//	開始より手前にイッたら
 	{
-		gstSqSelBegin.x = gdDocXdot;	//	��`�p�H
+		gstSqSelBegin.x = gdDocXdot;	//	矩形用？
 		gstSqSelEnd.x   = gstSelBgnOrig.x;
 	}
-	else	//	�ʏ�Ȃ�
+	else	//	通常なら
 	{
 		gstSqSelBegin.x = gstSelBgnOrig.x;
 		gstSqSelEnd.x   = gdDocXdot;
 	}
 
 
-	//	�J�n�ʒu�����ނƂ��A���������Ȃ��悤�ɏC��
-	//	��[�A���[������Ȃ��悤�ɒ��ӃZ��
+	//	開始位置を挟むとき、それを失わないように修正
+	//	上端、下端も失わないように注意セヨ
 
 	TRACE( TEXT("[%d:%d][%d:%d]"), gstSqSelBegin.x, gstSqSelBegin.y, gstSqSelEnd.x, gstSqSelEnd.y );
 
 	DocSelRangeSet( gstSqSelBegin.y, gstSqSelEnd.y );
 
-	if( gbSqSelect )	//	��`�̎��͐�p�ɏ�������
+	if( gbSqSelect )	//	矩形の時は専用に処理する
 	{
 		ViewSqSelAdjust( dBaseLine );
 	}
 	else
 	{
-		//	���X�L�����b�g�̂������s�̑I���𒲐�
+		//	元々キャレットのあった行の選択を調整
 		DocRangeSelStateToggle( dBeginDot, dEndDot, dBaseLine, 0 );
 
-		//	�s�܂����������Ă���
+		//	行またぎ発生してたら
 		if( 1 <= dStep )
 		{
 			DocReturnSelStateToggle( dBaseLine, 0 );
 
-			//	�ԂɂP�s�ȏ㑶�݂��Ă��炻�����𖄂߂�
+			//	間に１行以上存在してたらそっちを埋める
 			for( dJpLn = (dBaseLine + 1); gdDocLine > dJpLn; dJpLn++ )
 			{
 				DocReturnSelStateToggle( dJpLn, 0 );
@@ -400,9 +400,9 @@ HRESULT ViewSelStateChange( UINT dFirst )
 
 		if( -1 >= dStep )
 		{
-		//	DocReturnSelStateToggle( dBaseLine, 0 );	//	�����ɂ͗v��Ȃ��H
+		//	DocReturnSelStateToggle( dBaseLine, 0 );	//	ここには要らない？
 
-			//	�ԂɂP�s�ȏ㑶�݂��Ă��炻�����𖄂߂�
+			//	間に１行以上存在してたらそっちを埋める
 			for( dJpLn = (gdDocLine + 1); dBaseLine > dJpLn; dJpLn++ )
 			{
 				DocReturnSelStateToggle( dJpLn, 0 );
@@ -419,17 +419,17 @@ HRESULT ViewSelStateChange( UINT dFirst )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�I���J�n�n�_���O�ɑI�����Ă��邩
-	@param[in]	line	���ݍs
-	@return	UINT		��O����I����I
+	選択開始地点より前に選択しているか
+	@param[in]	line	現在行
+	@return	UINT		非０いる！いる！
 */
 UINT ViewSelBackCheck( INT line )
 {
-	//	�I��͈́A����E�������EOrig�ʒu�͐�ΓI�ȓ��e�̂͂��EOrig�l�����ɂ���΂������H
+	//	選択範囲、左上右下調整・Orig位置は絶対的な内容のはず・Orig値を元にすればいいか？
 
 	TRACE( TEXT("LINE[%d] ST[%d]"), line, gstSelBgnOrig.y );
 
-	//	�J�n�����̍s�C�b����
+	//	開始から上の行イッたら
 	if( gstSelBgnOrig.y >= line ){	return TRUE;	}
 
 	return FALSE;
@@ -437,19 +437,19 @@ UINT ViewSelBackCheck( INT line )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	��`�I���̒���
-	@param[in]	dBaseLine	���X�L�����b�g�̂������s�ԍ�
-	@return		HRESULT	�I����ԃR�[�h
+	矩形選択の調整
+	@param[in]	dBaseLine	元々キャレットのあった行番号
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewSqSelAdjust( INT dBaseLine )
 {
 	INT	i, xDotBegin, xDotEnd, xDotLast;
-	//	�����Ɨǂ������Ȃ���
+	//	もっと良いやり方ないか
 
-#pragma message ("�����ŁA�I��͈͑S�̂̏��������x���s���Ă���̂ŏd����")
+#pragma message ("ここで、選択範囲全体の処理が何度も行われているので重たい")
 
-	//	�}�E�X�N���b�N�Ƃ��ŁA�s�P�ʂőI�����ύX���ꂽ�ꍇ
-	//	�オ�J���Ă�E�J���Ă鏊�̑I������
+	//	マウスクルックとかで、行単位で選択が変更された場合
+	//	上が開いてる・開いてる所の選択解除
 	if( dBaseLine < gstSqSelBegin.y )
 	{
 		for( i = dBaseLine; gstSqSelBegin.y > i; i++ )
@@ -457,7 +457,7 @@ HRESULT ViewSqSelAdjust( INT dBaseLine )
 			DocRangeSelStateToggle( 0, -1, i, -1 );
 		}
 	}
-	//	�����J���Ă�
+	//	下が開いてる
 	if( gstSqSelEnd.y < dBaseLine )
 	{
 		for( i = gstSqSelEnd.y + 1; dBaseLine >= i; i++ )
@@ -469,26 +469,26 @@ HRESULT ViewSqSelAdjust( INT dBaseLine )
 	for( i = gstSqSelBegin.y; gstSqSelEnd.y >= i; i++ )
 	{
 		xDotBegin = gstSqSelBegin.x;
-		DocLetterPosGetAdjust( &xDotBegin, i, 0 );	//	�e�s�̃L�����b�g�ʒu�̒���
+		DocLetterPosGetAdjust( &xDotBegin, i, 0 );	//	各行のキャレット位置の調整
 
-		//	20110720	�I�[�ʒu�ǂ��ɂ��Ȃ�H
-	//	xDotEnd = gstSqSelEnd.x;	//��
-		//���[�ʒu�ƃJ�[�\���ʒu���ׂāA��艓�������̗p�E�t�����֑Ώ����邽�߂Ɋm�F���K�v
+		//	20110720	終端位置どうにかなる？
+	//	xDotEnd = gstSqSelEnd.x;	//元
+		//末端位置とカーソル位置を比べて、より遠い方を採用・逆方向へ対処するために確認が必要
 		xDotEnd = (gstSqSelEnd.x < gstCursor.x) ? gstCursor.x : gstSqSelEnd.x;
 		DocLetterPosGetAdjust( &xDotEnd, i, 0 );
 
-		//	���[�m�F
+		//	末端確認
 		xDotLast = DocLineParamGet( i, NULL, NULL );
 
-		if( 0 < xDotBegin )	//	�擪����I��͈͒��O�܂�
+		if( 0 < xDotBegin )	//	先頭から選択範囲直前まで
 		{
 			DocRangeSelStateToggle( 0, xDotBegin, i, -1 );
 		}
 
-		//	�I��͈�
+		//	選択範囲
 		DocRangeSelStateToggle( xDotBegin, xDotEnd, i, 1 );
 
-		if( xDotEnd < xDotLast )	//	�I��͈͂̏I��肩�疖�[�܂�
+		if( xDotEnd < xDotLast )	//	選択範囲の終わりから末端まで
 		{
 			DocRangeSelStateToggle( xDotEnd, -1, i, -1 );
 		}
@@ -499,9 +499,9 @@ HRESULT ViewSqSelAdjust( INT dBaseLine )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	�J�[�\���̂���A�󔒗�������͕������I����Ԃɂ���
-	@param[in]	pVoid	�Ȃɂ�
-	@return		HRESULT	�I����ԃR�[�h
+	カーソルのある、空白列もしくは文字列を選択状態にする
+	@param[in]	pVoid	なにか
+	@return		HRESULT	終了状態コード
 */
 HRESULT ViewSelAreaSelect( LPVOID pVoid )
 {
@@ -509,22 +509,22 @@ HRESULT ViewSelAreaSelect( LPVOID pVoid )
 	INT		iRangeDot;
 	BOOLEAN	bIsSpase;
 
-	DocPageSelStateToggle(  FALSE );	//	��U�I����Ԃ͉���
+	DocPageSelStateToggle(  FALSE );	//	一旦選択状態は解除
 
 	iRangeDot = DocLineStateCheckWithDot( gdDocXdot, gdDocLine, &iBeginDot, &iEndDot, &iStCnt, &iCount, &bIsSpase );
-															//	�n�_�h�b�g�E�I�_�h�b�g�E�J�n�n�_�̕������E�Ԃ̕������E�Y���̓X�y�[�X�ł��邩
-	gdDocXdot = iBeginDot;	//	�I��͈͂Ƃ��Ĉړ�����
+															//	始点ドット・終点ドット・開始地点の文字数・間の文字数・該当はスペースであるか
+	gdDocXdot = iBeginDot;	//	選択範囲として移動する
 	ViewSelMoveCheck( FALSE );
 	ViewSelPositionSet( NULL );
 
-	//	�h���b�O�ړ���͋[�I�ɍs��
+	//	ドラッグ移動を模擬的に行う
 
-	gdDocXdot = iEndDot;	//	�I��͈͂Ƃ��Ĉړ�����
+	gdDocXdot = iEndDot;	//	選択範囲として移動する
 
-	ViewDrawCaret( gdDocXdot, gdDocLine, 1 );	//	�����ŃL�����b�g���ړ�
+	ViewDrawCaret( gdDocXdot, gdDocLine, 1 );	//	ここでキャレットも移動
 
 	ViewSelMoveCheck( TRUE );
-	ViewSelPositionSet( NULL );	//	�ړ������ʒu���L�^
+	ViewSelPositionSet( NULL );	//	移動した位置を記録
 
 	return S_OK;
 }

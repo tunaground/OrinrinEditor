@@ -1,6 +1,6 @@
 /*! @file
-	@brief •¡”sƒeƒ“ƒvƒŒ‚Åg‚¤’è”‚â”Ÿ”‚Å‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í MaaTemplate.h ‚Å‚·B
+	@brief è¤‡æ•°è¡Œãƒ†ãƒ³ãƒ—ãƒ¬ã§ä½¿ã†å®šæ•°ã‚„å‡½æ•°ã§ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ MaaTemplate.h ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/00/00
 */
@@ -25,35 +25,35 @@ If not, see <http://www.gnu.org/licenses/>.
 //-------------------------------------------------------------------------------------------------
 
 #define EXTRA_NODE_STYLE
-//	’Ç‰Áƒm[ƒh‹@”\
+//	è¿½åŠ ãƒãƒ¼ãƒ‰æ©Ÿèƒ½
 
-#define EXTRA_NODE	TEXT("[*’Ç‰Á€–Ú*]")
+#define EXTRA_NODE	TEXT("[*è¿½åŠ é …ç›®*]")
 
 #define WMP_PROF_ACT	(WM_APP+100)	
 
-#define TREE_WIDTH	170	//!<	MAA‚ÌƒcƒŠ[ƒrƒ…[‚Ì•W€•
-#define LSSCL_WIDTH	15	//!<	MAA‚ÌAAˆê——‚ÌƒXƒNƒ[ƒ‹ƒo[‚Ì•
+#define TREE_WIDTH	170	//!<	MAAã®ãƒ„ãƒªãƒ¼ãƒ“ãƒ¥ãƒ¼ã®æ¨™æº–å¹…
+#define LSSCL_WIDTH	15	//!<	MAAã®AAä¸€è¦§ã®ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã®å¹…
 
-//	ƒXƒe[ƒ^ƒXƒo[‚ÌƒAƒCƒeƒ€“à—e
+//	ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã®ã‚¢ã‚¤ãƒ†ãƒ å†…å®¹
 #define SBMAA_PROFNAME	0
 #define SBMAA_AXIS		1
 #define SBMAA_FILENAME	2
 
-//	ŠJ‚¯‚Ä‚é
+//	é–‹ã‘ã¦ã‚‹
 #define  ACT_ALLTREE	0
 #define  ACT_FAVLIST	1
-#define  ACT_SUBITEM	2	//	‚QˆÈ~‚ÉŠ„“–
+#define  ACT_SUBITEM	2	//	ï¼’ä»¥é™ã«å‰²å½“
 
 typedef LRESULT (CALLBACK *BUFFERBACK)(UINT, UINT, UINT, LPCVOID);
 //-------------------------------------------------------------------------------------------------
 
 
-// ‚±‚ÌƒR[ƒh ƒ‚ƒWƒ…[ƒ‹‚ÉŠÜ‚Ü‚ê‚éŠÖ”‚ÌéŒ¾
+// ã“ã®ã‚³ãƒ¼ãƒ‰ ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã«å«ã¾ã‚Œã‚‹é–¢æ•°ã®å®£è¨€
 UINT		Maa_OnMouseWheel( HWND, INT, INT, INT, UINT );	//!<	
 VOID		Maa_OnContextMenu( HWND, HWND, UINT, UINT );	//!<	
 VOID		Maa_OnChar( HWND , TCHAR, INT );				//!<	
 VOID		Maa_OnSize( HWND , UINT, INT, INT );			//!<	
-VOID		Maa_OnCommand( HWND , INT, HWND, UINT );		//!<	WM_COMMAND ‚Ìˆ—
+VOID		Maa_OnCommand( HWND , INT, HWND, UINT );		//!<	WM_COMMAND ã®å‡¦ç†
 
 #ifdef _ORRVW
 INT_PTR	CALLBACK OptionDlgProc( HWND, UINT, WPARAM, LPARAM );	//!<	

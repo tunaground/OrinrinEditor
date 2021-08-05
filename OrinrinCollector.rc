@@ -1,11 +1,11 @@
-//	Microsoft Visual C++ ‚Å¶¬‚³‚ê‚½ƒŠƒ\[ƒX ƒXƒNƒŠƒvƒg‚Å‚·B
+//	Microsoft Visual C++ ã§ç”Ÿæˆã•ã‚ŒãŸãƒªã‚½ãƒ¼ã‚¹ ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§ã™ã€‚
 //
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
-//	TEXTINCLUDE 2 ƒŠƒ\[ƒX‚©‚ç¶¬‚³‚ê‚Ü‚µ‚½B
+//	TEXTINCLUDE 2 ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚
 //
 #ifndef APSTUDIO_INVOKED
 #include "targetver.h"
@@ -19,7 +19,7 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	“ú–{Œê
+//	æ—¥æœ¬èªž
 //
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 #ifdef _WIN32
@@ -29,40 +29,40 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ƒAƒCƒRƒ“
+//	ã‚¢ã‚¤ã‚³ãƒ³
 //
 
-//	ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÌƒAƒCƒRƒ“‚ð‚·‚×‚Ä‚ÌƒVƒXƒeƒ€ã‚ÅˆÛŽ‚·‚é‚½‚ß‚ÉAÅ‚à¬‚³‚¢
-//	ID ’l‚ÌƒAƒCƒRƒ“‚ªÅ‰‚É”z’u‚³‚ê‚Ü‚·B
+//	ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¢ã‚¤ã‚³ãƒ³ã‚’ã™ã¹ã¦ã®ã‚·ã‚¹ãƒ†ãƒ ä¸Šã§ç¶­æŒã™ã‚‹ãŸã‚ã«ã€æœ€ã‚‚å°ã•ã„
+//	ID å€¤ã®ã‚¢ã‚¤ã‚³ãƒ³ãŒæœ€åˆã«é…ç½®ã•ã‚Œã¾ã™ã€‚
 
 IDI_ORINRINCOLLECTOR		ICON	"OrinrinCollector.ico"
 IDI_SMALL	ICON	"OrinrinCollector.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ƒƒjƒ…[
+//	ãƒ¡ãƒ‹ãƒ¥ãƒ¼
 //
 
 IDC_ORINRINCOLLECTOR MENU
 BEGIN
-    POPUP "ƒ|ƒbƒvƒAƒbƒvƒƒjƒ…["
+    POPUP "ãƒãƒƒãƒ—ã‚¢ãƒƒãƒ—ãƒ¡ãƒ‹ãƒ¥ãƒ¼"
     BEGIN
-        MENUITEM "Ý’è(&O)",					IDM_CLIPSTEAL_OPTION
-        MENUITEM "ƒRƒs[“à—e‚ð’¸‘Õ‚·‚é(&C)",	IDM_CLIPSTEAL_TOGGLE
+        MENUITEM "è¨­å®š(&O)",					IDM_CLIPSTEAL_OPTION
+        MENUITEM "ã‚³ãƒ”ãƒ¼å†…å®¹ã‚’é ‚æˆ´ã™ã‚‹(&C)",	IDM_CLIPSTEAL_TOGGLE
         MENUITEM SEPARATOR
-        MENUITEM "ƒvƒƒOƒ‰ƒ€I—¹(&Q)",			IDM_EXIT
+        MENUITEM "ãƒ—ãƒ­ã‚°ãƒ©ãƒ çµ‚äº†(&Q)",			IDM_EXIT
     END
 END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ƒ_ƒCƒAƒƒO
+//	ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 //
 
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ƒo[ƒWƒ‡ƒ“î•ñ
+//	ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±
 //
 
 VS_VERSION_INFO VERSIONINFO
@@ -135,7 +135,7 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ƒXƒgƒŠƒ“ƒOƒe[ƒuƒ‹
+//	ã‚¹ãƒˆãƒªãƒ³ã‚°ãƒ†ãƒ¼ãƒ–ãƒ«
 //
 
 STRINGTABLE
@@ -152,8 +152,8 @@ END
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-//	TEXTINCLUDE 3 ƒŠƒ\[ƒX‚©‚ç¶¬‚³‚ê‚Ü‚µ‚½B
+//	TEXTINCLUDE 3 ãƒªã‚½ãƒ¼ã‚¹ã‹ã‚‰ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚
 //
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    //	APSTUDIO_INVOKED ‚Å‚È‚¢ê‡
+#endif    //	APSTUDIO_INVOKED ã§ãªã„å ´åˆ

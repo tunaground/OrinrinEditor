@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒ†[ƒU’è‹`‘}“ü‚Ì–Ê“|Œ©‚Ü‚·
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í UserDefinition.cpp ‚Å‚·B
+	@brief ãƒ¦ãƒ¼ã‚¶å®šç¾©æŒ¿å…¥ã®é¢å€’è¦‹ã¾ã™
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ UserDefinition.cpp ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/06/16
 */
@@ -21,36 +21,36 @@ If not, see <http://www.gnu.org/licenses/>.
 #include "OrinrinEditor.h"
 //-------------------------------------------------------------------------------------------------
 
-//	ƒ†[ƒU’è‹`ˆëŒÂ•ª
+//	ãƒ¦ãƒ¼ã‚¶å®šç¾©å£±å€‹åˆ†
 typedef struct tagUSERITEMS
 {
 	TCHAR	atItemName[MAX_STRING];
 
-	vector<ONELINE>	vcUnits;	//!<	‘S‘Ì
+	vector<ONELINE>	vcUnits;	//!<	å…¨ä½“
 
 } USERITEMS, *LPUSERITEMS;
 //-------------------------------------------------------------------------------------------------
 
-extern INT		gdDocLine;		//!<	ƒLƒƒƒŒƒbƒg‚Ì‚xs”EƒhƒLƒ…ƒƒ“ƒgˆÊ’u
+extern INT		gdDocLine;		//!<	ã‚­ãƒ£ãƒ¬ãƒƒãƒˆã®ï¼¹è¡Œæ•°ãƒ»ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆä½ç½®
 
 
 static TCHAR	gatUsDfPath[MAX_PATH];	//!<	
 
-static  UINT	gdItemCnt;	//!<	“o˜^‚³‚ê‚Ä‚¢‚éƒAƒCƒeƒ€”
+static  UINT	gdItemCnt;	//!<	ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚¢ã‚¤ãƒ†ãƒ æ•°
 
-static USERITEMS	gstUserItem[USER_ITEM_MAX];	//!<	ƒ†[ƒUƒAƒCƒeƒ€‚Ì•Û
+static USERITEMS	gstUserItem[USER_ITEM_MAX];	//!<	ãƒ¦ãƒ¼ã‚¶ã‚¢ã‚¤ãƒ†ãƒ ã®ä¿æŒ
 //-------------------------------------------------------------------------------------------------
 
-UINT	CALLBACK UserDefItemLoad( LPTSTR, LPCTSTR, INT );	//!<	ƒ†[ƒU’è‹`‚Ì“à—e‚ğ‚Ô‚¿‚Ş
+UINT	CALLBACK UserDefItemLoad( LPTSTR, LPCTSTR, INT );	//!<	ãƒ¦ãƒ¼ã‚¶å®šç¾©ã®å†…å®¹ã‚’ã¶ã¡è¾¼ã‚€
 
-HRESULT	UserDefAppendMenu( HWND );	//!<	ƒ†[ƒU’è‹`‚Ì“à—e‚ğƒƒjƒ…[‚É’Ç‰Á
+HRESULT	UserDefAppendMenu( HWND );	//!<	ãƒ¦ãƒ¼ã‚¶å®šç¾©ã®å†…å®¹ã‚’ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«è¿½åŠ 
 //-------------------------------------------------------------------------------------------------
 
 
 /*!
-	¡ŠJ‚¢‚Ä‚éUSER’è‹`‚Ì“à—e‚ğ‘S‚Ä”jŠü‚µ‚ÄV‚µ‚¢‚Ìì‚ê‚éó‘Ô‚É‚·‚é
-	@param[in]	hWnd	ƒƒCƒ“ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ä»Šé–‹ã„ã¦ã‚‹USERå®šç¾©ã®å†…å®¹ã‚’å…¨ã¦ç ´æ£„ã—ã¦æ–°ã—ã„ã®ä½œã‚Œã‚‹çŠ¶æ…‹ã«ã™ã‚‹
+	@param[in]	hWnd	ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UserDefObliterate( HWND hWnd )
 {
@@ -62,43 +62,43 @@ HRESULT UserDefObliterate( HWND hWnd )
 		iLine = gstUserItem[i].vcUnits.size( );
 		for( j = 0; iLine > j; j++ )
 		{
-			gstUserItem[i].vcUnits.at( j ).vcLine.clear(   );	//	Šes‚Ì’†g‘SÁ‚µ
+			gstUserItem[i].vcUnits.at( j ).vcLine.clear(   );	//	å„è¡Œã®ä¸­èº«å…¨æ¶ˆã—
 		}
-		gstUserItem[i].vcUnits.clear(  );	//	s‚ğ‘SÁ‚µ
+		gstUserItem[i].vcUnits.clear(  );	//	è¡Œã‚’å…¨æ¶ˆã—
 
 		ZeroMemory( gstUserItem[i].atItemName, sizeof(gstUserItem[i].atItemName) );
 	}
 
 	gdItemCnt = 0;
 
-	//	ƒƒjƒ…[‚Ì“à—e‚ğA–³‚µ‚É‚µ‚Æ‚¦‚­
+	//	ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å†…å®¹ã‚’ã€ç„¡ã—ã«ã—ã¨ãˆã
 
 	return S_OK;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†[ƒU’è‹`‚ÌƒAƒŒ‚ğ“Ç‚İ‚Ş
-	@param[in]	hWnd	ƒƒCƒ“ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	bFirst	¡‰ñ‚ªÅ‰‚Å‚ ‚é‚©
-	@return	”ñ‚O’†gæ‚Á‚½ˆ—‚µ‚½@‚Oƒtƒ@ƒCƒ‹‚È‚©‚Á‚½
+	ãƒ¦ãƒ¼ã‚¶å®šç¾©ã®ã‚¢ãƒ¬ã‚’èª­ã¿è¾¼ã‚€
+	@param[in]	hWnd	ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	bFirst	ä»Šå›ãŒæœ€åˆã§ã‚ã‚‹ã‹
+	@return	éï¼ä¸­èº«å–ã£ãŸå‡¦ç†ã—ãŸã€€ï¼ãƒ•ã‚¡ã‚¤ãƒ«ãªã‹ã£ãŸ
 */
 INT UserDefInitialise( HWND hWnd, UINT bFirst )
 {
-	CONST WCHAR rtHead = 0xFEFF;	//	ƒ†ƒjƒR[ƒhƒeƒLƒXƒgƒwƒbƒ_
+	CONST WCHAR rtHead = 0xFEFF;	//	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ†ã‚­ã‚¹ãƒˆãƒ˜ãƒƒãƒ€
 	WCHAR	rtUniBuf;
 
 	HANDLE	hFile;
 	DWORD	readed;
 
-	LPVOID	pBuffer;	//	•¶š—ñƒoƒbƒtƒ@—pƒ|ƒCƒ“ƒ^[
+	LPVOID	pBuffer;	//	æ–‡å­—åˆ—ãƒãƒƒãƒ•ã‚¡ç”¨ãƒã‚¤ãƒ³ã‚¿ãƒ¼
 	INT		iByteSize;
 
 	LPTSTR	ptString;
 	LPSTR	pcText;
 	UINT	cchSize;
 
-	if( bFirst )	//	Å‰‚È‚çƒpƒXì‚Á‚Ä‚¨‚­
+	if( bFirst )	//	æœ€åˆãªã‚‰ãƒ‘ã‚¹ä½œã£ã¦ãŠã
 	{
 		ZeroMemory( gatUsDfPath, sizeof(gatUsDfPath) );
 		StringCchCopy( gatUsDfPath, MAX_PATH, ExePathGet() );
@@ -109,37 +109,37 @@ INT UserDefInitialise( HWND hWnd, UINT bFirst )
 	hFile = CreateFile( gatUsDfPath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
 	if( INVALID_HANDLE_VALUE == hFile ){	return 0;	}
 
-	//	¡‚Ì“à—e”jŠü
+	//	ä»Šã®å†…å®¹ç ´æ£„
 	UserDefObliterate( hWnd );
 
 	iByteSize = GetFileSize( hFile, NULL );
 	pBuffer = malloc( iByteSize + 2 );
 	ZeroMemory( pBuffer, iByteSize + 2 );
-	//	’†g‚ğ‚¢‚½‚¾‚­
+	//	ä¸­èº«ã‚’ã„ãŸã ã
 	SetFilePointer( hFile, 0, NULL, FILE_BEGIN );
 	ReadFile( hFile, pBuffer, iByteSize, &readed, NULL );
-	CloseHandle( hFile );	//	“à—e‘S•”æ‚è‚ñ‚¾‚©‚çŠJ•ú
+	CloseHandle( hFile );	//	å†…å®¹å…¨éƒ¨å–ã‚Šè¾¼ã‚“ã ã‹ã‚‰é–‹æ”¾
 
-	//	ƒ†ƒjƒR[ƒhƒ`ƒƒƒbƒN
+	//	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒãƒ£ãƒƒã‚¯
 	CopyMemory( &rtUniBuf, pBuffer, 2 );
-	if( rtHead == rtUniBuf )	//	ƒ†ƒjƒR[ƒhƒwƒbƒ_‚ª‚ ‚ê‚Î
+	if( rtHead == rtUniBuf )	//	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ˜ãƒƒãƒ€ãŒã‚ã‚Œã°
 	{
 		ptString = (LPTSTR)pBuffer;
-		ptString++;	//	ƒ†ƒjƒR[ƒhƒwƒbƒ_•ªi‚ß‚Ä‚¨‚­
+		ptString++;	//	ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ãƒ˜ãƒƒãƒ€åˆ†é€²ã‚ã¦ãŠã
 	}
 	else
 	{
 		pcText = (LPSTR)pBuffer;
-		//	ƒVƒtƒgJIS‚ğŠJ‚­ê‡A&#0000;‚Ì•”•ª‚ğ‚Ç‚¤‚É‚©‚¹‚ñ‚Æ‚¢‚©‚ñ
-		ptString = SjisDecodeAlloc( pcText );	//	SJIS‚Ì“à—e‚ğƒ†ƒjƒR[ƒh‚É‚·‚é
+		//	ã‚·ãƒ•ãƒˆJISã‚’é–‹ãå ´åˆã€&#0000;ã®éƒ¨åˆ†ã‚’ã©ã†ã«ã‹ã›ã‚“ã¨ã„ã‹ã‚“
+		ptString = SjisDecodeAlloc( pcText );	//	SJISã®å†…å®¹ã‚’ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰ã«ã™ã‚‹
 
-		FREE( pBuffer );	//	‚±‚Á‚¿‚ÅŠJ•ú
-		pBuffer = ptString;	//	ƒ|ƒCƒ“ƒg‚·‚é‚Æ‚±‚ë‚ğ•ÏX
+		FREE( pBuffer );	//	ã“ã£ã¡ã§é–‹æ”¾
+		pBuffer = ptString;	//	ãƒã‚¤ãƒ³ãƒˆã™ã‚‹ã¨ã“ã‚ã‚’å¤‰æ›´
 	}
 
 	StringCchLength( ptString, STRSAFE_MAX_CCH, &cchSize );
 
-	//	AST‚¶‚á‚È‚«‚áƒ_ƒ
+	//	ASTã˜ã‚ƒãªãã‚ƒãƒ€ãƒ¡
 	if( !( StrCmpN( AST_SEPARATERW, ptString, 4 ) ) )
 	{
 		DocStringSplitAST( ptString , cchSize, UserDefItemLoad );
@@ -154,18 +154,18 @@ INT UserDefInitialise( HWND hWnd, UINT bFirst )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	“à—e‚ğ‚Ô‚¿‚Ş
-	@param[in]	ptName	€–Ú‚Ì–¼‘O
-	@param[in]	ptCont	€–Ú‚Ì“à—e
-	@param[in]	cchSize	“à—e‚Ì•¶š”
-	@return	”ñ‚O‚µ‚å‚è‚µ‚½@‚O‚µ‚È‚©‚Á‚½
+	å†…å®¹ã‚’ã¶ã¡è¾¼ã‚€
+	@param[in]	ptName	é …ç›®ã®åå‰
+	@param[in]	ptCont	é …ç›®ã®å†…å®¹
+	@param[in]	cchSize	å†…å®¹ã®æ–‡å­—æ•°
+	@return	éï¼ã—ã‚‡ã‚Šã—ãŸã€€ï¼ã—ãªã‹ã£ãŸ
 */
 UINT CALLBACK UserDefItemLoad( LPTSTR ptName, LPCTSTR ptCont, INT cchSize )
 {
-	//	˜g©‘Ì‚Í‚ ‚é
-	//	–¼‘O‚ğƒZƒbƒg‚µ‚Ä‚¨‚­
+	//	æ è‡ªä½“ã¯ã‚ã‚‹
+	//	åå‰ã‚’ã‚»ãƒƒãƒˆã—ã¦ãŠã
 
-	//	‚Í‚İo‚·•ª‚Í‰½‚à‚µ‚È‚¢‚æ
+	//	ã¯ã¿å‡ºã™åˆ†ã¯ä½•ã‚‚ã—ãªã„ã‚ˆ
 	if( USER_ITEM_MAX <= gdItemCnt )	return 0;
 
 	if( ptName )
@@ -174,12 +174,12 @@ UINT CALLBACK UserDefItemLoad( LPTSTR ptName, LPCTSTR ptCont, INT cchSize )
 	}
 	else
 	{
-		StringCchPrintf( gstUserItem[gdItemCnt].atItemName, MAX_STRING, TEXT("(ƒ†[ƒUƒAƒCƒeƒ€ No.%d"), gdItemCnt + 1 );
+		StringCchPrintf( gstUserItem[gdItemCnt].atItemName, MAX_STRING, TEXT("(ãƒ¦ãƒ¼ã‚¶ã‚¢ã‚¤ãƒ†ãƒ  No.%d"), gdItemCnt + 1 );
 	}
 
-	if( 0 < cchSize )	//	‹ós‚Å‚È‚¢‚Ì‚È‚ç
+	if( 0 < cchSize )	//	ç©ºè¡Œã§ãªã„ã®ãªã‚‰
 	{
-		UserDefSetString( &(gstUserItem[gdItemCnt].vcUnits), ptCont, cchSize );	//	‚±‚Ì’†‚Å‰üs‚Æ‚©–Ê“|Œ©‚é
+		UserDefSetString( &(gstUserItem[gdItemCnt].vcUnits), ptCont, cchSize );	//	ã“ã®ä¸­ã§æ”¹è¡Œã¨ã‹é¢å€’è¦‹ã‚‹
 	}
 
 	gdItemCnt++;
@@ -190,11 +190,11 @@ UINT CALLBACK UserDefItemLoad( LPTSTR ptName, LPCTSTR ptCont, INT cchSize )
 
 
 /*!
-	•Û\‘¢‘Ì‚É•¶š—ñ‚ğ‹L˜^‚·‚é
-	@param[in]	*pvcUnits	•ÛƒxƒN[ƒ^‚Ö‚Ìƒ|ƒCƒ“ƒ^[
-	@param[in]	ptText		‹L˜^‚·‚é•¶š—ñ
-	@param[in]	cchSize		•¶š”
-	@return		HRESULT		I—¹ó‘ÔƒR[ƒh
+	ä¿æŒæ§‹é€ ä½“ã«æ–‡å­—åˆ—ã‚’è¨˜éŒ²ã™ã‚‹
+	@param[in]	*pvcUnits	ä¿æŒãƒ™ã‚¯ãƒ¼ã‚¿ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	@param[in]	ptText		è¨˜éŒ²ã™ã‚‹æ–‡å­—åˆ—
+	@param[in]	cchSize		æ–‡å­—æ•°
+	@return		HRESULT		çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UserDefSetString( vector<ONELINE> *pvcUnits, LPCTSTR ptText, UINT cchSize )
 {
@@ -205,25 +205,25 @@ HRESULT UserDefSetString( vector<ONELINE> *pvcUnits, LPCTSTR ptText, UINT cchSiz
 
 	ZeroONELINE( &stLine );
 
-	pvcUnits->push_back( stLine );	//	ˆë”­–Ú
+	pvcUnits->push_back( stLine );	//	å£±ç™ºç›®
 
 	yLine = 0;
 	for( i = 0; cchSize > i; i++ )
 	{
-		if( CC_CR == ptText[i] && CC_LF == ptText[i+1] )	//	‰üs‚Å‚ ‚Á‚½‚ç
+		if( CC_CR == ptText[i] && CC_LF == ptText[i+1] )	//	æ”¹è¡Œã§ã‚ã£ãŸã‚‰
 		{
 			pvcUnits->push_back( stLine );
 
-			i++;		//	0x0D,0x0A‚¾‚©‚çAˆë•¶š”ò‚Î‚·‚Ì‚ªƒ|ƒCƒ“ƒg
-			yLine++;	//	‰üs‚µ‚½‚©‚çFocus‚ÍŸ‚Ìs‚Ö
+			i++;		//	0x0D,0x0Aã ã‹ã‚‰ã€å£±æ–‡å­—é£›ã°ã™ã®ãŒãƒã‚¤ãƒ³ãƒˆ
+			yLine++;	//	æ”¹è¡Œã—ãŸã‹ã‚‰Focusã¯æ¬¡ã®è¡Œã¸
 		}
 		else if( CC_TAB == ptText[i] )
 		{
-			//	ƒ^ƒu‚Í‘}“ü‚µ‚È‚¢
+			//	ã‚¿ãƒ–ã¯æŒ¿å…¥ã—ãªã„
 		}
 		else
 		{
-			DocLetterDataCheck( &stLetter, ptText[i] );	//	•Û\‘¢‘Ì‚É•¶š—ñ‚ğ‹L˜^‚·‚é‚Æ‚«
+			DocLetterDataCheck( &stLetter, ptText[i] );	//	ä¿æŒæ§‹é€ ä½“ã«æ–‡å­—åˆ—ã‚’è¨˜éŒ²ã™ã‚‹ã¨ã
 
 			pvcUnits->at( yLine ).vcLine.push_back( stLetter );
 
@@ -232,22 +232,22 @@ HRESULT UserDefSetString( vector<ONELINE> *pvcUnits, LPCTSTR ptText, UINT cchSiz
 		}
 	}
 
-	//	––”ö‚Æ‚©‚Ì‹ó”’‚àŠÜ‚ß‚Äƒeƒ“ƒvƒŒ‚©‚È‚Æv‚Á‚Ä‚é
+	//	æœ«å°¾ã¨ã‹ã®ç©ºç™½ã‚‚å«ã‚ã¦ãƒ†ãƒ³ãƒ—ãƒ¬ã‹ãªã¨æ€ã£ã¦ã‚‹
 
 	return S_OK;
 }
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†[ƒU’è‹`‚Ì“à—e‚ğƒƒjƒ…[‚É’Ç‰Á
-	@param[in]	hWnd	ƒƒCƒ“ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ãƒ¦ãƒ¼ã‚¶å®šç¾©ã®å†…å®¹ã‚’ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«è¿½åŠ 
+	@param[in]	hWnd	ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UserDefAppendMenu( HWND hWnd )
 {
 	HMENU	hMenu, hSubMenu;
 
-#pragma message("ƒƒjƒ…[\‘¢•Ï‚í‚Á‚½‚çƒ†[ƒU’è‹`‚ÌˆÊ’u‚Å‚ ‚é‚±‚±‚à•ÏX")
+#pragma message("ãƒ¡ãƒ‹ãƒ¥ãƒ¼æ§‹é€ å¤‰ã‚ã£ãŸã‚‰ãƒ¦ãƒ¼ã‚¶å®šç¾©ã®ä½ç½®ã§ã‚ã‚‹ã“ã“ã‚‚å¤‰æ›´")
 	hMenu = GetMenu( hWnd );
 	hSubMenu = GetSubMenu( hMenu, 2 );
 	hMenu = hSubMenu;
@@ -255,7 +255,7 @@ HRESULT UserDefAppendMenu( HWND hWnd )
 
 	UserDefMenuWrite( hSubMenu, 1 );
 
-	DeleteMenu( hSubMenu, IDM_USERINS_NA, MF_BYCOMMAND );	//	Dummy—p
+	DeleteMenu( hSubMenu, IDM_USERINS_NA, MF_BYCOMMAND );	//	Dummyç”¨
 
 	DrawMenuBar( hWnd );
 
@@ -264,9 +264,9 @@ HRESULT UserDefAppendMenu( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒ†[ƒU’è‹`ƒƒjƒ…[‚Ì’†g‚ğ‚­‚Á‚Â‚¯‚é
-	@param[in]	hMenu	‚­‚Á‚Â‚¯‚éƒƒjƒ…[‚Ìƒnƒ“ƒhƒ‹
-	@param[in]	bMode		”ñ‚Oƒƒjƒ…[ƒL[•t‚¯‚é@‚O•t‚¯‚È‚¢
+	ãƒ¦ãƒ¼ã‚¶å®šç¾©ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ä¸­èº«ã‚’ãã£ã¤ã‘ã‚‹
+	@param[in]	hMenu	ãã£ã¤ã‘ã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	bMode		éï¼ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚­ãƒ¼ä»˜ã‘ã‚‹ã€€ï¼ä»˜ã‘ãªã„
 */
 HRESULT UserDefMenuWrite( HMENU hMenu, UINT bMode )
 {
@@ -290,15 +290,15 @@ HRESULT UserDefMenuWrite( HMENU hMenu, UINT bMode )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ƒAƒCƒeƒ€‚Ì–¼‘O‚ğˆø‚Á’£‚é
-	@param[in]	dNumber	ƒAƒCƒeƒ€”Ô†‚OƒCƒ“ƒfƒbƒNƒX
-	@param[out]	ptNamed	–¼‘O“ü‚ê‚éƒoƒbƒtƒ@‚Ö‚Ìƒ|ƒCƒ“ƒ^[
-	@param[in]	cchSize	ƒoƒbƒtƒ@‚Ì•¶š”EƒoƒCƒg‚¶‚á‚È‚¢‚¼
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	ã‚¢ã‚¤ãƒ†ãƒ ã®åå‰ã‚’å¼•ã£å¼µã‚‹
+	@param[in]	dNumber	ã‚¢ã‚¤ãƒ†ãƒ ç•ªå·ï¼ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+	@param[out]	ptNamed	åå‰å…¥ã‚Œã‚‹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒã‚¤ãƒ³ã‚¿ãƒ¼
+	@param[in]	cchSize	ãƒãƒƒãƒ•ã‚¡ã®æ–‡å­—æ•°ãƒ»ãƒã‚¤ãƒˆã˜ã‚ƒãªã„ã
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UserDefItemNameget( UINT dNumber, LPTSTR ptNamed, UINT_PTR cchSize )
 {
-	//	‚Í‚İo‚µŠm”F
+	//	ã¯ã¿å‡ºã—ç¢ºèª
 	if( gdItemCnt <= dNumber )	return E_OUTOFMEMORY;
 
 	StringCchCopy( ptNamed, cchSize, gstUserItem[dNumber].atItemName );
@@ -308,10 +308,10 @@ HRESULT UserDefItemNameget( UINT dNumber, LPTSTR ptNamed, UINT_PTR cchSize )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‘ÎÛƒAƒCƒeƒ€‚Ì‘ÎÛs‚Ì“à—e‚ğƒeƒLƒXƒg‚ÅŠm•ÛE‰üs‚ÍŠÜ‚Ü‚¸
-	@param[in]	idNum	ƒAƒCƒeƒ€”Ô†‚O`‚P‚T
-	@param[in]	uLine	s”Ô†
-	@return		LPTSTR	Šm•Û‚µ‚½“à—eEŠJ•ú‚ÍŒÄ‚ñ‚¾‘¤‚ªÓ”C‚à‚Ä‚æ
+	å¯¾è±¡ã‚¢ã‚¤ãƒ†ãƒ ã®å¯¾è±¡è¡Œã®å†…å®¹ã‚’ãƒ†ã‚­ã‚¹ãƒˆã§ç¢ºä¿ãƒ»æ”¹è¡Œã¯å«ã¾ãš
+	@param[in]	idNum	ã‚¢ã‚¤ãƒ†ãƒ ç•ªå·ï¼ã€œï¼‘ï¼•
+	@param[in]	uLine	è¡Œç•ªå·
+	@return		LPTSTR	ç¢ºä¿ã—ãŸå†…å®¹ãƒ»é–‹æ”¾ã¯å‘¼ã‚“ã å´ãŒè²¬ä»»ã‚‚ã¦ã‚ˆ
 */
 LPTSTR UserDefTextLineAlloc( UINT idNum, INT uLine )
 {
@@ -344,10 +344,10 @@ LPTSTR UserDefTextLineAlloc( UINT idNum, INT uLine )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	‘I‘ğ‚³‚ê‚½ƒ†[ƒU’è‹`ƒAƒCƒeƒ€‚Ìˆ—
-	@param[in]	hWnd	‘½•ªƒƒCƒ“ƒEƒCƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	@param[in]	idNum	ƒAƒCƒeƒ€”Ô†‚O`‚P‚T
-	@return		HRESULT	I—¹ó‘ÔƒR[ƒh
+	é¸æŠã•ã‚ŒãŸãƒ¦ãƒ¼ã‚¶å®šç¾©ã‚¢ã‚¤ãƒ†ãƒ ã®å‡¦ç†
+	@param[in]	hWnd	å¤šåˆ†ãƒ¡ã‚¤ãƒ³ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	@param[in]	idNum	ã‚¢ã‚¤ãƒ†ãƒ ç•ªå·ï¼ã€œï¼‘ï¼•
+	@return		HRESULT	çµ‚äº†çŠ¶æ…‹ã‚³ãƒ¼ãƒ‰
 */
 HRESULT UserDefItemInsert( HWND hWnd, UINT idNum )
 {
@@ -357,25 +357,25 @@ HRESULT UserDefItemInsert( HWND hWnd, UINT idNum )
 	BOOLEAN	bFirst = TRUE;
 
 
-	//	‚Í‚İo‚µ‚½‚çƒAƒEƒcI
+	//	ã¯ã¿å‡ºã—ãŸã‚‰ã‚¢ã‚¦ãƒ„ï¼
 	if( gdItemCnt <= idNum )	return E_OUTOFMEMORY;
 
-	//	¡‚ÌƒJ[ƒ\ƒ‹s‚©‚çAsæ“ª‚ÉAŠes‚Ì“à—e‚ğ‘}“ü‚µ‚Ä‚¢‚­
+	//	ä»Šã®ã‚«ãƒ¼ã‚½ãƒ«è¡Œã‹ã‚‰ã€è¡Œå…ˆé ­ã«ã€å„è¡Œã®å†…å®¹ã‚’æŒ¿å…¥ã—ã¦ã„ã
 	yLine = gdDocLine;
 
 	dNeedLine = gstUserItem[idNum].vcUnits.size( );
 
-	//	‚Ü‚¸‚Í•Ås”‚©‚­‚Ê‚ñ
-	iLines = DocPageParamGet( NULL , NULL );	//	s”Šm”FE“ü‚ê‘Ö‚¦‚Ä‚¢‚¯‚é‚©
-	//	‘S‘Ìs”‚æ‚èA’Ç‰Ás”‚ª‘½‚©‚Á‚½‚çA‰üs‘‚â‚·
+	//	ã¾ãšã¯é è¡Œæ•°ã‹ãã¬ã‚“
+	iLines = DocPageParamGet( NULL , NULL );	//	è¡Œæ•°ç¢ºèªãƒ»å…¥ã‚Œæ›¿ãˆã¦ã„ã‘ã‚‹ã‹
+	//	å…¨ä½“è¡Œæ•°ã‚ˆã‚Šã€è¿½åŠ è¡Œæ•°ãŒå¤šã‹ã£ãŸã‚‰ã€æ”¹è¡Œå¢—ã‚„ã™
 	if( iLines < (dNeedLine + yLine) )
 	{
-		iMinus = (dNeedLine + yLine) - iLines;	//	’Ç‰Á‚·‚és”
+		iMinus = (dNeedLine + yLine) - iLines;	//	è¿½åŠ ã™ã‚‹è¡Œæ•°
 
 		DocAdditionalLine( iMinus, &bFirst );//	bFirst = FALSE;
 
-		//	‚±‚Ì•Å‚Ìs”æ‚è’¼‚µ
-		iLines = DocPageParamGet( NULL , NULL );	//	ÄŒvZ‚¢‚é‚©H
+		//	ã“ã®é ã®è¡Œæ•°å–ã‚Šç›´ã—
+		iLines = DocPageParamGet( NULL , NULL );	//	å†è¨ˆç®—ã„ã‚‹ã‹ï¼Ÿ
 	}
 
 	for( i = 0; dNeedLine > i; i++, yLine++ )

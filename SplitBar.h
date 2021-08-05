@@ -1,6 +1,6 @@
 /*! @file
-	@brief ƒXƒvƒŠƒbƒgƒo[‚ÅŽg‚¤’è”‚â”Ÿ”‚Å‚·B
-	‚±‚Ìƒtƒ@ƒCƒ‹‚Í SplitBar.h ‚Å‚·B
+	@brief ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã§ä½¿ã†å®šæ•°ã‚„å‡½æ•°ã§ã™ã€‚
+	ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ SplitBar.h ã§ã™ã€‚
 	@author	SikigamiHNQ
 	@date	2011/00/00
 */
@@ -22,11 +22,11 @@ If not, see <http://www.gnu.org/licenses/>.
 #define STRICT
 //-------------------------------------------------------------------------------------------------
 
-#define SPLITBAR_CLASS		TEXT("CSplitBar")	//	ƒXƒvƒŠƒbƒgƒo[ƒNƒ‰ƒX–¼
-#define SPLITBAR_WIDTH		4	//	ƒXƒvƒŠƒbƒgƒo[‚Ì•
-#define SPLITBAR_LEFTLIMIT	120	//	ƒXƒvƒŠƒbƒgƒo[‚Ì¶ˆÊ’uƒŠƒ~ƒbƒg
+#define SPLITBAR_CLASS		TEXT("CSplitBar")	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã‚¯ãƒ©ã‚¹å
+#define SPLITBAR_WIDTH		4	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®å¹…
+#define SPLITBAR_LEFTLIMIT	120	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ã®å·¦ä½ç½®ãƒªãƒŸãƒƒãƒˆ
 
-#define SIZE_SPLITBAR_MOVED	0xFFFF	//	ƒXƒvƒŠƒbƒgƒo[‚ª“®‚©‚³‚ê‚½
+#define SIZE_SPLITBAR_MOVED	0xFFFF	//	ã‚¹ãƒ—ãƒªãƒƒãƒˆãƒãƒ¼ãŒå‹•ã‹ã•ã‚ŒãŸ
 //-------------------------------------------------------------------------------------------------
 
 ATOM	SplitBarClass( HINSTANCE );
