@@ -1,0 +1,12 @@
+Debug/
+Release/
+bin/
+obj/
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.res
+*.coff
