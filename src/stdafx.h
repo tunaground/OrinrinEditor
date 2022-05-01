@@ -39,7 +39,7 @@ If not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <shlobj.h>
 #include <shellapi.h>
-#include <windowsX.h>
+#include <windowsx.h>
 
 //	シェルとか
 #pragma comment(lib, "shell32.lib")
@@ -48,7 +48,7 @@ If not, see <http://www.gnu.org/licenses/>.
 #include <commdlg.h>
 #pragma comment(lib, "Comdlg32.lib")
 
-#include <Commctrl.h>
+#include <commctrl.h>
 #pragma comment(lib, "ComCtl32.lib")
 
 #ifndef _ORCOLL
@@ -188,9 +188,11 @@ LRESULT	ExceptionMessage( LPCSTR, LPCSTR, UINT, LPARAM );
 #define W_WIDTH		480
 #define W_HEIGHT	400
 
-//	ウインドウサイズ・未使用
-//#define WCL_WIDTH	480
-//#define WCL_HEIGHT	370
+//	ウインドウサイズ・Collectorで使用
+#ifdef _ORCOLL
+#define WCL_WIDTH	480
+#define WCL_HEIGHT	370
+#endif
 
 //	ドッキングサイズ
 #define PLIST_DOCK	190

@@ -423,6 +423,11 @@ LPTSTR SjisDecodeAlloc( LPSTR pcBuff )
 }
 //-------------------------------------------------------------------------------------------------
 
+// MinGW-w64 & G++ でビルドするとCollectorでは使わない TextViewSizeGet のコンパイルでエラーになる(CC_CR was not declared in this scope など)
+// 回避するにはMinGWでビルドする場合、Collectorのビルドでも OrinrinEditor.h をインクルードする、
+// もしくは#if*ディレクティブ等でビルドしないようにするといいっぽい
+// (-ffunction-sections -fdata-sections -Wl,--gc-sectionsではリンク時に効果があるようなのでコンパイルエラーは回避できない?)
+#ifndef _ORCOLL
 /*!
 	文字列をうけとって、行数と最大ドット幅を計算
 	@param[in]	ptText	チェキりたいユニコード文字列受け取る
@@ -474,6 +479,7 @@ INT TextViewSizeGet( LPCTSTR ptText, PINT piLine )
 
 //ViewStringWidthGetは、ViewCentral、OrinrinViewerに、それぞれある
 }
+#endif  // #ifndef _ORCOLL
 //-------------------------------------------------------------------------------------------------
 
 /*!
