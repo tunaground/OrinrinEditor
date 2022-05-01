@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e +f
+set -e
 declare BASE_DIR
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-${0}}")"; pwd)"
 readonly BASE_DIR
