@@ -36,12 +36,12 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 IDI_ORINRINEDITOR	ICON	"OrinrinViewer.ico"
 IDI_SMALL			ICON	"OrinrinViewer.ico"
 
-IDI_TREE_DIR_CLOSE		ICON	"resource/directory.ico"
-IDI_TREE_DIR_OPEN		ICON	"resource/dir_open.ico"
-IDI_TREE_DIR_EXTRA		ICON	"resource/dir_extra.ico"
-IDI_TREE_FILE_AST		ICON	"resource/file_ast.ico"
-IDI_TREE_FILE_MLT		ICON	"resource/file_mlt.ico"
-IDI_TREE_FILE_ETC		ICON	"resource/file_etc.ico"
+IDI_TREE_DIR_CLOSE		ICON	"directory.ico"
+IDI_TREE_DIR_OPEN		ICON	"dir_open.ico"
+IDI_TREE_DIR_EXTRA		ICON	"dir_extra.ico"
+IDI_TREE_FILE_AST		ICON	"file_ast.ico"
+IDI_TREE_FILE_MLT		ICON	"file_mlt.ico"
+IDI_TREE_FILE_ETC		ICON	"file_etc.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
