@@ -43,6 +43,6 @@ declare -ar CXXFLAGS_RELEASE=("${CFLAGS_RELEASE[@]}")
 declare -ar LDFLAGS=(-l{shell32,comdlg32,comctl32,imm32,sqlite3,shlwapi,ole32})  # atlthunk
 
 source scripts/_build_base_c++.sh
-cp "external/sqlite3/lib/${TARGET}/sqlite3.dll" "bin/${TARGET}"
+cp "external/sqlite3/lib/${TARGET}/sqlite3.dll" "bin/${TARGET}/${MODE}"
 
 exit "${exit_code}"

@@ -40,10 +40,12 @@ fi
 
 case "${IS_DEBUG}" in
 	0)
+		declare -r MODE="Release"
 		declare -ar CFLAGS=("${CFLAGS_ALL[@]}" "${CFLAGS_RELEASE[@]}")
 		declare -ar CXXFLAGS=("${CXXFLAGS_ALL[@]}" "${CXXFLAGS_RELEASE[@]}")
 	;;
 	1)
+		declare -r MODE="Debug"
 		declare -ar CFLAGS=("${CXXFLAGS_ALL[@]}" "${CFLAGS_DEBUG[@]}")
 		declare -ar CXXFLAGS=("${CXXFLAGS_ALL[@]}" "${CXXFLAGS_DEBUG[@]}")
 	;;
@@ -56,10 +58,10 @@ if [[ ! "${ENABLE_INCREMENTAL}" =~ ^(0|1)$ ]]; then
 	printf '\033[1;31mERROR\033[m The variable ENABLE_INCREMENTAL is neither 0 nor 1 (%s)\n' "${ENABLE_INCREMENTAL}" >&2
 fi
 
-mkdir -p {obj,bin}"/${TARGET}"
+mkdir -p {obj,bin}"/${TARGET}/${MODE}"
 
 # シンプルにビルドするならこれ:
-# "${CXX}" -o"bin/${TARGET}/${OUTPUT}" "${CXXFLAGS[@]}" "${SOURCES[@]}" "${objs[@]}" "${LDFLAGS[@]}"
+# "${CXX}" -o"bin/${TARGET}/${MODE}/${OUTPUT}" "${CXXFLAGS[@]}" "${SOURCES[@]}" "${objs[@]}" "${LDFLAGS[@]}"
 
 declare source
 for source in "${SOURCES[@]}"; do
@@ -76,13 +78,13 @@ for source in "${SOURCES[@]}"; do
 	#fi
 	_source="./${source#src/}"
 	dir="${_source%/*}"
-	mkdir -p "obj/${TARGET}/${OUTPUT}/${dir}"
+	mkdir -p "obj/${TARGET}/${MODE}/${OUTPUT}/${dir}"
 	_obj="${_source}.o"
-	obj="obj/${TARGET}/${OUTPUT}/${_obj}"
+	obj="obj/${TARGET}/${MODE}/${OUTPUT}/${_obj}"
 	objs+=("${obj}")
 	if [[ "${ENABLE_INCREMENTAL}" == "0" ]] || [[ "${obj}" -ot "${source}" ]]; then
 		"${CXX}" -c -o"${obj}" "${CXXFLAGS[@]}" "${source}" "${LDFLAGS[@]}"
 	fi
 done
 
-"${CXX}" -o"bin/${TARGET}/${OUTPUT}" "${CXXFLAGS[@]}" "${objs[@]}" "${LDFLAGS[@]}"
+"${CXX}" -o"bin/${TARGET}/${MODE}/${OUTPUT}" "${CXXFLAGS[@]}" "${objs[@]}" "${LDFLAGS[@]}"
