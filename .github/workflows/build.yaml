@@ -5,8 +5,9 @@ on: push
 jobs:
   buildEditor:
     strategy:
+      fail-fast: false
       matrix:
-        isDebug: [0, 1]
+        mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
       - name: 依存関係のインストール
@@ -22,11 +23,21 @@ jobs:
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
       - name: OrinrinEditorのビルド
-        run: IS_DEBUG=${{ matrix.isDebug }} scripts/build_editor.sh
+        run: |
+          case "${{ matrix.mode }}" in
+            "Debug"  ) export IS_DEBUG=1 ;;
+            "Release") export IS_DEBUG=0 ;;
+            *)
+              printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
+              exit 1
+            ;;
+          fi
+          scripts/build_editor.sh
   buildViewer:
     strategy:
+      fail-fast: false
       matrix:
-        isDebug: [0, 1]
+        mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
       - name: 依存関係のインストール
@@ -42,11 +53,21 @@ jobs:
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
       - name: OrinrinViewerのビルド
-        run: IS_DEBUG=${{ matrix.isDebug }} scripts/build_viewer.sh
+        run: |
+          case "${{ matrix.mode }}" in
+            "Debug"  ) export IS_DEBUG=1 ;;
+            "Release") export IS_DEBUG=0 ;;
+            *)
+              printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
+              exit 1
+            ;;
+          fi
+          scripts/build_viewer.sh
   buildCollector:
     strategy:
+      fail-fast: false
       matrix:
-        isDebug: [0, 1]
+        mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
       - name: 依存関係のインストール
@@ -60,4 +81,13 @@ jobs:
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
       - name: OrinrinCollectorのビルド
-        run: IS_DEBUG=${{ matrix.isDebug }} scripts/build_collector.sh
+        run: |
+          case "${{ matrix.mode }}" in
+            "Debug"  ) export IS_DEBUG=1 ;;
+            "Release") export IS_DEBUG=0 ;;
+            *)
+              printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
+              exit 1
+            ;;
+          fi
+          scripts/build_collector.sh
