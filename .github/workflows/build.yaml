@@ -31,7 +31,7 @@ jobs:
               printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
               exit 1
             ;;
-          fi
+          esac
           scripts/build_editor.sh
   buildViewer:
     strategy:
@@ -61,7 +61,7 @@ jobs:
               printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
               exit 1
             ;;
-          fi
+          esac
           scripts/build_viewer.sh
   buildCollector:
     strategy:
@@ -89,5 +89,5 @@ jobs:
               printf "Error: Unknown mode: %s" "${{ matrix.mode }}" >&2
               exit 1
             ;;
-          fi
+          esac
           scripts/build_collector.sh
