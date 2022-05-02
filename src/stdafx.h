@@ -41,6 +41,12 @@ If not, see <http://www.gnu.org/licenses/>.
 #include <shellapi.h>
 #include <windowsx.h>
 
+#if defined(__MINGW32__) || defined(__MINGW64__)
+// MinGW-w64のFORWARD_WM_MOUSEWHEEL(windowsx.h)は最後の部分が(x),(y)になっているので(xPos),(yPos)にする
+#undef FORWARD_WM_MOUSEWHEEL
+#define FORWARD_WM_MOUSEWHEEL(hwnd,xPos,yPos,zDelta,fwKeys,fn) (void)(fn)((hwnd),WM_MOUSEWHEEL,MAKEWPARAM((fwKeys),(zDelta)),MAKELPARAM((xPos),(yPos)))
+#endif
+
 //	シェルとか
 #pragma comment(lib, "shell32.lib")
 
@@ -79,6 +85,15 @@ If not, see <http://www.gnu.org/licenses/>.
 
 #define STRSAFE_NO_CB_FUNCTIONS
 #include <strsafe.h>
+
+// MinGW-w64にはSTRSAFE_MAX_LENGTHが定義されてないので定義する(DraughtBoard.cppで使用)
+// From: https://github.com/dotnet/runtime/blob/9f2add03cae252e9e1e6af88a7d0260a6c722915/src/coreclr/pal/inc/strsafe.h
+// Copyright (c) .NET Foundation and Contributors
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+#ifndef STRSAFE_MAX_LENGTH
+#define STRSAFE_MAX_LENGTH  (STRSAFE_MAX_CCH - 1)   // max buffer length, in characters, that we support
+#endif
 
 #pragma warning( disable : 4995 )
 #include <shlwapi.h>
