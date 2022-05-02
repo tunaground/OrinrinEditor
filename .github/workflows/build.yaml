@@ -33,6 +33,10 @@ jobs:
             ;;
           esac
           scripts/build_editor.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OrinrinEditor-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
   buildViewer:
     strategy:
       fail-fast: false
@@ -63,6 +67,10 @@ jobs:
             ;;
           esac
           scripts/build_viewer.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OrinrinViewer-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
   buildCollector:
     strategy:
       fail-fast: false
@@ -91,3 +99,7 @@ jobs:
             ;;
           esac
           scripts/build_collector.sh
+      - uses: actions/upload-artifact@v3
+        with:
+          name: OrinrinCollector-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
