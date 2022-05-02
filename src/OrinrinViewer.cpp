@@ -778,22 +778,29 @@ HRESULT ViewingFontGet( LPLOGFONT pstLogFont )
 
 
 
-#ifdef _DEBUG
-VOID OutputDebugStringPlus( DWORD rixError, LPSTR pcFile, INT rdLine, LPSTR pcFunc, LPTSTR ptFormat, ... )
+#if defined(_DEBUG) || defined(WORK_LOG_OUT)
+VOID OutputDebugStringPlus( DWORD rixError, LPTSTR ptFile, INT rdLine, LPCSTR ptFunc, LPTSTR ptFormat, ... )
+//VOID OutputDebugStringPlus( DWORD rixError, LPSTR pcFile, INT rdLine, LPSTR pcFunc, LPTSTR ptFormat, ... )
 {
 	va_list	argp;
 	TCHAR	atBuf[MAX_PATH], atOut[MAX_PATH], atFiFu[MAX_PATH], atErrMsg[MAX_PATH];
-	CHAR	acFile[MAX_PATH], acFiFu[MAX_PATH];
-	UINT	length;
+//	CHAR	acFile[MAX_PATH], acFiFu[MAX_PATH];
+//	UINT	length;
+#ifdef WORK_LOG_OUT
+	UINT_PTR	cchLen;
+	DWORD	wrote;
+#endif
 
-	StringCchCopyA( acFile, MAX_PATH, pcFile );
-	PathStripPathA( acFile );
+	StringCchCopy( atFiFu, MAX_PATH, ptFile );
+	PathStripPath( atFiFu );
+//	StringCchCopyA( acFile, MAX_PATH, pcFile );
+//	PathStripPathA( acFile );
 
-	StringCchPrintfA( acFiFu, MAX_PATH, ("%s %d %s"), acFile, rdLine, pcFunc );
-	length = (UINT)strlen( acFiFu );
+//	StringCchPrintfA( acFiFu, MAX_PATH, ("%s %d %s"), acFile, rdLine, pcFunc );
+//	length = (UINT)strlen( acFiFu );
 
-	ZeroMemory( atFiFu, sizeof(atFiFu) );
-	MultiByteToWideChar( CP_ACP, MB_PRECOMPOSED, acFiFu, length, atFiFu, MAX_PATH );
+//	ZeroMemory( atFiFu, sizeof(atFiFu) );
+//	MultiByteToWideChar( CP_ACP, MB_PRECOMPOSED, acFiFu, length, atFiFu, MAX_PATH );
 	//	コードページ,文字の種類を指定するフラグ,マップ元文字列のアドレス,マップ元文字列のバイト数,
 	//	マップ先ワイド文字列を入れるバッファのアドレス,バッファのサイズ
 
@@ -801,9 +808,20 @@ VOID OutputDebugStringPlus( DWORD rixError, LPSTR pcFile, INT rdLine, LPSTR pcFu
 	StringCchVPrintf( atBuf, MAX_PATH, ptFormat, argp );
 	va_end( argp );
 
-	StringCchPrintf( atOut, MAX_PATH, TEXT("%s @ %s\r\n"), atBuf, atFiFu );//
+	StringCchPrintf( atOut, MAX_PATH, TEXT("%s @ %s %d %s\r\n"), atBuf, atFiFu, rdLine, ptFunc );//
+//	StringCchPrintf( atOut, MAX_PATH, TEXT("%s @ %s\r\n"), atBuf, atFiFu );//
 
+#ifdef _DEBUG
 	OutputDebugString( atOut );
+#endif
+
+#ifdef WORK_LOG_OUT
+	if( INVALID_HANDLE_VALUE != ghLogFlie )
+	{
+		StringCchLength( atOut, MAX_PATH, &cchLen );
+		WriteFile( ghLogFlie, atOut, cchLen * sizeof(TCHAR), &wrote, NULL );
+	}
+#endif
 
 	if( rixError )
 	{
@@ -812,7 +830,17 @@ VOID OutputDebugStringPlus( DWORD rixError, LPSTR pcFile, INT rdLine, LPSTR pcFu
 		//	メッセージには改行が含まれているようだ
 		StringCchPrintf( atBuf, MAX_PATH, TEXT("[%d]%s"), rixError, atErrMsg );//
 
+#ifdef _DEBUG
 		OutputDebugString( atBuf );
+#endif
+#ifdef WORK_LOG_OUT
+		if( INVALID_HANDLE_VALUE != ghLogFlie )
+		{
+			StringCchLength( atBuf, MAX_PATH, &cchLen );
+			WriteFile( ghLogFlie, atBuf, cchLen * sizeof(TCHAR), &wrote, NULL );
+		}
+#endif
+
 		SetLastError( 0 );
 	}
 }

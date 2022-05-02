@@ -3969,7 +3969,7 @@ HRESULT DockingTmplViewToggle( UINT bMode )
 //-------------------------------------------------------------------------------------------------
 
 #if defined(_DEBUG) || defined(WORK_LOG_OUT)
-VOID OutputDebugStringPlus( DWORD rixError, LPTSTR ptFile, INT rdLine, LPTSTR ptFunc, LPTSTR ptFormat, ... )
+VOID OutputDebugStringPlus( DWORD rixError, LPTSTR ptFile, INT rdLine, LPCSTR ptFunc, LPTSTR ptFormat, ... )
 //VOID OutputDebugStringPlus( DWORD rixError, LPSTR pcFile, INT rdLine, LPSTR pcFunc, LPTSTR ptFormat, ... )
 {
 	va_list	argp;
