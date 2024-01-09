@@ -1,9 +1,11 @@
 name: Build OrinrinEditor/Viewer/Collector
 
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
-  build-editor:
+  buildEditor:
     strategy:
       fail-fast: false
       matrix:
@@ -15,17 +17,18 @@ jobs:
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
 
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
       - name: Build SQLite3
         run: external/sqlite3/build.sh
 
-      - name: Run Windres
+      - name: リソースのコンパイル
         run: scripts/run_windres.sh
 
-      - name: Build editor
+      - name: OrinrinEditorのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
@@ -36,41 +39,30 @@ jobs:
             ;;
           esac
           scripts/build_editor.sh
-
-      - name: Archive binary
-        run: |
-          mv bin/i686-w64-mingw32/${{ matrix.mode }}/ OrinrinEditor-x86-${{ matrix.mode }}
-          zip -r OrinrinEditor-x86-${{ matrix.mode }}.zip OrinrinEditor-x86-${{ matrix.mode }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: actions/upload-artifact@v3
         with:
-          files: OrinrinEditor-x86-${{ matrix.mode }}.zip
-
-  build-viewer:
+          name: OrinrinEditor-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
+  buildViewer:
     strategy:
       fail-fast: false
       matrix:
         mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
-      - name: Install dependencies
+      - name: 依存関係�?�インスト�?�ル
         run: |
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
-
-      - uses: actions/checkout@v3
+      - name: チェ�?クアウ�?
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
-
-      - name: Build SQLite3
+      - name: SQLite3のビル�?
         run: external/sqlite3/build.sh
-
-      - name: Run Windres
+      - name: リソースのコンパイル
         run: scripts/run_windres.sh
-
-      - name: Build viewer
+      - name: OrinrinViewerのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
@@ -81,38 +73,28 @@ jobs:
             ;;
           esac
           scripts/build_viewer.sh
-
-      - name: Archive binary
-        run: |
-          mv bin/i686-w64-mingw32/${{ matrix.mode }}/ OrinrinViewer-x86-${{ matrix.mode }}
-          zip -r OrinrinViewer-x86-${{ matrix.mode }}.zip OrinrinViewer-x86-${{ matrix.mode }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: actions/upload-artifact@v3
         with:
-          files: OrinrinViewer-x86-${{ matrix.mode }}.zip
-
-  build-collector:
+          name: OrinrinViewer-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
+  buildCollector:
     strategy:
       fail-fast: false
       matrix:
         mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
-      - name: Install dependencies
+      - name: 依存関係�?�インスト�?�ル
         run: |
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
-
-      - uses: actions/checkout@v3
+      - name: チェ�?クアウ�?
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
-
-      - name: Run Windres
+      - name: リソースのコンパイル
         run: scripts/run_windres.sh
-
-      - name: Build collector
+      - name: OrinrinCollectorのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
@@ -123,15 +105,7 @@ jobs:
             ;;
           esac
           scripts/build_collector.sh
-
-      - name: Archive binary
-        run: |
-          mv bin/i686-w64-mingw32/${{ matrix.mode }}/ OrinrinCollector-x86-${{ matrix.mode }}
-          zip -r OrinrinCollector-x86-${{ matrix.mode }}.zip OrinrinCollector-x86-${{ matrix.mode }}
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - uses: actions/upload-artifact@v3
         with:
-          files: OrinrinCollector-x86-${{ matrix.mode }}.zip
-
+          name: OrinrinCollector-x86-${{ matrix.mode }}
+          path: bin/i686-w64-mingw32/${{ matrix.mode }}/
