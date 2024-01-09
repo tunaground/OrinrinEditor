@@ -1,6 +1,8 @@
 name: Build OrinrinEditor/Viewer/Collector
 
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   buildEditor:
@@ -10,19 +12,19 @@ jobs:
         mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
-      - name: 依存関係のインストール
+      - name: 依存関係�?�インスト�?�ル
         run: |
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
-      - name: チェックアウト
+      - name: チェ�?クアウ�?
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - name: SQLite3のビルド
+      - name: SQLite3のビル�?
         run: external/sqlite3/build.sh
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
-      - name: OrinrinEditorのビルド
+      - name: OrinrinEditorのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
@@ -44,19 +46,19 @@ jobs:
         mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
-      - name: 依存関係のインストール
+      - name: 依存関係�?�インスト�?�ル
         run: |
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
-      - name: チェックアウト
+      - name: チェ�?クアウ�?
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-      - name: SQLite3のビルド
+      - name: SQLite3のビル�?
         run: external/sqlite3/build.sh
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
-      - name: OrinrinViewerのビルド
+      - name: OrinrinViewerのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
@@ -78,17 +80,17 @@ jobs:
         mode: [Debug, Release]
     runs-on: ubuntu-20.04
     steps:
-      - name: 依存関係のインストール
+      - name: 依存関係�?�インスト�?�ル
         run: |
           sudo apt update
           sudo apt install -y mingw-w64-i686-dev gcc-mingw-w64-i686 g++-mingw-w64-i686
-      - name: チェックアウト
+      - name: チェ�?クアウ�?
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - name: リソースのコンパイル
         run: scripts/run_windres.sh
-      - name: OrinrinCollectorのビルド
+      - name: OrinrinCollectorのビル�?
         run: |
           case "${{ matrix.mode }}" in
             "Debug"  ) export IS_DEBUG=1 ;;
