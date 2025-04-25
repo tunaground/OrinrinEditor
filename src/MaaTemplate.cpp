@@ -125,10 +125,10 @@ HWND MaaTmpltInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame )
 
 	ghMaaWnd = CreateWindowEx(
 #ifdef _ORRVW
-		0, MAATMPLT_CLASS_NAME, TEXT("Orinrin Viewer"),
+		0, MAATMPLT_CLASS_NAME, TEXT("Orinrin 뷰어"),
 		WS_OVERLAPPEDWINDOW,
 #else
-		WS_EX_TOOLWINDOW, MAATMPLT_CLASS_NAME, TEXT("Multi Line AA Template"),
+		WS_EX_TOOLWINDOW, MAATMPLT_CLASS_NAME, TEXT("멀티 라인 AA 템플릿"),
 		WS_POPUP | WS_THICKFRAME | WS_BORDER | WS_CAPTION,
 #endif
 		rect.left, rect.top, rect.right, rect.bottom,
@@ -335,15 +335,15 @@ BOOLEAN Maa_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 	rect.bottom -= TXTFIND_BARHEI;
 	iTfTop = rect.bottom + 1;
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("検索"), WS_VISIBLE | WS_CHILD | SS_RIGHT | SS_CENTERIMAGE, 1, iTfTop, 40, 23, hWnd, (HMENU)IDS_MAA_TXTFIND_FIND, lcInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("검색"), WS_VISIBLE | WS_CHILD | SS_RIGHT | SS_CENTERIMAGE, 1, iTfTop, 40, 23, hWnd, (HMENU)IDS_MAA_TXTFIND_FIND, lcInst, NULL );
 
 	CreateWindowEx( 0, WC_EDIT, TEXT(""), WS_VISIBLE | WS_CHILD | WS_BORDER, 42, iTfTop, 139, 23, hWnd, (HMENU)IDE_MAA_TXTFIND_TEXT, lcInst, NULL );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("先頭から"), WS_VISIBLE | WS_CHILD | WS_GROUP | BS_AUTORADIOBUTTON | BS_VCENTER, 183, iTfTop, 80, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_TOP_GO, lcInst, NULL );
-	CreateWindowEx( 0, WC_BUTTON, TEXT("次頁から"), WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | BS_VCENTER, 265, iTfTop, 80, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_NOW_GO, lcInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("처음부터"), WS_VISIBLE | WS_CHILD | WS_GROUP | BS_AUTORADIOBUTTON | BS_VCENTER, 183, iTfTop, 80, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_TOP_GO, lcInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("다음 페이지부터"), WS_VISIBLE | WS_CHILD | BS_AUTORADIOBUTTON | BS_VCENTER, 265, iTfTop, 80, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_NOW_GO, lcInst, NULL );
 	CheckDlgButton( hWnd, IDB_MAA_TXTFIND_TOP_GO, BST_CHECKED );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("↓検索"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 347, iTfTop, 65, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_NEXT, lcInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("↓검색"), WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, 347, iTfTop, 65, 23, hWnd, (HMENU)IDB_MAA_TXTFIND_NEXT, lcInst, NULL );
 
 	CreateWindowEx( 0, WC_STATIC, TEXT(""), WS_VISIBLE | WS_CHILD | SS_CENTERIMAGE, 414, iTfTop, 120, 23, hWnd, (HMENU)IDS_MAA_TXTFIND_MSGBOX, lcInst, NULL );
 #endif
@@ -625,14 +625,14 @@ INT TreeProfileMake( HWND hWnd, LPTSTR ptProf )
 		ZeroMemory( &stOpenFile, sizeof(OPENFILENAME) );
 		stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 		stOpenFile.hwndOwner       = ghMaaWnd;
-		stOpenFile.lpstrFilter     = TEXT("プロファイル(*.qor)\0*.qor\0全てのファイル(*.*)\0*.*\0\0");
+		stOpenFile.lpstrFilter     = TEXT("프로파일(*.qor)\0*.qor\0모든 파일(*.*)\0*.*\0\0");
 
 		stOpenFile.lpstrFile       = atFilePath;
 		stOpenFile.nMaxFile        = MAX_PATH;
 		stOpenFile.lpstrFileTitle  = atFileName;
 		stOpenFile.nMaxFileTitle   = MAX_STRING;
 
-		stOpenFile.lpstrTitle      = TEXT("ファイル名を指定するか、作成したいファイル名を入力してね");
+		stOpenFile.lpstrTitle      = TEXT("파일명을 지정하거나, 만들고 싶은 파일명을 입력하세요");
 		stOpenFile.Flags           = OFN_EXPLORER | OFN_HIDEREADONLY;
 		stOpenFile.lpstrDefExt     = TEXT("qor");
 
@@ -814,7 +814,7 @@ INT_PTR CALLBACK TreeProfileDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPA
 					count = TreeView_GetCount( chTvWnd );
 					if( 1 >= count )
 					{
-						MessageBox( hDlg, TEXT("リストアップ出来ていないみたい。\r\nこのままじゃツリーが作れないよ。"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONERROR );
+						MessageBox( hDlg, TEXT("리스트업이 되지 않은 것 같아요.\r\n이대로는 트리를 만들 수 없어요."), TEXT("오린의 알림"), MB_OK | MB_ICONERROR );
 						return (INT_PTR)TRUE;
 					}
 
@@ -1081,7 +1081,7 @@ HRESULT TreeLoadDirCheck( HWND hDlg, HWND hTvWnd )
 	if( 0 == count )
 	{
 		ShowWindow( hWorkWnd, SW_HIDE );
-		MessageBox( hDlg, TEXT("ファイルが一つも選択されてないよ。\r\nこのままだと使えないよ。"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONERROR );
+		MessageBox( hDlg, TEXT("파일이 하나도 선택되지 않았어요.\r\n이대로는 사용할 수 없어요."), TEXT("오린의 알림"), MB_OK | MB_ICONERROR );
 		return E_ABORT;
 	}
 
@@ -1182,10 +1182,10 @@ LPTSTR PathSplitFirstPath( LPTSTR ptSource, LPTSTR ptSplits )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	文字列の次の改行までを取る
-	@param[in]	ptSource	元文字列
-	@param[in]	*ptNextLn	次の行の先頭
-	@return		確保した文字列・freeセヨ
+	문자열의 다음 줄바꿈까지를 가져옴
+	@param[in]	ptSource	원본 문자열
+	@param[in]	*ptNextLn	다음 줄의 시작
+	@return		확보한 문자열・free 하세요
 */
 LPTSTR StringLineGet( LPCTSTR ptSource, LPCTSTR *ptNextLn )
 {
@@ -1216,15 +1216,15 @@ LPTSTR StringLineGet( LPCTSTR ptSource, LPCTSTR *ptNextLn )
 //-------------------------------------------------------------------------------------------------
 
 /*
-ツリー内からサーチ
-同じ親番号を持つ者内でサーチ・同じディレクトリ内には、単一名しか入らないから、
-それが同じモノだと判断できるはず
+트리 내에서 검색
+같은 부모 번호를 가진 것들 내에서 검색・같은 디렉토리 내에는 단일 이름만 들어가므로,
+그것이 같은 것이라고 판단할 수 있을 것
 
 */
 
 /*!
-	検索してリストビューに入れる
-	@param[in]	hDlg	ダイヤログハンドル
+	검색하여 리스트 뷰에 넣음
+	@param[in]	hDlg	다이얼로그 핸들
 */
 HRESULT MaaFindExecute( HWND hDlg )
 {
@@ -1243,7 +1243,7 @@ HRESULT MaaFindExecute( HWND hDlg )
 
 	ZeroMemory( atPattern, sizeof(atPattern) );
 	GetDlgItemText( hDlg, IDE_MAA_FIND_NAME, atPattern, MAX_PATH );
-	//	空文字列なら検索しない
+	//	빈 문자열이면 검색하지 않음
 	if( NULL == atPattern[0] )	return  E_ABORT;
 
 	dCnt = SqlTreeCount( 1, &dMax );
@@ -1251,18 +1251,18 @@ HRESULT MaaFindExecute( HWND hDlg )
 	dOwnID = 0;
 	for( d = 0; dMax > d; d++ )
 	{
-		dOwnID = SqlTreeFileSearch( atPattern, dOwnID );	//	ヒットを確認
-		if( 0 == dOwnID )	break;	//	それ以上無いようなら終わり
+		dOwnID = SqlTreeFileSearch( atPattern, dOwnID );	//	히트를 확인
+		if( 0 == dOwnID )	break;	//	더 이상 없으면 종료
 
 		ZeroMemory( atFileName, sizeof(atFileName) );
 		dType   = 0;
 		dPrntID = 0;
 
-		//	該当ＩＤの内容を確認
+		//	해당 ID의 내용을 확인
 		SqlTreeNodePickUpID( dOwnID, &dType, &dPrntID, atFileName, 0x11 );
 		if( FILE_ATTRIBUTE_NORMAL == dType )
 		{
-			//	引っ張った内容ファイル名をリストビューに表示
+			//	끌어온 내용 파일명을 리스트 뷰에 표시
 			dItem = ListView_GetItemCount( hLvWnd );
 
 			ZeroMemory( &stLvi, sizeof(stLvi) );
@@ -1288,11 +1288,11 @@ HRESULT MaaFindExecute( HWND hDlg )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	MAA検索ダイヤログのノーティファイメッセージの処理
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	idFrom		NOTIFYを発生させたコントロールのＩＤ
-	@param[in]	pstNmhdr	NOTIFYの詳細
-	@return		処理した内容とか
+	MAA 검색 다이얼로그의 노티파이 메시지 처리
+	@param[in]	hDlg		다이얼로그 핸들
+	@param[in]	idFrom		NOTIFY를 발생시킨 컨트롤의 ID
+	@param[in]	pstNmhdr	NOTIFY의 상세
+	@return		처리한 내용 등
 */
 INT_PTR MaaFindOnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 {
@@ -1309,12 +1309,12 @@ INT_PTR MaaFindOnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 		hLvWnd = pstNmLv->hdr.hwndFrom;
 		nmCode = pstNmLv->hdr.code;
 
-		//	選択されてる項目を確保
+		//	선택된 항목을 확보
 		iItem = ListView_GetNextItem( hLvWnd, -1, LVNI_ALL | LVNI_SELECTED );
 
-		if( 0 >  iItem )	return FALSE;	//	未選択状態なら何もしない
+		if( 0 >  iItem )	return FALSE;	//	미선택 상태라면 아무것도 하지 않음
 
-		//	ダブルクルックであった場合
+		//	더블 클릭인 경우
 		if( NM_DBLCLK == nmCode )
 		{
 			ZeroMemory( &stLvi, sizeof(stLvi) );
@@ -1323,17 +1323,17 @@ INT_PTR MaaFindOnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 			stLvi.iSubItem = 0;
 			ListView_GetItem( hLvWnd, &stLvi );
 
-			hTgtItem = MaaSelectIDfile( hDlg, stLvi.lParam );	//	SqlID渡して開くようにする
-			//	ツリーのを選択状態にしている
+			hTgtItem = MaaSelectIDfile( hDlg, stLvi.lParam );	//	SqlID를 넘겨서 열도록 함
+			//	트리의 것을 선택 상태로 만듦
 
 			if( hTgtItem )
 			{
 				SetForegroundWindow( ghMaaWnd );
 
-				//	ここで、タブ選択からチェインさせればいい
+				//	여기서, 탭 선택에서 체인 시키면 됨
 				TabMultipleCtrlFromFind( ghMaaWnd );
-				//AaTitleClear(  );	//	ここでクルヤーせないかん
-				//TreeSelItemProc( ghMaaWnd, hTgtItem, 0 );	//	渡すハンドル、MAA窓のハンドルにしておかないとまずい？
+				//AaTitleClear(  );	//	여기서 클리어 해야 함
+				//TreeSelItemProc( ghMaaWnd, hTgtItem, 0 );	//	전달할 핸들, MAA 창의 핸들로 해두지 않으면 안 됨?
 			}
 		}
 	}
@@ -1343,13 +1343,13 @@ INT_PTR MaaFindOnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	検索ダイヤログのプロシージャ
-	@param[in]	hDlg	ダイヤログハンドル
-	@param[in]	message	ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@retval 0	メッセージは処理していない
-	@retval no0	なんか処理された
+	검색 다이얼로그의 프로시저
+	@param[in]	hDlg	다이얼로그 핸들
+	@param[in]	message	윈도우 메시지의 식별 번호
+	@param[in]	wParam	추가 정보 1
+	@param[in]	lParam	추가 정보 2
+	@retval 0	메시지는 처리되지 않음
+	@retval no0	어떤 처리가 됨
 */
 INT_PTR CALLBACK TreeMaaFindDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -1368,8 +1368,8 @@ INT_PTR CALLBACK TreeMaaFindDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPA
 			ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 			stLvColm.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			stLvColm.fmt = LVCFMT_LEFT;
-			stLvColm.pszText = TEXT("ファイル名");	stLvColm.cx = 250;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
-			stLvColm.pszText = TEXT("所属");		stLvColm.cx = 250;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
+			stLvColm.pszText = TEXT("파일명");	stLvColm.cx = 250;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
+			stLvColm.pszText = TEXT("소속");		stLvColm.cx = 250;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
 			SetFocus( GetDlgItem(hDlg,IDE_MAA_FIND_NAME) );
 			return (INT_PTR)FALSE;
 
@@ -1380,7 +1380,7 @@ INT_PTR CALLBACK TreeMaaFindDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPA
 			{
 				case IDCANCEL:	DestroyWindow( hDlg );	ghMaaFindDlg = NULL;	return (INT_PTR)TRUE;
 
-				case IDOK:		MaaFindExecute( hDlg );	return (INT_PTR)TRUE;	//	検索する
+				case IDOK:		MaaFindExecute( hDlg );	return (INT_PTR)TRUE;	//	검색함
 
 				case IDM_PASTE:	SendMessage( hWorkWnd, WM_PASTE, 0, 0 );	return (INT_PTR)TRUE;
 				case IDM_COPY:	SendMessage( hWorkWnd, WM_COPY,  0, 0 );	return (INT_PTR)TRUE;
@@ -1404,9 +1404,9 @@ INT_PTR CALLBACK TreeMaaFindDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPA
 //-------------------------------------------------------------------------------------------------　λ...
 
 /*!
-	MAAファイル検索窓の処理
-	@param[in]	hWnd	ウインドウハンドル
-	@return	HRESULT	終了状態コード
+	MAA 파일 검색 창의 처리
+	@param[in]	hWnd	윈도우 핸들
+	@return	HRESULT	종료 상태 코드
 */
 HRESULT TreeMaaFileFind( HWND hWnd )
 {
@@ -1429,9 +1429,9 @@ HRESULT TreeMaaFileFind( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	ファイルからプロフ履歴取り込んだり書き込んだり
-	@param[in]	hWnd	ウインドウハンドル・NULLならデストロイ
-	@return	HRESULT	終了状態コード
+	파일에서 프로필 이력을 가져오거나 기록함
+	@param[in]	hWnd	윈도우 핸들・NULL이면 파괴
+	@return	HRESULT	종료 상태 코드
 */
 HRESULT OpenProfileInitialise( HWND hWnd )
 {
@@ -1441,9 +1441,9 @@ HRESULT OpenProfileInitialise( HWND hWnd )
 	OPENHIST	stProfHist;
 	OPHIS_ITR	itHist;
 
-	if( hWnd )	//	ロード
+	if( hWnd )	//	로드
 	{
-		gltProfHist.clear( );	//	とりあえず全削除
+		gltProfHist.clear( );	//	일단 전부 삭제
 
 		for( d = 0; OPENHIST_MAX > d; d++ )
 		{
@@ -1453,25 +1453,25 @@ HRESULT OpenProfileInitialise( HWND hWnd )
 			{
 				gltProfHist.push_back( stProfHist );
 			}
-			else{	break;	}	//	中身があったら記録・無かったら終わり
+			else{	break;	}	//	내용이 있으면 기록・없으면 종료
 		}
 
 		if( ghProfHisMenu ){	DestroyMenu( ghProfHisMenu );	}
-		//	メニュー作成
+		//	메뉴 생성
 		ghProfHisMenu = CreatePopupMenu(  );
-		AppendMenu( ghProfHisMenu, MF_SEPARATOR, 0 , NULL );	//	セッパレター
-		AppendMenu( ghProfHisMenu, MF_STRING, IDM_OPEN_HIS_CLEAR, TEXT("履歴クリヤ") );
-		//	コマンドＩＤがファイルと同じであることに注意・受取は別だから問題無い
+		AppendMenu( ghProfHisMenu, MF_SEPARATOR, 0 , NULL );	//	구분선
+		AppendMenu( ghProfHisMenu, MF_STRING, IDM_OPEN_HIS_CLEAR, TEXT("이력 클리어") );
+		//	커맨드 ID가 파일과 동일하다는 점에 주의・수신은 별도이므로 문제 없음
 
 		dItems = gltProfHist.size( );
 		if( 0 == dItems )
 		{
-			//	オーポン履歴が無い場合
-			InsertMenu( ghProfHisMenu, 0, MF_STRING | MF_BYPOSITION | MF_GRAYED, IDM_OPEN_HIS_FIRST, TEXT("(无)") );
+			//	오픈 이력이 없는 경우
+			InsertMenu( ghProfHisMenu, 0, MF_STRING | MF_BYPOSITION | MF_GRAYED, IDM_OPEN_HIS_FIRST, TEXT("(없음)") );
 		}
 		else
 		{
-			//	オーポン履歴を並べる
+			//	오픈 이력을 나열
 			for( itHist = gltProfHist.begin(), d = dItems-1; gltProfHist.end() != itHist; itHist++, d-- )
 			{
 				StringCchPrintf( atString, MAX_PATH+10, TEXT("(&%X) %s"), d, itHist->atFile );
@@ -1480,18 +1480,18 @@ HRESULT OpenProfileInitialise( HWND hWnd )
 			}
 		}
 
-		//	コンテキストメニューは必要に応じてロードするので、ここではイジらない
+		//	컨텍스트 메뉴는 필요에 따라 로드하므로, 여기서는 건드리지 않음
 #ifdef _ORRVW
 		OpenProfMenuModify( hWnd );
 #endif
 	}
-	else	//	終了時
+	else	//	종료 시
 	{
 		if( ghProfHisMenu ){	DestroyMenu( ghProfHisMenu );	}
 
-		InitProfHistory( INIT_SAVE, 0, NULL );	//	一旦全削除
+		InitProfHistory( INIT_SAVE, 0, NULL );	//	일단 전부 삭제
 
-		//	中身を保存
+		//	내용을 저장
 		for( itHist = gltProfHist.begin(), d = 0; gltProfHist.end() != itHist; itHist++, d++ )
 		{
 			InitProfHistory( INIT_SAVE, d, itHist->atFile );
@@ -1503,10 +1503,10 @@ HRESULT OpenProfileInitialise( HWND hWnd )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	開いたプロフ履歴を番号指定して読み込む
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	id		履歴指定メッセージ・メニューＩＤである
-	@return	HRESULT	終了状態コード
+	열린 프로필 이력을 번호로 지정하여 로드
+	@param[in]	hWnd	윈도우 핸들
+	@param[in]	id		이력 지정 메시지・메뉴 ID임
+	@return	HRESULT	종료 상태 코드
 */
 HRESULT OpenProfileLoad( HWND hWnd, INT id )
 {
@@ -1519,24 +1519,24 @@ HRESULT OpenProfileLoad( HWND hWnd, INT id )
 
 	dNumber = id - IDM_OPEN_HIS_FIRST;
 
-	TRACE( TEXT("プロフ -> %d"), dNumber );
+	TRACE( TEXT("프로필 -> %d"), dNumber );
 	if( OPENHIST_MAX <= dNumber ){	return E_OUTOFMEMORY;	}
 
 	dItems = gltProfHist.size();
 	dNumber = (dItems-1) - dNumber;
 
 	itHist = gltProfHist.begin();
-	std::advance( itHist , dNumber );	//	個数分進める
+	std::advance( itHist , dNumber );	//	개수만큼 진행
 
-	//	選択したプロフを開く
+	//	선택한 프로필을 엶
 	StringCchCopy( atFilePath, MAX_PATH, itHist->atFile );
 
-	//	そのファイルは存在するか？
+	//	그 파일이 존재하는가?
 	hFind = FindFirstFile( atFilePath, &stFindData );	//	TEXT("*")
 	if( INVALID_HANDLE_VALUE != hFind ){	FindClose( hFind  );	}
 	else{	ZeroMemory( atFilePath, sizeof(atFilePath) );	};
 
-	if( NULL != atFilePath[0]  )	//	無ければ何もしない
+	if( NULL != atFilePath[0]  )	//	없으면 아무것도 하지 않음
 	{
 		StringCchCopy( gatProfilePath, MAX_PATH, atFilePath );
 		TreeProfileMake( ghMaaWnd, gatProfilePath );
@@ -1551,10 +1551,10 @@ HRESULT OpenProfileLoad( HWND hWnd, INT id )
 //-------------------------------------------------------------------------------------------------
 
 /*!
-	開いたPROFILEを記録
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	ptProf	開いたプロフファイル名
-	@return	HRESULT	終了状態コード
+	열린 PROFILE을 기록
+	@param[in]	hWnd	윈도우 핸들
+	@param[in]	ptProf	열린 프로필 파일명
+	@return	HRESULT	종료 상태 코드
 */
 HRESULT OpenProfileLogging( HWND hWnd, LPCTSTR ptProf )
 {
@@ -1567,32 +1567,32 @@ HRESULT OpenProfileLogging( HWND hWnd, LPCTSTR ptProf )
 		ZeroMemory( &stProfHist, sizeof(OPENHIST) );
 
 		StringCchCopy( stProfHist.atFile, MAX_PATH, ptProf );
-		//既存の内容なら最新に入れ替えるので、検索しておく
+		//기존의 내용이라면 최신으로 교체하므로, 검색해 둠
 		for( itHist = gltProfHist.begin(); gltProfHist.end() != itHist; itHist++ )
 		{
-			if( !StrCmp( itHist->atFile, stProfHist.atFile ) )	//	同じものがあったら削除する
+			if( !StrCmp( itHist->atFile, stProfHist.atFile ) )	//	같은 것이 있으면 삭제
 			{
 				gltProfHist.erase( itHist );
 				break;
 			}
 		}
 
-		gltProfHist.push_back( stProfHist );	//	リスト末尾ほど新しい
+		gltProfHist.push_back( stProfHist );	//	리스트 끝일수록 최신
 
-		//	もしはみ出すようなら古いのを削除する
+		//	만약 넘치면 오래된 것을 삭제
 		dItems = gltProfHist.size( );
 		if( OPENHIST_MAX <  dItems )
 		{
 			gltProfHist.pop_front(  );
 		}
 	}
-	else	//	文字列指定無い場合は全クリ
+	else	//	문자열 지정이 없으면 전부 클리어
 	{
 		gltProfHist.clear();
 	}
 
-	OpenProfileInitialise( NULL );	//	古いの破壊して
-	OpenProfileInitialise( hWnd );	//	最新の内容で作り直し
+	OpenProfileInitialise( NULL );	//	오래된 것 파괴하고
+	OpenProfileInitialise( hWnd );	//	최신 내용으로 다시 만듦
 
 	return S_OK;
 }

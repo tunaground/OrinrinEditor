@@ -2,11 +2,11 @@
 #include "OrinrinEditor.h"
 
 static CONST TCHAR	gcatLicense[] = {
-TEXT("このプログラムはフリーソフトウェアです。あなたはこれを、フリーソフトウェア財団によって発行されたGNU一般公衆利用許諾書(バージョン3か、それ以降のバージョンのうちどれか)が定める条件の下で再頒布または改変することができます。\r\n\r\n")
-TEXT("このプログラムは有用であることを願って頒布されますが、*全くの無保証*です。商業可能性の保証や特定目的への適合性は、言外に示されたものも含め、全く存在しません。\r\n\r\n")
-TEXT("詳しくはGNU一般公衆利用許諾書をご覧ください。\r\n\r\n")
-TEXT("あなたはこのプログラムと共に、GNU一般公衆利用許諾書のコピーを一部受け取っているはずです。\r\n\r\n")
-TEXT("もし受け取っていなければ、<http://www.gnu.org/licenses/> をご覧ください。\r\n\r\n")
+TEXT("이 프로그램은 프리 소프트웨어입니다. 당신은 이것을 프리 소프트웨어 재단에 의해 발행된 GNU 일반 공중 이용 허락서(버전 3 또는 그 이후의 버전 중 하나)가 정하는 조건에 따라 재배포하거나 수정할 수 있습니다.\r\n\r\n")
+TEXT("이 프로그램은 유용하게 사용되기를 바라며 배포되지만, *전혀 보증이 없습니다*. 상업적 가능성에 대한 보증이나 특정 목적에의 적합성은, 암시된 것도 포함하여, 전혀 존재하지 않습니다.\r\n\r\n")
+TEXT("자세한 내용은 GNU 일반 공중 이용 허락서를 참조하십시오.\r\n\r\n")
+TEXT("당신은 이 프로그램과 함께 GNU 일반 공중 이용 허락서의 사본을 일부 받았을 것입니다.\r\n\r\n")
+TEXT("만약 받지 못했다면, <http://www.gnu.org/licenses/>를 참조하십시오.\r\n\r\n")
 };
 
 static LOGFONT	gstBaseFont = {
@@ -23,7 +23,7 @@ static LOGFONT	gstBaseFont = {
 	CLIP_DEFAULT_PRECIS,
 	PROOF_QUALITY,
 	VARIABLE_PITCH,
-	TEXT("ＭＳ Ｐゴシック")
+	TEXT("ＭＳ Ｐ고딕")
 };
 
 static  HINSTANCE	ghInst;

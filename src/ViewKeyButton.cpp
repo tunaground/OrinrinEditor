@@ -209,7 +209,7 @@ VOID Evw_OnChar( HWND hWnd, TCHAR ch, INT cRepeat )
 
 	if( isctrl )
 	{
-		TRACE( TEXT("制御文字[%04X]"), ch );
+		TRACE( TEXT("제어 문자[%04X]"), ch );
 
 		if( VK_RETURN == ch )
 		{
@@ -263,12 +263,12 @@ VOID Evw_OnChar( HWND hWnd, TCHAR ch, INT cRepeat )
 		return;
 	}
 
-	TRACE( TEXT("入力文字[%c]"), ch );
+	TRACE( TEXT("입력 문자[%c]"), ch );
 
 	if( 0 < gdSqFillCnt )
 	{
 		gdSqFillCnt--;
-		TRACE( TEXT("キャンセル[%u]"), gdSqFillCnt );
+		TRACE( TEXT("취소[%u]"), gdSqFillCnt );
 		return;
 	}
 
@@ -328,7 +328,7 @@ VOID Evw_OnLButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 
 	if( fDoubleClick )
 	{
-		TRACE( TEXT("マウス左ダブルクルック[%d / %d]%d:%d:%d"), dDot, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
+		TRACE( TEXT("마우스 왼쪽 더블 클릭[%d / %d]%d:%d:%d"), dDot, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
 
 		ViewSelAreaSelect( NULL );
 
@@ -336,7 +336,7 @@ VOID Evw_OnLButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 		return;
 	}
 
-	TRACE( TEXT("マウス左ダウン[%d / %d]%d:%d:%d"), dDot, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
+	TRACE( TEXT("마우스 왼쪽 다운[%d / %d]%d:%d:%d"), dDot, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
 
 	SetCapture( hWnd  );
 
@@ -421,7 +421,7 @@ VOID Evw_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 		ViewSelPositionSet( NULL );
 	}
 
-	StringCchPrintf( atString, SUB_STRING, TEXT("MOUSE %d[dot] %d[line]"), gstCursor.x, gstCursor.y );
+	StringCchPrintf( atString, SUB_STRING, TEXT("마우스 %d[점] %d[줄]"), gstCursor.x, gstCursor.y );
 	MainStatusBarSetText( SB_MOUSEPOS, atString );
 
 	return;
@@ -437,7 +437,7 @@ VOID Evw_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 	INT		xPos, yPos;
 
-	TRACE( TEXT("マウス左アップ[%d / %d]"), x, y );
+	TRACE( TEXT("마우스 왼쪽 업[%d / %d]"), x, y );
 
 	if( gbLDoubleClick ){	gbLDoubleClick =  FALSE;	 return;	}
 
@@ -492,7 +492,7 @@ VOID Evw_OnRButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 
 	if( IsSelecting( NULL ) )
 	{
-		TRACE( TEXT("[%X]マウス右ダウン　%d:%d　選択中"), hWnd, x, y );
+		TRACE( TEXT("[%X]마우스 오른쪽 다운　%d:%d　선택 중"), hWnd, x, y );
 		return;
 	}
 
@@ -503,7 +503,7 @@ VOID Evw_OnRButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 	dDot  = dX;
 	dLine = dY / LINE_HEIGHT;
 
-	TRACE( TEXT("[%X]マウス右ダウン[%d:%d[%d] / %d:%d:%d]"), hWnd, dX, dY, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
+	TRACE( TEXT("[%X]마우스 오른쪽 다운[%d:%d[%d] / %d:%d:%d]"), hWnd, dX, dY, dLine, gbShiftOn, gbCtrlOn, gbAltOn );
 
 	if( 0 <= dX || 0 <= dY )
 	{
@@ -559,7 +559,7 @@ INT ViewInsertUniSpace( UINT dCommando )
 	INT	width;
 	TCHAR	ch;
 
-	TRACE( TEXT("挿入：ユニコード空白") );
+	TRACE( TEXT("삽입：유니코드 공백") );
 
 	switch( dCommando )
 	{
@@ -614,7 +614,7 @@ HRESULT ViewScriptedLineFeed( VOID )
 		iChkDot = iPrvDot;
 	}
 
-	TRACE( TEXT("TEXT START D[%d] L[%d]"), iTgtDot, gdDocLine );
+	TRACE( TEXT("텍스트 시작 D[%d] L[%d]"), iTgtDot, gdDocLine );
 
 	dLines = DocNowFilePageLineCount(  );
 	if( (dLines - 1) <= gdDocLine )
@@ -723,7 +723,7 @@ HRESULT ViewBrushFilling( VOID )
 	ptBuff = BrushStringMake( dTgDot, gatBrushPtn );
 	if( !(ptBuff) )
 	{
-		NotifyBalloonExist( TEXT("ブラシを選んでおいてね"), TEXT("操作ミス"), NIIF_INFO );
+		NotifyBalloonExist( TEXT("브러시를 선택해 주세요"), TEXT("작업 오류"), NIIF_INFO );
 		return E_OUTOFMEMORY;
 	}
 

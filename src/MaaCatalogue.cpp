@@ -64,7 +64,7 @@ DWORD AacAssembleFile( HWND hWnd, LPTSTR ptFileName )
 	if( isAST ){	rdCount = AacInflateAst( pcFullBuff, readed );	}
 	else{			rdCount = AacInflateMlt( pcFullBuff, readed );	}
 
-#pragma message ("旧末尾追加したやつは末端に0x0Dがくっついてる・飛ばして読み込む処理を")
+#pragma message ("이전 끝에 추가한 것은 끝에 0x0D가 붙어 있음・건너뛰고 읽는 처리를")
 
 	free( pcFullBuff );
 
@@ -249,7 +249,7 @@ UINT AacTitleCheck( LPAAMATRIX pstItem )
 		if( !( strncmp( pcCaret, "（", 2 ) ) )	return 0;
 		if( !( strncmp( pcCaret, "　 ", 3 ) ) )	return 0;
 		if( !( strncmp( pcCaret, "　　", 4 ) ) )	return 0;
-		if( !( strncmp( pcCaret, "最終更", 4 ) ) )	return 0;
+		if( !( strncmp( pcCaret, "최종갱", 4 ) ) )	return 0;
 		if( !( strncmp( pcCaret, "Last Mod", 8 ) ) )	return 0;
 
 		cbSize = pstItem->cbItem;
@@ -354,7 +354,7 @@ INT AacArtSizeGet( DWORD iNumber, PINT piLine, PINT pBytes )
 		pcConts = (LPSTR)malloc( gvcArts.at( iNumber ).cbItem + 1 );
 		if( pcConts )
 		{
-			TRACE( TEXT("AA Size Calculate[%d]"), iNumber );
+			TRACE( TEXT("AA 크기 계산[%d]"), iNumber );
 
 			ZeroMemory( pcConts, gvcArts.at( iNumber ).cbItem + 1 );
 			CopyMemory( pcConts, gvcArts.at( iNumber ).pcItem, gvcArts.at( iNumber ).cbItem );
@@ -469,15 +469,15 @@ INT_PTR CALLBACK AaItemAddDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 			pstIaInfo = (LPITEMADDINFO)(lParam);
 			GetClientRect( hDlg, &rect );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("今の頁"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("クリップボード"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("현재 페이지"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("클립보드"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL );
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 195, 0, rect.right-195-50, 23, hDlg, (HMENU)IDE_MAID_ITEMNAME, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("追加"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("추가"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 23, rect.right, rect.bottom-23, hDlg, (HMENU)IDE_MAID_CONTENTS, GetModuleHandle(NULL), NULL );
 
 			if( pstIaInfo->bType )
 			{
-				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("名称はASTでないと使用できないよ") );
+				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("이름은 AST가 아니면 사용할 수 없어요") );
 				EnableWindow( GetDlgItem(hDlg,IDE_MAID_ITEMNAME), FALSE );
 				StringCchCopy( pstIaInfo->atSep, MAX_STRING, TEXT("[SPLIT]\r\n") );
 			}
@@ -646,7 +646,7 @@ HRESULT AacItemOutput( HWND hWnd )
 	hFile = CreateFile( gatOpenFile, GENERIC_WRITE, 0, NULL, TRUNCATE_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
 	if( INVALID_HANDLE_VALUE == hFile )
 	{
-		MessageBox( hWnd, TEXT("ファイルを開けなかったよ"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONERROR );
+		MessageBox( hWnd, TEXT("파일을 열 수 없었어요"), TEXT("오린의 알림"), MB_OK | MB_ICONERROR );
 		return E_HANDLE;
 	}
 

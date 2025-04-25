@@ -243,7 +243,7 @@ HWND MoziScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 	gdMoziInterval = 0;
 
 	ghMoziWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_TOPMOST, MOZISCRIPT_CLASS,
-		TEXT("文字AA変換"), WS_POPUP | WS_CAPTION | WS_SYSMENU,
+		TEXT("문자 AA 변환"), WS_POPUP | WS_CAPTION | WS_SYSMENU,
 		rect.right, rect.top, MZ_WIDTH, MZ_HEIGHT, NULL, NULL, hInst, NULL );
 
 	gdNowMode = 0;
@@ -265,28 +265,28 @@ HWND MoziScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 
 	SendMessage( ghMoziToolBar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("文字ＡＡ挿入") );					gstMztbInfo[0].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("文字列更新 / 使用ファイル更新") );	gstMztbInfo[1].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("使用ファイル設定") );				gstMztbInfo[2].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("문자 AA 삽입") );					gstMztbInfo[0].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("문자열 갱신 / 사용 파일 갱신") );	gstMztbInfo[1].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("사용 파일 설정") );				gstMztbInfo[2].iString = SendMessage( ghMoziToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
 
 	SendMessage( ghMoziToolBar , TB_ADDBUTTONS, (WPARAM)TB_ITEMS, (LPARAM)&gstMztbInfo );
 
 	SendMessage( ghMoziToolBar , TB_AUTOSIZE, 0, 0 );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("挿入したら閉じる"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 128, 2, 170, 23, ghMoziToolBar, (HMENU)IDCB_MZSCR_QUICKCLOSE, hInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("삽입 후 닫기"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 128, 2, 170, 23, ghMoziToolBar, (HMENU)IDCB_MZSCR_QUICKCLOSE, hInst, NULL );
 	CheckDlgButton( ghMoziToolBar, IDCB_MZSCR_QUICKCLOSE, gbQuickClose ? BST_CHECKED : BST_UNCHECKED );
 
 	InvalidateRect( ghMoziToolBar , NULL, TRUE );
 
 	GetClientRect( ghMoziWnd, &rect );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("文字間"), WS_CHILD | WS_VISIBLE | SS_CENTERIMAGE, 0, gdToolBarHei, 52, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDS_MZSCR_INTERVAL, hInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("문자 간격"), WS_CHILD | WS_VISIBLE | SS_CENTERIMAGE, 0, gdToolBarHei, 52, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDS_MZSCR_INTERVAL, hInst, NULL );
 
 	CreateWindowEx( 0, WC_EDIT, TEXT("0"), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY, 54, gdToolBarHei, 50, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDE_MZSCR_INTERVAL, hInst, NULL );
 
 	CreateWindowEx( 0, UPDOWN_CLASS, TEXT("intervalspin"), WS_CHILD | WS_VISIBLE | UDS_AUTOBUDDY, 104, gdToolBarHei, 10, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDUD_MZSCR_INTERVAL, hInst, NULL );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("文字間は透過"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 130, gdToolBarHei, 120, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDCB_MZSCR_TRANSPARENT, hInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("문자 간격은 투명"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 130, gdToolBarHei, 120, MZ_PARAMHEI, ghMoziWnd, (HMENU)IDCB_MZSCR_TRANSPARENT, hInst, NULL );
 
 	height = gdToolBarHei + MZ_PARAMHEI;
 
@@ -304,8 +304,8 @@ HWND MoziScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 	stLvColm.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt = LVCFMT_LEFT;
-	stLvColm.pszText = TEXT("ファイル名");	stLvColm.cx = 200;	stLvColm.iSubItem = 0x00;	ListView_InsertColumn( ghSettiLvWnd, 0, &stLvColm );
-	stLvColm.pszText = TEXT("フルパス");	stLvColm.cx = 500;	stLvColm.iSubItem = 0x01;	ListView_InsertColumn( ghSettiLvWnd, 1, &stLvColm );
+	stLvColm.pszText = TEXT("파일명");	stLvColm.cx = 200;	stLvColm.iSubItem = 0x00;	ListView_InsertColumn( ghSettiLvWnd, 0, &stLvColm );
+	stLvColm.pszText = TEXT("전체 경로");	stLvColm.cx = 500;	stLvColm.iSubItem = 0x01;	ListView_InsertColumn( ghSettiLvWnd, 1, &stLvColm );
 
 	dCount = MoziSqlItemCount( NULL, NULL );
 	MoziFileRebuild( ghMoziWnd, dCount ? FALSE : TRUE );
@@ -314,7 +314,7 @@ HWND MoziScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 	UpdateWindow( ghMoziWnd );
 
 	ghMoziViewWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_LAYERED, MOZIVIEW_CLASS,
-		TEXT("配置"), WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE, 0, 0, 160, 120, NULL, NULL, hInst, NULL);
+		TEXT("배치"), WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE, 0, 0, 160, 120, NULL, NULL, hInst, NULL);
 	SetLayeredWindowAttributes( ghMoziViewWnd, 0, gbAlpha, LWA_ALPHA );
 
 	ZeroMemory( &gstFrmSz, sizeof(POINT) );
@@ -588,10 +588,10 @@ VOID Mzv_OnKey( HWND hWnd, UINT vk, BOOL fDown, int cRepeat, UINT flags )
 	{
 		switch( vk )
 		{
-			case VK_RIGHT:	TRACE( TEXT("右") );	rect.left++;	break;
-			case VK_LEFT:	TRACE( TEXT("左") );	rect.left--;	break;
-			case VK_DOWN:	TRACE( TEXT("下") );	rect.top += LINE_HEIGHT;	break;
-			case  VK_UP:	TRACE( TEXT("上") );	rect.top -= LINE_HEIGHT;	break;
+			case VK_RIGHT:	TRACE( TEXT("오른쪽") );	rect.left++;	break;
+			case VK_LEFT:	TRACE( TEXT("왼쪽") );	rect.left--;	break;
+			case VK_DOWN:	TRACE( TEXT("아래") );	rect.top += LINE_HEIGHT;	break;
+			case  VK_UP:	TRACE( TEXT("위") );	rect.top -= LINE_HEIGHT;	break;
 			default:	return;
 		}
 	}
@@ -846,7 +846,7 @@ VOID Mzs_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 	{
 		hMenu = CreatePopupMenu(  );
 
-		AppendMenu( hMenu, MF_STRING, IDM_MOZI_LISTDEL, TEXT("リストから削除") );
+		AppendMenu( hMenu, MF_STRING, IDM_MOZI_LISTDEL, TEXT("리스트에서 삭제") );
 
 		TrackPopupMenu( hMenu, 0, stPoint.x, stPoint.y, 0, hWnd, NULL );
 		DestroyMenu( hMenu );

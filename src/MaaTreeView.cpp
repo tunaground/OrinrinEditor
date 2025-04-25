@@ -136,8 +136,8 @@ HRESULT TreeInitialise( HWND hWnd, HINSTANCE hInst, LPRECT ptRect )
 
 	ZeroMemory( &stTcItem, sizeof(stTcItem) );
 	stTcItem.mask = TCIF_TEXT;
-	stTcItem.pszText = TEXT("全て");	TabCtrl_InsertItem( ghTabWnd, 0, &stTcItem );
-	stTcItem.pszText = TEXT("使用");	TabCtrl_InsertItem( ghTabWnd, 1, &stTcItem );
+	stTcItem.pszText = TEXT("전체");	TabCtrl_InsertItem( ghTabWnd, 0, &stTcItem );
+	stTcItem.pszText = TEXT("사용");	TabCtrl_InsertItem( ghTabWnd, 1, &stTcItem );
 
 	TabCtrl_GetItemRect( ghTabWnd, 1, &itRect );
 	itRect.bottom -= itRect.top;
@@ -230,7 +230,7 @@ VOID Mtv_OnMButtonUp( HWND hWnd, INT x, INT y, UINT flags )
 	HTREEITEM	hTreeItem;
 	TVHITTESTINFO	stTvItemInfo;
 
-	TRACE( TEXT("ツリービューで中クルック[%d x %d]"), x, y );
+	TRACE( TEXT("트리 뷰에서 중간 클릭[%d x %d]"), x, y );
 
 	ZeroMemory( &stTvItemInfo, sizeof(TVHITTESTINFO) );
 	stTvItemInfo.pt.x = x;
@@ -256,7 +256,7 @@ VOID Mtv_OnDropFiles( HWND hWnd, HDROP hDrop )
 
 	bRslt = PathIsDirectory( atFileName );
 
-	TRACE( TEXT("MTV DROP[%u][%s]"), bRslt, atFileName );
+	TRACE( TEXT("MTV 드롭[%u][%s]"), bRslt, atFileName );
 
 	if( bRslt ){	 return;	}
 
@@ -301,13 +301,13 @@ VOID Mtb_OnLButtonDblclk( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFl
 
 	curSel = TabCtrl_GetCurSel( ghTabWnd );
 
-	TRACE( TEXT("TAB DBLCLICK [%d] [%d x %d]"), curSel, x, y );
+	TRACE( TEXT("탭 더블클릭 [%d] [%d x %d]"), curSel, x, y );
 
 	if( 1 >= curSel ){	 return;	}
 
 	TabMultipleNameChange( hWnd, curSel );
 
-#pragma message ("ダブルクルックの機能を設定出来るようにするとおいしいかも")
+#pragma message ("더블클릭 기능을 설정할 수 있으면 좋을 것 같습니다")
 
 	return;
 }
@@ -321,7 +321,7 @@ VOID Mtb_OnMButtonUp( HWND hWnd, INT x, INT y, UINT flags )
 	stTcHitInfo.pt.y = y;
 	curSel = TabCtrl_HitTest( ghTabWnd, &stTcHitInfo );
 
-	TRACE( TEXT("MTAB start TAB [%d] [%d x %d]"), curSel, x, y );
+	TRACE( TEXT("MTAB 시작 탭 [%d] [%d x %d]"), curSel, x, y );
 
 	if( 1 >= curSel ){	 return;	}
 
@@ -344,7 +344,7 @@ VOID TabMultipleOnLButtonDown( HWND hWnd, INT x, INT y, UINT keyFlags )
 	stTcHitInfo.pt = gstMouseDown;
 	giDragSel = TabCtrl_HitTest( ghTabWnd, &stTcHitInfo );
 
-	TRACE( TEXT("MTAB start TAB [%d]"), giDragSel );
+	TRACE( TEXT("MTAB 시작 탭 [%d]"), giDragSel );
 
 	return;
 }
@@ -366,7 +366,7 @@ VOID TabMultipleOnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 		if( rx < mx || ry < my )
 		{
-			TRACE( TEXT("MTAB start DRAG [%d x %d] [%d x %d]"), rx, ry, mx, my );
+			TRACE( TEXT("MTAB 드래그 시작 [%d x %d] [%d x %d]"), rx, ry, mx, my );
 			SetCapture( hWnd  );
 			gbTabDraging = TRUE;
 		}
@@ -390,7 +390,7 @@ VOID TabMultipleOnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 	{
 		stTcHitInfo.pt = point;
 		iDragSel = TabCtrl_HitTest( ghTabWnd, &stTcHitInfo );
-		TRACE( TEXT("MTAB end TAB [%d]"), iDragSel );
+		TRACE( TEXT("MTAB 종료 탭 [%d]"), iDragSel );
 
 		ReleaseCapture(  );
 		gbTabDraging = FALSE;
@@ -469,7 +469,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 	stPost.x = (SHORT)xPos;
 	stPost.y = (SHORT)yPos;
 
-	TRACE( TEXT("MAAコンテキストメニュー") );
+	TRACE( TEXT("MAA 컨텍스트 메뉴") );
 
 	if( ghFavLtWnd == hWndContext )
 	{
@@ -477,12 +477,12 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 		ZeroMemory( atMenuStr, sizeof(atMenuStr) );
 
 		curSel = ListBox_GetCurSel( ghFavLtWnd );
-		TRACE( TEXT("リストボックスコンテキスト %d"), curSel );
+		TRACE( TEXT("리스트박스 컨텍스트 %d"), curSel );
 		if( 0 > curSel )	return;
 
 		ListBox_GetText( ghFavLtWnd, curSel, atSelName );
-		StringCchPrintf( atMenuStr,  MAX_PATH, TEXT("[ %s ]で副タブを追加"), atSelName );
-		StringCchPrintf( atMenuStr2, MAX_PATH, TEXT("[ %s ]グループを削除"), atSelName );
+		StringCchPrintf( atMenuStr,  MAX_PATH, TEXT("[ %s ]로 부 탭 추가"), atSelName );
+		StringCchPrintf( atMenuStr2, MAX_PATH, TEXT("[ %s ] 그룹 삭제"), atSelName );
 
 		hMenu = CreatePopupMenu(  );
 
@@ -541,7 +541,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 			}
 #endif
 
-			StringCchCat( atName, MAX_PATH, TEXT(" の操作") );
+			StringCchCat( atName, MAX_PATH, TEXT(" 의 작업") );
 
 			ModifyMenu( hSubMenu, IDM_DUMMY, MF_BYCOMMAND | MF_STRING | MF_GRAYED, IDM_DUMMY, atName );
 		}
@@ -554,7 +554,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 
 		}
 
-		ModifyMenu( hSubMenu, IDM_OPEN_HISTORY, MF_BYCOMMAND | MF_POPUP, (UINT_PTR)ghProfHisMenu, TEXT("ファイル使用履歴(&H)") );
+		ModifyMenu( hSubMenu, IDM_OPEN_HISTORY, MF_BYCOMMAND | MF_POPUP, (UINT_PTR)ghProfHisMenu, TEXT("파일 사용 기록(&H)") );
 
 #ifdef _ORRVW
 		rdExStyle = GetWindowLongPtr( hWnd, GWL_EXSTYLE );
@@ -615,7 +615,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 		curSel = TabCtrl_HitTest( ghTabWnd, &stTcHitInfo );
 
 		if( 1 >= curSel )	return;
-#pragma message ("MAAタブの固定タブの判別に注意")
+#pragma message ("MAA 탭의 고정 탭 판별에 주의")
 
 		hMenu = LoadMenu( GetModuleHandle(NULL), MAKEINTRESOURCE(IDM_AATABS_POPUP) );
 		hSubMenu = GetSubMenu( hMenu, 0 );
@@ -626,7 +626,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 		stTcItem.cchTextMax = MAX_PATH;
 		TabCtrl_GetItem( ghTabWnd, curSel, &stTcItem );
 
-		StringCchCat( atText, MAX_PATH, TEXT(" を閉じる(&Q)") );
+		StringCchCat( atText, MAX_PATH, TEXT(" 닫기(&Q)") );
 		StringCchLength( atText, MAX_PATH, &cchSize );
 
 		ZeroMemory( &stMenuItemInfo, sizeof(MENUITEMINFO) );
@@ -650,7 +650,7 @@ VOID Maa_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 			case  IDM_AATREE_GOEDIT:	TabMultipleSelect( hWnd, curSel, 1 );	break;
 
 			case  IDM_AATABS_ALLDELETE:
-				iRslt = MessageBox( hWnd, TEXT("全ての副タブを閉じようとしてるよ。\r\n本当に閉じちゃっていいかい？"), TEXT("お燐からの確認"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 );
+				iRslt = MessageBox( hWnd, TEXT("모든 부 탭을 닫으려고 합니다.\r\n정말로 닫아도 괜찮습니까?"), TEXT("오린의 확인"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 );
 				if( IDYES == iRslt ){	TabMultipleDeleteAll( hWnd );	}
 
 			case IDM_AATABS_RENAME:	TabMultipleNameChange( hWnd, curSel );	break;
@@ -703,7 +703,7 @@ HRESULT TreeConstruct( HWND hWnd, LPCTSTR ptCurrent, BOOLEAN bSubTabReb )
 
 	StringCchPrintf( atRoote, MAX_PATH, TEXT("ROOT[%s]"), gatAARoot );
 
-	StatusBarMsgSet( SBMAA_FILENAME, TEXT("ツリーを構築中です") );
+	StatusBarMsgSet( SBMAA_FILENAME, TEXT("트리를 구성 중입니다") );
 
 	TreeView_DeleteAllItems( ghTreeWnd );
 
@@ -782,7 +782,7 @@ UINT TreeNodeExtraAdding( LPCTSTR ptPath )
 	id = SqlTreeNodeExtraIsFileExist( ptPath );
 	if( 0 < id )
 	{
-		MessageBox( GetDesktopWindow( ), TEXT("已に登録してあるみたいだよ。"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONINFORMATION );
+		MessageBox( GetDesktopWindow( ), TEXT("이미 등록되어 있는 것 같습니다."), TEXT("오린의 알림"), MB_OK | MB_ICONINFORMATION );
 		return id;
 	}
 
@@ -1283,7 +1283,7 @@ LRESULT TabBarNotify( HWND hWnd, LPNMHDR pstNmhdr )
 	{
 		curSel = TabCtrl_GetCurSel( ghTabWnd );
 
-		TRACE( TEXT("TAB sel [%d]"), curSel );
+		TRACE( TEXT("탭 선택 [%d]"), curSel );
 
 		ShowWindow( ghTreeWnd,  SW_HIDE );
 		ShowWindow( ghFavLtWnd, SW_HIDE );
@@ -1545,7 +1545,7 @@ HRESULT TabMultipleDelete( HWND hWnd, CONST INT tabSel )
 
 	nowSel = TabCtrl_GetCurSel( ghTabWnd );
 
-	TRACE( TEXT("TAB del [%d][%d]"), nowSel, tabSel );
+	TRACE( TEXT("탭 삭제 [%d][%d]"), nowSel, tabSel );
 
 	TabCtrl_DeleteItem( ghTabWnd, tabSel );
 
@@ -1585,7 +1585,7 @@ HRESULT TabMultipleSelDelete( HWND hWnd )
 
 	curSel = TabCtrl_GetCurSel( ghTabWnd );
 
-	TRACE( TEXT("VIEW FILE CLOSE [%d]"), curSel );
+	TRACE( TEXT("보기 파일 닫기 [%d]"), curSel );
 
 	if( 1 >= curSel )	return E_ACCESSDENIED;
 

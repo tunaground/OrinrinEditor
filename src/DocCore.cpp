@@ -99,7 +99,7 @@ LPARAM DocMultiFileCreate( LPTSTR ptDmyName )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	return stFile.dUnique;
@@ -234,8 +234,8 @@ LPARAM DocMultiFileClose( HWND hWnd, LPARAM uqNumber )
 
 	if( gitFileIt->dModify )
 	{
-		StringCchPrintf( atBuffer, MAX_PATH, TEXT("ちょっとまって！\r\n[%s] は変更したままだよ。\r\nここで保存して閉じるかい？"), PathFindFileName( gitFileIt->atFileName ) );
-		iRslt = MessageBox( hWnd, atBuffer, TEXT("お燐からの確認"), MB_YESNOCANCEL | MB_ICONQUESTION );
+		StringCchPrintf( atBuffer, MAX_PATH, TEXT("잠깐만! [%s]는 변경된 상태야. 여기서 저장하고 닫을까?"), PathFindFileName( gitFileIt->atFileName ) );
+		iRslt = MessageBox( hWnd, atBuffer, TEXT("오린의 확인"), MB_YESNOCANCEL | MB_ICONQUESTION );
 		if( IDCANCEL == iRslt ){	return 0;	}
 
 		if( IDYES == iRslt ){	DocFileSave( hWnd, D_SJIS );	}
@@ -380,8 +380,8 @@ INT DocFileCloseCheck( HWND hWnd, UINT dMode )
 	{
 		if( itFiles->dModify )
 		{
-			StringCchPrintf( atMessage, BIG_STRING, TEXT("ちょっとまった！\r\n%s は保存してないよ。ここで保存するかい？"), itFiles->atFileName[0] ? PathFindFileName( itFiles->atFileName ) : itFiles->atDummyName );
-			rslt = MessageBox( hWnd, atMessage, TEXT("お燐からの確認"), MB_YESNOCANCEL | MB_ICONQUESTION );
+			StringCchPrintf( atMessage, BIG_STRING, TEXT("잠깐만! %s는 저장되지 않았어. 여기서 저장할까?"), itFiles->atFileName[0] ? PathFindFileName( itFiles->atFileName ) : itFiles->atDummyName );
+			rslt = MessageBox( hWnd, atMessage, TEXT("오린의 확인"), MB_YESNOCANCEL | MB_ICONQUESTION );
 			if( IDCANCEL ==  rslt ){	return 0;	}
 			if( IDYES == rslt ){	DocFileSave( hWnd, D_SJIS );	}
 
@@ -391,7 +391,7 @@ INT DocFileCloseCheck( HWND hWnd, UINT dMode )
 
 	if( !(bMod) )
 	{
-		rslt = MessageBox( hWnd, TEXT("もう終わるかい？"), TEXT("お燐からの確認"), MB_YESNO | MB_ICONQUESTION );
+		rslt = MessageBox( hWnd, TEXT("이제 끝낼까?"), TEXT("오린의 확인"), MB_YESNO | MB_ICONQUESTION );
 		if( IDYES == rslt ){	ret = 1;	}
 		else{					ret = 0;	}
 	}
@@ -926,7 +926,7 @@ INT DocPageCreate( INT iAdding )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	return iAddPage;
@@ -969,7 +969,7 @@ HRESULT DocPageDelete( INT iPage, INT iBack )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), E_FAIL );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), E_FAIL );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), E_FAIL );	}
 #endif
 
 	return S_OK;
@@ -982,7 +982,7 @@ UINT DocDelayPageLoad( FILES_ITR itFile, INT iPage )
 
 	if( itFile->vcCont.at( iPage ).ptRawData )
 	{
-		TRACE( TEXT("PAGE DELAY LOAD [%d]"), iPage );
+		TRACE( TEXT("페이지 지연 로드 [%d]"), iPage );
 
 		StringCchLength( itFile->vcCont.at( iPage ).ptRawData, STRSAFE_MAX_CCH, &cchSize );
 
@@ -1032,7 +1032,7 @@ HRESULT DocPageChange( INT dPageNum )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (HRESULT)ETC_MSG( err.what(), E_UNEXPECTED );	}
-	catch( ... ){	return (HRESULT)ETC_MSG( ("etc error") , E_UNEXPECTED );	}
+	catch( ... ){	return (HRESULT)ETC_MSG( ("기타 오류") , E_UNEXPECTED );	}
 #endif
 
 	return S_OK;
@@ -1099,7 +1099,7 @@ INT DocLineDataGetAlloc( INT rdLine, INT iStart, LPLETTER *pstTexts, PINT pchLen
 		if( !pstTexts )	return 0;
 
 		*pstTexts = (LPLETTER)malloc( iSize * sizeof(LETTER) );
-		if( !( *pstTexts ) ){	TRACE( TEXT("malloc error") );	return 0;	}
+		if( !( *pstTexts ) ){	TRACE( TEXT("malloc 오류") );	return 0;	}
 
 		ZeroMemory( *pstTexts, iSize * sizeof(LETTER) );
 
@@ -1232,7 +1232,7 @@ INT DocPageTextGetAlloc( FILES_ITR itFile, INT dPage, UINT bStyle, LPVOID *pText
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (INT)ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return (INT)ETC_MSG( ("etc error") , 0 );	}
+	catch( ... ){	return (INT)ETC_MSG( ("기타 오류") , 0 );	}
 #endif
 
 	return (INT)iSize;
@@ -1581,7 +1581,7 @@ HRESULT DocThreadDropCopy( VOID )
 
 	cbSize = DocPageTextGetAlloc( gitFileIt, gixDropPage, D_SJIS, &pcString, FALSE );
 
-	TRACE( TEXT("%d 頁をコピー"), gixDropPage );
+	TRACE( TEXT("%d 페이지를 복사"), gixDropPage );
 
 	DocClipboardDataSet( pcString, cbSize, D_SJIS );
 
@@ -1590,7 +1590,7 @@ HRESULT DocThreadDropCopy( VOID )
 	ZeroMemory( atInfo, sizeof(atInfo) );
 	MultiByteToWideChar( CP_ACP, 0, acBuf, (INT)strlen(acBuf), atInfo, 256 );
 
-	StringCchPrintf( atTitle, 64, TEXT("%d 頁をコピーしたよ"), gixDropPage + 1 );
+	StringCchPrintf( atTitle, 64, TEXT("%d 페이지를 복사했어"), gixDropPage + 1 );
 
 	NotifyBalloonExist( atInfo, atTitle, NIIF_INFO );
 

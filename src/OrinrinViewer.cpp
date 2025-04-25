@@ -3,11 +3,11 @@
 #include "MaaTemplate.h"
 
 static CONST TCHAR	gcatLicense[] = {
-TEXT("このプログラムはフリーソフトウェアです。あなたはこれを、フリーソフトウェア財団によって発行されたGNU一般公衆利用許諾書(バージョン3か、それ以降のバージョンのうちどれか)が定める条件の下で再頒布または改変することができます。\r\n\r\n")
-TEXT("このプログラムは有用であることを願って頒布されますが、*全くの無保証*です。商業可能性の保証や特定目的への適合性は、言外に示されたものも含め、全く存在しません。\r\n\r\n")
-TEXT("詳しくはGNU一般公衆利用許諾書をご覧ください。\r\n\r\n")
-TEXT("あなたはこのプログラムと共に、GNU一般公衆利用許諾書のコピーを一部受け取っているはずです。\r\n\r\n")
-TEXT("もし受け取っていなければ、<http://www.gnu.org/licenses/> をご覧ください。\r\n\r\n")
+TEXT("이 프로그램은 프리 소프트웨어입니다. 당신은 이것을 프리 소프트웨어 재단에 의해 발행된 GNU 일반 공중 이용 허락서(버전 3 또는 그 이후의 버전 중 하나)가 정하는 조건 하에 재배포하거나 수정할 수 있습니다.\r\n\r\n")
+TEXT("이 프로그램은 유용할 것이라는 희망 하에 배포되지만, *전혀 보증되지 않습니다*. 상업적 가능성에 대한 보증이나 특정 목적에의 적합성은, 암시된 것조차도 전혀 존재하지 않습니다.\r\n\r\n")
+TEXT("자세한 내용은 GNU 일반 공중 이용 허락서를 참조하십시오.\r\n\r\n")
+TEXT("당신은 이 프로그램과 함께 GNU 일반 공중 이용 허락서의 사본을 일부 받았을 것입니다.\r\n\r\n")
+TEXT("받지 못했다면, <http://www.gnu.org/licenses/>를 참조하십시오.\r\n\r\n")
 };
 
 static LOGFONT	gstBaseFont = {
@@ -24,7 +24,7 @@ static LOGFONT	gstBaseFont = {
 	CLIP_DEFAULT_PRECIS,
 	PROOF_QUALITY,
 	VARIABLE_PITCH,
-	TEXT("ＭＳ Ｐゴシック")
+	TEXT("ＭＳ Ｐ고딕")
 };
 
 static  UINT	gdUseMode;
@@ -130,7 +130,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)FALSE;
 }
 
-#pragma region ("設定内容読書")
+#pragma region ("설정 내용 읽기")
 
 INT InitParamValue( UINT dMode, UINT dStyle, INT nValue )
 {
@@ -271,7 +271,7 @@ HRESULT OpenProfMenuModify( HWND hWnd )
 	hMenu = GetMenu( hWnd );
 	hSubMenu = GetSubMenu( hMenu, 0 );
 
-	ModifyMenu( hSubMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)ghProfHisMenu, TEXT("ファイル使用履歴(&H)") );
+	ModifyMenu( hSubMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)ghProfHisMenu, TEXT("파일 사용 이력(&H)") );
 
 	DrawMenuBar( hWnd );
 
@@ -280,7 +280,7 @@ HRESULT OpenProfMenuModify( HWND hWnd )
 
 #pragma endregion
 
-#pragma region ("クリップする処理")
+#pragma region ("클립보드 처리")
 
 HRESULT DocClipboardDataSet( LPVOID pDatum, INT cbSize, UINT dStyle )
 {
@@ -320,7 +320,7 @@ HRESULT DocClipboardDataSet( LPVOID pDatum, INT cbSize, UINT dStyle )
 
 	CloseClipboard(  );
 
-	TRACE( TEXT("COPY DONE") );
+	TRACE( TEXT("복사 완료") );
 
 	return hRslt;
 }
@@ -351,7 +351,7 @@ UINT ViewMaaMaterialise( HWND hWnd, LPSTR pcCont, UINT cbSize, UINT dMode )
 
 #pragma endregion
 
-#pragma region ("設定ダイヤログ")
+#pragma region ("설정 다이얼로그")
 
 INT_PTR CALLBACK OptionDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -448,7 +448,7 @@ BOOLEAN SelectDirectoryDlg( HWND hWnd, LPTSTR ptSelFolder, UINT_PTR cchLen )
 	stBrowseInfo.hwndOwner		 = hWnd;
 	stBrowseInfo.pidlRoot		 = NULL;
 	stBrowseInfo.pszDisplayName	 = atDisplayName;
-	stBrowseInfo.lpszTitle		 = TEXT("ＡＡの入ってるディレクトリを選択するのー！");
+	stBrowseInfo.lpszTitle		 = TEXT("AA가 들어있는 디렉토리를 선택하세요!");
 	stBrowseInfo.ulFlags		 = BIF_RETURNONLYFSDIRS;
 	stBrowseInfo.lpfn			 = NULL;
 	stBrowseInfo.lParam			 = (LPARAM)0;
@@ -529,7 +529,7 @@ HRESULT ViewingFontNameLoad( VOID )
 	TCHAR	atName[LF_FACESIZE];
 
 	ZeroMemory( atName, sizeof(atName) );
-	StringCchCopy( atName, LF_FACESIZE, TEXT("ＭＳ Ｐゴシック") );
+	StringCchCopy( atName, LF_FACESIZE, TEXT("ＭＳ Ｐ고딕") );
 
 	InitParamString( INIT_LOAD, VS_FONT_NAME, atName );
 

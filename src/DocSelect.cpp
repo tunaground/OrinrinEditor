@@ -14,7 +14,7 @@ VOID	DocSelectedByteStatus( VOID );
 
 HRESULT DocSelRangeSet( INT dTop, INT dBottom )
 {
-	TRACE( TEXT(" 選択レンジセット[%d - %d]"), dTop, dBottom );
+	TRACE( TEXT(" 선택 범위 설정[%d - %d]"), dTop, dBottom );
 
 	(*gitFileIt).vcCont.at( gixFocusPage ).dSelLineTop    = dTop;
 	(*gitFileIt).vcCont.at( gixFocusPage ).dSelLineBottom = dBottom;
@@ -307,7 +307,7 @@ VOID DocSelectedByteStatus( VOID )
 
 	if( gdSelByte )
 	{
-		StringCchPrintf( atBuffer, MIN_STRING, TEXT("SEL %d Bytes"), gdSelByte );
+		StringCchPrintf( atBuffer, MIN_STRING, TEXT("SEL %d 바이트"), gdSelByte );
 		MainStatusBarSetText( SB_SELBYTE, atBuffer );
 	}
 	else
@@ -338,7 +338,7 @@ INT DocSelectedDelete( PINT pdDot, PINT pdLine, UINT bSqSel, BOOLEAN bFirst )
 
 	i = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineTop;
 	j = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineBottom;
-	TRACE( TEXT("範囲削除[T%d - B%d]"), i, j );
+	TRACE( TEXT("범위 삭제[T%d - B%d]"), i, j );
 	if( 0 > i ){	return 0;	}
 
 	iLct = j - i + 1;
@@ -448,7 +448,7 @@ INT DocSelectedBrushFilling( LPTSTR ptBrush, PINT pdDot, PINT pdLine )
 
 	i = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineTop;
 	j = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineBottom;
-	TRACE( TEXT("範囲確認[T%d - B%d]"), i, j );
+	TRACE( TEXT("범위 확인[T%d - B%d]"), i, j );
 	if( 0 > i ){	return 0;	}
 
 	dBeginY = i;
@@ -541,7 +541,7 @@ INT DocSelectedBrushFilling( LPTSTR ptBrush, PINT pdDot, PINT pdLine )
 	return 1;
 }
 
-#pragma message ("指定行選択範囲確保、必要になったら作る")
+#pragma message ("지정 행 선택 범위 확보, 필요하면 만들기")
 #if 0
 
 INT DocSelectLineSelTextAlloc( LINE_ITR itLine, UINT bStyle, LPVOID *pText, PINT piDot, PINT piMozi )
@@ -573,7 +573,7 @@ INT DocSelectTextGetAlloc( UINT bStyle, LPVOID *pText, LPPOINT *pstPt )
 
 	d = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineTop;
 	k = (*gitFileIt).vcCont.at( gixFocusPage ).dSelLineBottom;
-	TRACE( TEXT("選択内容確保[%d - %d]"), d, k );
+	TRACE( TEXT("선택 내용 확보[%d - %d]"), d, k );
 	if( 0 > d ){	d = 0;	}
 	if( 0 > k ){	k = iLines -  1;	}
 

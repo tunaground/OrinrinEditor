@@ -49,7 +49,7 @@ UINT DocBadSpaceCheck( INT rdLine )
 
 	if( DocRangeIsError( gitFileIt, gixFocusPage, rdLine ) )
 	{
-		TRACE( TEXT("範囲外エラー発生 PAGE[%d], LINE[%d]"), gixFocusPage, rdLine );
+		TRACE( TEXT("범위 외 오류 발생 PAGE[%d], LINE[%d]"), gixFocusPage, rdLine );
 		return 0;
 	}
 
@@ -123,7 +123,7 @@ UINT DocBadSpaceCheck( INT rdLine )
 		}
 	}
 
-#pragma message ("DocBadSpaceCheck内の更新指令の最適化が必要")
+#pragma message ("DocBadSpaceCheck 내의 갱신 지령 최적화가 필요")
 
 	if( iRslt != itLine->bBadSpace )
 	{
@@ -368,7 +368,7 @@ INT DocLetterPosGetAdjust( PINT pNowDot, INT rdLine, INT round )
 
 	iLines = DocLineParamGet( rdLine, &iCount, NULL );
 	if( 0 > iLines )	return 0;
-#pragma message ("行数確認だけならDocLineParamGetで再計算にヒットしてるのでは")
+#pragma message ("행 수 확인만 한다면 DocLineParamGet에서 재계산에 걸리는 것이 아닌가")
 
 	for( i = 0, iLetter = 0; iCount > i; i++, iLetter++ )
 	{

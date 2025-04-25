@@ -144,7 +144,7 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
 	}
 
-	ghBrTmplWnd = CreateWindowEx( dwExStyle, BRUSHTEMPLATE_CLASS, TEXT("Brush Template"),
+	ghBrTmplWnd = CreateWindowEx( dwExStyle, BRUSHTEMPLATE_CLASS, TEXT("브러시 템플릿"),
 		dwStyle, rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	ghBrTlBarWnd = CreateWindowEx( WS_EX_CLIENTEDGE, TOOLBARCLASSNAME, TEXT("brtoolbar"), WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS, 0, 0, 0, 0, ghBrTmplWnd, (HMENU)IDW_BRUSH_TOOL_BAR, hInstance, NULL );
@@ -160,7 +160,7 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 
 	SendMessage( ghBrTlBarWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("ブラシモード ON/OFF") );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("브러시 모드 ON/OFF") );
 	gstBrTBInfo[0].iString = SendMessage( ghBrTlBarWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
 
 	SendMessage( ghBrTlBarWnd , TB_ADDBUTTONS, (WPARAM)TB_ITEMS, (LPARAM)&gstBrTBInfo );

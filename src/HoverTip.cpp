@@ -58,7 +58,7 @@ HRESULT HoverTipInitialise( HINSTANCE hInstance, HWND hPtWnd )
 
 		gTipAtom = RegisterClassEx( &wcex );
 
-		ghTipWnd = CreateWindowEx( WS_EX_TOOLWINDOW, HOVER_TIPS_CLASS, TEXT("InfoTip"), WS_POPUP | WS_BORDER, 0, 0, 15, 15, NULL, NULL, hInstance, NULL );
+		ghTipWnd = CreateWindowEx( WS_EX_TOOLWINDOW, HOVER_TIPS_CLASS, TEXT("정보 팁"), WS_POPUP | WS_BORDER, 0, 0, 15, 15, NULL, NULL, hInstance, NULL );
 
 		ViewingFontGet( &stFont );
 		ttSize = InitParamValue( INIT_LOAD, VL_MAATIP_SIZE, FONTSZ_REDUCE );
@@ -82,7 +82,7 @@ HRESULT HoverTipResist( HWND hTgtWnd )
 
 	TRACKMOUSEEVENT	stTrackMsEv;
 
-	TRACE( TEXT("MOUSE HOVER RESIST") );
+	TRACE( TEXT("마우스 호버 등록") );
 
 	ZeroMemory( &stTrackMsEv, sizeof(TRACKMOUSEEVENT) );
 	stTrackMsEv.cbSize      = sizeof(TRACKMOUSEEVENT);
@@ -120,7 +120,7 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 	POINT	point;
 	INT		xSub, ySub;
 
-	TRACE( TEXT("MOUSE HOVER RISING") );
+	TRACE( TEXT("마우스 호버 발생") );
 
 	keyFlags = (UINT)wParam;
 
@@ -148,7 +148,7 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 	hOldFnt = SelectFont( hdc , ghTipFont );
 
 	DrawText( hdc, gptContent, -1, &gstContSize, DT_LEFT | DT_CALCRECT | DT_NOPREFIX );
-	TRACE( TEXT("HOVER Size[ %d x %d, %d : %d"), gstContSize.left, gstContSize.top, gstContSize.right, gstContSize.bottom );
+	TRACE( TEXT("호버 크기[ %d x %d, %d : %d"), gstContSize.left, gstContSize.top, gstContSize.right, gstContSize.bottom );
 
 	SelectFont( hdc, hOldFnt );
 
@@ -177,7 +177,7 @@ LRESULT HoverTipOnMouseHover( HWND hEvWnd, WPARAM wParam, LPARAM lParam, HOVERTI
 
 LRESULT HoverTipOnMouseLeave( HWND hEvWnd )
 {
-	TRACE( TEXT("MOUSE LEAVE RISING") );
+	TRACE( TEXT("마우스 떠남 발생") );
 
 	return 0;
 }
@@ -252,7 +252,7 @@ VOID Htp_OnKillFocus( HWND hWnd, HWND hwndNewFocus )
 
 VOID Htp_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP LUP %d x %d"), x , y );
+	TRACE( TEXT("HTP 왼쪽 버튼 업 %d x %d"), x , y );
 
 	HoverTipClose( hWnd );
 
@@ -261,7 +261,7 @@ VOID Htp_OnLButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 VOID Htp_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP MUP %d x %d"), x , y );
+	TRACE( TEXT("HTP 중간 버튼 업 %d x %d"), x , y );
 
 	HoverTipClose( hWnd );
 
@@ -270,7 +270,7 @@ VOID Htp_OnMButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 
 VOID Htp_OnRButtonUp( HWND hWnd, INT x, INT y, UINT keyFlags )
 {
-	TRACE( TEXT("HTP RUP %d x %d"), x , y );
+	TRACE( TEXT("HTP 오른쪽 버튼 업 %d x %d"), x , y );
 
 	HoverTipClose( hWnd );
 

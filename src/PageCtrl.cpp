@@ -165,7 +165,7 @@ HWND PageListInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame )
 		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
 		hPrWnd = NULL;
 	}
-	ghPageWnd = CreateWindowEx( dwExStyle, PAGELIST_CLASS, TEXT("Page List"), dwStyle,
+	ghPageWnd = CreateWindowEx( dwExStyle, PAGELIST_CLASS, TEXT("페이지 목록"), dwStyle,
 		rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	GetClientRect( ghPageWnd, &clRect );
@@ -189,15 +189,15 @@ HWND PageListInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame )
 
 	SendMessage( ghToolWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuff, MAX_STRING, TEXT("末尾に新規作成\r\nAlt + Shift + I ") );	gstPgTlBarInfo[ 0].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("選択頁の次に挿入\r\nAlt + I") );			gstPgTlBarInfo[ 1].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("選択頁を複製\r\nAlt + C") );				gstPgTlBarInfo[ 2].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("選択頁を削除\r\nAlt + D") );				gstPgTlBarInfo[ 3].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("次の頁と統合\r\nAlt + G") );				gstPgTlBarInfo[ 4].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("頁を上へ移動\r\nAlt + U") );				gstPgTlBarInfo[ 5].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("頁を下へ移動\r\nAlt + J") );				gstPgTlBarInfo[ 6].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("頁名称の変更\r\nAlt + N") );				gstPgTlBarInfo[ 7].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
-	StringCchCopy( atBuff, MAX_STRING, TEXT("最新の情報に更新") );						gstPgTlBarInfo[ 8].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("끝에 새로 만들기\r\nAlt + Shift + I ") );	gstPgTlBarInfo[ 0].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("선택한 페이지 다음에 삽입\r\nAlt + I") );			gstPgTlBarInfo[ 1].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("선택한 페이지 복제\r\nAlt + C") );				gstPgTlBarInfo[ 2].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("선택한 페이지 삭제\r\nAlt + D") );				gstPgTlBarInfo[ 3].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("다음 페이지와 통합\r\nAlt + G") );				gstPgTlBarInfo[ 4].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("페이지를 위로 이동\r\nAlt + U") );				gstPgTlBarInfo[ 5].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("페이지를 아래로 이동\r\nAlt + J") );				gstPgTlBarInfo[ 6].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("페이지 이름 변경\r\nAlt + N") );				gstPgTlBarInfo[ 7].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
+	StringCchCopy( atBuff, MAX_STRING, TEXT("최신 정보로 갱신") );						gstPgTlBarInfo[ 8].iString = SendMessage( ghToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuff );
 
 	SendMessage( ghToolWnd, TB_SETROWS, MAKEWPARAM(PGTB_ITEMS,TRUE), (LPARAM)(&tbRect) );
 
@@ -230,7 +230,7 @@ HWND PageListInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame )
 	stLvColm.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt = LVCFMT_LEFT;
 	stLvColm.pszText = TEXT("No");		stLvColm.cx =  28;	stLvColm.iSubItem = 0;	ListView_InsertColumn( ghPageListWnd, 0, &stLvColm );
-	stLvColm.pszText = TEXT("名");		stLvColm.cx =  67;	stLvColm.iSubItem = 1;	ListView_InsertColumn( ghPageListWnd, 1, &stLvColm );
+	stLvColm.pszText = TEXT("이름");		stLvColm.cx =  67;	stLvColm.iSubItem = 1;	ListView_InsertColumn( ghPageListWnd, 1, &stLvColm );
 	stLvColm.pszText = TEXT("Byte");	stLvColm.cx =  45;	stLvColm.iSubItem = 2;	ListView_InsertColumn( ghPageListWnd, 2, &stLvColm );
 	stLvColm.pszText = TEXT("Line");	stLvColm.cx =  45;	stLvColm.iSubItem = 3;	ListView_InsertColumn( ghPageListWnd, 3, &stLvColm );
 
@@ -395,7 +395,7 @@ VOID Plt_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 #ifdef PAGE_MULTISELECT
 			if( 0 <= iNxItem )
 			{
-				mRslt = MessageBox( hWnd, TEXT("複数の頁を削除しようとしてるよ。\r\n本当に削除していいのかい？"), TEXT("お燐からの確認"), MB_YESNO | MB_DEFBUTTON2 );
+				mRslt = MessageBox( hWnd, TEXT("여러 페이지를 삭제하려고 합니다.\r\n정말로 삭제하시겠습니까?"), TEXT("오린의 확인"), MB_YESNO | MB_DEFBUTTON2 );
 				if( IDYES == mRslt )
 				{
 					for( i = 0; iCount > i; i++ )
@@ -450,10 +450,10 @@ VOID Plt_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 			break;
 
 		case IDM_PAGEL_DETAIL:
-			TRACE( TEXT("最新の情報に更新") );
+			TRACE( TEXT("최신 정보로 갱신") );
 			return;
 
-		default:	TRACE( TEXT("未実装[%d]"), id );	return;
+		default:	TRACE( TEXT("미구현[%d]"), id );	return;
 	}
 
 	DocModifyContent( TRUE );
@@ -615,7 +615,7 @@ LRESULT PageListNotify( HWND hWnd, LPNMLISTVIEW pstLv )
 	{
 		if( 0 <= iItem )
 		{
-			TRACE( TEXT("ページ選択[%d]"), iItem );
+			TRACE( TEXT("페이지 선택[%d]"), iItem );
 			DocPageChange( iItem );
 
 			if( gbPgRetFocus  ){	ViewFocusSet(  );	}
@@ -786,7 +786,7 @@ HRESULT PageListBuild( LPVOID pVoid )
 	ZeroMemory( &stLvi, sizeof(stLvi) );
 	stLvi.mask  = LVIF_TEXT;
 
-#pragma message ("頁一覧再構成・項目注意")
+#pragma message ("페이지 목록 재구성・항목 주의")
 
 	i = 0;
 	for( itPage = (*gitFileIt).vcCont.begin(); itPage != (*gitFileIt).vcCont.end(); itPage++ )
@@ -832,7 +832,7 @@ HRESULT PageListSpinning( HWND hWnd, INT iPage, INT bDir )
 
 	if( (iItem <= (iPage+1)) && (0 > bDir) ){	return  E_ABORT;	}
 
-	TRACE( TEXT("頁移動処理[%d]"), iPage );
+	TRACE( TEXT("페이지 이동 처리[%d]"), iPage );
 
 	itPage = (*gitFileIt).vcCont.begin(  );
 	std::advance( itPage, iPage );
@@ -888,7 +888,7 @@ HRESULT PageListInfoSet( INT iPage, INT dByte, INT dLine )
 
 HRESULT PageListViewRewrite( INT iPage )
 {
-#pragma message ("頁一覧再描画・項目注意")
+#pragma message ("페이지 목록 재작성・항목 주의")
 	UINT_PTR	dLines;
 	UINT		dBytes;
 	INT			iPageCount, i;
@@ -1038,7 +1038,7 @@ HRESULT PageListDuplicate( HWND hWnd, INT iNowPage )
 
 	LINE_ITR	itLine;
 
-	TRACE( TEXT("頁複製") );
+	TRACE( TEXT("페이지 복제") );
 
 	iNewPage = DocPageCreate( iNowPage );
 	PageListInsert( iNewPage  );
@@ -1049,7 +1049,7 @@ HRESULT PageListDuplicate( HWND hWnd, INT iNowPage )
 				(*gitFileIt).vcCont.at( iNowPage ).ltPage.end(),
 				back_inserter( (*gitFileIt).vcCont.at( iNewPage ).ltPage ) );
 
-#pragma message ("PageListDuplicate 作った頁の内容の再計算いるか？")
+#pragma message ("PageListDuplicate 만든 페이지의 내용 재계산 필요?")
 
 	return S_OK;
 }
@@ -1064,7 +1064,7 @@ HRESULT PageListCombine( HWND hWnd, INT iNowPage )
 
 	ZeroONELINE( &stLine );
 
-	TRACE( TEXT("頁統合") );
+	TRACE( TEXT("페이지 통합") );
 
 	iTotal = DocNowFilePageCount(  );
 

@@ -441,7 +441,7 @@ HRESULT SqlTreeTableCreate( LPTSTR ptProfName )
 	if( !(yMode) )
 	{
 
-		TRACE( TEXT("ツリー用テーブルが見つからなかった") );
+		TRACE( TEXT("트리용 테이블을 찾을 수 없었습니다") );
 
 		rslt = sqlite3_finalize( statement );
 

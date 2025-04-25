@@ -117,12 +117,12 @@ HWND BrushTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame
 		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
 	}
 
-	ghMnTmplWnd = CreateWindowEx( dwExStyle, MINITEMPLATE_CLASS, TEXT("Mimi Maa Template"),
+	ghMnTmplWnd = CreateWindowEx( dwExStyle, MINITEMPLATE_CLASS, TEXT("미미 마 템플릿"),
 		dwStyle, rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	GetClientRect( ghMnTmplWnd, &clRect );
 
-	ghTitleBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("Mmaa Items"),
+	ghTitleBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("마아 항목"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | CBS_DROPDOWNLIST,
 		0, 0, clRect.right, 127, ghMnTmplWnd,
 		(HMENU)IDCB_MT_CATEGORY, hInstance, NULL );
@@ -215,7 +215,7 @@ VOID Btp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 	TCHAR		atItem[SUB_STRING];
 
 	ZeroMemory( atItem, sizeof(atItem) );
-#error 作りかけ
+#error 작업 중
 	switch( id )
 	{
 		case IDCB_MT_CATEGORY:
@@ -332,7 +332,7 @@ LRESULT Btp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 		if( NM_CLICK == nmCode )
 		{
-			TRACE( TEXT("BRUSH TMPL[%d x %d]"), iItem, iSubItem );
+			TRACE( TEXT("브러시 템플릿[%d x %d]"), iItem, iSubItem );
 
 			if( 0 < gvcBrTmpls.size() )
 			{

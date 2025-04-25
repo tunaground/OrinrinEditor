@@ -127,12 +127,12 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 		hPrWnd = NULL;
 	}
 
-	ghTmpleWnd = CreateWindowEx( dwExStyle, LINETEMPLATE_CLASS, TEXT("Line Template"),
+	ghTmpleWnd = CreateWindowEx( dwExStyle, LINETEMPLATE_CLASS, TEXT("라인 템플릿"),
 		dwStyle, rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	GetClientRect( ghTmpleWnd, &clRect );
 
-	ghCtgryBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("category"),
+	ghCtgryBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("카테고리"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | CBS_DROPDOWNLIST,
 		0, 0, clRect.right, 127, ghTmpleWnd,
 		(HMENU)IDCB_LT_CATEGORY, hInstance, NULL );
@@ -149,7 +149,7 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 
 	GetClientRect( ghCtgryBxWnd, &cbxRect );
 
-	ghLvItemWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("lineitem"),
+	ghLvItemWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("라인아이템"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT | LVS_NOSORTHEADER | LVS_NOCOLUMNHEADER,
 		0, cbxRect.bottom, clRect.right, clRect.bottom - cbxRect.bottom,
 		ghTmpleWnd, (HMENU)IDLV_LT_ITEMVIEW, hInstance, NULL );
@@ -162,7 +162,7 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 	stLvColm.mask     = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt      = LVCFMT_LEFT;
-	stLvColm.pszText  = TEXT("Item");
+	stLvColm.pszText  = TEXT("아이템");
 	stLvColm.cx       = 10;
 	for( i = 0; gLnClmCnt > i; i++ )
 	{
@@ -198,15 +198,15 @@ HWND DockingTabCreate( HINSTANCE hInst, HWND hPrWnd, LPRECT pstRect )
 	RECT	itRect;
 	TCITEM	stTcItem;
 
-	hWorkWnd = CreateWindowEx( 0, WC_TABCONTROL, TEXT("dockseltab"),
+	hWorkWnd = CreateWindowEx( 0, WC_TABCONTROL, TEXT("도크선택탭"),
 		WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | TCS_TABS | TCS_SINGLELINE,
 		pstRect->left, pstRect->top, pstRect->right, 10, hPrWnd, (HMENU)IDTB_DOCK_TAB, hInst, NULL );
 	SetWindowFont( hWorkWnd, ghNameFont, FALSE );
 
 	ZeroMemory( &stTcItem, sizeof(stTcItem) );
 	stTcItem.mask = TCIF_TEXT;
-	stTcItem.pszText = TEXT("壱行");	TabCtrl_InsertItem( hWorkWnd, 0, &stTcItem );
-	stTcItem.pszText = TEXT("ブラシ");	TabCtrl_InsertItem( hWorkWnd, 1, &stTcItem );
+	stTcItem.pszText = TEXT("한 줄");	TabCtrl_InsertItem( hWorkWnd, 0, &stTcItem );
+	stTcItem.pszText = TEXT("브러시");	TabCtrl_InsertItem( hWorkWnd, 1, &stTcItem );
 
 	TabCtrl_GetItemRect( hWorkWnd, 1, &itRect );
 	itRect.bottom  += itRect.top;
@@ -240,8 +240,8 @@ HRESULT DockingTabContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos
 
 	hPopupMenu = CreatePopupMenu(  );
 
-	if( gbDockTmplView )	AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("テンプレ非表示") );
-	else					AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("テンプレ表示") );
+	if( gbDockTmplView )	AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("템플릿 숨기기") );
+	else					AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("템플릿 표시") );
 
 	TrackPopupMenu( hPopupMenu, 0, xPos, yPos, 0, hWnd, NULL );
 	DestroyMenu( hPopupMenu );
@@ -462,7 +462,7 @@ LRESULT Ltp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 			{
 				items = gvcTmples.at( gNowGroup ).vcItems.size( );
 
-				TRACE( TEXT("LINE TMPL[%d x %d]"), iItem, iSubItem );
+				TRACE( TEXT("라인 템플릿[%d x %d]"), iItem, iSubItem );
 
 				if( 0 <= iPos && iPos <  items )
 				{
@@ -546,7 +546,7 @@ HRESULT LineTmpleItemListOn( UINT listNum )
 
 	items = gvcTmples.at( listNum ).vcItems.size( );
 
-	TRACE( TEXT("LINE open NUM[%u] ITEM[%u] GRID[%d]"), listNum, items, gLnClmCnt );
+	TRACE( TEXT("라인 열기 번호[%u] 아이템[%u] 그리드[%d]"), listNum, items, gLnClmCnt );
 
 	ListView_DeleteAllItems( ghLvItemWnd );
 
@@ -685,7 +685,7 @@ HRESULT TemplateItemSplit( LPTSTR ptStr, UINT cchSize, PAGELOAD pfCalling )
 
 		ZeroMemory( atName, sizeof(atName) );
 		if( 0 < cchItem ){	StringCchCopyN( atName, MAX_PATH, ptCaret, cchItem );	}
-		else{	StringCchPrintf( atName, MAX_PATH, TEXT("Nameless%d"), iNumber );	}
+		else{	StringCchPrintf( atName, MAX_PATH, TEXT("이름없음%d"), iNumber );	}
 
 		StringCchLength( atName, MAX_PATH, &cchItem );
 		pfCalling( atName, NULL, cchItem );
@@ -757,7 +757,7 @@ UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 
 	clmCount = Header_GetItemCount( ListView_GetHeader(hLvWnd) );
 
-	TRACE( TEXT("カラム増減[%u][%d]"), clmCount, dFluct );
+	TRACE( TEXT("컬럼 증감[%u][%d]"), clmCount, dFluct );
 
 	if( 0 > dFluct && 1 >= clmCount )	return 0;
 
@@ -776,7 +776,7 @@ UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 		ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 		stLvColm.mask     = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 		stLvColm.fmt      = LVCFMT_LEFT;
-		stLvColm.pszText  = TEXT("Item");
+		stLvColm.pszText  = TEXT("아이템");
 		stLvColm.cx       = 10;
 		for( i = clmCount; clmNew > i; i++ )
 		{
@@ -875,7 +875,7 @@ VOID Ltl_OnMouseButtonUp( HWND hWnd, UINT msg, INT x, INT y, UINT keyFlags )
 	iItem = stHitTestInfo.iItem;
 	iSubItem = stHitTestInfo.iSubItem;
 	iPos = iItem * gLnClmCnt + iSubItem;
-	TRACE( TEXT("LINE TMPL[%d x %d][%d]"), iItem, iSubItem, iPos );
+	TRACE( TEXT("라인 템플릿[%d x %d][%d]"), iItem, iSubItem, iPos );
 
 	if( 0 < gvcTmples.size() )
 	{
@@ -950,7 +950,7 @@ LRESULT Ltl_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 					StringCchCopy( atItem, SUB_STRING, gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
 					iDot = ViewStringWidthGet( atItem );
 
-					StringCchPrintf( pstDispInfo->szText, 80, TEXT("%s [%d Dot]"), atItem, iDot );
+					StringCchPrintf( pstDispInfo->szText, 80, TEXT("%s [%d 점]"), atItem, iDot );
 				}
 			}
 

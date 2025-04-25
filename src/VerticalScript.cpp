@@ -208,7 +208,7 @@ HWND VertScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 	gbQuickClose = 1;
 
 	ghVertWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_TOPMOST, VERTSCRIPT_CLASS,
-		TEXT("縦書き"), WS_POPUP | WS_CAPTION | WS_SYSMENU,
+		TEXT("세로쓰기"), WS_POPUP | WS_CAPTION | WS_SYSMENU,
 		rect.right, rect.top, VT_WIDTH, VT_HEIGHT, NULL, NULL, hInst, NULL );
 
 	ghVertToolBar = CreateWindowEx( WS_EX_CLIENTEDGE, TOOLBARCLASSNAME, TEXT("verttoolbar"), WS_CHILD | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_LIST | TBSTYLE_TOOLTIPS, 0, 0, 0, 0, ghVertWnd, (HMENU)IDTB_VLINE_TOOLBAR, hInst, NULL );
@@ -226,10 +226,10 @@ HWND VertScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 
 	SendMessage( ghVertToolBar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("文字列挿入") );	gstVttbInfo[0].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("文字列更新") );	gstVttbInfo[2].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("左から配置") );	gstVttbInfo[3].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("空白を透過") );	gstVttbInfo[4].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("문자열 삽입") );	gstVttbInfo[0].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("문자열 갱신") );	gstVttbInfo[2].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("왼쪽에서 배치") );	gstVttbInfo[3].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("공백을 투명하게") );	gstVttbInfo[4].iString = SendMessage( ghVertToolBar, TB_ADDSTRING, 0, (LPARAM)atBuffer );
 
 	SendMessage( ghVertToolBar , TB_ADDBUTTONS, (WPARAM)TB_ITEMS, (LPARAM)&gstVttbInfo );
 
@@ -238,14 +238,14 @@ HWND VertScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 
 	GetClientRect( ghVertWnd, &rect );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("行間"), WS_CHILD | WS_VISIBLE | SS_CENTERIMAGE | SS_RIGHT, 2, gdToolBarHei, 45, VT_PARAMHEI, ghVertWnd, (HMENU)IDS_VLINE_INTERVAL, hInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("행 간격"), WS_CHILD | WS_VISIBLE | SS_CENTERIMAGE | SS_RIGHT, 2, gdToolBarHei, 45, VT_PARAMHEI, ghVertWnd, (HMENU)IDS_VLINE_INTERVAL, hInst, NULL );
 
 	gdVertInterval = 22;
 	CreateWindowEx( 0, WC_EDIT, TEXT("22"), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_READONLY, 49, gdToolBarHei, 50, VT_PARAMHEI, ghVertWnd, (HMENU)IDE_VLINE_INTERVAL, hInst, NULL );
 
 	CreateWindowEx( 0, UPDOWN_CLASS, TEXT("intervalspin"), WS_CHILD | WS_VISIBLE | UDS_AUTOBUDDY, 99, gdToolBarHei, 10, VT_PARAMHEI, ghVertWnd, (HMENU)IDUD_VLINE_INTERVAL, hInst, NULL );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("確定したら閉じる"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 120, gdToolBarHei, 180, VT_PARAMHEI, ghVertWnd, (HMENU)IDCB_VLINE_QUICKCLOSE, hInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("확정 후 닫기"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 120, gdToolBarHei, 180, VT_PARAMHEI, ghVertWnd, (HMENU)IDCB_VLINE_QUICKCLOSE, hInst, NULL );
 	CheckDlgButton( ghVertWnd, IDCB_VLINE_QUICKCLOSE, gbQuickClose ? BST_CHECKED : BST_UNCHECKED );
 
 	height = gdToolBarHei + VT_PARAMHEI;
@@ -260,7 +260,7 @@ HWND VertScripterCreate( HINSTANCE hInst, HWND hPrWnd )
 	UpdateWindow( ghVertWnd );
 
 	ghVertViewWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_LAYERED, VERTVIEW_CLASS,
-		TEXT("配置"), WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE, 0, 0, 160, 120, NULL, NULL, hInst, NULL);
+		TEXT("배치"), WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE, 0, 0, 160, 120, NULL, NULL, hInst, NULL);
 	SetLayeredWindowAttributes( ghVertViewWnd, 0, gbAlpha, LWA_ALPHA );
 
 	ZeroMemory( &gstFrmSz, sizeof(POINT) );
@@ -659,10 +659,10 @@ VOID Vvw_OnKey( HWND hWnd, UINT vk, BOOL fDown, int cRepeat, UINT flags )
 	{
 		switch( vk )
 		{
-			case VK_RIGHT:	TRACE( TEXT("右") );	rect.left++;	break;
-			case VK_LEFT:	TRACE( TEXT("左") );	rect.left--;	break;
-			case VK_DOWN:	TRACE( TEXT("下") );	rect.top += LINE_HEIGHT;	break;
-			case  VK_UP:	TRACE( TEXT("上") );	rect.top -= LINE_HEIGHT;	break;
+			case VK_RIGHT:	TRACE( TEXT("오른쪽") );	rect.left++;	break;
+			case VK_LEFT:	TRACE( TEXT("왼쪽") );	rect.left--;	break;
+			case VK_DOWN:	TRACE( TEXT("아래") );	rect.top += LINE_HEIGHT;	break;
+			case  VK_UP:	TRACE( TEXT("위") );	rect.top -= LINE_HEIGHT;	break;
 			default:	return;
 		}
 	}

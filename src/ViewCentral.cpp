@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "OrinrinEditor.h"
 
-#define FIRST_STEP	TEXT("説明書.ast")
+#define FIRST_STEP	TEXT("설명서.ast")
 
 #define EDIT_VIEW_CLASS	TEXT("EDIT_VIEW")
 
@@ -217,7 +217,7 @@ UINT HintStringLoad( LPTSTR ptString, UINT_PTR cchLen, LPCTSTR ptHintPath )
 
 	if( 0 == ptString[0] )
 	{
-		StringCchCopy( ptString, cchLen, TEXT("ヒントが見つからない・・・") );
+		StringCchCopy( ptString, cchLen, TEXT("힌트를 찾을 수 없습니다...") );
 	}
 
 	return target;
@@ -398,7 +398,7 @@ HWND ViewInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame, LPTS
 
 	ViewingFontGet( &stFont );
 	stFont.lfPitchAndFamily = FIXED_PITCH;
-	StringCchCopy( stFont.lfFaceName, LF_FACESIZE, TEXT("ＭＳ ゴシック") );
+	StringCchCopy( stFont.lfFaceName, LF_FACESIZE, TEXT("MS 고딕") );
 	ghNumFont4L = CreateFontIndirect( &stFont );
 
 	stFont.lfHeight = 13;
@@ -427,7 +427,7 @@ HWND ViewInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame, LPTS
 	iOpMode = InitParamValue( INIT_LOAD, VL_LAST_OPEN, LASTOPEN_DO );
 	if( LASTOPEN_ASK <= iOpMode )
 	{
-		iRslt = MessageBox( NULL, TEXT("最後に開いていたファイルを開くかい？"), TEXT("お燐からの確認"), MB_YESNO | MB_ICONQUESTION );
+		iRslt = MessageBox( NULL, TEXT("마지막으로 열었던 파일을 열까요?"), TEXT("오린의 확인"), MB_YESNO | MB_ICONQUESTION );
 		if( IDYES == iRslt )	iOpMode = LASTOPEN_DO;
 		else					iOpMode = LASTOPEN_NON;
 	}
@@ -958,7 +958,7 @@ HRESULT ViewFocusSet( VOID )
 
 	SetWindowPos( ghPrntWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE );
 
-	TRACE( TEXT("キーボードフォーカスセット") );
+	TRACE( TEXT("키보드 포커스 설정") );
 
 	return S_OK;
 }
@@ -1713,8 +1713,8 @@ UINT ViewMaaMaterialise( HWND hWnd, LPSTR pcCont, UINT cbSize, UINT dMode )
 
 HRESULT OperationOnStatusBar( VOID )
 {
-	CONST  TCHAR	*catTexts[] = { { TEXT("[矩形]") }, { TEXT("[塗潰]") },
-		{ TEXT("[抽出]") }, { TEXT("[空白]") } };
+	CONST  TCHAR	*catTexts[] = { { TEXT("[직사각형]") }, { TEXT("[채우기]") },
+		{ TEXT("[추출]") }, { TEXT("[공백]") } };
 
 	TCHAR	atString[SUB_STRING];
 
@@ -1783,7 +1783,7 @@ VOID OperationOnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 
 	switch( id )
 	{
-		default:					TRACE( TEXT("未実装") );	break;
+		default:					TRACE( TEXT("미구현") );	break;
 
 		case IDM_FILE_CLOSE:		MultiFileTabClose( -1 );	break;
 

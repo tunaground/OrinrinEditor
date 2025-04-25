@@ -33,8 +33,8 @@ static  TBBUTTON	gstMainTBInfo[] = {
 };
 
 static CONST TCHAR	gatMainTBtext[TB_MAIN_ITEMS][TBT_STRING] = {
-	{ TEXT("新規作成") },	{ TEXT("ファイル開く") },	{ TEXT("上書き保存") },	{ TEXT("") },
-	{ TEXT("一般設定") }
+	{ TEXT("새로 만들기") },	{ TEXT("파일 열기") },	{ TEXT("덮어쓰기 저장") },	{ TEXT("") },
+	{ TEXT("일반 설정") }
 };
 
 #define TB_EDIT_ITEMS	21
@@ -63,14 +63,14 @@ static  TBBUTTON	gstEditTBInfo[] = {
 };
 
 static CONST TCHAR	gatEditTBtext[TB_EDIT_ITEMS][TBT_STRING] = {
-	{ TEXT("元に戻す") },	{ TEXT("やり直し") },	{ TEXT("") },
-	{ TEXT("切り取り") },	{ TEXT("コピー") },	{ TEXT("貼付") },	{ TEXT("削除") },	{ TEXT("") },
-	{ TEXT("SJISコピー") },	{ TEXT("全体をSJISコピー") },	{ TEXT("") },
-	{ TEXT("全選択") },	{ TEXT("矩形選択") },	{ TEXT("") },
-	{ TEXT("レイヤボックス") },	{ TEXT("") },
-	{ TEXT("次の行以降を新頁に分割") },	{ TEXT("") },
-	{ TEXT("部分抽出モード") },	{ TEXT("") },
-	{ TEXT("ユニコード空白を使う") }
+	{ TEXT("되돌리기") },	{ TEXT("다시 하기") },	{ TEXT("") },
+	{ TEXT("잘라내기") },	{ TEXT("복사") },	{ TEXT("붙여넣기") },	{ TEXT("삭제") },	{ TEXT("") },
+	{ TEXT("SJIS 복사") },	{ TEXT("전체 SJIS 복사") },	{ TEXT("") },
+	{ TEXT("전체 선택") },	{ TEXT("사각형 선택") },	{ TEXT("") },
+	{ TEXT("레이어 박스") },	{ TEXT("") },
+	{ TEXT("다음 행부터 새 페이지로 분할") },	{ TEXT("") },
+	{ TEXT("부분 추출 모드") },	{ TEXT("") },
+	{ TEXT("유니코드 공백 사용") }
 };
 
 #define  TB_INSERT_ITEMS	6
@@ -84,8 +84,8 @@ static  TBBUTTON	gstInsertTBInfo[] = {
 };
 
 static CONST TCHAR	gatInsertTBtext[TB_INSERT_ITEMS][TBT_STRING] = {
-	{ TEXT("ユニコード空白") },	{ TEXT("色変更タグ") },	{ TEXT("枠") },	{ TEXT("ユーザ定義") },	{ TEXT("") },
-	{ TEXT("文字ＡＡ変換ボックス") }
+	{ TEXT("유니코드 공백") },	{ TEXT("색 변경 태그") },	{ TEXT("테두리") },	{ TEXT("사용자 정의") },	{ TEXT("") },
+	{ TEXT("문자 AA 변환 박스") }
 };
 
 #define  TB_LAYOUT_ITEMS	19
@@ -112,12 +112,12 @@ static  TBBUTTON	gstLayoutTBInfo[] = {
 };
 
 static CONST TCHAR	gatLayoutTBtext[TB_LAYOUT_ITEMS][TBT_STRING] = {
-	{ TEXT("右揃え線") },	{ TEXT("行頭に全角空白追加") },	{ TEXT("") },
-	{ TEXT("行頭空白削除") },	{ TEXT("行末空白削除") },	{ TEXT("行末文字削除") },	{ TEXT("") },
-	{ TEXT("左右反転") },	{ TEXT("上下反転") },	{ TEXT("") },
-	{ TEXT("右に寄せる") },	{ TEXT("１ドット増やす") },	{ TEXT("１ドット減らす") },	{ TEXT("") },
-	{ TEXT("全体を１ドット右へ") },	{ TEXT("全体を１ドット左へ") },	{ TEXT("") },
-	{ TEXT("指定位置から左に狭める") },	{ TEXT("指定位置から右へ広げる") }
+	{ TEXT("오른쪽 정렬 가이드") },	{ TEXT("행 시작에 전각 공백 추가") },	{ TEXT("") },
+	{ TEXT("행 시작 공백 삭제") },	{ TEXT("행 끝 공백 삭제") },	{ TEXT("행 끝 문자 삭제") },	{ TEXT("") },
+	{ TEXT("좌우 반전") },	{ TEXT("상하 반전") },	{ TEXT("") },
+	{ TEXT("오른쪽으로 밀기") },	{ TEXT("1 도트 증가") },	{ TEXT("1 도트 감소") },	{ TEXT("") },
+	{ TEXT("전체를 1 도트 오른쪽으로") },	{ TEXT("전체를 1 도트 왼쪽으로") },	{ TEXT("") },
+	{ TEXT("지정 위치에서 왼쪽으로 좁히기") },	{ TEXT("지정 위치에서 오른쪽으로 넓히기") }
 };
 
 #define TB_VIEW_ITEMS	5
@@ -130,7 +130,7 @@ static  TBBUTTON	gstViewTBInfo[] = {
 };
 
 static CONST TCHAR	gatViewTBtext[TB_VIEW_ITEMS][TBT_STRING] = {
-	{ TEXT("ユニコード表") },	{ TEXT("トレスモード") },	{ TEXT("プレビュー") },	{ TEXT("ドラフトボード") },	{ TEXT("複数行サムネイル") }
+	{ TEXT("유니코드 팔레트") },	{ TEXT("트레이스 모드") },	{ TEXT("미리보기") },	{ TEXT("드래프트 보드") },	{ TEXT("다중 행 썸네일") }
 };
 
 #define TB_BAND_COUNT	5
@@ -147,7 +147,7 @@ LRESULT CALLBACK gpfToolbarProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch( msg )
 	{
 		case WM_CONTEXTMENU:
-			TRACE( TEXT("TOOLBAR CONTEXT[%X]"), hWnd );
+			TRACE( TEXT("툴바 컨텍스트[%X]"), hWnd );
 			break;
 
 		case WM_RBUTTONDOWN:
@@ -391,27 +391,27 @@ VOID ToolBarCreate( HWND hWnd, HINSTANCE lcInst )
 		switch( stInfo[d].wID )
 		{
 			case IDTB_MAIN_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("ファイル");
+				stRbandInfo.lpText    = TEXT("파일");
 				stRbandInfo.hwndChild = ghMainTBWnd;
 				break;
 
 			case IDTB_EDIT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("編集");
+				stRbandInfo.lpText    = TEXT("편집");
 				stRbandInfo.hwndChild = ghEditTBWnd;
 				break;
 
 			case IDTB_INSERT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("挿入");
+				stRbandInfo.lpText    = TEXT("삽입");
 				stRbandInfo.hwndChild = ghInsertTBWnd;
 				break;
 
 			case IDTB_LAYOUT_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("整形");
+				stRbandInfo.lpText    = TEXT("정렬");
 				stRbandInfo.hwndChild = ghLayoutTBWnd;
 				break;
 
 			case IDTB_VIEW_TOOLBAR:
-				stRbandInfo.lpText    = TEXT("表示");
+				stRbandInfo.lpText    = TEXT("보기");
 				stRbandInfo.hwndChild = ghViewTBWnd;
 				break;
 
@@ -578,10 +578,10 @@ LRESULT ToolBarOnContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos 
 
 	if( ghRebarWnd != hWndContext ){	return 0;	}
 
-	TRACE( TEXT("REBAR CONTEXT[%d x %d]"), xPos, yPos );
+	TRACE( TEXT("리바 컨텍스트[%d x %d]"), xPos, yPos );
 
 	hPopupMenu = CreatePopupMenu(  );
-	AppendMenu( hPopupMenu, MF_STRING, IDM_REBER_DORESET, TEXT("配置を初期状態に戻す") );
+	AppendMenu( hPopupMenu, MF_STRING, IDM_REBER_DORESET, TEXT("배치를 초기 상태로 되돌리기") );
 	TrackPopupMenu( hPopupMenu, 0, xPos, yPos, 0, hWnd, NULL );
 	DestroyMenu( hPopupMenu );
 
@@ -610,7 +610,7 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 	if( TBN_DROPDOWN == pstNmhdr->code )
 	{
-		TRACE( TEXT("ドロップダウン発生") );
+		TRACE( TEXT("드롭다운 발생") );
 		pstNmToolBar = (LPNMTOOLBAR)pstNmhdr;
 
 		iItem    = pstNmToolBar->iItem;
@@ -644,7 +644,7 @@ LRESULT ToolBarOnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 			case IDM_FRMINSBOX_OPEN:
 				hPopupMenu = CreatePopupMenu(  );
-				for( i = 0; FRAME_MAX > i; i++ ){	AppendMenu( hPopupMenu, MF_STRING, (IDM_INSFRAME_ALPHA + i), TEXT("枠") );	}
+				for( i = 0; FRAME_MAX > i; i++ ){	AppendMenu( hPopupMenu, MF_STRING, (IDM_INSFRAME_ALPHA + i), TEXT("테두리") );	}
 				FrameNameModifyPopUp( hPopupMenu, 1 );
 				TrackPopupMenuEx( hPopupMenu, TPM_VERTICAL, rect.left, rect.bottom, hWnd, &stTpmParam );
 				DestroyMenu( hPopupMenu );
@@ -671,7 +671,7 @@ HRESULT ToolBarBandReset( HWND hWnd )
 	UINT	d;
 	REBARBANDINFO	stRbandInfo;
 
-	TRACE( TEXT("REBAR RESET") );
+	TRACE( TEXT("리바 리셋") );
 
 	ZeroMemory( &stRbandInfo, sizeof(REBARBANDINFO) );
 	stRbandInfo.cbSize = sizeof(REBARBANDINFO);

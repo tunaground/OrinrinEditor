@@ -120,7 +120,7 @@ UINT CALLBACK UserDefItemLoad( LPTSTR ptName, LPCTSTR ptCont, INT cchSize )
 	}
 	else
 	{
-		StringCchPrintf( gstUserItem[gdItemCnt].atItemName, MAX_STRING, TEXT("(ユーザアイテム No.%d"), gdItemCnt + 1 );
+		StringCchPrintf( gstUserItem[gdItemCnt].atItemName, MAX_STRING, TEXT("(사용자 아이템 No.%d"), gdItemCnt + 1 );
 	}
 
 	if( 0 < cchSize )
@@ -176,7 +176,7 @@ HRESULT UserDefAppendMenu( HWND hWnd )
 {
 	HMENU	hMenu, hSubMenu;
 
-#pragma message("メニュー構造変わったらユーザ定義の位置であるここも変更")
+#pragma message("메뉴 구조가 변경되면 사용자 정의 위치도 여기서 변경")
 	hMenu = GetMenu( hWnd );
 	hSubMenu = GetSubMenu( hMenu, 2 );
 	hMenu = hSubMenu;

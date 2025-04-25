@@ -40,7 +40,7 @@ INT APIENTRY _tWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpC
 	ghMutex = CreateMutex( NULL, TRUE, TEXT("OrinrinCollector") );
 	if( GetLastError() == ERROR_ALREADY_EXISTS )
 	{
-		MessageBox( NULL, TEXT("已にアプリは起動してるよ！"), TEXT("お燐からのお知らせ"), MB_OK|MB_ICONINFORMATION );
+		MessageBox( NULL, TEXT("이미 애플리케이션이 실행 중입니다!"), TEXT("오린으로부터의 알림"), MB_OK|MB_ICONINFORMATION );
 		ReleaseMutex( ghMutex );
 		CloseHandle( ghMutex );
 		return 0;
@@ -273,7 +273,7 @@ INT FileListViewDelete( HWND hWnd )
 		FileListViewGet( hWnd, iItem, atPath );
 		if( 0 == StrCmp( gatClipFile, atPath ) )
 		{
-			MessageBox( hWnd, TEXT("そのファイルは使用中だよ。\r\n削除できないよ。"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONERROR );
+			MessageBox( hWnd, TEXT("그 파일은 사용 중입니다.\r\n삭제할 수 없습니다."), TEXT("오린으로부터의 알림"), MB_OK | MB_ICONERROR );
 		}
 		else
 		{
@@ -428,48 +428,48 @@ BOOLEAN Cls_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 
 	CreateWindowEx( 0, WC_STATIC, TEXT("OrinrinCollector, Version 1.2 (2012.510.2200.920)"), WS_CHILD | WS_VISIBLE, 44, 8, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("頂戴したクリップ内容を保存するファイル名"), WS_CHILD | WS_VISIBLE, 8, 48, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("받은 클립 내용 저장할 파일명"), WS_CHILD | WS_VISIBLE, 8, 48, 370, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 
 	CreateWindowEx( 0, WC_EDIT, TEXT(""), WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 8, 70, rect.right-16-160, 23, hWnd, (HMENU)IDE_CLIPSTEAL_FILE, lcInst, NULL );
-	ToolTipSetting( hWnd, IDE_CLIPSTEAL_FILE, TEXT("ファイル名を入力してね。MLTとASTが使えるよ。") );
+	ToolTipSetting( hWnd, IDE_CLIPSTEAL_FILE, TEXT("파일명을 입력하세요. MLT와 AST를 사용할 수 있습니다.") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("参照"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-160, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_REF, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_REF, TEXT("ファイル選択ダイヤログを開いて、ファイルを指定できるよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("참조"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-160, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_REF, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_REF, TEXT("파일 선택 대화상자를 열어 파일을 지정할 수 있습니다.") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("追加"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-100, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEADD, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEADD, TEXT("指定したファイルを、使用リストに追加するよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("추가"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-100, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEADD, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEADD, TEXT("지정한 파일을 사용 목록에 추가합니다.") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("削除"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-50, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEDEL, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEDEL, TEXT("使用リストで選択したファイルを、リストから削除するよ。\r\nファイル自体を削除するわけじゃないよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("삭제"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-50, 70, 50, 23, hWnd, (HMENU)IDB_CLIPSTEAL_FILEDEL, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIPSTEAL_FILEDEL, TEXT("사용 목록에서 선택한 파일을 목록에서 삭제합니다.\r\n파일 자체를 삭제하는 것은 아닙니다.") );
 
 	hWorkWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("filelv"), WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT | LVS_NOSORTHEADER | LVS_SINGLESEL, 8, 95, rect.right-16, 105, hWnd, (HMENU)IDLV_CLIPSTEAL_FILELISTVW, lcInst, NULL );
 	ListView_SetExtendedListViewStyle( hWorkWnd, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES );
-	ToolTipSetting( hWnd, IDLV_CLIPSTEAL_FILELISTVW, TEXT("使用するファイルの一覧だよ。") );
+	ToolTipSetting( hWnd, IDLV_CLIPSTEAL_FILELISTVW, TEXT("사용할 파일의 목록입니다.") );
 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 	stLvColm.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt = LVCFMT_LEFT;
-	stLvColm.pszText = TEXT("ファイル名");	stLvColm.cx = 120;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
-	stLvColm.pszText = TEXT("フルパス");	stLvColm.cx = 300;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
+	stLvColm.pszText = TEXT("파일명");	stLvColm.cx = 120;	stLvColm.iSubItem = 0;	ListView_InsertColumn( hWorkWnd, 0, &stLvColm );
+	stLvColm.pszText = TEXT("전체 경로");	stLvColm.cx = 300;	stLvColm.iSubItem = 1;	ListView_InsertColumn( hWorkWnd, 1, &stLvColm );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("保存したらバルーンメッセージを表示する"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 207, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_USE_BALLOON, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_USE_BALLOON, TEXT("ファイルに取り込んだら、バルーンメッセージでお知らせするよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("저장 후 풍선 메시지 표시"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 207, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_USE_BALLOON, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_USE_BALLOON, TEXT("파일에 저장되면 풍선 메시지로 알립니다.") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("ユニコード数値参照は１６進数型（非チェックで１０進数）"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 234, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_UNIRADIX_HEX, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_UNIRADIX_HEX, TEXT("頂戴した内容にユニコードが含まれていたら、どういう形式で保存するのかを決めてね。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("유니코드 숫자 참조는 16진수 형식 (체크 해제 시 10진수)"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 234, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_UNIRADIX_HEX, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_UNIRADIX_HEX, TEXT("받은 내용에 유니코드가 포함되어 있으면 어떤 형식으로 저장할지 결정하세요.") );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("起動したときに、コピペ保存をＯＮにする"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 261, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_STEAL_ACT_ON, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_STEAL_ACT_ON, TEXT("起動したときに、コピペ保存機能をＯＮにしておくよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("시작 시, 복사 저장을 ON으로 설정"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 8, 261, rect.right-16, 23, hWnd, (HMENU)IDB_CLIP_STEAL_ACT_ON, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_STEAL_ACT_ON, TEXT("시작 시, 복사 저장 기능을 ON으로 설정합니다.") );
 
-	CreateWindowEx( 0, WC_STATIC, TEXT("メニューポップアップホットキー"), WS_CHILD | WS_VISIBLE, 8, 290, 260, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
+	CreateWindowEx( 0, WC_STATIC, TEXT("메뉴 팝업 핫키"), WS_CHILD | WS_VISIBLE, 8, 290, 260, 23, hWnd, (HMENU)IDC_STATIC, lcInst, NULL );
 	hWorkWnd = CreateWindowEx( 0, HOTKEY_CLASS, TEXT(""), WS_CHILD | WS_VISIBLE, 270, 290, 200, 23, hWnd, (HMENU)IDHK_CLIP_POPUP_KEYBIND, lcInst, NULL );
-	ToolTipSetting( hWnd, IDHK_CLIP_POPUP_KEYBIND, TEXT("ここをクリックして、キーの組み合わせを設定してね。") );
+	ToolTipSetting( hWnd, IDHK_CLIP_POPUP_KEYBIND, TEXT("여기를 클릭하여 키 조합을 설정하세요.") );
 
 	bCtrlMod = RegHotModExchange( gbHotMod, 1 );
 	SendMessage( hWorkWnd , HKM_SETHOTKEY, MAKEWORD(gbHotVkey, bCtrlMod), 0 );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("保存して閉じる"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-150, rect.bottom-30, 150, 23, hWnd, (HMENU)IDB_CLIP_SAVE_AND_EXIT, lcInst, NULL );
-	ToolTipSetting( hWnd, IDB_CLIP_SAVE_AND_EXIT, TEXT("変更内容を保存して、この窓を閉じるよ。") );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("저장하고 닫기"), WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, rect.right-8-150, rect.bottom-30, 150, 23, hWnd, (HMENU)IDB_CLIP_SAVE_AND_EXIT, lcInst, NULL );
+	ToolTipSetting( hWnd, IDB_CLIP_SAVE_AND_EXIT, TEXT("변경 내용을 저장하고 이 창을 닫습니다.") );
 
 	return TRUE;
 }
@@ -534,7 +534,7 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 			}
 			else
 			{
-				MessageBox( hWnd, TEXT("ホットキーが登録出来なかったよ。\r\n已に使われてるみたい。\r\n他の組み合わせを試してみて！"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONERROR );
+				MessageBox( hWnd, TEXT("핫키를 등록할 수 없었습니다.\r\n이미 사용 중인 것 같습니다.\r\n다른 조합을 시도해 보세요!"), TEXT("오린으로부터의 알림"), MB_OK | MB_ICONERROR );
 				break;
 			}
 
@@ -562,8 +562,8 @@ VOID Cls_OnCommand( HWND hWnd, INT id, HWND hwndCtl, UINT codeNotify )
 		FileTypeCheck( gatClipFile );
 
 		PathStripPath( atPath );
-		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s に保存していくよ"), atPath );
-		TaskTrayIconBalloon( hWnd, atBuff, TEXT("保存先を変更したよ"), NIIF_INFO );
+		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s 에 저장합니다"), atPath );
+		TaskTrayIconBalloon( hWnd, atBuff, TEXT("저장 위치를 변경했습니다"), NIIF_INFO );
 	}
 
 	return;
@@ -638,14 +638,14 @@ BOOLEAN SelectFileDlg( HWND hWnd, LPTSTR ptSelFile, UINT_PTR cchLen )
 
 	stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 	stOpenFile.hwndOwner       = hWnd;
-	stOpenFile.lpstrFilter     = TEXT("アスキーアートファイル ( mlt, ast )\0*.mlt;*.ast\0全ての形式(*.*)\0*.*\0\0");
+	stOpenFile.lpstrFilter     = TEXT("아스키 아트 파일 ( mlt, ast )\0*.mlt;*.ast\0모든 형식(*.*)\0*.*\0\0");
 	stOpenFile.nFilterIndex    = 1;
 	stOpenFile.lpstrFile       = atFilePath;
 	stOpenFile.nMaxFile        = MAX_PATH;
 	stOpenFile.lpstrFileTitle  = atFileName;
 	stOpenFile.nMaxFileTitle   = MAX_STRING;
 
-	stOpenFile.lpstrTitle      = TEXT("ため込むファイルを指定するのです");
+	stOpenFile.lpstrTitle      = TEXT("저장할 파일을 지정하세요");
 	stOpenFile.Flags           = OFN_EXPLORER | OFN_HIDEREADONLY;
 	stOpenFile.lpstrDefExt     = TEXT("mlt");
 
@@ -681,7 +681,7 @@ HRESULT TasktrayIconAdd( HWND hWnd )
 		{
 			if ( ERROR_TIMEOUT != GetLastError() || 10 <= crdCount )
 			{
-				MessageBox( hWnd, TEXT("タスクトレイにアイコンを登録できなかったのです。\r\n終了するのです。"), NULL, MB_OK | MB_ICONERROR );
+				MessageBox( hWnd, TEXT("작업 표시줄에 아이콘을 등록할 수 없었습니다.\r\n종료합니다."), NULL, MB_OK | MB_ICONERROR );
 				SendMessage( hWnd, WM_DESTROY, 0, 0 );
 				break;
 			}
@@ -746,14 +746,14 @@ HMENU CreateFileSelMenu( HWND hWnd, UINT bStyle )
 	hMenu = CreatePopupMenu(  );
 	if( 0 == iCount )
 	{
-		AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_SELECT, TEXT("（无）") );
+		AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_SELECT, TEXT("（없음）") );
 		EnableMenuItem( hMenu, IDM_CLIPSTEAL_SELECT, MF_GRAYED );
 	}
 	else
 	{
 		if( bStyle )
 		{
-			AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_TOGGLE, TEXT("コピー内容を頂戴する") );
+			AppendMenu( hMenu, MF_STRING, IDM_CLIPSTEAL_TOGGLE, TEXT("복사 내용을 받기") );
 			AppendMenu( hMenu, MF_SEPARATOR, 0, NULL );
 
 			if( gbClipSteal )	CheckMenuItem( hMenu, IDM_CLIPSTEAL_TOGGLE, MF_CHECKED );
@@ -810,7 +810,7 @@ VOID Cls_OnChangeCBChain( HWND hWnd, HWND hWndRemove, HWND hWndNext )
 
 VOID Cls_OnDrawClipboard( HWND hWnd )
 {
-	OutputDebugString( TEXT("クリップボード内容確認\r\n") );
+	OutputDebugString( TEXT("클립보드 내용 확인\r\n") );
 
 	if( ghNextViewer )	SendMessage( ghNextViewer, WM_DRAWCLIPBOARD, 0, 0 );
 
@@ -873,8 +873,8 @@ HRESULT ClipStealDoing( HWND hWnd )
 
 	if( gGetMsgOn )
 	{
-		StringCchPrintf( atMsg, MAX_STRING, TEXT("%u Byte 取得"), cbSize );
-		TaskTrayIconBalloon( hWnd, TEXT("コピーされた文字列を保存したよ。"), atMsg, 1 );
+		StringCchPrintf( atMsg, MAX_STRING, TEXT("%u Byte 획득"), cbSize );
+		TaskTrayIconBalloon( hWnd, TEXT("복사된 문자열을 저장했습니다."), atMsg, 1 );
 	}
 
 	return S_OK;

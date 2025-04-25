@@ -492,7 +492,7 @@ INT_PTR Frm_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 		case IDS_FRAME_IMAGE:
 			if( STN_DBLCLK == codeNotify )
 			{
-				TRACE( TEXT("だぼーくるっく") );
+				TRACE( TEXT("더블 클릭") );
 				InvalidateRect( hWndCtl, NULL, TRUE );
 			}
 			return (INT_PTR)TRUE;
@@ -1430,7 +1430,7 @@ HWND FrameInsBoxCreate( HINSTANCE hInst, HWND hPrWnd )
 	}
 
 	ghFrInbxWnd = CreateWindowEx( WS_EX_LAYERED | WS_EX_TOOLWINDOW,
-		FRAMEINSERTBOX_CLASS, TEXT("枠挿入ボックス"),
+		FRAMEINSERTBOX_CLASS, TEXT("프레임 삽입 상자"),
 		WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU,
 		0, 0, FIB_WIDTH, FIB_HEIGHT, NULL, NULL, hInst, NULL );
 	SetLayeredWindowAttributes( ghFrInbxWnd, TRANCE_COLOUR, 0xFF, LWA_COLORKEY );
@@ -1455,7 +1455,7 @@ HWND FrameInsBoxCreate( HINSTANCE hInst, HWND hPrWnd )
 	SendMessage( ghFIBtlbrWnd, TB_SETBUTTONSIZE, 0, MAKELPARAM(16,16) );
 	SendMessage( ghFIBtlbrWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("挿入する") );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("삽입하기") );
 	gstFIBTBInfo[0].iString = SendMessage( ghFIBtlbrWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
 	for( d = 0; FRAME_MAX > d; d++ )
 	{

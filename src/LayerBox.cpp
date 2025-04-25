@@ -197,7 +197,7 @@ HWND LayerBoxVisibalise( HINSTANCE hInst, LPCTSTR ptStr, UINT bNormal )
 	else{		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;	}
 
 	stLayer.hBoxWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_LAYERED, LAYERBOX_CLASS,
-		TEXT("レイヤ"), dwStyle, 0, 0, LB_WIDTH, LB_HEIGHT, NULL, NULL, hInst, NULL);
+		TEXT("레이어"), dwStyle, 0, 0, LB_WIDTH, LB_HEIGHT, NULL, NULL, hInst, NULL);
 
 	WndTagSet( stLayer.hBoxWnd, stLayer.id );
 
@@ -389,11 +389,11 @@ BOOLEAN Lyb_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 
 	SendMessage( hToolWnd, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0 );
 
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("この辺に挿入") );	gstTBInfo[0].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("ここらに上書") );	gstTBInfo[1].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("コピーする") );		gstTBInfo[3].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("テキスト編集") );	gstTBInfo[5].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
-	StringCchCopy( atBuffer, MAX_STRING, TEXT("内容を削除") );		gstTBInfo[7].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("이곳에 삽입") );	gstTBInfo[0].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("여기에 덮어쓰기") );	gstTBInfo[1].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("복사하기") );		gstTBInfo[3].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("텍스트 편집") );	gstTBInfo[5].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
+	StringCchCopy( atBuffer, MAX_STRING, TEXT("내용 삭제") );		gstTBInfo[7].iString = SendMessage( hToolWnd, TB_ADDSTRING, 0, (LPARAM)atBuffer );
 
 	SendMessage( hToolWnd , TB_ADDBUTTONS, (WPARAM)TB_ITEMS, (LPARAM)&gstTBInfo );
 
@@ -402,14 +402,14 @@ BOOLEAN Lyb_OnCreate( HWND hWnd, LPCREATESTRUCT lpCreateStruct )
 
 	gpfOrigLyrTBProc = SubclassWindow( hToolWnd, gpfLayerTBProc );
 
-	CreateWindowEx( 0, WC_BUTTON, TEXT("貼付たら閉じる"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 150, 2, 138, 23, hToolWnd, (HMENU)IDCB_LAYER_QUICKCLOSE, lcInst, NULL );
+	CreateWindowEx( 0, WC_BUTTON, TEXT("붙여넣기 후 닫기"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 150, 2, 138, 23, hToolWnd, (HMENU)IDCB_LAYER_QUICKCLOSE, lcInst, NULL );
 	CheckDlgButton( hToolWnd, IDCB_LAYER_QUICKCLOSE, gbQuickClose ? BST_CHECKED : BST_UNCHECKED );
 
 #ifdef EDGE_BLANK_STYLE
 	hWorkWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT(""), WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, 290, 0, 123, 70, hToolWnd, (HMENU)IDCB_LAYER_EDGE_BLANK, lcInst, NULL );
-	ComboBox_AddString( hWorkWnd, TEXT("白抜きしない") );
-	ComboBox_AddString( hWorkWnd, TEXT("狭く白抜き") );
-	ComboBox_AddString( hWorkWnd, TEXT("広く白抜き") );
+	ComboBox_AddString( hWorkWnd, TEXT("흰색으로 채우지 않음") );
+	ComboBox_AddString( hWorkWnd, TEXT("좁게 흰색으로 채우기") );
+	ComboBox_AddString( hWorkWnd, TEXT("넓게 흰색으로 채우기") );
 	ComboBox_SetCurSel( hWorkWnd, 0 );
 #endif
 
@@ -495,7 +495,7 @@ VOID Lyb_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 			InvalidateRect( hWnd, NULL, TRUE );
 			break;
 
-		default:	TRACE( TEXT("Layer未知のコマンド %d"), id );	break;
+		default:	TRACE( TEXT("Layer 알 수 없는 명령어 %d"), id );	break;
 	}
 
 	return;
@@ -511,10 +511,10 @@ VOID Lyb_OnKey( HWND hWnd, UINT vk, BOOL fDown, int cRepeat, UINT flags )
 	{
 		switch( vk )
 		{
-			case VK_RIGHT:	TRACE( TEXT("右") );	rect.left++;	break;
-			case VK_LEFT:	TRACE( TEXT("左") );	rect.left--;	break;
-			case VK_DOWN:	TRACE( TEXT("下") );	rect.top += LINE_HEIGHT;	break;
-			case  VK_UP:	TRACE( TEXT("上") );	rect.top -= LINE_HEIGHT;	break;
+			case VK_RIGHT:	TRACE( TEXT("오른쪽") );	rect.left++;	break;
+			case VK_LEFT:	TRACE( TEXT("왼쪽") );	rect.left--;	break;
+			case VK_DOWN:	TRACE( TEXT("아래") );	rect.top += LINE_HEIGHT;	break;
+			case  VK_UP:	TRACE( TEXT("위") );	rect.top -= LINE_HEIGHT;	break;
 			default:	return;
 		}
 	}
@@ -770,7 +770,7 @@ VOID Lyb_OnLButtonDown( HWND hWnd, BOOL fDoubleClick, INT x, INT y, UINT keyFlag
 	sy = y - gdToolBarHei;	if( 0 > sy )	sy = 0;
 	iLine = sy / LINE_HEIGHT;
 
-	TRACE( TEXT("マウスボタンダウン[%d][%dx%d(%d)]"), fDoubleClick, iDot, sy, iLine );
+	TRACE( TEXT("마우스 버튼 다운[%d][%dx%d(%d)]"), fDoubleClick, iDot, sy, iLine );
 
 	if( !(fDoubleClick) )	 return;
 
@@ -831,7 +831,7 @@ HRESULT LayerTransparentToggle( HWND hWnd, UINT bMode )
 	}
 	if( itLyr == gltLayer.end( ) )	return E_OUTOFMEMORY;
 
-	TRACE( TEXT("透過選択を解除か選択 %u"), bMode );
+	TRACE( TEXT("투명 선택 해제 또는 선택 %u"), bMode );
 
 	iLines = itLyr->vcLyrImg.size(  );
 
@@ -1125,7 +1125,7 @@ HRESULT LayerFromSelectArea( LAYER_ITR itLyr, UINT bSqSel )
 	LPPOINT	pstPos;
 	ONELINE	stLine;
 
-	TRACE( TEXT("選択範囲から取得") );
+	TRACE( TEXT("선택 영역에서 가져오기") );
 #ifdef DO_TRY_CATCH
 	try{
 #endif
@@ -1805,7 +1805,7 @@ HRESULT LayerEdgeBlankSizeCheck( HWND hWnd, INT iCanWid )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (HRESULT)ETC_MSG( err.what(), E_UNEXPECTED );	}
-	catch( ... ){	return (HRESULT)ETC_MSG( ("etc error") , E_UNEXPECTED );	}
+	catch( ... ){	return (HRESULT)ETC_MSG( ("etc error"), E_UNEXPECTED );	}
 #endif
 	return S_OK;
 }

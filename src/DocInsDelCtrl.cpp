@@ -178,7 +178,7 @@ HRESULT DocInputReturn( INT nowDot, INT rdLine )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (HRESULT)ETC_MSG( err.what(), E_UNEXPECTED );	}
-	catch( ... ){	return (HRESULT)ETC_MSG( ("etc error") , E_UNEXPECTED );	}
+	catch( ... ){	return (HRESULT)ETC_MSG( ("기타 오류") , E_UNEXPECTED );	}
 #endif
 
 	return S_OK;
@@ -429,7 +429,7 @@ INT DocInputLetter( INT nowDot, INT rdLine, TCHAR ch )
 
 	if( 0 == ch )
 	{
-		TRACE( TEXT("NULL文字が入った") );
+		TRACE( TEXT("NULL 문자가 들어왔습니다") );
 		return 0;
 	}
 
@@ -437,7 +437,7 @@ INT DocInputLetter( INT nowDot, INT rdLine, TCHAR ch )
 
 	if( iLines <= rdLine )
 	{
-		TRACE( TEXT("OutOfRange 指定[%d] 行数[%d]"), rdLine, iLines );
+		TRACE( TEXT("범위를 벗어난 지정[%d] 행 수[%d]"), rdLine, iLines );
 		return 0;
 	}
 
@@ -469,7 +469,7 @@ INT DocInputLetter( INT nowDot, INT rdLine, TCHAR ch )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	return stLetter.rdWidth;
@@ -530,7 +530,7 @@ INT DocStringAdd( PINT pNowDot, PINT pdLine, LPCTSTR ptStr, INT cchSize )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (INT)ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return (INT)ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return (INT)ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 #ifdef DO_TRY_CATCH
@@ -545,7 +545,7 @@ INT DocStringAdd( PINT pNowDot, PINT pdLine, LPCTSTR ptStr, INT cchSize )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return (INT)ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return (INT)ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return (INT)ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	*pNowDot = insDot;
@@ -580,7 +580,7 @@ INT DocSquareAdd( PINT pNowDot, PINT pdLine, LPCTSTR ptStr, INT cchSize, LPPOINT
 		pstBuf = (LPPOINT)realloc( *ppstPt, ( sizeof(POINT) * (dCrLf+1) ) );
 
 		if( pstBuf ){	*ppstPt = pstBuf;	}
-		else{	TRACE( TEXT("fatal mem error") );	return 0;	}
+		else{	TRACE( TEXT("치명적인 메모리 오류") );	return 0;	}
 		pstBuf += dCrLf;
 
 		pstBuf->x = dBaseDot;
@@ -748,7 +748,7 @@ INT DocInputFromClipboard( PINT pNowDot, PINT pdLine, PINT pdMozi, UINT bSqMode 
 	ptString = DocClipboardDataGet( &dStyle );
 	if( !(ptString) )
 	{
-		NotifyBalloonExist( TEXT("テキストじゃないみたい。\t\n貼り付けられないよ。"), TEXT("お燐からのお知らせ"), NIIF_INFO );
+		NotifyBalloonExist( TEXT("텍스트가 아닌 것 같습니다.\t\n붙여넣을 수 없습니다."), TEXT("오린의 알림"), NIIF_INFO );
 		return 0;
 	}
 
@@ -916,7 +916,7 @@ HRESULT DocClipboardDataSet( LPVOID pDatum, INT cbSize, UINT dStyle )
 
 	CloseClipboard(  );
 
-	TRACE( TEXT("COPY DONE") );
+	TRACE( TEXT("복사 완료") );
 
 	return hRslt;
 }
@@ -1095,7 +1095,7 @@ HRESULT DocPageNumInsert( HINSTANCE hInst, HWND hWnd )
 	iRslt = DialogBoxParam( hInst, MAKEINTRESOURCE(IDD_PAGENUMBER_DLG), hWnd, PageNumDlgProc, (LPARAM)(&stInfo) );
 	if( IDOK == iRslt )
 	{
-#pragma message("ディレイロードしたら、頁番号挿入がおかしくなるはず")
+#pragma message("지연 로드하면 페이지 번호 삽입이 이상해질 것입니다")
 		ixNumber = stInfo.dStartNum;
 
 		InitParamString( INIT_SAVE, VS_PAGE_FORMAT, stInfo.atStyle );

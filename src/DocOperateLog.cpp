@@ -74,7 +74,7 @@ HRESULT SqnNumberCheck( LPUNDOBUFF pstBuff )
 
 	if( 0 == pstBuff->dNowSqn ){	SqnFreeAll( pstBuff );	return  S_FALSE;	}
 
-	TRACE( TEXT("UNDO BUF err %d %d"), pstBuff->dNowSqn, pstBuff->dTopSqn );
+	TRACE( TEXT("UNDO BUF 오류 %d %d"), pstBuff->dNowSqn, pstBuff->dTopSqn );
 
 	itOpe = pstBuff->vcOpeSqn.end( );
 	itOpe--;
@@ -94,7 +94,7 @@ HRESULT SqnNumberCheck( LPUNDOBUFF pstBuff )
 
 	pstBuff->dTopSqn = itOpe->ixSequence;
 
-	TRACE( TEXT("UNDO BUF chk %d %d"), itOpe->ixSequence, pstBuff->dTopSqn );
+	TRACE( TEXT("UNDO BUF 확인 %d %d"), itOpe->ixSequence, pstBuff->dTopSqn );
 
 	return S_OK;
 }
@@ -254,7 +254,7 @@ INT SqnUndoExec( LPUNDOBUFF pstBuff, PINT pxDot, PINT pyLine )
 				iRslt = DocStringAdd( &xDot, &yLine, pstBuff->vcOpeSqn.at( dNow ).ptText, pstBuff->vcOpeSqn.at( dNow ).cchSize );
 				break;
 
-			default:	TRACE( TEXT("アンドゥエラー！　[%u]未知のコード"), dCmd );	return dCrLf;
+			default:	TRACE( TEXT("Undo 오류! [%u]알 수 없는 코드"), dCmd );	return dCrLf;
 		}
 
 		*pxDot  = xDot;
@@ -271,7 +271,7 @@ INT SqnUndoExec( LPUNDOBUFF pstBuff, PINT pxDot, PINT pyLine )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	return dCrLf;
@@ -329,7 +329,7 @@ INT SqnRedoExec( LPUNDOBUFF pstBuff, PINT pxDot, PINT pyLine )
 				iRslt = DocStringErase( xDot, yLine, NULL, cchSize );
 				break;
 
-			default:	TRACE( TEXT("リドゥエラー！　[%u]未知のコード"), dCmd );	return dCrLf;
+			default:	TRACE( TEXT("Redo 오류! [%u]알 수 없는 코드"), dCmd );	return dCrLf;
 		}
 
 		*pxDot  = xDot;
@@ -346,7 +346,7 @@ INT SqnRedoExec( LPUNDOBUFF pstBuff, PINT pxDot, PINT pyLine )
 #ifdef DO_TRY_CATCH
 	}
 	catch( exception &err ){	return ETC_MSG( err.what(), 0 );	}
-	catch( ... ){	return  ETC_MSG( ("etc error"), 0 );	}
+	catch( ... ){	return  ETC_MSG( ("기타 오류"), 0 );	}
 #endif
 
 	return dCrLf;

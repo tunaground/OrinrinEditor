@@ -70,7 +70,7 @@ UINT ViewSqSelModeToggle( UINT bMode, LPVOID pVoid )
 {
 	POINT	point;
 
-	TRACE( TEXT("矩形選択ON/OFF") );
+	TRACE( TEXT("사각형 선택 ON/OFF") );
 
 	if( gbSelecting )	return gbSqSelect;
 
@@ -113,10 +113,10 @@ UINT ViewSelRangeCheck( UINT dMode )
 
 	if( gstSelBgnOrig.x == gstSelEndOrig.x && gstSelBgnOrig.y == gstSelEndOrig.y )
 	{
-		TRACE( TEXT("範囲消滅による選択解除") );
+		TRACE( TEXT("범위 소멸로 인한 선택 해제") );
 		if( IsSelecting( NULL ) )
 		{
-			TRACE( TEXT("選択中であったら範囲解除") );
+			TRACE( TEXT("선택 중이었다면 범위 해제") );
 			ViewSelPageAll( -1 );
 		}
 
@@ -156,7 +156,7 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 		}
 		else
 		{
-			TRACE( TEXT("他操作による選択解除") );
+			TRACE( TEXT("다른 작업으로 인한 선택 해제") );
 			ViewSelPageAll( -1 );
 
 			gstSqSelBegin.x = -1;
@@ -188,7 +188,7 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 			gstSelEndOrig = gstSqSelEnd;
 
 			gbSelecting   = TRUE;
-			TRACE( TEXT("選択処理開始[%d:%d]"), gstSqSelBegin.x, gstSqSelBegin.y );
+			TRACE( TEXT("선택 처리 시작[%d:%d]"), gstSqSelBegin.x, gstSqSelBegin.y );
 
 			ViewSelStateChange( TRUE );
 		}
@@ -200,7 +200,7 @@ HRESULT ViewSelMoveCheck( UINT dMode )
 
 INT ViewSelPageAll( INT dForce )
 {
-	TRACE( TEXT("全選択[%d]"), dForce );
+	TRACE( TEXT("전체 선택[%d]"), dForce );
 
 	if( 0 < dForce )		gbSelecting =  TRUE;
 	else if( 0 > dForce )	gbSelecting = FALSE;
@@ -219,7 +219,7 @@ HRESULT ViewSelStateChange( UINT dFirst )
 	{
 		dStep = gdDocLine - gstPrePos.y;
 
-		TRACE( TEXT("選択で行またぎ発生：D[%d] L[%d] St[%d]"), gdDocXdot, gdDocLine, dStep );
+		TRACE( TEXT("선택으로 인해 줄 넘김 발생：D[%d] L[%d] St[%d]"), gdDocXdot, gdDocLine, dStep );
 
 		if( 0 <  dStep )
 		{
@@ -334,7 +334,7 @@ HRESULT ViewSqSelAdjust( INT dBaseLine )
 {
 	INT	i, xDotBegin, xDotEnd, xDotLast;
 
-#pragma message ("ここで、選択範囲全体の処理が何度も行われているので重たい")
+#pragma message ("여기서, 선택 범위 전체의 처리가 여러 번 수행되어 무겁다")
 
 	if( dBaseLine < gstSqSelBegin.y )
 	{

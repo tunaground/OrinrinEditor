@@ -368,7 +368,7 @@ VOID AaItemsDrawItem( HWND hWnd, CONST DRAWITEMSTRUCT *pstDrawItem )
 		rdLength = rdLen;
 
 		free( pcConts );
-#pragma message ("MAAの行間、ここで正しく計算するべき")
+#pragma message ("MAA의 행 간격, 여기서 정확하게 계산해야 합니다")
 
 		DrawText( pstDrawItem->hDC, ptConStr, rdLength, &rect, DT_LEFT | DT_EDITCONTROL | DT_NOPREFIX | DT_CALCRECT );
 		drawRect = rect;
@@ -515,7 +515,7 @@ VOID Aai_OnMouseMove( HWND hWnd, INT x, INT y, UINT keyFlags )
 	{
 		iDot = AacArtSizeGet( iItem, &iLine, &iByte );
 
-		TRACE( TEXT("MAA MOUSE %3d[%dDOT x %dLINE]%dByte"), iItem+1, iDot, iLine, iByte );
+		TRACE( TEXT("MAA 마우스 %3d[%dDOT x %dLINE]%dByte"), iItem+1, iDot, iLine, iByte );
 #ifdef _ORRVW
 		StringCchPrintf( atBuffer, MAX_STRING, TEXT("%3d[%dDOT x %dLINE]"), iItem+1, iDot, iLine );
 #else
@@ -657,7 +657,7 @@ VOID Aai_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 
 	dOpen = TabMultipleNowSel(  );
 
-#pragma message ("Editorとviewerの、メニューリソースの整合性に注意セヨ")
+#pragma message ("Editor와 viewer의 메뉴 리소스 일관성에 주의하세요")
 	hMenu = LoadMenu( GetModuleHandle(NULL), MAKEINTRESOURCE(IDM_AALIST_POPUP) );
 	hSubMenu = GetSubMenu( hMenu, 0 );
 
@@ -753,7 +753,7 @@ VOID Aai_OnDropFiles( HWND hWnd, HDROP hDrop )
 	DragQueryFile( hDrop, 0, atFileName, MAX_PATH );
 	DragFinish( hDrop );
 
-	TRACE( TEXT("AAI DROP[%s]"), atFileName );
+	TRACE( TEXT("AAI 드롭[%s]"), atFileName );
 
 	TabMultipleDropAdd( GetParent( hWnd ), atFileName );
 
@@ -949,7 +949,7 @@ LPTSTR CALLBACK AaItemsHoverTipInfo( LPVOID pVoid )
 
 	free( pcConts );
 
-	TRACE( TEXT("MAA HOVER CALL %d, by[%d]"), gixNowToolTip, rdLength );
+	TRACE( TEXT("MAA 호버 호출 %d, by[%d]"), gixNowToolTip, rdLength );
 
 	return ptBuffer;
 }
@@ -964,7 +964,7 @@ HRESULT AacFindTextEntry( HWND hWnd, UINT bMode )
 	UINT	isNowPage, dRslt;
 	INT		iPage, i;
 
-	TRACE( TEXT("MAA：検索始め") );
+	TRACE( TEXT("MAA: 검색 시작") );
 
 	ZeroMemory( atString, sizeof(atString) );
 
@@ -1019,7 +1019,7 @@ HRESULT AacFindTextEntry( HWND hWnd, UINT bMode )
 	}
 	else
 	{
-		SetDlgItemText( hWnd, IDS_MAA_TXTFIND_MSGBOX, TEXT("見つからないよ") );
+		SetDlgItemText( hWnd, IDS_MAA_TXTFIND_MSGBOX, TEXT("찾을 수 없습니다") );
 
 	}
 
@@ -1134,15 +1134,15 @@ INT_PTR CALLBACK AaItemAddDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 			pstIaInfo = (LPITEMADDINFO)(lParam);
 			GetClientRect( hDlg, &rect );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("今の頁"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("クリップボード"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("현재 페이지"),         WS_CHILD | WS_VISIBLE, 0, 0, 75, 23, hDlg, (HMENU)IDB_MAID_NOWPAGE, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("클립보드"), WS_CHILD | WS_VISIBLE, 75, 0, 120, 23, hDlg, (HMENU)IDB_MAID_CLIPBOARD, GetModuleHandle(NULL), NULL );
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL, 195, 0, rect.right-195-50, 23, hDlg, (HMENU)IDE_MAID_ITEMNAME, GetModuleHandle(NULL), NULL );
-			CreateWindowEx( 0, WC_BUTTON, TEXT("追加"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
+			CreateWindowEx( 0, WC_BUTTON, TEXT("추가"),           WS_CHILD | WS_VISIBLE, rect.right-50, 0, 50, 23, hDlg, (HMENU)IDB_MAID_ADDGO, GetModuleHandle(NULL), NULL );
 			CreateWindowEx( 0, WC_EDIT,   TEXT(""),               WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 23, rect.right, rect.bottom-23, hDlg, (HMENU)IDE_MAID_CONTENTS, GetModuleHandle(NULL), NULL );
 
 			if( pstIaInfo->bType )
 			{
-				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("名称はASTでないと使用できないのです") );
+				SetDlgItemText( hDlg, IDE_MAID_ITEMNAME, TEXT("이름은 AST가 아니면 사용할 수 없습니다") );
 				EnableWindow( GetDlgItem(hDlg,IDE_MAID_ITEMNAME), FALSE );
 				StringCchCopy( pstIaInfo->atSep, MAX_PATH, TEXT("[SPLIT]\r\n") );
 			}

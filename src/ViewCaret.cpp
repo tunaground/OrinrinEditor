@@ -81,7 +81,7 @@ BOOL ViewShowCaret( VOID )
 	if( !(bRslt) )
 	{
 		bRslt = CreateCaret( ghViewWnd, ghbmpCaret, CARET_WIDTH, LINE_HEIGHT );
-		TRACE( TEXT("CARET reset %u"), bRslt );
+		TRACE( TEXT("캐럿 재설정 %u"), bRslt );
 		gbCaretShow = FALSE;
 		ViewDrawCaret( gdDocXdot, gdDocLine, 1 );
 	}

@@ -5,7 +5,7 @@
 
 #define DRAUGHT_BOARD_CLASS	TEXT("DRAUGHT_BOARD")
 
-#define TTMSG_NO_ITEM	TEXT("NO ITEM")
+#define TTMSG_NO_ITEM	TEXT("아이템 없음")
 
 #define DTHMSZ_ULTRALIGHT	 80
 #define DTHMSZ_REGULAR		128
@@ -218,11 +218,11 @@ HWND DraughtWindowCreate( HINSTANCE hInstance, HWND hPtWnd, UINT bThumb )
 		iBrdrWid = GetSystemMetrics( SM_CXFIXEDFRAME );
 		rect.right += (iBrdrWid*2);
 
-		StringCchCopy( atCaption, SUB_STRING, TEXT("MAA THUMBNAIL") );
+		StringCchCopy( atCaption, SUB_STRING, TEXT("MAA 썸네일") );
 	}
 	else
 	{
-		StringCchCopy( atCaption, SUB_STRING, TEXT("DRAUGHT BOARD") );
+		StringCchCopy( atCaption, SUB_STRING, TEXT("드래프트 보드") );
 	}
 
 	ghDraughtWnd = CreateWindowEx( WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
@@ -278,7 +278,7 @@ HWND DraughtWindowCreate( HINSTANCE hInstance, HWND hPtWnd, UINT bThumb )
 		ReleaseDC( ghDraughtWnd, hdc );
 
 		SetRect( &rect, 0, 0, giItemWidth, giItemHeight );
-		iRslt = DrawText( ghNonItemDC, TEXT("NO ITEM"), 7, &rect, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE );
+		iRslt = DrawText( ghNonItemDC, TEXT("아이템 없음"), 7, &rect, DT_CENTER | DT_VCENTER | DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE );
 
 		SelectFont( ghNonItemDC, GetStockFont(DEFAULT_GUI_FONT) );
 
@@ -720,8 +720,8 @@ VOID Drt_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 		DeleteMenu( hSubMenu, IDM_DRAUGHT_ALLDELETE, MF_BYCOMMAND );
 		DeleteMenu( hSubMenu, IDM_DRAUGHT_EXPORT,    MF_BYCOMMAND );
 
-		ModifyMenu( hSubMenu, IDM_DRAUGHT_CLOSE,     MF_BYCOMMAND | MFT_STRING, IDM_DRAUGHT_CLOSE, TEXT("サムネイルを閉じる(&Q)") );
-		ModifyMenu( hSubMenu, IDM_DRAUGHT_DELETE,    MF_BYCOMMAND | MFT_STRING, IDM_THUMB_DRAUGHT_ADD, TEXT("ドラフトボードに追加(&D)") );
+		ModifyMenu( hSubMenu, IDM_DRAUGHT_CLOSE,     MF_BYCOMMAND | MFT_STRING, IDM_DRAUGHT_CLOSE, TEXT("썸네일 닫기(&Q)") );
+		ModifyMenu( hSubMenu, IDM_DRAUGHT_DELETE,    MF_BYCOMMAND | MFT_STRING, IDM_THUMB_DRAUGHT_ADD, TEXT("드래프트 보드에 추가(&D)") );
 	}
 
 	if( giItemWidth == giItemHeight )
@@ -1242,20 +1242,20 @@ HRESULT DraughtItemExport( HWND hWnd, LPTSTR ptPath )
 	ZeroMemory( &stOpenFile, sizeof(OPENFILENAME) );
 	stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 	stOpenFile.hwndOwner       = ghPtWnd;
-	stOpenFile.lpstrFilter     = TEXT("複数行テンプレファイル(*.mlt)\0*.mlt\0全ての形式(*.*)\0*.*\0\0");
+	stOpenFile.lpstrFilter     = TEXT("멀티라인 템플릿 파일(*.mlt)\0*.mlt\0모든 형식(*.*)\0*.*\0\0");
 	stOpenFile.nFilterIndex    = 1;
 	stOpenFile.lpstrFile       = atPath;
 	stOpenFile.nMaxFile        = MAX_PATH;
 	stOpenFile.lpstrFileTitle  = atName;
 	stOpenFile.nMaxFileTitle   = MAX_PATH;
-	stOpenFile.lpstrTitle      = TEXT("保存するファイル名を指定してね");
+	stOpenFile.lpstrTitle      = TEXT("저장할 파일 이름을 지정하세요");
 	stOpenFile.Flags           = OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 	stOpenFile.lpstrDefExt     = TEXT("mlt");
 
 	bOpened = GetSaveFileName( &stOpenFile );
 	wrote = CommDlgExtendedError();
 
-	TRACE( TEXT("ファイル保存ダイヤログ通過[%X]"), wrote );
+	TRACE( TEXT("파일 저장 대화상자 통과[%X]"), wrote );
 
 #ifndef _ORRVW
 	ViewFocusSet(  );
@@ -1277,7 +1277,7 @@ HRESULT DraughtItemExport( HWND hWnd, LPTSTR ptPath )
 
 	CloseHandle( hFile );
 
-	MessageBox( hWnd, TEXT("ファイルに保存したよ"), TEXT("お燐からのお知らせ"), MB_OK | MB_ICONINFORMATION );
+	MessageBox( hWnd, TEXT("파일에 저장했습니다"), TEXT("오린의 알림"), MB_OK | MB_ICONINFORMATION );
 
 	return S_OK;
 }

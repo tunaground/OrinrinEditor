@@ -32,7 +32,7 @@ HWND SplitBarCreate( HINSTANCE hInst, HWND hPrWnd, INT x, INT y, INT dHeight )
 {
 	HWND	hWorkWnd;
 
-	hWorkWnd = CreateWindowEx( WS_EX_WINDOWEDGE, SPLITBAR_CLASS, TEXT("SplitBar"),
+	hWorkWnd = CreateWindowEx( WS_EX_WINDOWEDGE, SPLITBAR_CLASS, TEXT("분할바"),
 		WS_CHILD | WS_VISIBLE, x, y, SPLITBAR_WIDTH, dHeight,
 		hPrWnd, NULL, hInst, NULL );
 	SetWindowLongPtr( hWorkWnd, GWLP_USERDATA, 0 );

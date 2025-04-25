@@ -4,7 +4,7 @@
 
 #define EXTRA_NODE_STYLE
 
-#define EXTRA_NODE	TEXT("[*追加項目*]")
+#define EXTRA_NODE	TEXT("[*추가 항목*]")
 
 #define WMP_PROF_ACT	(WM_APP+100)
 

@@ -1,3 +1,4 @@
+```cpp
 #pragma once
 
 #define NTDDI_VERSION	0x05000000
@@ -17,3 +18,5 @@
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0501
 #endif
+
+```

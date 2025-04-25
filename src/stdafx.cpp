@@ -208,7 +208,7 @@ LPSTR SjisEntityExchange( LPCSTR pcMoto )
 				if( 1 == rp )
 				{
 					if( 0 > acSrp[1] )	break;
-					if( !( isalpha( acSrp[1] ) ) )	break;
+					if( !( isalpha( acSrp[1] ) )	break;
 				}
 			}
 
@@ -547,7 +547,7 @@ INT_PTR CALLBACK MsgCheckBoxProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		default:	break;
 
 		case WM_INITDIALOG:
-			pcstMsg = (LPMSGBOXMSG)lParam;
+			pcstMsg = (LPMSGMSG)lParam;
 			SetDlgItemText( hDlg, IDS_MC_MSG1, pcstMsg->atMsg1 );
 			SetDlgItemText( hDlg, IDS_MC_MSG2, pcstMsg->atMsg2 );
 			return (INT_PTR)TRUE;
@@ -571,20 +571,20 @@ INT_PTR MessageBoxCheckBox( HWND hWnd, HINSTANCE hInst, UINT dStyle )
 	switch( dStyle )
 	{
 		case  0:
-			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("統合しちゃったら復帰できないよ") );
-			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("本当にくっつけていい？") );
+			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("통합하면 복구할 수 없어요") );
+			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("정말로 합쳐도 괜찮아요?") );
 			number = VL_PCOMBINE_NM;
 			break;
 
 		case  1:
-			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("分割しちゃったら復帰できないよ") );
-			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("本当にバラしていい？") );
+			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("분할하면 복구할 수 없어요") );
+			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("정말로 나눠도 괜찮아요?") );
 			number = VL_PDIVIDE_NM;
 			break;
 
 		case  2:
-			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("削除しちゃったら復帰できないよ") );
-			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("本当にあぼーんしていい？") );
+			StringCchCopy( stMsg.atMsg1, MAX_PATH, TEXT("삭제하면 복구할 수 없어요") );
+			StringCchCopy( stMsg.atMsg2, MAX_PATH, TEXT("정말로 삭제해도 괜찮아요?") );
 			number = VL_PDELETE_NM;
 			break;
 
@@ -607,9 +607,9 @@ LRESULT ExceptionMessage( LPCSTR pcExpMsg, LPCSTR pcFuncName, UINT dLine, LPARAM
 {
 	CHAR	acMessage[BIG_STRING];
 
-	StringCchPrintfA( acMessage, BIG_STRING, ("異常発生＜%s＞[%s:%u]\r\nプログラムを続行できません。"), pcExpMsg, pcFuncName, dLine );
+	StringCchPrintfA( acMessage, BIG_STRING, ("이상이 발생했습니다 <%s> [%s:%u]\r\n프로그램을 계속할 수 없습니다."), pcExpMsg, pcFuncName, dLine );
 
-	MessageBoxA( GetDesktopWindow(), acMessage, ("致命的エラー発生"), MB_OK );
+	MessageBoxA( GetDesktopWindow(), acMessage, ("치명적인 오류 발생"), MB_OK );
 
 	return lReturn;
 }
