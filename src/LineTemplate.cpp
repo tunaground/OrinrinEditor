@@ -1,102 +1,63 @@
-/*! @file
-	@brief 壱行テンプレートの面倒見ます
-	このファイルは LineTemplate.cpp です。
-	@author	SikigamiHNQ
-	@date	2011/06/17
-*/
-
-/*
-Orinrin Editor : AsciiArt Story Editor for Japanese Only
-Copyright (C) 2011 - 2013 Orinrin/SikigamiHNQ
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with this program.
-If not, see <http://www.gnu.org/licenses/>.
-*/
-//-------------------------------------------------------------------------------------------------
-
 #include "stdafx.h"
 #include "OrinrinEditor.h"
-//-------------------------------------------------------------------------------------------------
 
 #define LINETEMPLATE_CLASS	TEXT("LINE_TEMPLATE")
 #define LT_WIDTH	240
 #define LT_HEIGHT	240
-//-------------------------------------------------------------------------------------------------
 
-//	ラインテンプレ・クルックまってるやり方だと遅い・サブクラスでWM_LBUTTONDOWNを処理する？
 #define LTP_CLICK_NEW
-//-------------------------------------------------------------------------------------------------
 
-extern HFONT	ghAaFont;		//	AA用フォント
-extern HFONT	ghNameFont;		//	ファイルタブ用フォント
+extern HFONT	ghAaFont;
+extern HFONT	ghNameFont;
 
-extern INT		gbTmpltDock;	//	頁・壱行テンプレのドッキング
-extern BOOLEAN	gbDockTmplView;	//	くっついてるテンプレは見えているか
+extern INT		gbTmpltDock;
+extern BOOLEAN	gbDockTmplView;
 
-//extern  HWND	ghMainSplitWnd;	//	メインのスプリットバーハンドル
-extern  LONG	grdSplitPos;	//	スプリットバーの、左側の、画面右からのオフセット
+extern  LONG	grdSplitPos;
 
+static  ATOM	gTmpleAtom;
+static  HWND	ghTmpleWnd;
 
-static  ATOM	gTmpleAtom;		//!<	
-static  HWND	ghTmpleWnd;		//!<	このウインドウハンドル
+static  HWND	ghCtgryBxWnd;
+static  HWND	ghLvItemWnd;
+static  HWND	ghLnLvTipWnd;
 
-static  HWND	ghCtgryBxWnd;	//!<	カテゴリコンボックス
-static  HWND	ghLvItemWnd;	//!<	アイテム一覧リストビュー
-static  HWND	ghLnLvTipWnd;	//!<	壱行リストツールチップ
+static  HWND	ghDockTabWnd;
 
-static  HWND	ghDockTabWnd;	//!<	ドッキングしたときの選択肢タブ
+static  UINT	gNowGroup;
 
+static  UINT	gLnClmCnt;
 
-static  UINT	gNowGroup;		//!<	今みてるグループ番号
+static WNDPROC	gpfOrigLineCtgryProc;
+static WNDPROC	gpfOrigLineItemProc;
 
-static  UINT	gLnClmCnt;	//!<	表示カラム数
+static vector<AATEMPLATE>	gvcTmples;
 
-static WNDPROC	gpfOrigLineCtgryProc;	//!<	
-static WNDPROC	gpfOrigLineItemProc;	//!<	
-
-static vector<AATEMPLATE>	gvcTmples;	//!<	テンプレの保持
-//-------------------------------------------------------------------------------------------------
-
-LRESULT	CALLBACK LineTmpleProc( HWND, UINT, WPARAM, LPARAM );	//!<	
-VOID	Ltp_OnCommand( HWND , INT, HWND, UINT );	//!<	
-VOID	Ltp_OnSize( HWND , UINT, INT, INT );	//!<	
-VOID	Ltp_OnContextMenu( HWND, HWND, UINT, UINT );	//!<	
+LRESULT	CALLBACK LineTmpleProc( HWND, UINT, WPARAM, LPARAM );
+VOID	Ltp_OnCommand( HWND , INT, HWND, UINT );
+VOID	Ltp_OnSize( HWND , UINT, INT, INT );
+VOID	Ltp_OnContextMenu( HWND, HWND, UINT, UINT );
 #ifndef LTP_CLICK_NEW
-LRESULT	Ltp_OnNotify( HWND , INT, LPNMHDR );	//!<	
+LRESULT	Ltp_OnNotify( HWND , INT, LPNMHDR );
 #endif
 
-UINT	CALLBACK LineTmpleItemData( LPTSTR, LPCTSTR, INT );	//!<	
+UINT	CALLBACK LineTmpleItemData( LPTSTR, LPCTSTR, INT );
 
-HRESULT	LineTmpleItemListOn( UINT );	//!<	
-HRESULT	LineTmpleItemReload( HWND );	//!<	
+HRESULT	LineTmpleItemListOn( UINT );
+HRESULT	LineTmpleItemReload( HWND );
 
-HRESULT	TemplateItemSplit( LPTSTR, UINT, PAGELOAD );	//!<	
-HRESULT	TemplateItemScatter( LPCTSTR, INT, PAGELOAD );	//!<	
+HRESULT	TemplateItemSplit( LPTSTR, UINT, PAGELOAD );
+HRESULT	TemplateItemScatter( LPCTSTR, INT, PAGELOAD );
 
-LRESULT	CALLBACK gpfLineCtgryProc( HWND, UINT, WPARAM, LPARAM );	//!<	
-LRESULT	CALLBACK gpfLineItemProc(  HWND, UINT, WPARAM, LPARAM );	//!<	
-LRESULT	Ltl_OnNotify( HWND , INT, LPNMHDR );						//!<	
+LRESULT	CALLBACK gpfLineCtgryProc( HWND, UINT, WPARAM, LPARAM );
+LRESULT	CALLBACK gpfLineItemProc(  HWND, UINT, WPARAM, LPARAM );
+LRESULT	Ltl_OnNotify( HWND , INT, LPNMHDR );
 #ifdef LTP_CLICK_NEW
-VOID	Ltl_OnMouseButtonUp( HWND, UINT, INT, INT, UINT );			//!<	
+VOID	Ltl_OnMouseButtonUp( HWND, UINT, INT, INT, UINT );
 #endif
 
-HWND	DockingTabCreate( HINSTANCE, HWND, LPRECT );	//!<	
-//-------------------------------------------------------------------------------------------------
+HWND	DockingTabCreate( HINSTANCE, HWND, LPRECT );
 
-
-
-//-------------------------------------------------------------------------------------------------
-
-/*!
-	壱行テンプレウインドウの作成
-	@param[in]	hInstance	アプリのインスタンス
-	@param[in]	hParentWnd	親ウインドウのハンドル
-	@param[in]	pstFrame	メインクライヤント領域
-	@return		作ったビューのウインドウハンドル
-*/
 HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame )
 {
 
@@ -109,7 +70,6 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 
 	TTTOOLINFO	stToolInfo;
 	LVCOLUMN	stLvColm;
-
 
 	ZeroMemory( &wcex, sizeof(WNDCLASSEX) );
 	wcex.cbSize			= sizeof(WNDCLASSEX);
@@ -127,58 +87,52 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 
 	gTmpleAtom = RegisterClassEx( &wcex );
 
-//テンプレデータ読み出し
 	TemplateItemLoad( AA_LIST_FILE, LineTmpleItemData );
 
-
 	InitWindowPos( INIT_LOAD, WDP_LNTMPL, &rect );
-	if( 0 == rect.right || 0 == rect.bottom )	//	幅高さが０はデータ無し
+	if( 0 == rect.right || 0 == rect.bottom )
 	{
 		GetWindowRect( hParentWnd, &wdRect );
 		rect.left   = wdRect.right;
 		rect.top    = wdRect.top;
 		rect.right  = LT_WIDTH;
 		rect.bottom = LT_HEIGHT;
-		InitWindowPos( INIT_SAVE, WDP_LNTMPL, &rect );//起動時保存
+		InitWindowPos( INIT_SAVE, WDP_LNTMPL, &rect );
 	}
 
-	//	カラム数確認
 	gLnClmCnt = InitParamValue( INIT_LOAD, VL_LINETMP_CLM, 4 );
 
 	if( gbTmpltDock )
 	{
-		spPos = grdSplitPos - SPLITBAR_WIDTH;	//	右からのオフセット
+		spPos = grdSplitPos - SPLITBAR_WIDTH;
 
 		hPrWnd    = hParentWnd;
 		dwExStyle = 0;
 		dwStyle   = WS_CHILD | WS_VISIBLE;
 
-		rect = *pstFrame;	//	クライヤントに使える領域
+		rect = *pstFrame;
 		rect.left  = rect.right - spPos;
 		rect.right = PLIST_DOCK;
 		rect.bottom >>= 1;
 		rect.top    += rect.bottom;
 
-		//	ブラシと切換タブを作成
 		ghDockTabWnd = DockingTabCreate( hInstance, hPrWnd, &rect );
 	}
 	else
 	{
-		//	常に最全面に表示を？
+
 		dwExStyle = WS_EX_TOOLWINDOW;
 		if( InitWindowTopMost( INIT_LOAD, WDP_LNTMPL, 0 ) ){	dwExStyle |=  WS_EX_TOPMOST;	}
 		dwStyle = WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_VISIBLE | WS_SYSMENU;
 		hPrWnd = NULL;
 	}
 
-	//	ウインドウ作成
-	ghTmpleWnd = CreateWindowEx( dwExStyle, LINETEMPLATE_CLASS, TEXT("Line Template"),
+	ghTmpleWnd = CreateWindowEx( dwExStyle, LINETEMPLATE_CLASS, TEXT("라인 템플릿"),
 		dwStyle, rect.left, rect.top, rect.right, rect.bottom, hPrWnd, NULL, hInstance, NULL);
 
 	GetClientRect( ghTmpleWnd, &clRect );
 
-	//	カテゴリコンボックス
-	ghCtgryBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("category"),
+	ghCtgryBxWnd = CreateWindowEx( 0, WC_COMBOBOX, TEXT("카테고리"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | CBS_DROPDOWNLIST,
 		0, 0, clRect.right, 127, ghTmpleWnd,
 		(HMENU)IDCB_LT_CATEGORY, hInstance, NULL );
@@ -195,8 +149,7 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 
 	GetClientRect( ghCtgryBxWnd, &cbxRect );
 
-	//	アイテム一覧リストビュー
-	ghLvItemWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("lineitem"),
+	ghLvItemWnd = CreateWindowEx( 0, WC_LISTVIEW, TEXT("라인아이템"),
 		WS_CHILD | WS_VISIBLE | WS_BORDER | WS_VSCROLL | LVS_REPORT | LVS_NOSORTHEADER | LVS_NOCOLUMNHEADER,
 		0, cbxRect.bottom, clRect.right, clRect.bottom - cbxRect.bottom,
 		ghTmpleWnd, (HMENU)IDLV_LT_ITEMVIEW, hInstance, NULL );
@@ -204,70 +157,56 @@ HWND LineTmpleInitialise( HINSTANCE hInstance, HWND hParentWnd, LPRECT pstFrame 
 
 	SetWindowFont( ghLvItemWnd, ghAaFont, TRUE );
 
-	gpfOrigLineItemProc = SubclassWindow( ghLvItemWnd, gpfLineItemProc );	//	サブクラス
+	gpfOrigLineItemProc = SubclassWindow( ghLvItemWnd, gpfLineItemProc );
 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 	stLvColm.mask     = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	stLvColm.fmt      = LVCFMT_LEFT;
-	stLvColm.pszText  = TEXT("Item");
-	stLvColm.cx       = 10;	//	後で合わせるので適当で良い
+	stLvColm.pszText  = TEXT("아이템");
+	stLvColm.cx       = 10;
 	for( i = 0; gLnClmCnt > i; i++ )
 	{
 		stLvColm.iSubItem = i;
 		ListView_InsertColumn( ghLvItemWnd, i, &stLvColm );
 	}
 
-	LineTmpleItemListOn( 0 );	//	中身追加
+	LineTmpleItemListOn( 0 );
 
-	//	リストビューツールチップ
 	ghLnLvTipWnd = CreateWindowEx( WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL, TTS_NOPREFIX | TTS_ALWAYSTIP,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, ghTmpleWnd, NULL, hInstance, NULL );
-//	SetWindowFont( ghLnLvTipWnd, GetStockFont(DEFAULT_GUI_FONT), FALSE );
 
-	//	ツールチップをコールバックで割り付け
 	ZeroMemory( &stToolInfo, sizeof(TTTOOLINFO) );
 	stToolInfo.cbSize   = sizeof(TTTOOLINFO);
 	stToolInfo.uFlags   = TTF_SUBCLASS;
-	stToolInfo.hinst    = NULL;	//	
+	stToolInfo.hinst    = NULL;
 	stToolInfo.hwnd     = ghLvItemWnd;
 	stToolInfo.uId      = IDLV_LT_ITEMVIEW;
 	GetClientRect( ghLvItemWnd, &stToolInfo.rect );
-	stToolInfo.lpszText = LPSTR_TEXTCALLBACK;	//	コレを指定するとコールバックになる
+	stToolInfo.lpszText = LPSTR_TEXTCALLBACK;
 	SendMessage( ghLnLvTipWnd, TTM_ADDTOOL, 0, (LPARAM)&stToolInfo );
-	SendMessage( ghLnLvTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );	//	チップの幅。０設定でいい。これしとかないと改行されない
-
+	SendMessage( ghLnLvTipWnd, TTM_SETMAXTIPWIDTH, 0, 0 );
 
 	ShowWindow( ghTmpleWnd, SW_SHOW );
 	UpdateWindow( ghTmpleWnd );
 
-
 	return ghTmpleWnd;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ドッキング状態で発生・ドッキングしてる内容切換タブ
-	@param[in]	hInst	実存ハンドル
-	@param[in]	hPrWnd	親ウインドウハンドル
-	@param[in]	pstRect	使えるサイズ・これの上部にくっつける
-*/
 HWND DockingTabCreate( HINSTANCE hInst, HWND hPrWnd, LPRECT pstRect )
 {
 	HWND	hWorkWnd;
 	RECT	itRect;
 	TCITEM	stTcItem;
 
-	hWorkWnd = CreateWindowEx( 0, WC_TABCONTROL, TEXT("dockseltab"),
+	hWorkWnd = CreateWindowEx( 0, WC_TABCONTROL, TEXT("도크선택탭"),
 		WS_VISIBLE | WS_CHILD | WS_CLIPSIBLINGS | TCS_TABS | TCS_SINGLELINE,
-		pstRect->left, pstRect->top, pstRect->right, 10, hPrWnd, (HMENU)IDTB_DOCK_TAB, hInst, NULL );	//	TCS_SINGLELINE
+		pstRect->left, pstRect->top, pstRect->right, 10, hPrWnd, (HMENU)IDTB_DOCK_TAB, hInst, NULL );
 	SetWindowFont( hWorkWnd, ghNameFont, FALSE );
 
 	ZeroMemory( &stTcItem, sizeof(stTcItem) );
 	stTcItem.mask = TCIF_TEXT;
-	stTcItem.pszText = TEXT("壱行");	TabCtrl_InsertItem( hWorkWnd, 0, &stTcItem );
-	stTcItem.pszText = TEXT("ブラシ");	TabCtrl_InsertItem( hWorkWnd, 1, &stTcItem );
-
-	//	選ばれしファイルをタブ的に追加？　タブ幅はウインドウ幅
+	stTcItem.pszText = TEXT("한 줄");	TabCtrl_InsertItem( hWorkWnd, 0, &stTcItem );
+	stTcItem.pszText = TEXT("브러시");	TabCtrl_InsertItem( hWorkWnd, 1, &stTcItem );
 
 	TabCtrl_GetItemRect( hWorkWnd, 1, &itRect );
 	itRect.bottom  += itRect.top;
@@ -278,7 +217,6 @@ HWND DockingTabCreate( HINSTANCE hInst, HWND hPrWnd, LPRECT pstRect )
 
 	return hWorkWnd;
 }
-//-------------------------------------------------------------------------------------------------
 
 VOID DockingTabSizeGet( LPRECT pstRect )
 {
@@ -293,52 +231,31 @@ VOID DockingTabSizeGet( LPRECT pstRect )
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	壱行ブラシタブのコンテキストメニューか？
-	@param[in]	hWnd		ウインドウハンドル
-	@param[in]	hWndContext	コンテキストが発生したウインドウのハンドル
-	@param[in]	xPos		スクリーンＸ座標
-	@param[in]	yPos		スクリーンＹ座業
-	@return	HRESULT	S_OK処理した　E_ABORT関係なかった
-*/
 HRESULT DockingTabContextMenu( HWND hWnd, HWND hWndContext, LONG xPos, LONG yPos )
 {
 	HMENU	hPopupMenu = NULL;
 
-	//	関係ないなら何もしない
 	if( hWndContext != ghDockTabWnd ){	return  E_ABORT;	}
 
 	hPopupMenu = CreatePopupMenu(  );
 
-	if( gbDockTmplView )	AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("テンプレ非表示") );
-	else					AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("テンプレ表示") );
+	if( gbDockTmplView )	AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("템플릿 숨기기") );
+	else					AppendMenu( hPopupMenu, MF_STRING, IDM_LINE_BRUSH_TMPL_VIEW, TEXT("템플릿 표시") );
 
 	TrackPopupMenu( hPopupMenu, 0, xPos, yPos, 0, hWnd, NULL );
 	DestroyMenu( hPopupMenu );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	DOCKINGテンプレ選択タブのハンドル確保
-	@return	ハンドル、分離状態ならNULLが返る
-*/
 HWND DockingTabGet( VOID )
 {
 	if( gbTmpltDock )	return ghDockTabWnd;
 
 	return NULL;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	フローティング壱行テンプレの位置リセット
-	@param[in]	hMainWnd	メインウインドウハンドル
-	@return	HRESULT	終了状態コード
-*/
 HRESULT LineTmplePositionReset( HWND hMainWnd )
 {
 	RECT	wdRect, rect;
@@ -353,33 +270,25 @@ HRESULT LineTmplePositionReset( HWND hMainWnd )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-
-/*!
-	ドッキング状態で発生・くっついてるウインドウがリサイズされたら
-	@param[in]	hPrntWnd	くっついてるウインドウハンドル
-	@param[in]	pstFrame	使えるサイズ
-*/
 VOID LineTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 {
 	RECT	rect, tbRect;
 
-
-	rect = *pstFrame;	//	クライヤントに使える領域
+	rect = *pstFrame;
 	rect.left    = rect.right - (grdSplitPos - SPLITBAR_WIDTH);
 	rect.right   = (grdSplitPos - SPLITBAR_WIDTH);
 
-	if( gbDockTmplView )	//	壱行ブラシテンプレ見えてる
+	if( gbDockTmplView )
 	{
-		rect.bottom >>= 1;	//半分のところに配置
-		rect.top    += rect.bottom;	//	オフセット
+		rect.bottom >>= 1;
+		rect.top    += rect.bottom;
 
 		GetWindowRect( ghDockTabWnd, &tbRect );
 
 		tbRect.left    = rect.left;
-		tbRect.right   = (grdSplitPos - SPLITBAR_WIDTH);	//	幅
-		tbRect.bottom -= tbRect.top;	//	高さ
+		tbRect.right   = (grdSplitPos - SPLITBAR_WIDTH);
+		tbRect.bottom -= tbRect.top;
 		tbRect.top     = rect.top;
 		MoveWindow( ghDockTabWnd, tbRect.left, tbRect.top, tbRect.right, tbRect.bottom, TRUE );
 	}
@@ -387,9 +296,9 @@ VOID LineTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 	{
 		DockingTabSizeGet( &tbRect );
 
-		tbRect.left    = rect.left;	//	左位置
-		tbRect.right   = (grdSplitPos - SPLITBAR_WIDTH);	//	幅
-	//	tbRect.bottom -= tbRect.top;	//	高さ
+		tbRect.left    = rect.left;
+		tbRect.right   = (grdSplitPos - SPLITBAR_WIDTH);
+
 		tbRect.top     = rect.top + (rect.bottom - tbRect.bottom);
 
 		MoveWindow( ghDockTabWnd, tbRect.left, tbRect.top, tbRect.right, tbRect.bottom, TRUE );
@@ -403,26 +312,16 @@ VOID LineTmpleResize( HWND hPrntWnd, LPRECT pstFrame )
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ウインドウプロシージャ
-	@param[in]	hWnd	親ウインドウのハンドル
-	@param[in]	message	ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@retval 0	メッセージ処理済み
-	@retval no0	ここでは処理せず次に回す
-*/
 LRESULT CALLBACK LineTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
 	{
-		HANDLE_MSG( hWnd, WM_SIZE,        Ltp_OnSize );	
-		HANDLE_MSG( hWnd, WM_COMMAND,     Ltp_OnCommand );	
+		HANDLE_MSG( hWnd, WM_SIZE,        Ltp_OnSize );
+		HANDLE_MSG( hWnd, WM_COMMAND,     Ltp_OnCommand );
 		HANDLE_MSG( hWnd, WM_CONTEXTMENU, Ltp_OnContextMenu );
 #ifndef LTP_CLICK_NEW
-		HANDLE_MSG( hWnd, WM_NOTIFY,      Ltp_OnNotify );	//	コモンコントロールの個別イベント
+		HANDLE_MSG( hWnd, WM_NOTIFY,      Ltp_OnNotify );
 #endif
 
 		case WM_MOUSEWHEEL:	SendMessage( ghLvItemWnd, WM_MOUSEWHEEL, wParam, lParam );	return 0;
@@ -434,16 +333,7 @@ LRESULT CALLBACK LineTmpleProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	return DefWindowProc( hWnd, message, wParam, lParam );
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	COMMANDメッセージの受け取り。ボタン押されたとかで発生
-	@param[in]	hWnd		ウインドウハンドル
-	@param[in]	id			メッセージを発生させた子ウインドウの識別子	LOWORD(wParam)
-	@param[in]	hWndCtl		メッセージを発生させた子ウインドウのハンドル	lParam
-	@param[in]	codeNotify	通知メッセージ	HIWORD(wParam)
-	@return		なし
-*/
 VOID Ltp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 {
 	INT		rslt;
@@ -494,7 +384,7 @@ VOID Ltp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 			}
 			break;
 
-		case IDM_TOPMOST_TOGGLE:	//	常時最全面と通常ウインドウのトグル
+		case IDM_TOPMOST_TOGGLE:
 			rdExStyle = GetWindowLongPtr( hWnd, GWL_EXSTYLE );
 			if( WS_EX_TOPMOST & rdExStyle )
 			{
@@ -511,7 +401,6 @@ VOID Ltp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 		case IDM_TMPLGROUPSTYLE_TGL:
 			break;
 
-		//	テンプレファイルリロード
 		case IDM_TMPLT_RELOAD:	LineTmpleItemReload( hWnd );	break;
 
 		default:	break;
@@ -519,16 +408,7 @@ VOID Ltp_OnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	サイズ変更された
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	state	なにかの状態
-	@param[in]	cx		変更されたクライヤント幅
-	@param[in]	cy		変更されたクライヤント高さ
-	@return		なし
-*/
 VOID Ltp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 {
 	LONG	width;
@@ -541,7 +421,7 @@ VOID Ltp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 	MoveWindow( ghLvItemWnd, 0, cbxRect.bottom, cx, cy - cbxRect.bottom, TRUE );
 
 	GetClientRect( ghLvItemWnd, &rect );
-	width  = rect.right / gLnClmCnt;	//	表示カラム数なので０になることはない
+	width  = rect.right / gLnClmCnt;
 
 	for( i = 0; gLnClmCnt > i; i++ )
 	{
@@ -550,16 +430,9 @@ VOID Ltp_OnSize( HWND hWnd, UINT state, INT cx, INT cy )
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
 #ifndef LTP_CLICK_NEW
-/*!
-	ノーティファイメッセージの処理
-	@param[in]	hWnd		親ウインドウのハンドル
-	@param[in]	idFrom		NOTIFYを発生させたコントロールのＩＤ
-	@param[in]	pstNmhdr	NOTIFYの詳細
-	@return		処理した内容とか
-*/
+
 LRESULT Ltp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 {
 	HWND	hLvWnd;
@@ -576,7 +449,6 @@ LRESULT Ltp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 		hLvWnd = pstLv->hdr.hwndFrom;
 		nmCode = pstLv->hdr.code;
 
-		//	普通のクルックについて
 		if( NM_CLICK == nmCode )
 		{
 			stHitTestInfo.pt = pstLv->ptAction;
@@ -590,36 +462,28 @@ LRESULT Ltp_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 			{
 				items = gvcTmples.at( gNowGroup ).vcItems.size( );
 
-				TRACE( TEXT("LINE TMPL[%d x %d]"), iItem, iSubItem );
+				TRACE( TEXT("라인 템플릿[%d x %d]"), iItem, iSubItem );
 
-				if( 0 <= iPos && iPos <  items )	//	なんか選択した
+				if( 0 <= iPos && iPos <  items )
 				{
 					StringCchCopy( atItem, SUB_STRING, gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
-					ViewInsertTmpleString( atItem );	//	挿入処理
+					ViewInsertTmpleString( atItem );
 
-					ViewFocusSet(  );	//	20110720	フォーカスを描画に戻す
+					ViewFocusSet(  );
 				}
 			}
 			else
 			{
-				ViewFocusSet(  );	//	20110720	フォーカスを描画に戻す
+				ViewFocusSet(  );
 			}
 		}
 	}
 
-	return 0;	//	何もないなら０を戻す
+	return 0;
 }
-//-------------------------------------------------------------------------------------------------
+
 #endif
 
-/*!
-	コンテキストメニュー呼びだしアクション(要は右クルック）
-	@param[in]	hWnd		ウインドウハンドル
-	@param[in]	hWndContext	コンテキストが発生したウインドウのハンドル
-	@param[in]	xPos		スクリーンＸ座標
-	@param[in]	yPos		スクリーンＹ座業
-	@return		無し
-*/
 VOID Ltp_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 {
 	HMENU	hMenu, hSubMenu;
@@ -628,65 +492,46 @@ VOID Ltp_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 
 	POINT	stPoint;
 
-
-	stPoint.x = (SHORT)xPos;	//	画面座標はマイナスもありうる
+	stPoint.x = (SHORT)xPos;
 	stPoint.y = (SHORT)yPos;
 
 	hMenu = LoadMenu( GetModuleHandle(NULL), MAKEINTRESOURCE(IDM_TEMPLATE_POPUP) );
 	hSubMenu = GetSubMenu( hMenu, 0 );
-//	AppendMenu( hSubMenu, MF_STRING, IDM_TMPLGROUPSTYLE_TGL, TEXT("カテゴリ表示切替") );
-	//準備中
 
-	//	一体化なら手前表示を削除
 	if( gbTmpltDock ){	DeleteMenu( hSubMenu, IDM_TOPMOST_TOGGLE, MF_BYCOMMAND );	}
 
 	rdExStyle = GetWindowLongPtr( hWnd, GWL_EXSTYLE );
 	if( WS_EX_TOPMOST & rdExStyle ){	CheckMenuItem( hSubMenu , IDM_TOPMOST_TOGGLE, MF_BYCOMMAND | MF_CHECKED );	}
 
 	dRslt = TrackPopupMenu( hSubMenu, 0, stPoint.x, stPoint.y, 0, hWnd, NULL );
-	//	選択せずで０か−１？、選択したらそのメニューのＩＤでWM_COMMANDが発行
+
 	DestroyMenu( hMenu );
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	セット名称と、内容物（どっちかのみ有効）を壱行づつ受け取る
-	@param[in]	ptName	セット名称・無効ならNULL・こっちの存在優先
-	@param[in]	ptLine	項目の内容・無効ならNULL・両方NULLで末端処理
-	@param[in]	cchSize	どっちかの内容の文字数
-	@return	UINT	特に意味はない
-*/
 UINT CALLBACK LineTmpleItemData( LPTSTR ptName, LPCTSTR ptLine, INT cchSize )
 {
-//	両方NULLだったら、本体に追加処理をすれ
+
 	static AATEMPLATE	cstItem;
 
-
-	if( ptName )	//	セット名称・開始でもある
+	if( ptName )
 	{
 		StringCchCopy( cstItem.atCtgryName, SUB_STRING, ptName );
 		cstItem.vcItems.clear(  );
 	}
-	else if( ptLine )	//	本体データ
+	else if( ptLine )
 	{
 		cstItem.vcItems.push_back( wstring( ptLine ) );
 	}
-	else	//	どっちもNULL、セット終了
+	else
 	{
 		gvcTmples.push_back( cstItem );
 	}
 
 	return 1;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アイテムをコンボックスとリストに展開
-	@param[in]	listNum	展開するセット番号・０インデックス
-	@return		HRESULT	終了状態コード
-*/
 HRESULT LineTmpleItemListOn( UINT listNum )
 {
 	INT			width;
@@ -701,7 +546,7 @@ HRESULT LineTmpleItemListOn( UINT listNum )
 
 	items = gvcTmples.at( listNum ).vcItems.size( );
 
-	TRACE( TEXT("LINE open NUM[%u] ITEM[%u] GRID[%d]"), listNum, items, gLnClmCnt );
+	TRACE( TEXT("라인 열기 번호[%u] 아이템[%u] 그리드[%d]"), listNum, items, gLnClmCnt );
 
 	ListView_DeleteAllItems( ghLvItemWnd );
 
@@ -713,40 +558,31 @@ HRESULT LineTmpleItemListOn( UINT listNum )
 	{
 		StringCchCopy( atItem, SUB_STRING, gvcTmples.at( listNum ).vcItems.at( i ).c_str( ) );
 
-		stLvi.iItem     = i / gLnClmCnt;	//	表示カラム数なので０になることはない
+		stLvi.iItem     = i / gLnClmCnt;
 		stLvi.iSubItem  = i % gLnClmCnt;
 		if( 0 == stLvi.iSubItem )	ListView_InsertItem( ghLvItemWnd, &stLvi );
 		else						ListView_SetItem( ghLvItemWnd, &stLvi );
 	}
 
-	//	ブチこんだら幅調整
 	GetClientRect( ghLvItemWnd, &rect );
-	width  = rect.right / gLnClmCnt;	//	表示カラム数なので０になることはない
+	width  = rect.right / gLnClmCnt;
 	for( i = 0; gLnClmCnt > i; i++ ){	ListView_SetColumnWidth( ghLvItemWnd, i, width );	}
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アイテムファイル最読込
-	@param[in]	hWnd		ウインドウハンドル
-	@return		HRESULT	終了状態コード
-*/
 HRESULT LineTmpleItemReload( HWND hWnd )
 {
 	TEMPL_ITR	itTmpl;
-	
 
-	gNowGroup = 0;	//	とりあえず０に戻す
+	gNowGroup = 0;
 
 	for( itTmpl = gvcTmples.begin( ); gvcTmples.end( ) != itTmpl; itTmpl++ ){	itTmpl->vcItems.clear();	}
-	gvcTmples.clear(  );	//	一旦内容破壊
-	
-	//	カテゴリコンボックスの中身を全破壊
+	gvcTmples.clear(  );
+
 	while( ComboBox_GetCount( ghCtgryBxWnd )  ){	ComboBox_DeleteString( ghCtgryBxWnd, 0 );	}
 
-	TemplateItemLoad( AA_LIST_FILE, LineTmpleItemData );	//	再びロード
+	TemplateItemLoad( AA_LIST_FILE, LineTmpleItemData );
 
 	for( itTmpl = gvcTmples.begin( ); gvcTmples.end( ) != itTmpl; itTmpl++ )
 	{
@@ -754,31 +590,20 @@ HRESULT LineTmpleItemReload( HWND hWnd )
 	}
 	ComboBox_SetCurSel( ghCtgryBxWnd, 0 );
 
-	LineTmpleItemListOn( 0 );	//	０頁を表示
+	LineTmpleItemListOn( 0 );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-
-
-
-
-/*!
-	ファイルを開けてデータ確保開始
-	@param[in]	ptFileName	開くファイルの名前
-	@param[in]	pfCalling	受け取ったデータを処理する函数へのポインター
-	@return		HRESULT	終了状態コード
-*/
 HRESULT TemplateItemLoad( LPTSTR ptFileName, PAGELOAD pfCalling )
 {
-	CONST WCHAR rtHead = 0xFEFF;	//	ユニコードテキストヘッダ
+	CONST WCHAR rtHead = 0xFEFF;
 	WCHAR	rtUniBuf;
 
 	HANDLE	hFile;
 	DWORD	readed;
 
-	LPVOID	pBuffer;	//	文字列バッファ用ポインター
+	LPVOID	pBuffer;
 	INT		iByteSize;
 
 	LPTSTR	ptString;
@@ -800,22 +625,21 @@ HRESULT TemplateItemLoad( LPTSTR ptFileName, PAGELOAD pfCalling )
 
 	SetFilePointer( hFile, 0, NULL, FILE_BEGIN );
 	ReadFile( hFile, pBuffer, iByteSize, &readed, NULL );
-	CloseHandle( hFile );	//	内容全部取り込んだから開放
+	CloseHandle( hFile );
 
-	//	ユニコードチェック
 	CopyMemory( &rtUniBuf, pBuffer, 2 );
-	if( rtHead == rtUniBuf )	//	ユニコードヘッダがあれば
-	{	//	普通はユニコードじゃない
+	if( rtHead == rtUniBuf )
+	{
 		ptString = (LPTSTR)pBuffer;
-		ptString++;	//	ユニコードヘッダ分進めておく
+		ptString++;
 	}
-	else	//	多分SJISであるなら
+	else
 	{
 		pcText = (LPSTR)pBuffer;
-		ptString = SjisDecodeAlloc( pcText );	//	SJISの内容をユニコードにする
+		ptString = SjisDecodeAlloc( pcText );
 
-		FREE( pBuffer );	//	こっちで開放
-		pBuffer = ptString;	//	ポイントするところを変更
+		FREE( pBuffer );
+		pBuffer = ptString;
 	}
 
 	StringCchLength( ptString, STRSAFE_MAX_CCH, &cchSize );
@@ -826,62 +650,53 @@ HRESULT TemplateItemLoad( LPTSTR ptFileName, PAGELOAD pfCalling )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ListNameなユニコード文字列を受け取って分解しつつページに入れる
-	@param[in]	ptStr		分解対象文字列へのポインター
-	@param[in]	cchSize		その文字列の文字数
-	@param[in]	pfCalling	受け取ったデータを処理する函数へのポインター
-	@return		HRESULT		終了状態コード
-*/
 HRESULT TemplateItemSplit( LPTSTR ptStr, UINT cchSize, PAGELOAD pfCalling )
 {
-	LPCTSTR	ptCaret;	//	読込開始・現在位置
-	LPCTSTR	ptStart;	//	セパレータの直前
+	LPCTSTR	ptCaret;
+	LPCTSTR	ptStart;
 	LPTSTR	ptEnd;
-	UINT	iNumber;	//	通し番号カウント
+	UINT	iNumber;
 	UINT	cchItem;
-//	INT		dmyX = 0, dmyY = 0;
+
 	BOOLEAN	bLast;
 	TCHAR	atName[MAX_PATH];
 
-	ptCaret = ptStr;	//	まずは最初から
+	ptCaret = ptStr;
 
-	iNumber = 0;	//	通し番号０インデックス
+	iNumber = 0;
 
 	bLast = FALSE;
 
-	//	最初の[ListName=まで移動
 	ptEnd = StrStr( ptCaret, TMPLE_BEGINW );
-	if( !ptEnd )	return E_INVALIDARG;	//	ファイルの中身が違う
+	if( !ptEnd )	return E_INVALIDARG;
 
 	ptCaret = ptEnd;
 
-	do	//	
+	do
 	{
-		ptStart = NextLineW( ptCaret );	//	次の行からが本番
-		if( !ptStart )	return  S_FALSE;	//	見つからなかったら
+		ptStart = NextLineW( ptCaret );
+		if( !ptStart )	return  S_FALSE;
 
-		ptEnd = StrStr( ptCaret, TEXT("=") );	//	=
-		ptCaret = ptEnd + 1;	//	名前の所まですすむ
-		cchItem = ptStart - ptCaret;	//	名前部分の文字数
-		cchItem -= 3;	//	]rn
+		ptEnd = StrStr( ptCaret, TEXT("=") );
+		ptCaret = ptEnd + 1;
+		cchItem = ptStart - ptCaret;
+		cchItem -= 3;
 
-		ZeroMemory( atName, sizeof(atName) );	//	名前確保
+		ZeroMemory( atName, sizeof(atName) );
 		if( 0 < cchItem ){	StringCchCopyN( atName, MAX_PATH, ptCaret, cchItem );	}
-		else{	StringCchPrintf( atName, MAX_PATH, TEXT("Nameless%d"), iNumber );	}
+		else{	StringCchPrintf( atName, MAX_PATH, TEXT("이름없음%d"), iNumber );	}
 
 		StringCchLength( atName, MAX_PATH, &cchItem );
 		pfCalling( atName, NULL, cchItem );
 
-		ptCaret = ptStart;	//	本体部分
+		ptCaret = ptStart;
 
-		ptEnd = StrStr( ptCaret, TMPLE_ENDW );	//	終端セパレータを探す
-		//	この時点でptEndは[end]をさしてる・NULLはありえない
-		if( !ptEnd ){	return  S_FALSE;	}	//	見つからなかったら
+		ptEnd = StrStr( ptCaret, TMPLE_ENDW );
 
-		cchItem = ptEnd - ptCaret;	//	WCHAR単位なので計算結果は文字数のようだ
+		if( !ptEnd ){	return  S_FALSE;	}
+
+		cchItem = ptEnd - ptCaret;
 
 		TemplateItemScatter( ptCaret, cchItem, pfCalling );
 
@@ -889,35 +704,25 @@ HRESULT TemplateItemSplit( LPTSTR ptStr, UINT cchSize, PAGELOAD pfCalling )
 
 		iNumber++;
 
-		ptCaret = NextLineW( ptEnd );	//	次の行が次の開始地点
+		ptCaret = NextLineW( ptEnd );
 
-	}while( *ptCaret );	//	データ有る限りループで探す
-
-
+	}while( *ptCaret );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	内容物をバラしてぶちこむ
-	@param[in]	ptCont		項目の内容
-	@param[in]	cchSize		内容の文字数
-	@param[in]	pfCalling	受け取ったデータを処理する函数へのポインター
-	@return		HRESULT	終了状態コード
-*/
 HRESULT TemplateItemScatter( LPCTSTR ptCont, INT cchSize, PAGELOAD pfCalling )
 {
-	//	改行で区切られた壱行単位のアイテムである
+
 	INT	nowCaret, nYct, nXct, rtcnt;
 
-	TCHAR	hdBuf[MAX_STRING];	//	データを確保
+	TCHAR	hdBuf[MAX_STRING];
 
-	ZeroMemory( hdBuf, sizeof(hdBuf) );	//	クリンナップ
+	ZeroMemory( hdBuf, sizeof(hdBuf) );
 
 	nowCaret = 0;
-	rtcnt = 0;	//	改行カウント・いらねぇ？
-	//スタイリッシュに本体読込
+	rtcnt = 0;
+
 	for( nYct = 0, nXct = 0; nowCaret <= cchSize; nowCaret++, nXct++ )
 	{
 		if( nXct >= MAX_STRING )	nXct = MAX_STRING - 1;
@@ -926,30 +731,23 @@ HRESULT TemplateItemScatter( LPCTSTR ptCont, INT cchSize, PAGELOAD pfCalling )
 
 		if( ( TEXT('\r') == ptCont[nowCaret] && TEXT('\n') == ptCont[nowCaret + 1]) || 0x0000 == ptCont[nowCaret] )
 		{
-			if( 0 == nXct )	continue;	//	ラスト改行ありならここに入る・文字列無しなら何もしない
-			hdBuf[nXct] = 0x0000;	//	文字列の終点はヌル
-			//	ここでデータ処理
+			if( 0 == nXct )	continue;
+			hdBuf[nXct] = 0x0000;
+
 			pfCalling( NULL, hdBuf, nXct );
 
-			nXct = -1;	//	ループ頭で＋＋されるため、０にあうようにしておく
-			nYct = 0;	//	次のエレメントにスタイリッシュに移る
-			nowCaret++;	//	改行コード分をエレガントに進める
+			nXct = -1;
+			nYct = 0;
+			nowCaret++;
 
 			rtcnt++;
-			ZeroMemory( hdBuf, sizeof(hdBuf) );	//	クリンナップ
+			ZeroMemory( hdBuf, sizeof(hdBuf) );
 		}
 	}
 
 	return 1;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	格子の数を増減させる
-	@param[in]	hLvWnd	対象のリストビューのハンドル
-	@param[in]	dFluct	正：増やす　負：減らす
-	@return	０：操作無し　１〜：その数になった
-*/
 UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 {
 	INT	clmCount, clmNew, i;
@@ -957,14 +755,13 @@ UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 
 	if( 0 == dFluct )	return 0;
 
-	//	カラムの数は、リストビューのヘッダーからゲットせないかん
 	clmCount = Header_GetItemCount( ListView_GetHeader(hLvWnd) );
 
-	TRACE( TEXT("カラム増減[%u][%d]"), clmCount, dFluct );
+	TRACE( TEXT("컬럼 증감[%u][%d]"), clmCount, dFluct );
 
-	if( 0 > dFluct && 1 >= clmCount )	return 0;	//	１より減らせない
+	if( 0 > dFluct && 1 >= clmCount )	return 0;
 
-	clmNew =  clmCount + dFluct;	//	カラム数調整して
+	clmNew =  clmCount + dFluct;
 
 	if( 0 > dFluct )
 	{
@@ -979,8 +776,8 @@ UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 		ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
 		stLvColm.mask     = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 		stLvColm.fmt      = LVCFMT_LEFT;
-		stLvColm.pszText  = TEXT("Item");
-		stLvColm.cx       = 10;	//	あとで調整するので適当で
+		stLvColm.pszText  = TEXT("아이템");
+		stLvColm.cx       = 10;
 		for( i = clmCount; clmNew > i; i++ )
 		{
 			stLvColm.iSubItem = i;
@@ -990,16 +787,7 @@ UINT TemplateGridFluctuate( HWND hLvWnd, INT dFluct )
 
 	return clmNew;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	カテゴリコンボックスサブクラス
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	msg		ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@return	なんか処理した結果
-*/
 LRESULT CALLBACK gpfLineCtgryProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	INT	id;
@@ -1021,7 +809,7 @@ LRESULT CALLBACK gpfLineCtgryProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			break;
 
-		case WM_MOUSEWHEEL:	//	カテゴリコンボックスでのWHEELでページ送りなると面倒なのでリストビューに送る
+		case WM_MOUSEWHEEL:
 			SendMessage( ghLvItemWnd, WM_MOUSEWHEEL, wParam, lParam );
 			return 0;
 
@@ -1029,28 +817,17 @@ LRESULT CALLBACK gpfLineCtgryProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	return CallWindowProc( gpfOrigLineCtgryProc, hWnd, msg, wParam, lParam );
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アイテムリストビューサブクラス
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	msg		ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@return	なんか処理した結果
-*/
 LRESULT CALLBACK gpfLineItemProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	INT	id;
 
-//	Ctrl押しながらマウスホイール廻るとまずい？
-
 	switch( msg )
 	{
-		HANDLE_MSG( hWnd, WM_NOTIFY, Ltl_OnNotify );	//	コモンコントロールの個別イベント
+		HANDLE_MSG( hWnd, WM_NOTIFY, Ltl_OnNotify );
 
 #ifdef LTP_CLICK_NEW
-		case WM_LBUTTONDOWN:	//	この部分がないとクルックに反応しない
+		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 			TRACE( TEXT("LTL_MOUSenAN") );
 			return 0;
@@ -1078,24 +855,14 @@ LRESULT CALLBACK gpfLineItemProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 	return CallWindowProc( gpfOrigLineItemProc, hWnd, msg, wParam, lParam );
 }
-//-------------------------------------------------------------------------------------------------
 
 #ifdef LTP_CLICK_NEW
-/*!
-	ビューでマウスのボタンがうっｐされたとき
-	@param[in]	hWnd		ウインドウハンドル・ビューのとは限らない？
-	@param[in]	msg			メッセージ・押されたボタン識別
-	@param[in]	x			発生したクライヤントＸ座標値
-	@param[in]	y			発生したクライヤントＹ座標値
-	@param[in]	keyFlags	他に押されてるキーについて
-*/
+
 VOID Ltl_OnMouseButtonUp( HWND hWnd, UINT msg, INT x, INT y, UINT keyFlags )
 {
 	INT		iPos, iItem, iSubItem;
 	INT_PTR	items;
-	//TCHAR	atItem[SUB_STRING];
-	//LPTSTR	ptStr = NULL, ptItem = NULL;
-	//UINT_PTR	cchSz;
+
 	LVHITTESTINFO	stHitTestInfo;
 
 	TRACE( TEXT("LTL_MOUSEB %d x %d"), x, y );
@@ -1108,35 +875,19 @@ VOID Ltl_OnMouseButtonUp( HWND hWnd, UINT msg, INT x, INT y, UINT keyFlags )
 	iItem = stHitTestInfo.iItem;
 	iSubItem = stHitTestInfo.iSubItem;
 	iPos = iItem * gLnClmCnt + iSubItem;
-	TRACE( TEXT("LINE TMPL[%d x %d][%d]"), iItem, iSubItem, iPos );
+	TRACE( TEXT("라인 템플릿[%d x %d][%d]"), iItem, iSubItem, iPos );
 
 	if( 0 < gvcTmples.size() )
 	{
 		items = gvcTmples.at( gNowGroup ).vcItems.size( );
 
-		if( 0 <= iPos && iPos <  items )	//	なんか選択した
+		if( 0 <= iPos && iPos <  items )
 		{
-			//cchSz = gvcTmples.at( gNowGroup ).vcItems.at( iPos ).size() + 1;
-			//if( SUB_STRING <= cchSz )
-			//{
-			//	ptStr = (LPTSTR)malloc( cchSz * sizeof(TCHAR) );
-			//	ZeroMemory( ptStr, cchSz * sizeof(TCHAR) );
-			//	StringCchCopy( ptStr, cchSz, gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
-			//	ptItem = ptStr;
-			//}
-			//else	//	配列よりデカいなら、ダイナミックにゲット
-			//{
-			//	StringCchCopy( atItem, SUB_STRING, gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
-			//	ptItem = atItem;
-			//}
-			//if( WM_LBUTTONUP == msg )		ViewInsertTmpleString( ptItem );	//	挿入処理
-			//else if( WM_MBUTTONUP == msg )	LayerBoxVisibalise( GetModuleHandle(NULL), ptItem, 0x00 );
-			//FREE( ptStr );
 
 			if( WM_LBUTTONUP == msg )
 			{
-				ViewInsertTmpleString( gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str(  ) );	//	挿入処理
-				ViewFocusSet(  );	//	フォーカスを描画に戻す
+				ViewInsertTmpleString( gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str(  ) );
+				ViewFocusSet(  );
 			}
 			else if( WM_MBUTTONUP == msg )
 			{
@@ -1146,21 +897,14 @@ VOID Ltl_OnMouseButtonUp( HWND hWnd, UINT msg, INT x, INT y, UINT keyFlags )
 	}
 	else
 	{
-		ViewFocusSet(  );	//	フォーカスを描画に戻す
+		ViewFocusSet(  );
 	}
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
+
 #endif
 
-/*!
-	ノーティファイメッセージの処理
-	@param[in]	hWnd		親ウインドウのハンドル
-	@param[in]	idFrom		NOTIFYを発生させたコントロールのＩＤ
-	@param[in]	pstNmhdr	NOTIFYの詳細
-	@return		処理した内容とか
-*/
 LRESULT Ltl_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 {
 	HWND	hLvWnd;
@@ -1173,8 +917,7 @@ LRESULT Ltl_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 	pstLv = (LPNMLISTVIEW)pstNmhdr;
 
-	//	リストビュー自体のプロシージャなので
-	hLvWnd = hWnd;		//pstLv->hdr.hwndFrom;<--ツールチップのハンドルになってるかもだ
+	hLvWnd = hWnd;
 	nmCode = pstLv->hdr.code;
 
 	if( TTN_GETDISPINFO == nmCode )
@@ -1202,12 +945,12 @@ LRESULT Ltl_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 			{
 				items = gvcTmples.at( gNowGroup ).vcItems.size( );
 
-				if( 0 <= iPos && iPos <  items )	//	なんか選択した
+				if( 0 <= iPos && iPos <  items )
 				{
 					StringCchCopy( atItem, SUB_STRING, gvcTmples.at( gNowGroup ).vcItems.at( iPos ).c_str( ) );
 					iDot = ViewStringWidthGet( atItem );
 
-					StringCchPrintf( pstDispInfo->szText, 80, TEXT("%s [%d Dot]"), atItem, iDot );
+					StringCchPrintf( pstDispInfo->szText, 80, TEXT("%s [%d 점]"), atItem, iDot );
 				}
 			}
 
@@ -1217,5 +960,3 @@ LRESULT Ltl_OnNotify( HWND hWnd, INT idFrom, LPNMHDR pstNmhdr )
 
 	return CallWindowProc( gpfOrigLineItemProc, hWnd, WM_NOTIFY, (WPARAM)idFrom, (LPARAM)pstNmhdr );
 }
-//-------------------------------------------------------------------------------------------------
-
