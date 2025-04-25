@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [Debug, Release]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
         run: |
@@ -53,7 +53,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [Debug, Release]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
         run: |
@@ -98,7 +98,7 @@ jobs:
       fail-fast: false
       matrix:
         mode: [Debug, Release]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
         run: |
