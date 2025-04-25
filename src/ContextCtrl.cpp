@@ -991,48 +991,25 @@ HRESULT AccelKeyBindString( LPACCEL pstAccel, LPTSTR ptBuffer, UINT_PTR cchSize 
 			case VK_OEM_2:		StringCchCopy( atKey, MIN_STRING, TEXT("/") );	break;
 			case VK_OEM_3:		StringCchCopy( atKey, MIN_STRING, TEXT("@") );	break;
 			case VK_OEM_4:		StringCchCopy( atKey, MIN_STRING, TEXT("[") );	break;
-			case VK_OEM_5:		StringCchCopy( atKey, MIN_STRING, TEXT("\\") );	break;	//	¥
+			case VK_OEM_5:		StringCchCopy( atKey, MIN_STRING, TEXT("\\") );	break;
 			case VK_OEM_6:		StringCchCopy( atKey, MIN_STRING, TEXT("]") );	break;
 			case VK_OEM_7:		StringCchCopy( atKey, MIN_STRING, TEXT("^") );	break;
 			case VK_OEM_8:		StringCchCopy( atKey, MIN_STRING, TEXT("_") );	break;
-			case VK_OEM_102:	StringCchCopy( atKey, MIN_STRING, TEXT("ろ") );	break;	//	ろ
+			case VK_OEM_102:	StringCchCopy( atKey, MIN_STRING, TEXT("ろ") );	break;
 			case VK_OEM_ATTN:	StringCchCopy( atKey, MIN_STRING, TEXT("CapsLock") );	break;
-			case VK_OEM_COPY:	StringCchCopy( atKey, MIN_STRING, TEXT("カ夕ひら") );	break;
-			case VK_OEM_AUTO:	StringCchCopy( atKey, MIN_STRING, TEXT("半/全 漢1") );	break;
-			case VK_OEM_ENLW:	StringCchCopy( atKey, MIN_STRING, TEXT("半/全 漢2") );	break;
+			case VK_OEM_COPY:	StringCchCopy( atKey, MIN_STRING, TEXT("가타카나/히라가나") );	break;
+            case VK_OEM_AUTO:	StringCchCopy( atKey, MIN_STRING, TEXT("반각/전각 한자1") );	break;
+            case VK_OEM_ENLW:	StringCchCopy( atKey, MIN_STRING, TEXT("반각/전각 한자2") );	break;
 
-			//	足りない分はＳＤＫから追加する
 			default:	StringCchPrintf( atKey, MIN_STRING, TEXT("0x%02X"), pstAccel->key );	break;
 		}
 	}
-//0x40 : unassigned
-//0x07 : unassigned
-//0x0A - 0x0B : reserved
-//0x5E : reserved
-//0x88 - 0x8F : unassigned
-//0x97 - 0x9F : unassigned
-//0xB8 - 0xB9 : reserved
-//0xC1 - 0xD7 : reserved
-//0xD8 - 0xDA : unassigned
-//0xE0 : reserved
-//0xE8 : unassigned
-//0xFF : reserved
 
 	StringCchCat( ptBuffer, cchSize, atKey );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	コマンド番号を参照して、ヒットしたらアクセル文字列を作ってくっつける
-	@param[in]	ptText		処理結果をくっつける文字列ポインター
-	@param[in]	cchSize		バッファの文字数
-	@param[in]	dCommand	コマンド番号
-	@param[in]	pstAccel	アクセラキーテーブル
-	@param[in]	iEntry		テーブルのデータ数
-	@return		HRESULT		終了状態コード
-*/
 HRESULT AccelKeyTextBuild( LPTSTR ptText, UINT_PTR cchSize, DWORD dCommand, CONST LPACCEL pstAccel, INT iEntry )
 {
 	TCHAR	atKeystr[SUB_STRING];
@@ -1053,13 +1030,7 @@ HRESULT AccelKeyTextBuild( LPTSTR ptText, UINT_PTR cchSize, DWORD dCommand, CONS
 
 	return E_OUTOFMEMORY;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アクセルキー編集のリストビュー初期化
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	*pltAccel	アクセラキーテーブル
-*/
 VOID AccelKeyListInit( HWND hDlg, list<ACCEL> *pltAccel )
 {
 	HWND		hLvWnd;
@@ -1096,7 +1067,6 @@ VOID AccelKeyListInit( HWND hDlg, list<ACCEL> *pltAccel )
 	{
 		stItem.iItem = j;
 
-		//	関係無いやつは飛ばす
 		if( 0 == gstContextItem[i].dCommandoID ||
 		IDM_MN_UNISPACE     == gstContextItem[i].dCommandoID ||
 		IDM_MN_COLOUR_SEL   == gstContextItem[i].dCommandoID ||
@@ -1132,49 +1102,35 @@ VOID AccelKeyListInit( HWND hDlg, list<ACCEL> *pltAccel )
 
 	return;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アクセルキーとホットキーの修飾子を入替
-	@param[in]	bSrc	元の修飾子コード
-	@param[in]	bDrct	非０アクセル→ホット　０ホット→アクセル
-	@return	変換したコード
-*/
 BYTE AccelHotModExchange( BYTE bSrc, BOOLEAN bDrct )
 {
 	BYTE	bDest = 0;
 
-	if( bDrct )	//	アクセル→ホット
+	if( bDrct )
 	{
-		if( bSrc & FSHIFT )		bDest |= HOTKEYF_SHIFT;		//	シフト
-		if( bSrc & FCONTROL )	bDest |= HOTKEYF_CONTROL;	//	コントロール
-		if( bSrc & FALT )		bDest |= HOTKEYF_ALT;		//	アルタネート
+		if( bSrc & FSHIFT )		bDest |= HOTKEYF_SHIFT;
+		if( bSrc & FCONTROL )	bDest |= HOTKEYF_CONTROL;
+		if( bSrc & FALT )		bDest |= HOTKEYF_ALT;
 	}
-	else	//	ホット→アクセル
+	else
 	{
-		if( bSrc & HOTKEYF_SHIFT )		bDest |= FSHIFT;	//	シフト
-		if( bSrc & HOTKEYF_CONTROL )	bDest |= FCONTROL;	//	コントロール
-		if( bSrc & HOTKEYF_ALT )		bDest |= FALT;		//	アルタネート
+		if( bSrc & HOTKEYF_SHIFT )		bDest |= FSHIFT;
+		if( bSrc & HOTKEYF_CONTROL )	bDest |= FCONTROL;
+		if( bSrc & HOTKEYF_ALT )		bDest |= FALT;
 
-		bDest |= (FVIRTKEY|FNOINVERT);	//	常にある
+		bDest |= (FVIRTKEY|FNOINVERT);
 	}
 
 	return bDest;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アクセルテーブルを保存
-	@param[in]	*pltAccel	アクセラキーテーブル
-	@return		HRESULT		終了状態コード
-*/
 HRESULT AccelKeyTableSave( list<ACCEL> *pltAccel )
 {
 	INT_PTR	i;
 	TCHAR	atKeyName[MIN_STRING], atBuff[MIN_STRING];
 	list<ACCEL>::iterator	itAccel;
 
-	//	一旦セクションを空にする
 	ZeroMemory( atBuff, sizeof(atBuff) );
 	WritePrivateProfileSection( TEXT("Accelerator"), atBuff, gatCntxIni );
 
@@ -1201,58 +1157,40 @@ HRESULT AccelKeyTableSave( list<ACCEL> *pltAccel )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アクセル設定を初期状態にアッー
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	*pltAccel	アクセラキーテーブル
-	@return		HRESULT		終了状態コード
-*/
 HRESULT AccelKeySettingReset( HWND hDlg, list<ACCEL> *pltAccel )
 {
 	HWND	hLvWnd;
-	HACCEL	hAccel;	//
+	HACCEL	hAccel;
 	LPACCEL	pstAccel = NULL;
 	INT		iItems, i;
 
-	//	元々のテーブルを確保
 	hAccel = LoadAccelerators( ghInst, MAKEINTRESOURCE(IDC_ORINRINEDITOR) );
 
-	//	まず個数確保
 	iItems = CopyAcceleratorTable( hAccel, NULL, 0 );
 	if( 0 >= iItems )	return E_POINTER;
 
 	pstAccel = (LPACCEL)malloc( iItems * sizeof(ACCEL) );
 	if( !(pstAccel) )	return NULL;
 
-	//	本体確保
 	iItems = CopyAcceleratorTable( hAccel, pstAccel, iItems );
 
-	DestroyAcceleratorTable( hAccel );	//	全部汚倭ったらぶっ壊しておく
+	DestroyAcceleratorTable( hAccel );
 
-	(*pltAccel).clear();	//	クルヤー
+	(*pltAccel).clear();
 
 	for( i = 0; iItems > i; i++ ){	(*pltAccel).push_back( pstAccel[i] );	}
 
 	FREE( pstAccel );
 
 	hLvWnd = GetDlgItem( hDlg, IDLV_FUNCKEY_LIST );
-	ListView_DeleteAllItems( hLvWnd );	//	リストビューは壊しておく方が早い
+	ListView_DeleteAllItems( hLvWnd );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	設定をファイルにエクスポートする
-	@param[in]	hDlg	ダイヤログハンドル
-	@return		HRESULT	終了状態コード
-*/
 HRESULT AccelKeyListOutput( HWND hDlg )
 {
-//	CONST  WCHAR	rtHead = 0xFEFF;	//	ユニコードテキストヘッダ
-	//	ファイル形式は？　SJISかUTF8でいい
 
 	HANDLE	hFile;
 	DWORD	wrote;
@@ -1281,23 +1219,23 @@ HRESULT AccelKeyListOutput( HWND hDlg )
 
 	StringCchCopy( atFilePath, MAX_PATH, TEXT("Accelerator.txt") );
 #if 1
-	//ここで FileSaveDialogue を出す
+
 	stSaveFile.lStructSize     = sizeof(OPENFILENAME);
 	stSaveFile.hwndOwner       = hDlg;
 	stSaveFile.lpstrFilter     = TEXT("텍스트 파일 ( *.txt )\0*.txt\0모든 파일 ( *.* )\0*.*\0\0");
-	stSaveFile.nFilterIndex    = 1;	//	デフォのフィルタ選択肢
+	stSaveFile.nFilterIndex    = 1;
 	stSaveFile.lpstrFile       = atFilePath;
 	stSaveFile.nMaxFile        = MAX_PATH;
 	stSaveFile.lpstrFileTitle  = atFileName;
 	stSaveFile.nMaxFileTitle   = MAX_STRING;
 	stSaveFile.lpstrDefExt     = TEXT("txt");
-//	stSaveFile.lpstrInitialDir =
+
 	stSaveFile.lpstrTitle      = TEXT("저장할 파일 이름을 지정하세요");
 	stSaveFile.Flags           = OFN_EXPLORER | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
 
 	bOpened = GetSaveFileName( &stSaveFile );
 	if( !(bOpened) ){	return  E_ABORT;	}
-	//	キャンセルしてたら何もしない
+
 #endif
 	hFile = CreateFile( atFilePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 	if( INVALID_HANDLE_VALUE == hFile )
@@ -1307,9 +1245,6 @@ HRESULT AccelKeyListOutput( HWND hDlg )
 	}
 	SetFilePointer( hFile, 0, NULL, FILE_BEGIN );
 
-	//WriteFile( hFile, &rtHead, 2, &wrote, NULL );
-
-	//	設定されてるテーブルを確保
 	pstAccel = AccelKeyTableGetAlloc( &iAccEntry );
 	for( i = 0; iAccEntry > i; i++ )
 	{
@@ -1329,8 +1264,7 @@ HRESULT AccelKeyListOutput( HWND hDlg )
 		StringCchLength( atBuffer, MAX_PATH, &cchSz );
 
 		cbSize = WideCharToMultiByte( CP_ACP, WC_NO_BEST_FIT_CHARS, atBuffer, -1, acString, BIG_STRING, NULL, NULL );
-									//	CP_UTF8, 0
-		//	変換文字数にはヌルターミネータが含まれているので注意
+
 		WriteFile( hFile, acString, cbSize-1, &wrote, NULL );
 	}
 	FREE( pstAccel );
@@ -1342,31 +1276,21 @@ HRESULT AccelKeyListOutput( HWND hDlg )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	指定のコマンドが使われてるかどうか確認
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	pstAccel	アクセラキーテーブル
-	@param[in]	*pltAccel	既存のやつの一覧
-	@return		HRESULT		終了状態コード　S_OKかぶり無し　E_ACCESSDENIEDかぶり有った
-*/
 HRESULT AccelKeyBindExistCheck( HWND hDlg, LPACCEL pstAccel, list<ACCEL> *pltAccel )
 {
 	INT	i;
-	//BYTE	fVirt;
+
 	WORD	dCommand;
 	list<ACCEL>::iterator	itAccel;
 	TCHAR	atFuncName[MIN_STRING], atMsg[MAX_STRING];
 
 	for( itAccel = (*pltAccel).begin(); itAccel != (*pltAccel).end(); itAccel++ )
 	{
-		//	同じのがあるかどうか探す
-		//fVirt= itAccel->fVirt;
-		//fVirt &= ~(FVIRTKEY|FNOINVERT);変換時に付け足してるので要らない
+
 		if( pstAccel->key == itAccel->key && pstAccel->fVirt == itAccel->fVirt )
 		{
-			//	同じのがあった
+
 			dCommand = itAccel->cmd;
 			StringCchCopy( atFuncName, MIN_STRING, TEXT("(이름 없음)") );
 
@@ -1388,16 +1312,7 @@ HRESULT AccelKeyBindExistCheck( HWND hDlg, LPACCEL pstAccel, list<ACCEL> *pltAcc
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	アクセルキー編集のリストビューにデータ書込
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	iItem		操作する行番号
-	@param[in]	pstAccel	アクセラキーテーブル
-	@param[in]	*pltAccel	既存のやつの一覧
-	@return		HRESULT		終了状態コード
-*/
 HRESULT AccelKeyBindListMod( HWND hDlg, INT iItem, LPACCEL pstAccel, list<ACCEL> *pltAccel )
 {
 	HWND	hLvWnd = GetDlgItem( hDlg, IDLV_FUNCKEY_LIST );
@@ -1407,9 +1322,8 @@ HRESULT AccelKeyBindListMod( HWND hDlg, INT iItem, LPACCEL pstAccel, list<ACCEL>
 	WORD	dCommand;
 	list<ACCEL>::iterator	itAccel;
 
-	//	該当行から、コマンド番号を持ってくる
 	ZeroMemory( &stLvi, sizeof(stLvi) );
-	stLvi.mask     = LVIF_PARAM;	//	コマンドコードを確保する
+	stLvi.mask     = LVIF_PARAM;
 	stLvi.iItem    = iItem;
 	ListView_GetItem( hLvWnd, &stLvi );
 	dCommand = stLvi.lParam;
@@ -1417,44 +1331,42 @@ HRESULT AccelKeyBindListMod( HWND hDlg, INT iItem, LPACCEL pstAccel, list<ACCEL>
 	for( itAccel = (*pltAccel).begin(); itAccel != (*pltAccel).end(); itAccel++ )
 	{
 		if( dCommand ==  itAccel->cmd ){	break;	}
-		//	ヒットしたらソレでおｋ
+
 	}
 
-	if( pstAccel )	//	変更・追加
+	if( pstAccel )
 	{
-		if( itAccel == (*pltAccel).end() )	//	追加
+		if( itAccel == (*pltAccel).end() )
 		{
 			pstAccel->cmd = dCommand;
 			(*pltAccel).push_back( *pstAccel );
 		}
-		else	//	変更
+		else
 		{
 			itAccel->key   = pstAccel->key;
 			itAccel->fVirt = pstAccel->fVirt;
 		}
 
-		//	表示用文字列作って
 		AccelKeyBindString( pstAccel, atBuffer, SUB_STRING );
 		ZeroMemory( &stLvi, sizeof(stLvi) );
-		stLvi.mask     = LVIF_TEXT;	//	コマンドコードを確保する
+		stLvi.mask     = LVIF_TEXT;
 		stLvi.iItem    = iItem;
 		stLvi.iSubItem = 1;
 		stLvi.pszText  = atBuffer;
 		ListView_SetItem( hLvWnd, &stLvi );
 	}
-	else	//	解除
+	else
 	{
-		//	ヒットしてないなんてことは無いはずだが
+
 		if( itAccel == (*pltAccel).end( ) ){	return E_HANDLE;	}
 
-		//	該当要素を削除
 		(*pltAccel).erase( itAccel );
-		//	ホットキーコントロールを空に
+
 		SendMessage( hHkcWnd, HKM_SETHOTKEY, 0, 0 );
-		//	リストビューの表示も空にする
+
 		ZeroMemory( atBuffer, sizeof(atBuffer) );
 		ZeroMemory( &stLvi, sizeof(stLvi) );
-		stLvi.mask     = LVIF_TEXT;	//	コマンドコードを確保する
+		stLvi.mask     = LVIF_TEXT;
 		stLvi.iItem    = iItem;
 		stLvi.iSubItem = 1;
 		stLvi.pszText  = atBuffer;
@@ -1463,15 +1375,7 @@ HRESULT AccelKeyBindListMod( HWND hDlg, INT iItem, LPACCEL pstAccel, list<ACCEL>
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	メニュー文字列に、アクセラーキー名称を割り当てていく
-	@param[in]	hWnd		メニューのあるウインドウハンドル
-	@param[in]	pstAccel	内容テーブル・無い時はNULL
-	@param[in]	iEntry		テーブルのエントリ数
-	@return		HRESULT		終了状態コード
-*/
 HRESULT AccelKeyMenuRewrite( HWND hWnd, LPACCEL pstAccel, CONST INT iEntry )
 {
 	HMENU		hMenu;
@@ -1482,21 +1386,20 @@ HRESULT AccelKeyMenuRewrite( HWND hWnd, LPACCEL pstAccel, CONST INT iEntry )
 	BOOLEAN		bModify;
 	TCHAR		atBuffer[MAX_STRING], atBind[SUB_STRING];
 
-	hMenu = GetMenu( hWnd );	//	サブメニューまで全部イケる
+	hMenu = GetMenu( hWnd );
 
 	for( i = 0; FULL_ITEMS > i; i++ )
 	{
-		//	関係無いやつは飛ばす
+
 		if( 0 == gstContextItem[i].dCommandoID )	continue;
 
-		dCmd = gstContextItem[i].dCommandoID;	//	基本的にこれでヒットするはず
+		dCmd = gstContextItem[i].dCommandoID;
 		ZeroMemory( atBuffer, sizeof(atBuffer) );
 		iRslt = GetMenuString( hMenu, dCmd, atBuffer, MAX_STRING, MF_BYCOMMAND );
 		if( !(iRslt) )	continue;
 
 		bModify = FALSE;
 
-		//	先の内容を破壊する
 		StringCchLength( atBuffer, MAX_STRING, &cchSz );
 		for( d = 0; cchSz > d; d++ )
 		{
@@ -1508,10 +1411,9 @@ HRESULT AccelKeyMenuRewrite( HWND hWnd, LPACCEL pstAccel, CONST INT iEntry )
 			}
 		}
 
-		//	このコマンドのエントリーはあるか
 		for( j = 0; iEntry > j; j++ )
 		{
-			if( dCmd == pstAccel[j].cmd )	//	あったら作成
+			if( dCmd == pstAccel[j].cmd )
 			{
 				ZeroMemory( atBind, sizeof(atBind) );
 				AccelKeyBindString( &(pstAccel[j]), atBind, SUB_STRING );
@@ -1526,11 +1428,11 @@ HRESULT AccelKeyMenuRewrite( HWND hWnd, LPACCEL pstAccel, CONST INT iEntry )
 
 		if( bModify )
 		{
-			//	必要に応じてチェック状態を確保する
+
 			mRslt = GetMenuState( hMenu, dCmd, MF_BYCOMMAND );
 
 			ModifyMenu( hMenu, dCmd, (MF_CHECKED & mRslt), dCmd, atBuffer );
-			//	MF_BYCOMMAND | MF_STRING は両方０なので、必要なのはチェックの是非だけ
+
 		}
 	}
 
@@ -1538,6 +1440,5 @@ HRESULT AccelKeyMenuRewrite( HWND hWnd, LPACCEL pstAccel, CONST INT iEntry )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
 #endif
