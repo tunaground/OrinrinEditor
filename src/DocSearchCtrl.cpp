@@ -367,7 +367,7 @@ HRESULT FindExecute( HWND hDlg )
 #endif
 
 #ifdef SEARCH_HIGHLIGHT
-#error 機能かえたので、ハイライトは使用不可である
+#error 機能かえたのでハイライトは使用不可である
 		FindHighlightOff(  );	//	先のパヤーン破棄
 #endif
 
