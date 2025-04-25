@@ -99,7 +99,7 @@ CONST static CONTEXTITEM	gstContextItem[] =
 		{  TEXT("행 끝 문자 삭제"),					IDM_DEL_LASTLETTER		},
 		{  TEXT("선택 범위를 공백으로 채우기"),			IDM_FILL_SPACE			},
 		{  TEXT("페이지 전체를 공백으로 채우기"),			IDM_FILL_ZENSP			},
-		{  TEXT("행 시작 반각 공백을 유니코드로 변환"),	IDM_HEADHALF_EXCHANGE	},
+		{  TEXT("행 시작 반각공백을 유니코드로 변환"),	IDM_HEADHALF_EXCHANGE	},
 	{  TEXT("좌우 반전"),						IDM_MIRROR_INVERSE		},
 		{  TEXT("상하 반전"),						IDM_UPSET_INVERSE		},
 		{  TEXT("오른쪽으로 밀기"),						IDM_RIGHT_SLIDE			},

@@ -1,11 +1,11 @@
-//	Microsoft Visual C++ で生成されたリソース スクリプトです。
+//	Microsoft Visual C++에서 생성된 리소스 스크립트입니다.
 //
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
-//	TEXTINCLUDE 2 リソースから生成されました。
+//	TEXTINCLUDE 2 리소스에서 생성되었습니다.
 //
 #ifndef APSTUDIO_INVOKED
 #include "targetver.h"
@@ -19,13 +19,13 @@
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	マニフェスト
+//	매니페스트
 //
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "WindowsManifest.xml"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	日本語
+//	일본어
 //
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 #ifdef _WIN32
@@ -35,40 +35,40 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	アイコン
+//	아이콘
 //
 
-//	アプリケーションのアイコンをすべてのシステム上で維持するために、最も小さい
-//	ID 値のアイコンが最初に配置されます。
+//	애플리케이션의 아이콘을 모든 시스템에서 유지하기 위해, 가장 작은
+//	ID 값의 아이콘이 처음에 배치됩니다.
 
 IDI_ORINRINCOLLECTOR		ICON	"OrinrinCollector.ico"
 IDI_SMALL	ICON	"OrinrinCollector.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	メニュー
+//	메뉴
 //
 
 IDC_ORINRINCOLLECTOR MENU
 BEGIN
-    POPUP "ポップアップメニュー"
+    POPUP "팝업 메뉴"
     BEGIN
-        MENUITEM "設定(&O)",					IDM_CLIPSTEAL_OPTION
-        MENUITEM "コピー内容を頂戴する(&C)",	IDM_CLIPSTEAL_TOGGLE
+        MENUITEM "설정(&O)",					IDM_CLIPSTEAL_OPTION
+        MENUITEM "복사 내용을 가져오기(&C)",	IDM_CLIPSTEAL_TOGGLE
         MENUITEM SEPARATOR
-        MENUITEM "プログラム終了(&Q)",			IDM_EXIT
+        MENUITEM "프로그램 종료(&Q)",			IDM_EXIT
     END
 END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ダイアログ
+//	다이얼로그
 //
 
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	バージョン情報
+//	버전 정보
 //
 
 VS_VERSION_INFO VERSIONINFO
@@ -92,18 +92,18 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "Japanese Only, Perfectly No Warranty"
-            VALUE "CompanyName", "I love 2ch, Yaruo and TohoProject"
+            VALUE "Comments", "일본어 전용, 완전 무보증"
+            VALUE "CompanyName", "나는 2ch, 야루오, 그리고 동방프로젝트를 사랑합니다"
             VALUE "LegalCopyright", "Copyright (C) 2011 - 2012 Orinrin/SikigamiHNQ"
-            VALUE "LegalTrademarks", "License : GPLv3"
-            VALUE "PrivateBuild", "Build by Visual C++ 2008 Express"
-            VALUE "SpecialBuild", "Not Speciality"
+            VALUE "LegalTrademarks", "라이선스 : GPLv3"
+            VALUE "PrivateBuild", "Visual C++ 2008 Express로 빌드"
+            VALUE "SpecialBuild", "특별하지 않음"
             VALUE "FileVersion", "2012.510.2200.920"
             VALUE "ProductVersion", "1.2.0.920"
-            VALUE "FileDescription", "AsciiArt Collector"
+            VALUE "FileDescription", "AsciiArt 수집기"
             VALUE "OriginalFilename", "OrinrinCollector.exe"
-            VALUE "InternalName", "Orinrin Collector"
-            VALUE "ProductName", "Orinrin Collector"
+            VALUE "InternalName", "Orinrin 수집기"
+            VALUE "ProductName", "Orinrin 수집기"
         END
     END
 END
@@ -141,7 +141,7 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-//	ストリングテーブル
+//	문자열 테이블
 //
 
 STRINGTABLE
@@ -158,8 +158,8 @@ END
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
-//	TEXTINCLUDE 3 リソースから生成されました。
+//	TEXTINCLUDE 3 리소스에서 생성되었습니다.
 //
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    //	APSTUDIO_INVOKED でない場合
+#endif    //	APSTUDIO_INVOKED가 아닌 경우

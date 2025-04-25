@@ -24,7 +24,7 @@
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "WindowsManifest.xml"
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 resources
+// 일본어 resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
 #ifdef _WIN32
@@ -57,92 +57,92 @@ IDI_TREE_FILE_ETC		ICON	"file_etc.ico"
 
 IDC_ORINRINVIEWER MENU
 BEGIN
-    POPUP "機能(&F)"
+    POPUP "기능(&F)"
     BEGIN
-        MENUITEM "プロファイル作成／開く(&N)",	IDM_MAA_PROFILE_MAKE
-        MENUITEM "AA一覧ツリーを再構築(&T)",	IDM_TREE_RECONSTRUCT
-		MENUITEM "プロファイル使用履歴(&H)",	IDM_OPEN_HISTORY
+        MENUITEM "프로파일 생성/열기(&N)",	IDM_MAA_PROFILE_MAKE
+        MENUITEM "AA 목록 트리 재구성(&T)",	IDM_TREE_RECONSTRUCT
+		MENUITEM "프로파일 사용 이력(&H)",	IDM_OPEN_HISTORY
         MENUITEM SEPARATOR
-        MENUITEM "一般設定(&G)",				IDM_GENERAL_OPTION
-        MENUITEM "背景色変更(&K)",				IDM_MAAITEM_BKCOLOUR
-        MENUITEM "ファイル名で検索(&F)",		IDM_FINDMAA_DLG_OPEN
+        MENUITEM "일반 설정(&G)",				IDM_GENERAL_OPTION
+        MENUITEM "배경색 변경(&K)",				IDM_MAAITEM_BKCOLOUR
+        MENUITEM "파일명으로 검색(&F)",		IDM_FINDMAA_DLG_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "サムネイル一覧表示(&M)",		IDM_MAA_THUMBNAIL_OPEN
-        MENUITEM "ドラフトボード表示(&B)",		IDM_DRAUGHT_OPEN
+        MENUITEM "썸네일 목록 표시(&M)",		IDM_MAA_THUMBNAIL_OPEN
+        MENUITEM "드래프트 보드 표시(&B)",		IDM_DRAUGHT_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "常に手前に表示(&A)",			IDM_TOPMOST_TOGGLE
+        MENUITEM "항상 위에 표시(&A)",			IDM_TOPMOST_TOGGLE
         MENUITEM SEPARATOR
-        MENUITEM "バージョン情報(&I)",			IDM_ABOUT
-        MENUITEM "終了(&Q)",					IDM_EXIT
+        MENUITEM "버전 정보(&I)",				IDM_ABOUT
+        MENUITEM "종료(&Q)",					IDM_EXIT
     END
 END
 
 IDM_AATREE_POPUP MENU
 BEGIN
-    POPUP "複数行テンプレツリーのアレ"
+    POPUP "다중 행 템플릿 트리의 그것"
     BEGIN
-        MENUITEM "ファイル名で検索(&F)",		IDM_FINDMAA_DLG_OPEN
-        MENUITEM "ドラフトボード表示(&B)",		IDM_DRAUGHT_OPEN
+        MENUITEM "파일명으로 검색(&F)",		IDM_FINDMAA_DLG_OPEN
+        MENUITEM "드래프트 보드 표시(&B)",		IDM_DRAUGHT_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "（未選択状態）",				IDM_DUMMY, GRAYED
-        MENUITEM "主タブで開く(&M)",			IDM_AATREE_MAINOPEN
-        MENUITEM "副タブを追加(&S)",			IDM_AATREE_SUBADD
+        MENUITEM "(선택되지 않음)",				IDM_DUMMY, GRAYED
+        MENUITEM "주 탭에서 열기(&M)",			IDM_AATREE_MAINOPEN
+        MENUITEM "부 탭 추가(&S)",				IDM_AATREE_SUBADD
         MENUITEM SEPARATOR
-        MENUITEM "このアイテムを削除(&D)",		IDM_MAA_ITEM_DELETE, GRAYED
+        MENUITEM "이 항목 삭제(&D)",			IDM_MAA_ITEM_DELETE, GRAYED
     END
 END
 
 IDM_AATABS_POPUP MENU
 BEGIN
-    POPUP "複数行テンプレタブのアレ"
+    POPUP "다중 행 템플릿 탭의 그것"
     BEGIN
-        MENUITEM "このタブを閉じる(&Q)",		IDM_AATABS_DELETE
-        MENUITEM "全ての副タブを閉じる(&A)",	IDM_AATABS_ALLDELETE
+        MENUITEM "이 탭 닫기(&Q)",				IDM_AATABS_DELETE
+        MENUITEM "모든 부 탭 닫기(&A)",		IDM_AATABS_ALLDELETE
         MENUITEM SEPARATOR
-        MENUITEM "表示名称の変更(&N)",			IDM_AATABS_RENAME
+        MENUITEM "표시 이름 변경(&N)",			IDM_AATABS_RENAME
         MENUITEM SEPARATOR
-        MENUITEM "副タブを１行表示",			IDM_AATABS_SINGLETAB
+        MENUITEM "부 탭을 한 줄로 표시",		IDM_AATABS_SINGLETAB
     END
 END
 
 IDM_AALIST_POPUP MENU
 BEGIN
-    POPUP "複数行テンプレ表示でのアレ"
+    POPUP "다중 행 템플릿 표시에서의 그것"
     BEGIN
-        MENUITEM "ドラフトボードに追加(&G)",	IDM_DRAUGHT_ADDING
+        MENUITEM "드래프트 보드에 추가(&G)",	IDM_DRAUGHT_ADDING
         MENUITEM SEPARATOR
-        MENUITEM "コピー(UNI&CODE)",			IDM_MAA_CLIP_UNICODE
-        MENUITEM "コピー(&ShiftJIS)",			IDM_MAA_CLIP_SHIFTJIS
+        MENUITEM "복사(UNI&CODE)",			IDM_MAA_CLIP_UNICODE
+        MENUITEM "복사(&ShiftJIS)",			IDM_MAA_CLIP_SHIFTJIS
         MENUITEM SEPARATOR
-        MENUITEM "削除(&D)",					IDM_MAA_FAV_DELETE, GRAYED
+        MENUITEM "삭제(&D)",					IDM_MAA_FAV_DELETE, GRAYED
         MENUITEM SEPARATOR
-        MENUITEM "ドラフトボード表示(&B)",		IDM_DRAUGHT_OPEN
-        MENUITEM "サムネイル一覧表示(&H)",		IDM_MAA_THUMBNAIL_OPEN
+        MENUITEM "드래프트 보드 표시(&B)",		IDM_DRAUGHT_OPEN
+        MENUITEM "썸네일 목록 표시(&H)",		IDM_MAA_THUMBNAIL_OPEN
         MENUITEM SEPARATOR
-        MENUITEM "ＡＡポップアップ表示(&T)",	IDM_MAA_AATIP_TOGGLE
-        MENUITEM "ＡＡ区切りスタイル切換",		IDM_MAA_SEP_STYLE_TOGGLE
+        MENUITEM "AA 팝업 표시(&T)",			IDM_MAA_AATIP_TOGGLE
+        MENUITEM "AA 구분 스타일 전환",		IDM_MAA_SEP_STYLE_TOGGLE
     END
 END
 
 IDM_DRAUGHT_POPUP MENU
 BEGIN
-    POPUP "ドラフトボードのアレ"
+    POPUP "드래프트 보드의 그것"
     BEGIN
-        MENUITEM "コピー(UNI&CODE)",			IDM_DRAUGHT_UNICLIP
-        MENUITEM "コピー(Shift&JIS)",			IDM_DRAUGHT_SJISCLIP
+        MENUITEM "복사(UNI&CODE)",			IDM_DRAUGHT_UNICLIP
+        MENUITEM "복사(Shift&JIS)",			IDM_DRAUGHT_SJISCLIP
         MENUITEM SEPARATOR
-        MENUITEM "アイテムを削除(&D)",			IDM_DRAUGHT_DELETE
-        MENUITEM "全内容を削除(&K)",			IDM_DRAUGHT_ALLDELETE
+        MENUITEM "항목 삭제(&D)",			IDM_DRAUGHT_DELETE
+        MENUITEM "모든 내용 삭제(&K)",		IDM_DRAUGHT_ALLDELETE
         MENUITEM SEPARATOR
-        POPUP "イメージサイズ"
+        POPUP "이미지 크기"
 		BEGIN
-			MENUITEM "控えめ  80px",	IDM_DB_THUMB_ULTRALIGHT
-			MENUITEM "標準的 128px",	IDM_DB_THUMB_REGULAR
-			MENUITEM "大きめ 160px",	IDM_DB_THUMB_DEMIBOLD
-			MENUITEM "デカい 192px",	IDM_DB_THUMB_ULTRABOLD
+			MENUITEM "작게  80px",	IDM_DB_THUMB_ULTRALIGHT
+			MENUITEM "보통 128px",	IDM_DB_THUMB_REGULAR
+			MENUITEM "크게 160px",	IDM_DB_THUMB_DEMIBOLD
+			MENUITEM "매우 크게 192px",	IDM_DB_THUMB_ULTRABOLD
 		END
-        MENUITEM "全内容をエクスポート(&E)",	IDM_DRAUGHT_EXPORT
-        MENUITEM "ドラフトボードを閉じる(&Q)",	IDM_DRAUGHT_CLOSE
+        MENUITEM "모든 내용 내보내기(&E)",	IDM_DRAUGHT_EXPORT
+        MENUITEM "드래프트 보드 닫기(&Q)",	IDM_DRAUGHT_CLOSE
     END
 END
 
@@ -171,7 +171,7 @@ END
 IDD_ORRVWR_ABOUTBOX DIALOG  0, 0, 222, 196
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "バージョン情報 - Orinrin Viewer"
+CAPTION "버전 정보 - Orinrin Viewer"
 FONT 9, "MS UI Gothic"
 BEGIN
     ICON            IDI_ORINRINEDITOR,IDC_MYICON,6,6,18,21
@@ -185,49 +185,49 @@ END
 IDD_ORRVWR_OPTION_DLG DIALOG 0, 0, 275, 142
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "設定いろいろ"
+CAPTION "설정 여러 가지"
 FONT 9, "MS UI Gothic"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,114,126,42,12
-    PUSHBUTTON      "キャンセル",IDCANCEL,168,126,42,12
-    PUSHBUTTON      "適用",IDB_APPLY,222,126,42,12
-    GROUPBOX        "AAの入ってるディレクトリ",IDC_STATIC,6,6,264,48
+    PUSHBUTTON      "취소",IDCANCEL,168,126,42,12
+    PUSHBUTTON      "적용",IDB_APPLY,222,126,42,12
+    GROUPBOX        "AA가 들어있는 디렉토리",IDC_STATIC,6,6,264,48
     EDITTEXT        IDE_AA_DIRECTORY,12,18,210,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "参照",IDB_AADIR_SEARCH,228,18,30,12
-    LTEXT           "ポップアップ表示",IDC_STATIC,12,36,48,8
-    CONTROL         "通常",IDRB_POPUP_NOMAL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,84,36,42,8
-    CONTROL         "縮小",IDRB_POPUP_REDUCE,"Button",BS_AUTORADIOBUTTON,138,36,30,8
-    CONTROL         "表示する",IDCB_POPUP_VISIBLE,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,186,36,48,8
-    GROUPBOX        "複数行テンプレ・サムネイル・ドラフトボードをクリックしたときの動作",IDC_STATIC,6,60,264,60
-    LTEXT           "左クリック",IDC_STATIC,12,72,30,8
-    CONTROL         "コピー（Unicode）",IDRB_SEL_CLIP_UNI,"Button",BS_AUTORADIOBUTTON | WS_GROUP,114,72,66,8
-    CONTROL         "コピー（ShiftJIS）",IDRB_SEL_CLIP_SJIS,"Button",BS_AUTORADIOBUTTON,48,72,60,8
-    CONTROL         "ドラフトボード追加（※）",IDRB_SEL_DRAUGHT,"Button",BS_AUTORADIOBUTTON,186,72,78,8
-    LTEXT           "中クリック",IDC_STATIC,12,90,30,8
-    CONTROL         "コピー（Unicode）",IDRB_SELSUB_CLIP_UNI,"Button",BS_AUTORADIOBUTTON | WS_GROUP,114,90,66,8
-    CONTROL         "コピー（ShiftJIS）",IDRB_SELSUB_CLIP_SJIS,"Button",BS_AUTORADIOBUTTON,48,90,60,8
-    CONTROL         "ドラフトボード追加（※）",IDRB_SELSUB_DRAUGHT,"Button",BS_AUTORADIOBUTTON,186,90,78,8
-    LTEXT           "※ドラフトボード内の場合は、追加ではなくShiftJISコピーになるのです。",IDC_STATIC,72,108,191,8
+    PUSHBUTTON      "참조",IDB_AADIR_SEARCH,228,18,30,12
+    LTEXT           "팝업 표시",IDC_STATIC,12,36,48,8
+    CONTROL         "일반",IDRB_POPUP_NOMAL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,84,36,42,8
+    CONTROL         "축소",IDRB_POPUP_REDUCE,"Button",BS_AUTORADIOBUTTON,138,36,30,8
+    CONTROL         "표시하기",IDCB_POPUP_VISIBLE,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,186,36,48,8
+    GROUPBOX        "다중 행 템플릿, 썸네일, 드래프트 보드를 클릭했을 때의 동작",IDC_STATIC,6,60,264,60
+    LTEXT           "왼쪽 클릭",IDC_STATIC,12,72,30,8
+    CONTROL         "복사(Unicode)",IDRB_SEL_CLIP_UNI,"Button",BS_AUTORADIOBUTTON | WS_GROUP,114,72,66,8
+    CONTROL         "복사(ShiftJIS)",IDRB_SEL_CLIP_SJIS,"Button",BS_AUTORADIOBUTTON,48,72,60,8
+    CONTROL         "드래프트 보드 추가(※)",IDRB_SEL_DRAUGHT,"Button",BS_AUTORADIOBUTTON,186,72,78,8
+    LTEXT           "중간 클릭",IDC_STATIC,12,90,30,8
+    CONTROL         "복사(Unicode)",IDRB_SELSUB_CLIP_UNI,"Button",BS_AUTORADIOBUTTON | WS_GROUP,114,90,66,8
+    CONTROL         "복사(ShiftJIS)",IDRB_SELSUB_CLIP_SJIS,"Button",BS_AUTORADIOBUTTON,48,90,60,8
+    CONTROL         "드래프트 보드 추가(※)",IDRB_SELSUB_DRAUGHT,"Button",BS_AUTORADIOBUTTON,186,90,78,8
+    LTEXT           "※드래프트 보드 내의 경우, 추가가 아닌 ShiftJIS 복사가 됩니다.",IDC_STATIC,72,108,191,8
 END
 
 IDD_PROFILE_TREESEL_DLG DIALOG  0, 0, 203, 275
 STYLE DS_SETFONT | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "使用するディレクトリを選択"
+CAPTION "사용할 디렉토리 선택"
 FONT 10, "MS UI Gothic"
 BEGIN
     EDITTEXT        IDE_PRTREE_DIR,6,6,120,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "参照",IDB_PRTREE_DIR_REF,126,6,24,12
-    DEFPUSHBUTTON   "リストアップ",IDB_PRTREE_LISTUP,156,6,42,12
+    PUSHBUTTON      "참조",IDB_PRTREE_DIR_REF,126,6,24,12
+    DEFPUSHBUTTON   "리스트업",IDB_PRTREE_LISTUP,156,6,42,12
     CONTROL         "",IDPB_PRTREE_PROGRESS,"msctls_progress32",PBS_SMOOTH,6,24,192,8
     CONTROL         "",IDTV_PRTREE_DIR_TVIEW,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,6,32,192,220
-    PUSHBUTTON      "構築",IDOK,77,258,48,12
+    PUSHBUTTON      "구축",IDOK,77,258,48,12
 END
 
 IDD_FIND_MAA_DLG DIALOG  0, 0, 215, 126
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "テンプレートファイル名検索"
+CAPTION "템플릿 파일명 검색"
 FONT 10, "MS UI Gothic"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,162,6,48,12
@@ -238,12 +238,12 @@ END
 IDD_PAGE_NAME_DLG DIALOG  0, 0, 167, 54
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "名前入力"
+CAPTION "이름 입력"
 FONT 10, "MS UI Gothic"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,72,36,42,12
-    PUSHBUTTON      "キャンセル",IDCANCEL,120,36,42,12
-    LTEXT           "名前を入力してください",IDC_STATIC,6,6,156,8
+    PUSHBUTTON      "취소",IDCANCEL,120,36,42,12
+    LTEXT           "이름을 입력하세요",IDC_STATIC,6,6,156,8
     EDITTEXT        IDE_PAGENAME,6,18,156,12,ES_AUTOHSCROLL
 END
 
@@ -332,7 +332,7 @@ BEGIN
     IDC_ORINRINVIEWER       "ORINRINVIEWER"
 END
 
-#endif    // 日本語 resources
+#endif    // 일본어 resources
 /////////////////////////////////////////////////////////////////////////////
 
 
