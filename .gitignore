@@ -10,3 +10,5 @@ obj/
 *.pdb
 *.res
 *.coff
+.DS_Store
+.idea
