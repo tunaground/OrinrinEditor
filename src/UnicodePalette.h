@@ -1,25 +1,3 @@
-/*! @file
-	@brief ユニコード表で使う、名前とかです。
-	このファイルは UnicodePalette.h です。
-	@author	SikigamiHNQ
-	@date	2011/00/00
-*/
-
-/*
-Orinrin Editor : AsciiArt Story Editor for Japanese Only
-Copyright (C) 2011 - 2013 Orinrin/SikigamiHNQ
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with this program.
-If not, see <http://www.gnu.org/licenses/>.
-*/
-//-------------------------------------------------------------------------------------------------
-
-
-//-------------------------------------------------------------------------------------------------
-
 typedef struct tagUNICODENAME
 {
 	UINT	dCode;
@@ -27,9 +5,7 @@ typedef struct tagUNICODENAME
 	UINT	dWidth;
 
 } UNICODENAME, *LPUNICODENAME;
-//-----------------------------
 
-//	余り使わない所のジャンプは外してもいいか
 #define UNIGROUP_MAX	153
 CONST UNICODENAME	gstUniGroupName[] = {
 
@@ -189,8 +165,6 @@ CONST UNICODENAME	gstUniGroupName[] = {
 
 	{ 0x0000, TEXT("N/A") }
 };
-
-
 
 #define UNINAME_MAX	15954
 CONST UNICODENAME	gstUniMoziName[] = {
@@ -16150,51 +16124,3 @@ CONST UNICODENAME	gstUniMoziName[] = {
 	{ 0xFFFE, TEXT("<not a character> The value FFFE is guaranteed not to be a Unicode character at all.") },
 	{ 0xFFFF, TEXT("<not a character> The value FFFF is guaranteed not to be a Unicode character at all.") }
 };
-
-/*
-
-VOID MoziWidthTableMake( HWND hWnd )
-{
-
-	SIZE	stSize;
-	HFONT	hFtOld, hAaFont;
-	TCHAR	ch;
-	UINT	d;
-	HDC		hdc= GetDC( hWnd );
-
-	HANDLE	hFile;
-	TCHAR	atText[MAX_PATH];
-	UINT_PTR	length;
-	DWORD	wrote;
-
-	hAaFont = CreateFont( 16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, PROOF_QUALITY, VARIABLE_PITCH, TEXT("ＭＳ Ｐゴシック") );
-	hFtOld = SelectFont( hdc, hAaFont );
-
-	hFile = CreateFile( TEXT("Unicode.txt"), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL );
-
-	for( d = 0x0020; UNINAME_MAX > d; d++ )
-	{
-		ch = gstUniMoziName[d].dCode;
-		if( 0xFFFE <= ch )	break;
-
-		stSize.cx = 0;
-		GetTextExtentPoint32( hdc, &ch, 1, &stSize );
-
-		ZeroMemory( atText, sizeof(atText) );
-		StringCchPrintf( atText, MAX_PATH, TEXT("\t{ 0x%04X, TEXT(\"%s\"), %d },\r\n"), ch, gstUniMoziName[d].ptNameStr, stSize.cx );
-		StringCchLength( atText, MAX_PATH, &length );
-
-		WriteFile( hFile, atText, length*2, &wrote, NULL );
-	}
-
-	SetEndOfFile( hFile );
-	CloseHandle( hFile );
-
-	SelectFont( hdc, hFtOld );
-	DeleteFont( hAaFont );
-	ReleaseDC( hWnd, hdc );
-
-}
-//-------------------------------------------------------------------------------------------------
-
-*/

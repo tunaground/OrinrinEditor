@@ -1,78 +1,44 @@
-/*! @file
-	@brief ユニコード一覧のダイヤログの面倒見ます
-	このファイルは UnicodePalette.cpp です。
-	@author	SikigamiHNQ
-	@date	2011/05/20
-*/
-
-/*
-Orinrin Editor : AsciiArt Story Editor for Japanese Only
-Copyright (C) 2011 - 2013 Orinrin/SikigamiHNQ
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
-You should have received a copy of the GNU General Public License along with this program.
-If not, see <http://www.gnu.org/licenses/>.
-*/
-//-------------------------------------------------------------------------------------------------
-
 #include "stdafx.h"
 #include "OrinrinEditor.h"
 
 #include "UnicodePalette.h"
-//-------------------------------------------------------------------------------------------------
-
-//	TODO:	使ったヤツの履歴ほしいか
-
-
-
 
 #ifdef UNICODE
 #define LPNMLVDISPINFO	LPNMLVDISPINFOW
 #else
 #define LPNMLVDISPINFO	LPNMLVDISPINFOA
 #endif
-//-------------------------------------------------------------------------------------------------
 
-static  HWND	ghMainWnd;		//!<	
-static  HWND	ghUniPltWnd;	//!<	
-static  HWND	ghGroupSelWnd;	//!<	
-static  HWND	ghUniLvWnd;		//!<	
+static  HWND	ghMainWnd;
+static  HWND	ghUniPltWnd;
+static  HWND	ghGroupSelWnd;
+static  HWND	ghUniLvWnd;
 
-static WNDPROC	gpfOrgUniListProc;	//!<	
+static WNDPROC	gpfOrgUniListProc;
 
-static HFONT	ghLvFont, ghPanelFont;	//!<	表示に用いるフォント
+static HFONT	ghLvFont, ghPanelFont;
 
-static TCHAR	gtSelMozi;	//!<	
+static TCHAR	gtSelMozi;
 
-static  UINT	gSelRow;	//!<	
-static INT		gSelClm;	//!<	
+static  UINT	gSelRow;
+static INT		gSelClm;
 
-//	使用ログ・１６個保持
 #define UNIUSELOG_MAX	16
 static list<TCHAR>	gltUseMozi;
 typedef list<TCHAR>::iterator	UUSE_LITR;
-//-------------------------------------------------------------------------------------------------
 
 HRESULT UniUseLogging( HWND, TCHAR );
 
-INT_PTR	CALLBACK UniPaletteDlgProc( HWND, UINT, WPARAM, LPARAM );	//!<	
+INT_PTR	CALLBACK UniPaletteDlgProc( HWND, UINT, WPARAM, LPARAM );
 
-INT_PTR	Uni_OnInitDialog( HWND , HWND, LPARAM );			//!<	
-INT_PTR	Uni_OnCommand( HWND , INT, HWND, UINT );			//!<	
-INT_PTR	Uni_OnClose( HWND );								//!<	
-INT_PTR	Uni_OnNotify( HWND , INT, LPNMHDR );				//!<	
-INT_PTR	Uni_OnDrawItem( HWND , CONST LPDRAWITEMSTRUCT );	//!<	
+INT_PTR	Uni_OnInitDialog( HWND , HWND, LPARAM );
+INT_PTR	Uni_OnCommand( HWND , INT, HWND, UINT );
+INT_PTR	Uni_OnClose( HWND );
+INT_PTR	Uni_OnNotify( HWND , INT, LPNMHDR );
+INT_PTR	Uni_OnDrawItem( HWND , CONST LPDRAWITEMSTRUCT );
 
-LRESULT	CALLBACK gpfUniListProc( HWND, UINT, WPARAM, LPARAM );	//!<	
-//-------------------------------------------------------------------------------------------------
+LRESULT	CALLBACK gpfUniListProc( HWND, UINT, WPARAM, LPARAM );
 
-/*!
-	ユニコードパレットの初期化
-	@param[in]	hWnd	ウインドウハンドル
-	@param[in]	bMode	非０作成　０破壊
-*/
 HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 {
 	ULONG	d;
@@ -83,23 +49,22 @@ HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 
 	ZeroMemory( atBuff, sizeof(atBuff) );
 
-
 	if( dMode )
 	{
 		gltUseMozi.clear();
-		//	内容読み出す・XXXXX,XXXXX,XXXXX　みたいな感じで保存
+
 		InitParamString( INIT_LOAD, VS_UNI_USE_LOG, atBuff );
 		if( 0 != atBuff[0] )
 		{
-			ptBuff = &(atBuff[0]);	//	開始
+			ptBuff = &(atBuff[0]);
 			for( d = 0; UNIUSELOG_MAX > d; d++ )
 			{
-				tMozi = (TCHAR)_tcstoul( ptBuff, &ptEnd , 10 );	//	
+				tMozi = (TCHAR)_tcstoul( ptBuff, &ptEnd , 10 );
 
 				gltUseMozi.push_front( tMozi );
 
-				if( 0 == *ptEnd ){	break;	}	//	末端までイッた
-				ptBuff =  ptEnd + 1;	//	次に進む
+				if( 0 == *ptEnd ){	break;	}
+				ptBuff =  ptEnd + 1;
 			}
 		}
 	}
@@ -118,49 +83,34 @@ HRESULT UniDlgInitialise( HWND hWnd, UINT dMode )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	使用したやつをリストに追加
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	tAddMozi	使った文字
-*/
 HRESULT UniUseLogging( HWND hDlg, TCHAR tAddMozi )
 {
 	ULONG_PTR	dSize;
 	UUSE_LITR	itUse;
 
-	//	已記録か確認
 	for( itUse = gltUseMozi.begin(); itUse != gltUseMozi.end(); itUse++ )
 	{
-		if( *itUse == tAddMozi )	//	ヒットしたら、そいつを一旦抜く
+		if( *itUse == tAddMozi )
 		{
 			gltUseMozi.erase( itUse );
 			break;
 		}
 	}
 
-	gltUseMozi.push_front( tAddMozi );	//	使った物を先頭にいれる
+	gltUseMozi.push_front( tAddMozi );
 
 	dSize = gltUseMozi.size();
 	if( UNIUSELOG_MAX < dSize )
 	{
-		gltUseMozi.pop_back(  );	//	一番古いのを抜く
+		gltUseMozi.pop_back(  );
 	}
 
 	InvalidateRect( GetDlgItem( hDlg, IDS_UNI_USE_LOG ), NULL, TRUE );
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	使用一覧から、使ったのを引っ張る
-	@param[in]	hDlg	ダイヤログハンドル
-	@param[in]	hWndCtl	クライヤントハンドル
-	@param[in]	x		クライヤントＸ座標
-	@param[in]	y		クライヤントＹ座標
-*/
 HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 {
 	LONG_PTR	useCnt;
@@ -169,16 +119,15 @@ HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 	TCHAR	tMozi;
 	UUSE_LITR	itUse;
 
-
 	GetClientRect( GetDlgItem( hDlg, IDS_UNI_USE_LOG ), &rect );
 	iWidth = rect.bottom;
 
-	iPos = x / iWidth;	//	切り捨てにすれば０インデックスおｋ
+	iPos = x / iWidth;
 	useCnt = gltUseMozi.size();
-	if( useCnt <= iPos )	return E_OUTOFMEMORY;	//	はみ出したらダメッ・・・！
+	if( useCnt <= iPos )	return E_OUTOFMEMORY;
 
 	itUse = gltUseMozi.begin();
-	std::advance( itUse, iPos );	//	目的までズラして
+	std::advance( itUse, iPos );
 
 	tMozi = *itUse;
 
@@ -187,14 +136,7 @@ HRESULT UniUseFromLog( HWND hDlg, HWND hWndCtl, LONG x, LONG y )
 
 	return S_OK;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ユニコードパレットダイヤログーを開く処理
-	@param[in]	hInst	インスタンスハンドル
-	@param[in]	hWnd	親ウインドウハンドル
-	@return		HRESULT	終了状態コード
-*/
 HRESULT UniDialogueEntry( HINSTANCE hInst, HWND hWnd )
 {
 	ghMainWnd = hWnd;
@@ -206,29 +148,18 @@ HRESULT UniDialogueEntry( HINSTANCE hInst, HWND hWnd )
 
 	gtSelMozi = NULL;
 
-	//	ダイヤログーはモーダレスでありんす
 	ghUniPltWnd = CreateDialogParam( hInst, MAKEINTRESOURCE(IDD_UNICODE_PALETTE_DLG_2), hWnd, UniPaletteDlgProc, 0 );
 
 	if( ghUniPltWnd )
 	{
 		MenuItemCheckOnOff( IDM_UNI_PALETTE, TRUE );
 		ShowWindow( ghUniPltWnd, SW_SHOW );
-		//UpdateWindow( ghUniPltWnd );
+
 	}
 
 	return ghUniPltWnd ? S_OK : E_HANDLE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ユニコードパレットダイヤログーのウインドウプロシージャ
-	@param[in]	hDlg	ダイヤログハンドル
-	@param[in]	message	ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@retval 0	メッセージに対して何もしなかった
-	@retval no0	なんか処理した
-*/
 INT_PTR CALLBACK UniPaletteDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch( message )
@@ -244,15 +175,7 @@ INT_PTR CALLBACK UniPaletteDlgProc( HWND hDlg, UINT message, WPARAM wParam, LPAR
 
 	return (INT_PTR)FALSE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ダイヤログ起動時の初期化
-	@param[in]	hDlg		ダイヤログハンドル
-	@param[in]	hWndFocus	なんだっけ
-	@param[in]	lParam		ダイヤログオーポンするときに呼び出し側が渡した値
-	@return		FALSEを返すと、初期フォーカスコントロールの変更が有効になる
-*/
 INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 {
 	INT		iTopIdx;
@@ -260,7 +183,6 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 	LOGFONT	stFont;
 	LVCOLUMN	stLvColm;
 	RECT		rect;
-
 
 	ghGroupSelWnd = GetDlgItem( hDlg, IDCB_UNI_GROUPSEL );
 
@@ -270,7 +192,7 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 	}
 	ComboBox_SetCurSel( ghGroupSelWnd, 0 );
 
-	ViewingFontGet( &stFont );	//	gstUniFont
+	ViewingFontGet( &stFont );
 
 	stFont.lfHeight = 48;
 	ghPanelFont = CreateFontIndirect( &stFont );
@@ -283,7 +205,6 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 	ListView_SetExtendedListViewStyle( ghUniLvWnd, LVS_EX_GRIDLINES | LVS_EX_LABELTIP );
 	SetWindowFont( ghUniLvWnd, ghLvFont, TRUE );
 
-	//	サブクラス化	
 	gpfOrgUniListProc = SubclassWindow( ghUniLvWnd, gpfUniListProc );
 
 	ZeroMemory( &stLvColm, sizeof(LVCOLUMN) );
@@ -314,21 +235,11 @@ INT_PTR Uni_OnInitDialog( HWND hDlg, HWND hWndFocus, LPARAM lParam )
 	iTopIdx *= rect.bottom;
 	ListView_Scroll( ghUniLvWnd, 0, iTopIdx );
 
-
 	SetFocus( ghUniLvWnd );
 
 	return (INT_PTR)FALSE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ダイヤログのCOMMANDメッセージの受け取り
-	@param[in]	hDlg		ダイヤログーハンドル
-	@param[in]	id			メッセージを発生させた子ウインドウの識別子	LOWORD(wParam)
-	@param[in]	hWndCtl		メッセージを発生させた子ウインドウのハンドル	lParam
-	@param[in]	codeNotify	通知メッセージ	HIWORD(wParam)
-	@return		処理したかせんかったか
-*/
 INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 {
 	INT	dSel, tIdx, dPos;
@@ -340,7 +251,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 		default:	break;
 
 		case IDCB_UNI_GROUPSEL:
-			if( CBN_SELCHANGE == codeNotify )	//	コンボックスで選択がされた直後
+			if( CBN_SELCHANGE == codeNotify )
 			{
 				tIdx = ListView_GetTopIndex( ghUniLvWnd );
 				ListView_GetItemRect( ghUniLvWnd, tIdx, &rect, LVIR_BOUNDS );
@@ -349,7 +260,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 				dSel = ComboBox_GetCurSel( hWndCtl );
 				dPos = gstUniGroupName[dSel].dCode;
 				TRACE( TEXT("%s[%u]"), gstUniGroupName[dSel].ptNameStr, dPos );
-				dPos /= 16;	//	壱行あたり１６文字なので
+				dPos /= 16;
 				dPos -= tIdx;
 				dPos *= rect.bottom;
 				TRACE( TEXT("%d"), dPos );
@@ -357,7 +268,6 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 				SetFocus( ghUniLvWnd );
 			}
 			return (INT_PTR)TRUE;
-
 
 		case IDB_UNI_DECIDE:
 			if( gtSelMozi )
@@ -367,7 +277,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 			}
 			return (INT_PTR)TRUE;
 
-		case IDB_UNI_COPY_CLIP:	
+		case IDB_UNI_COPY_CLIP:
 			if( gtSelMozi )
 			{
 				DocClipLetter( gtSelMozi  );
@@ -376,7 +286,7 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 			return (INT_PTR)TRUE;
 
 		case IDS_UNI_USE_LOG:
-			if( STN_DBLCLK == codeNotify )	//	ダブルクルック
+			if( STN_DBLCLK == codeNotify )
 			{
 				GetCursorPos( &point );
 				ScreenToClient( hWndCtl, &point );
@@ -384,20 +294,13 @@ INT_PTR Uni_OnCommand( HWND hDlg, INT id, HWND hWndCtl, UINT codeNotify )
 			}
 			return (INT_PTR)TRUE;
 
-	//	case IDOK:
 		case IDCANCEL:
 			return (INT_PTR)TRUE;
 	}
 
 	return (INT_PTR)FALSE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ウインドウ閉じるとき
-	@param[in]	hDlg		ダイヤローグハンドル
-	@return		処理したかせんかったか
-*/
 INT_PTR Uni_OnClose( HWND hDlg )
 {
 	INT	iTopIdx;
@@ -415,18 +318,10 @@ INT_PTR Uni_OnClose( HWND hDlg )
 
 	return (INT_PTR)TRUE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ノーティファイメッセージの処理
-	@param[in]	hDlg		ダイヤローグハンドル
-	@param[in]	idFrom		NOTIFYを発生させたコントロールのＩＤ
-	@param[in]	pstNmhdr	NOTIFYの詳細
-	@return		処理したかせんかったか
-*/
 INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 {
-	INT		iItem, iSubItem, i;//, tIdx;
+	INT		iItem, iSubItem, i;
 	DWORD	iNumber;
 	TCHAR	ch[2], atBuff[MIN_STRING];
 	RECT	rect;
@@ -437,7 +332,7 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 	LPNMLVDISPINFO		pstDispInfo;
 	LPNMLVCUSTOMDRAW	pstCustomDraw;
 
-	if( LVN_GETDISPINFO == pstNmhdr->code )	//	仮想リストビューの処理
+	if( LVN_GETDISPINFO == pstNmhdr->code )
 	{
 		pstDispInfo = (LPNMLVDISPINFO)pstNmhdr;
 
@@ -459,8 +354,6 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 			{
 				ListView_GetItemRect( ghUniLvWnd, iItem, &rect, LVIR_BOUNDS );
 
-			//	TRACE( TEXT("DISP[%d][%d]"), tIdx, iItem );
-
 				StringCchCopy( pstDispInfo->item.pszText, pstDispInfo->item.cchTextMax, TEXT("") );
 			}
 		}
@@ -470,9 +363,9 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 
 	pstListView = (LPNMLISTVIEW)pstNmhdr;
 
-	if( NM_CLICK == pstListView->hdr.code )	//	クリッケした奴の処理
+	if( NM_CLICK == pstListView->hdr.code )
 	{
-		//	FULLROWSELECTしてないと取得出来ないので、このようにしてゲットする
+
 		stHitTestInfo.pt = pstListView->ptAction;
 		ListView_SubItemHitTest( ghUniLvWnd, &stHitTestInfo );
 
@@ -499,18 +392,17 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 				break;
 			}
 
-			//	Sort済なのでこれでおｋ
 			if( iNumber <  gstUniMoziName[i].dCode )	break;
 		}
 
 		InvalidateRect( ghUniLvWnd, NULL, TRUE );
-		//UpdateWindow( ghUniLvWnd );
+
 		return (INT_PTR)TRUE;
 	}
 
-	if( NM_DBLCLK == pstListView->hdr.code )	//	ダボルクリッケした奴の処理
+	if( NM_DBLCLK == pstListView->hdr.code )
 	{
-		//	確定操作として扱う
+
 		if( gtSelMozi )
 		{
 			Evw_OnChar( ghMainWnd, gtSelMozi, 0 );
@@ -518,13 +410,11 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 		}
 	}
 
-	//	選択壱弐色をつけるのはカスタムドロー
 	if( NM_CUSTOMDRAW == pstListView->hdr.code )
 	{
 		pstCustomDraw = (LPNMLVCUSTOMDRAW)pstListView;
 
-
-		if( CDDS_PREPAINT == pstCustomDraw->nmcd.dwDrawStage || 
+		if( CDDS_PREPAINT == pstCustomDraw->nmcd.dwDrawStage ||
 			CDDS_ITEMPREPAINT == pstCustomDraw->nmcd.dwDrawStage )
 		{
 			SetWindowLong( hDlg, DWL_MSGRESULT, (long)CDRF_NOTIFYSUBITEMDRAW );
@@ -533,10 +423,6 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 
 		if( (CDDS_ITEMPREPAINT|CDDS_SUBITEM) == pstCustomDraw->nmcd.dwDrawStage )
 		{
-			//if( 0 == pstCustomDraw->iSubItem )
-			//{
-			//	TRACE( TEXT("CSTM [%d %d]"), pstCustomDraw->nmcd.rc.top, pstCustomDraw->nmcd.dwItemSpec );
-			//}
 
 			if( (gSelClm == pstCustomDraw->iSubItem) && (gSelRow == pstCustomDraw->nmcd.dwItemSpec) )
 			{
@@ -553,64 +439,12 @@ INT_PTR Uni_OnNotify( HWND hDlg, INT idFrom, LPNMHDR pstNmhdr )
 			return TRUE;
 		}
 
-		return (INT_PTR)TRUE;	//	CDRF_DODEFAULT
+		return (INT_PTR)TRUE;
 	}
-/*
-リストビューで、指定行の背景色を変更するには、カスタムドローを行います。
-カスタムドローは、ダブルクリックの取得で説明した時と同じで、
-WM_NOTIFYメッセージ内でNM_CUSTOMDRAWを判別します。
-更に、リストビュー用のカスタムドロー構造体で、ステージ毎の処理を行います。
-・CDDS_PREPAINT    ・・・描画前通知
-・CDDS_ITEMPREPAINT・・・項目毎の描画前通知
-使用しないステージの場合は、CDRF_DODEFAULTを戻り値としてリターンします。
-これは、コントロールに描画を任すをことを意味します。
-このステージを処理した後は、処理したことを通知する必要あるのですが、
-ここの例で使用しているのはダイアログである為、通知を返せません。
-ですので、SetWindowLong関数を使用して返します。
-
-以下に、NMLVCUSTOMDRAW構造体の説明を書きます。
-
-＜NMLVCUSTOMDRAW構造体＞
-・NMHDR  hdr         NMHDR構造体を表します。
-・DWORD  dwDrawStage 現在の描画ステージを表します。
-・HDC    hdc         コントロールのデバイスコンテキストハンドルを表します。
-・RECT   rc          描画されようとしている領域のRECT構造体を表します。
-・DWORD  dwItemSpec  アイテム番号を表します。
-・UINT   uItemState  現在のアイテムの状態を表します。
-・LPARAM lItemlParam アプリケーション定義のデータを表します。
-
-HWND             hList;
-LPNMHDR          lpnmhdr;
-LPNMLVCUSTOMDRAW lplvcd;
-
-case WM_NOTIFY:
-	lpnmhdr = (LPNMHDR)lp;
-	if( lpnmhdr->hwndFrom == GetDlgItem(hWnd, リストビューのID) ){
-		switch( lpnmhdr->code ){
-			case NM_CUSTOMDRAW:
-				lplvcd = (LPNMLVCUSTOMDRAW)lp;
-
-				if( lplvcd->nmcd.dwDrawStage == CDDS_PREPAINT ){
-					SetWindowLong( hWnd, DWL_MSGRESULT, (long)CDRF_NOTIFYITEMDRAW );
-				return( TRUE );
-		}
-		if( lplvcd->nmcd.dwDrawStage == CDDS_ITEMPREPAINT ){
-			lplvcd->clrTextBk = RGB(0xCC, 0xCC, 0xCC);
-			SetWindowLong( hWnd, DWL_MSGRESULT, (long)CDRF_NEWFONT);
-		return( TRUE );
-	}
-return( CDRF_DODEFAULT );
-*/
 
 	return (INT_PTR)FALSE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	スタティックのオーナードローの処理
-	@param[in]	hWnd		ウインドウハンドル
-	@param[in]	pstDrawItem	オーナドローデータ
-*/
 INT_PTR Uni_OnDrawItem( HWND hDlg, CONST LPDRAWITEMSTRUCT pstDrawItem )
 {
 	LONG	iWidth;
@@ -619,42 +453,32 @@ INT_PTR Uni_OnDrawItem( HWND hDlg, CONST LPDRAWITEMSTRUCT pstDrawItem )
 	TCHAR	atUnic[2];
 	UUSE_LITR	itUse;
 
-	//	関係ないのは放置
 	if( IDS_UNI_USE_LOG != pstDrawItem->CtlID ){	return (INT_PTR)FALSE;	}
 
-	hOldFnt = SelectFont( pstDrawItem->hDC , ghLvFont );	//	フォントくっつける
+	hOldFnt = SelectFont( pstDrawItem->hDC , ghLvFont );
 
 	SetBkMode( pstDrawItem->hDC, TRANSPARENT );
 	rect = pstDrawItem->rcItem;
-	iWidth = rect.bottom;	//	正方形の描画エリアとする
+	iWidth = rect.bottom;
 
 	FillRect( pstDrawItem->hDC, &(pstDrawItem->rcItem), GetSysColorBrush( COLOR_WINDOW ) );
 
 	atUnic[0] = 0;	atUnic[1] = 0;
-	rect.right = iWidth;	//	最初のエリア設定
+	rect.right = iWidth;
 	for( itUse = gltUseMozi.begin(); itUse != gltUseMozi.end(); itUse++ )
 	{
-		atUnic[0] =  *itUse;	//	壱文字づつ描画していく
+		atUnic[0] =  *itUse;
 		DrawText( pstDrawItem->hDC, atUnic, 1, &(rect), DT_CENTER | DT_VCENTER | DT_SINGLELINE );
 
-		rect.left  += iWidth;	//	描画位置をシフト
+		rect.left  += iWidth;
 		rect.right += iWidth;
 	}
 
-	SelectFont( pstDrawItem->hDC, hOldFnt );	//	引っぺがす
+	SelectFont( pstDrawItem->hDC, hOldFnt );
 
 	return (INT_PTR)TRUE;
 }
-//-------------------------------------------------------------------------------------------------
 
-/*!
-	ユニコード一覧のサブクラスプロシージャ
-	@param[in]	hWnd	リストのハンドル
-	@param[in]	msg		ウインドウメッセージの識別番号
-	@param[in]	wParam	追加の情報１
-	@param[in]	lParam	追加の情報２
-	@return		LRESULT	処理結果とか
-*/
 LRESULT CALLBACK gpfUniListProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	INT	tIdx;
@@ -662,9 +486,9 @@ LRESULT CALLBACK gpfUniListProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	switch( msg )
 	{
-		case WM_PAINT:	//	リストの書換が発生すなわち表示内容が変更されたと思われ
+		case WM_PAINT:
 			tIdx = ListView_GetTopIndex( hWnd );
-		//	TRACE( TEXT("UPSC_WM_PAINT [%d]"), tIdx );
+
 			StringCchPrintf( atBuffer, MIN_STRING, TEXT("0x%04X"),  tIdx    * 0x10 );	SetDlgItemText( ghUniPltWnd, IDS_UA_ALPHA,   atBuffer );
 			StringCchPrintf( atBuffer, MIN_STRING, TEXT("0x%04X"), (tIdx+1) * 0x10 );	SetDlgItemText( ghUniPltWnd, IDS_UA_BRAVO,   atBuffer );
 			StringCchPrintf( atBuffer, MIN_STRING, TEXT("0x%04X"), (tIdx+2) * 0x10 );	SetDlgItemText( ghUniPltWnd, IDS_UA_CHARLIE, atBuffer );
@@ -680,5 +504,3 @@ LRESULT CALLBACK gpfUniListProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	return CallWindowProc( gpfOrgUniListProc, hWnd, msg, wParam, lParam );
 }
-//-------------------------------------------------------------------------------------------------
-
