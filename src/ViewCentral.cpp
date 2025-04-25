@@ -2096,7 +2096,7 @@ VOID OperationOnCommand( HWND hWnd, INT id, HWND hWndCtl, UINT codeNotify )
 		case IDM_UPSET_INVERSE:		DocInverseTransform( gbSqSelect, 0, &gdDocXdot, gdDocLine );	break;
 
 		case IDM_TESTCODE:
-			TRACE( TEXT("機能テスト") );
+			TRACE( TEXT("기능 테스트") );
 			break;
 	}
 
@@ -2257,7 +2257,7 @@ UINT ColourEditChoose( HWND hWnd, LPCOLORREF pdTgtColour )
 
 INT_PTR ColourEditDrawItem( HWND hDlg, CONST LPDRAWITEMSTRUCT pstDrawItem, LPCOLOUROBJECT pstColours )
 {
-	const  TCHAR	catMihon[] = { TEXT("フランちゃんウフフ") };
+	const  TCHAR	catMihon[] = { TEXT("후란쨩 우후후~") };
 
 	const  TCHAR	catUniMhn[] = { 0x2600, 0x2006, 0x2665, 0x0000 };
 

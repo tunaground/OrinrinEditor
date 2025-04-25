@@ -235,7 +235,7 @@ INT APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 				SendMessage( hWndActed, WM_COPYDATA, NULL, (LPARAM)(&stCopyData) );
 			}
 	#else
-			MessageBox( NULL, TEXT("已にアプリは起動してるよ！"), TEXT("お燐からのお知らせ"), MB_OK|MB_ICONINFORMATION );
+			MessageBox( NULL, TEXT("이미 애플리케이션이 실행 중입니다!"), TEXT("오린에서의 알림"), MB_OK|MB_ICONINFORMATION );
 	#endif
 			ReleaseMutex( ghMutex );
 			CloseHandle( ghMutex );
@@ -285,8 +285,8 @@ INT APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	iCode = InitParamValue( INIT_LOAD, VL_CLASHCOVER, 0 );
 	if( iCode )
 	{
-		TRACE( TEXT("異常終了の可能性アリ") );
-		iCode = MessageBox( NULL, TEXT("エディタが正しく終了出来なかった気配があるよ。\r\nバックアップが残っているかもしれないから、先に確認してみて！\r\nこのまま起動してもいいかい？　「いいえ」を選ぶと、ここで終了するよ。"), TEXT("ごめんね"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2 );
+		TRACE( TEXT("비정상 종료의 가능성 있음") );
+		iCode = MessageBox( NULL, TEXT("에디터가 올바르게 종료되지 않았을 가능성이 있습니다.\r\n백업이 남아 있을 수 있으니, 먼저 확인해 보세요!\r\n이대로 실행해도 괜찮습니까? '아니오'를 선택하면 여기서 종료됩니다."), TEXT("죄송합니다"), MB_YESNO|MB_ICONWARNING|MB_DEFBUTTON2 );
 		if( IDNO == iCode ){	return 0;	}
 	}
 	InitParamValue( INIT_SAVE, VL_CLASHCOVER, 1 );
@@ -464,7 +464,7 @@ BOOL InitInstance( HINSTANCE hInstance, INT nCmdShow, LPTSTR ptArgv )
 
 	hSubMenu = GetSystemMenu( hWnd, FALSE );
 	InsertMenu( hSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0 );
-	InsertMenu( hSubMenu, 0, MF_BYPOSITION, IDM_POSITION_RESET, TEXT("窓配置リセット") );
+	InsertMenu( hSubMenu, 0, MF_BYPOSITION, IDM_POSITION_RESET, TEXT("창 배치 초기화") );
 
 	ghMenu = GetMenu( hWnd );
 
@@ -653,7 +653,7 @@ HRESULT AppTitleTrace( UINT bMode )
 	if( bMode )
 	{
 		GetWindowText( ghMainWnd, atOrig, MAX_PATH );
-		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s [トレスモード]"), atOrig );
+		StringCchPrintf( atBuff, MAX_PATH, TEXT("%s [트레이스 모드]"), atOrig );
 		SetWindowText( ghMainWnd, atBuff );
 	}
 	else
@@ -1188,7 +1188,7 @@ VOID Cls_OnContextMenu( HWND hWnd, HWND hWndContext, UINT xPos, UINT yPos )
 	TabCtrl_SetCurSel( ghFileTabWnd, curSel );
 	DocMultiFileSelect( stTcItem.lParam );
 
-	StringCchCat( atText, MAX_PATH, TEXT(" を閉じる(&Q)") );
+	StringCchCat( atText, MAX_PATH, TEXT(" 닫기(&Q)") );
 	StringCchLength( atText, MAX_PATH, &cchSize );
 
 	ZeroMemory( &stMenuItemInfo, sizeof(MENUITEMINFO) );
@@ -1818,7 +1818,7 @@ HRESULT WindowPositionReset( HWND hWnd )
 	HWND	hWorkWnd;
 	RECT	rect;
 
-	TRACE(TEXT("★位置情報リセット") );
+	TRACE(TEXT("★위치 정보 초기화") );
 
 	hWorkWnd = GetDesktopWindow( );
 	GetWindowRect( hWorkWnd, &rect );
@@ -1875,7 +1875,7 @@ HRESULT OpenHistoryInitialise( HWND hWnd )
 
 		ghHistyMenu = CreatePopupMenu(  );
 		AppendMenu( ghHistyMenu, MF_SEPARATOR, 0, NULL );
-		AppendMenu( ghHistyMenu, MF_STRING, IDM_OPEN_HIS_CLEAR, TEXT("履歴クリヤ") );
+		AppendMenu( ghHistyMenu, MF_STRING, IDM_OPEN_HIS_CLEAR, TEXT("이력 제거") );
 
 		dItems = gltOpenHist.size( );
 		if( 0 == dItems )
@@ -1894,10 +1894,10 @@ HRESULT OpenHistoryInitialise( HWND hWnd )
 			}
 		}
 
-#pragma message ("ファイルオーポン履歴の基点メニュー、位置に注意")
+#pragma message ("파일 사용 이력의 기준 메뉴, 위치에 주의")
 
 		hSubMenu = GetSubMenu( ghMenu, 0 );
-		ModifyMenu( hSubMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)ghHistyMenu, TEXT("ファイル使用履歴(&H)") );
+		ModifyMenu( hSubMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR)ghHistyMenu, TEXT("파일 사용 이력(&H)") );
 
 		DrawMenuBar( hWnd );
 	}
@@ -1926,7 +1926,7 @@ HRESULT OpenHistoryLoad( HWND hWnd, INT id )
 
 	dNumber = id - IDM_OPEN_HIS_FIRST;
 
-	TRACE( TEXT("履歴 -> %d"), dNumber );
+	TRACE( TEXT("이력 -> %d"), dNumber );
 	if( OPENHIST_MAX <= dNumber ){	return E_OUTOFMEMORY;	}
 
 	dItems = gltOpenHist.size();
@@ -2037,12 +2037,12 @@ VOID OptionExtMlt2HtmlPath( HWND hDlg )
 
 	stOpenFile.lStructSize     = sizeof(OPENFILENAME);
 	stOpenFile.hwndOwner       = hDlg;
-	stOpenFile.lpstrFilter     = TEXT("実行ファイル\0*.exe\0\0");
+	stOpenFile.lpstrFilter     = TEXT("실행파일\0*.exe\0\0");
 	stOpenFile.lpstrFile       = atFilePath;
 	stOpenFile.nMaxFile        = MAX_PATH;
 	stOpenFile.lpstrFileTitle  = atFileName;
 	stOpenFile.nMaxFileTitle   = MAX_STRING;
-	stOpenFile.lpstrTitle      = TEXT("実行ファイルを指定しておくれ");
+	stOpenFile.lpstrTitle      = TEXT("실행파일을 지정해주세요");
 	stOpenFile.Flags           = OFN_EXPLORER | OFN_HIDEREADONLY;
 	stOpenFile.lpstrDefExt     = TEXT("exe");
 
@@ -2387,7 +2387,7 @@ BOOLEAN SelectDirectoryDlg( HWND hWnd, LPTSTR ptSelDir, UINT_PTR cchLen )
 	stBrowseInfo.hwndOwner		 = hWnd;
 	stBrowseInfo.pidlRoot		 = NULL;
 	stBrowseInfo.pszDisplayName	 = atDisplayName;
-	stBrowseInfo.lpszTitle		 = TEXT("ＡＡの入ってるディレクトリを選択するのー！");
+	stBrowseInfo.lpszTitle		 = TEXT("AA가 들어있는 디렉토리를 선택");
 	stBrowseInfo.ulFlags		 = BIF_RETURNONLYFSDIRS;
 	stBrowseInfo.lpfn			 = NULL;
 	stBrowseInfo.lParam			 = (LPARAM)0;
@@ -2639,7 +2639,7 @@ HRESULT ViewingFontNameLoad( VOID )
 	TCHAR	atName[LF_FACESIZE];
 
 	ZeroMemory( atName, sizeof(atName) );
-	StringCchCopy( atName, LF_FACESIZE, TEXT("ＭＳ Ｐゴシック") );
+	StringCchCopy( atName, LF_FACESIZE, TEXT("MS P Gothic") );
 
 	InitParamString( INIT_LOAD, VS_FONT_NAME, atName );
 
@@ -2669,7 +2669,7 @@ UINT DocHugeFileTreatment( UINT dStyle )
 
 	if( 1 == dStyle )
 	{
-		iRslt = MessageBox( bVisible ? ghMainWnd : NULL, TEXT("大きなファイルを開こうとしてるよ。適当に分割して読み込むかい？\r\n\r\n　　はい：分割読込（すぐ保存してね）\t\n　　いいえ：そのまま読込（時間かかるかも）\r\n　　キャンセル：読込中止"), TEXT("一枚板のテキストっぽいよ"), MB_YESNOCANCEL | MB_ICONQUESTION );
+		iRslt = MessageBox( bVisible ? ghMainWnd : NULL, TEXT("큰 파일을 열려고 하고 있어요. 적당히 나눠서 읽을까요?\r\n\r\n　　예: 분할해서 읽기 (바로 저장해 주세요)\t\n　　아니오: 그대로 읽기 (시간이 걸릴 수 있어요)\r\n　　취소: 읽기 중단"), TEXT("한 덩어리의 텍스트일지도 몰라요"), MB_YESNOCANCEL | MB_ICONQUESTION );
 
 		switch( iRslt )
 		{
@@ -2680,7 +2680,7 @@ UINT DocHugeFileTreatment( UINT dStyle )
 	}
 	else if( 2 == dStyle )
 	{
-		MessageBox( bVisible ? ghMainWnd : NULL, TEXT("ファイルの中身がなんかおかしいよ。読込を中止するよ。"), TEXT("改行がないかも"), MB_OK | MB_ICONERROR );
+		MessageBox( bVisible ? ghMainWnd : NULL, TEXT("파일 내용이 뭔가 이상해요. 읽기를 중단할게요."), TEXT("줄바꿈이 없을지도 몰라요"), MB_OK | MB_ICONERROR );
 		dMode = 2;
 	}
 	else
