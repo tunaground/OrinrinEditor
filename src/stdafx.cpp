@@ -208,7 +208,7 @@ LPSTR SjisEntityExchange( LPCSTR pcMoto )
 				if( 1 == rp )
 				{
 					if( 0 > acSrp[1] )	break;
-					if( !( isalpha( acSrp[1] ) )	break;
+					if( !( isalpha( acSrp[1] ) ) )	break;
 				}
 			}
 
@@ -547,7 +547,7 @@ INT_PTR CALLBACK MsgCheckBoxProc( HWND hDlg, UINT message, WPARAM wParam, LPARAM
 		default:	break;
 
 		case WM_INITDIALOG:
-			pcstMsg = (LPMSGMSG)lParam;
+			pcstMsg = (LPMSGBOXMSG)lParam;
 			SetDlgItemText( hDlg, IDS_MC_MSG1, pcstMsg->atMsg1 );
 			SetDlgItemText( hDlg, IDS_MC_MSG2, pcstMsg->atMsg2 );
 			return (INT_PTR)TRUE;
