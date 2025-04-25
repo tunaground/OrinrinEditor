@@ -1,4 +1,3 @@
-```cpp
 typedef struct tagENTITYLIST
 {
 	UINT	dUniCode;
